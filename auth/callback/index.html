@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PaddiSense - Authorization Complete</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: #1a1a2e;
+      color: #e0e0e0;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+    .card {
+      background: #16213e;
+      border-radius: 16px;
+      padding: 40px 32px;
+      max-width: 480px;
+      width: 100%;
+      text-align: center;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+    }
+    .logo {
+      font-size: 28px;
+      font-weight: 700;
+      color: #E9E100;
+      margin-bottom: 8px;
+    }
+    .subtitle {
+      font-size: 14px;
+      color: #888;
+      margin-bottom: 32px;
+    }
+    .icon {
+      font-size: 48px;
+      margin-bottom: 16px;
+    }
+    h1 {
+      font-size: 22px;
+      font-weight: 600;
+      margin-bottom: 16px;
+    }
+    p {
+      font-size: 15px;
+      color: #aaa;
+      line-height: 1.5;
+      margin-bottom: 24px;
+    }
+    .code-box {
+      background: #0f3460;
+      border: 2px solid #E9E100;
+      border-radius: 10px;
+      padding: 16px;
+      margin-bottom: 16px;
+      position: relative;
+    }
+    .code-label {
+      font-size: 12px;
+      color: #E9E100;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 8px;
+    }
+    .code-value {
+      font-family: 'Courier New', monospace;
+      font-size: 14px;
+      color: #fff;
+      word-break: break-all;
+      user-select: all;
+      line-height: 1.4;
+    }
+    .copy-btn {
+      background: #E9E100;
+      color: #000;
+      border: none;
+      border-radius: 10px;
+      padding: 16px 32px;
+      font-size: 16px;
+      font-weight: 700;
+      cursor: pointer;
+      width: 100%;
+      margin-bottom: 24px;
+      min-height: 54px;
+      transition: background 0.2s;
+    }
+    .copy-btn:hover { background: #d4cc00; }
+    .copy-btn.copied {
+      background: #28a745;
+      color: #fff;
+    }
+    .steps {
+      text-align: left;
+      background: #1a1a2e;
+      border-radius: 10px;
+      padding: 20px;
+    }
+    .steps h3 {
+      font-size: 14px;
+      color: #E9E100;
+      margin-bottom: 12px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+    .steps ol {
+      padding-left: 20px;
+    }
+    .steps li {
+      font-size: 14px;
+      color: #aaa;
+      margin-bottom: 8px;
+      line-height: 1.4;
+    }
+    .steps li strong { color: #e0e0e0; }
+    .error-card {
+      border: 2px solid #dc3545;
+    }
+    .error-card .icon { color: #dc3545; }
+    .error-card h1 { color: #dc3545; }
+  </style>
+</head>
+<body>
+  <div class="card" id="main-card">
+    <div class="logo">PaddiSense</div>
+    <div class="subtitle">Farm Management System</div>
+    <div id="content"></div>
+  </div>
+
+  <script>
+    const params = new URLSearchParams(window.location.search);
+    const code = params.get('code');
+    const error = params.get('error');
+    const errorDesc = params.get('error_description');
+    const content = document.getElementById('content');
+    const card = document.getElementById('main-card');
+
+    if (error) {
+      card.classList.add('error-card');
+      content.innerHTML = `
+        <div class="icon">&#10060;</div>
+        <h1>Authorization Failed</h1>
+        <p>${errorDesc || error || 'An unknown error occurred during authorization.'}</p>
+        <div class="steps">
+          <h3>What to do</h3>
+          <ol>
+            <li>Go back to your <strong>PaddiSense dashboard</strong></li>
+            <li>Try clicking <strong>"Connect to Case IH"</strong> again</li>
+            <li>Make sure you approve access when prompted</li>
+          </ol>
+        </div>
+      `;
+    } else if (code) {
+      content.innerHTML = `
+        <div class="icon">&#9989;</div>
+        <h1>Authorization Successful</h1>
+        <p>Copy the code below and paste it into your PaddiSense dashboard to complete the connection.</p>
+        <div class="code-box">
+          <div class="code-label">Your Authorization Code</div>
+          <div class="code-value" id="code-text">${code.replace(/</g, '&lt;').replace(/>/g, '&gt;')}</div>
+        </div>
+        <button class="copy-btn" id="copy-btn" onclick="copyCode()">Copy Code</button>
+        <div class="steps">
+          <h3>Next Steps</h3>
+          <ol>
+            <li>Click <strong>"Copy Code"</strong> above</li>
+            <li>Go to your <strong>PaddiSense dashboard</strong></li>
+            <li>Open <strong>Machine Data &rarr; Case IH</strong></li>
+            <li>Paste the code in the <strong>"Authorization Code"</strong> field</li>
+            <li>Click <strong>"Complete Authorization"</strong></li>
+          </ol>
+        </div>
+      `;
+    } else {
+      content.innerHTML = `
+        <div class="icon">&#128274;</div>
+        <h1>FieldOps Authorization</h1>
+        <p>This page receives authorization codes from Case IH FieldOps. You should only arrive here after clicking "Connect to Case IH" in your PaddiSense dashboard.</p>
+        <div class="steps">
+          <h3>How to connect</h3>
+          <ol>
+            <li>Open your <strong>PaddiSense dashboard</strong></li>
+            <li>Go to <strong>Machine Data &rarr; Case IH</strong></li>
+            <li>Click <strong>"Connect to Case IH"</strong></li>
+            <li>Sign in with your Case IH account</li>
+            <li>You'll be redirected back here with your code</li>
+          </ol>
+        </div>
+      `;
+    }
+
+    function copyCode() {
+      const code = document.getElementById('code-text').textContent;
+      navigator.clipboard.writeText(code).then(() => {
+        const btn = document.getElementById('copy-btn');
+        btn.textContent = 'Copied!';
+        btn.classList.add('copied');
+        setTimeout(() => {
+          btn.textContent = 'Copy Code';
+          btn.classList.remove('copied');
+        }, 3000);
+      });
+    }
+  </script>
+</body>
+</html>

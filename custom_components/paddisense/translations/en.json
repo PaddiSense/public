@@ -1,0 +1,24 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "PaddiSense Setup",
+        "description": "Enter your PaddiSense license key to install. This will download and install PaddiSense from GitHub — internet access required.\n\nAfter setup completes, restart Home Assistant to finish the installation.",
+        "data": {
+          "license_key": "License Key"
+        },
+        "data_description": {
+          "license_key": "Your license key in the format PADDISENSE.xxxx.xxxx"
+        }
+      }
+    },
+    "error": {
+      "invalid_key": "Invalid license key format. Keys start with PADDISENSE.",
+      "bootstrap_failed": "Installation failed: {error_detail}"
+    },
+    "abort": {
+      "already_installed": "PaddiSense is already installed. Use the in-app update feature in PSM Settings to update.",
+      "already_configured": "PaddiSense is already configured."
+    }
+  }
+}

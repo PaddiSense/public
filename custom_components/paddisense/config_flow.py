@@ -23,9 +23,16 @@ REPO_SUBFOLDER = "PaddiSense"
 
 
 def _is_paddisense_installed(hass: HomeAssistant) -> bool:
-    """Return True if the real PaddiSense modules are installed (not just this bootstrap)."""
+    """Return True if PaddiSense is actively installed with a config entry.
+
+    Files alone are not sufficient — if the config entry was deleted but the
+    PaddiSense/ directory was left behind (e.g. HACS uninstall without deleting
+    the integration from Settings), we should allow re-bootstrap.
+    """
     version_file = hass.config.path(PADDISENSE_MODULES_DIR, "VERSION")
-    return os.path.exists(version_file)
+    if not os.path.exists(version_file):
+        return False
+    return bool(hass.config_entries.async_entries(DOMAIN))
 
 
 def _extract_token(license_key: str) -> str | None:

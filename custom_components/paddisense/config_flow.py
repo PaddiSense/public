@@ -50,14 +50,32 @@ def _extract_token(license_key: str) -> str | None:
 
 
 def _get_hacs_token(config_dir: str) -> str | None:
-    """Read GitHub token from HACS .storage as fallback."""
+    """Read GitHub token from HACS .storage, or git-credentials fallback."""
     try:
         hacs_file = os.path.join(config_dir, ".storage", "hacs")
         if os.path.exists(hacs_file):
             data = json.loads(open(hacs_file, encoding="utf-8").read())
-            return data.get("data", {}).get("token") or None
+            token = data.get("data", {}).get("token") or None
+            if token:
+                return token
     except Exception:
         pass
+    return _get_git_credentials_token(config_dir)
+
+
+def _get_git_credentials_token(config_dir: str) -> str | None:
+    """Read GitHub PAT from git-credentials file as last-resort fallback."""
+    import re
+    from pathlib import Path
+    for cred_path in (Path.home() / ".git-credentials", Path(config_dir) / ".git-credentials"):
+        try:
+            if cred_path.exists():
+                text = cred_path.read_text(encoding="utf-8")
+                m = re.search(r"https://x-access-token:([^@\s]+)@github\.com", text)
+                if m:
+                    return m.group(1)
+        except Exception:
+            pass
     return None
 
 
@@ -65,7 +83,7 @@ def _run_bootstrap(config_path: str, token: str) -> tuple[bool, str]:
     """Clone the private repo and copy files. Runs in an executor thread."""
     modules_dst = os.path.join(config_path, PADDISENSE_MODULES_DIR)
     integration_dst = os.path.join(config_path, INTEGRATION_DIR)
-    auth_url = REPO_URL.replace("https://", f"https://{token}@")
+    auth_url = REPO_URL.replace("https://", f"https://x-access-token:{token}@")
 
     tmp_dir = tempfile.mkdtemp()
     try:

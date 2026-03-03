@@ -64,15 +64,33 @@ async def async_unload_entry(hass, entry):
 
 
 def _get_hacs_token(hass) -> str | None:
-    """Read GitHub token from HACS .storage file."""
+    """Read GitHub token from HACS .storage file, or git-credentials fallback."""
     try:
         import json
         hacs_file = os.path.join(hass.config.config_dir, ".storage", "hacs")
         if os.path.exists(hacs_file):
             data = json.loads(open(hacs_file, encoding="utf-8").read())
-            return data.get("data", {}).get("token") or None
+            token = data.get("data", {}).get("token") or None
+            if token:
+                return token
     except Exception:
         pass
+    return _get_git_credentials_token(hass.config.config_dir)
+
+
+def _get_git_credentials_token(config_dir: str) -> str | None:
+    """Read GitHub PAT from git-credentials file as last-resort fallback."""
+    import re
+    from pathlib import Path
+    for cred_path in (Path.home() / ".git-credentials", Path(config_dir) / ".git-credentials"):
+        try:
+            if cred_path.exists():
+                text = cred_path.read_text(encoding="utf-8")
+                m = re.search(r"https://x-access-token:([^@\s]+)@github\.com", text)
+                if m:
+                    return m.group(1)
+        except Exception:
+            pass
     return None
 
 
@@ -91,7 +109,7 @@ async def _auto_recover(hass, token: str) -> None:
 
 def _run_recovery(config_path: str, token: str) -> bool:
     """Clone PaddiSense private repo and sync all integration + module files."""
-    auth_url = _REPO_URL.replace("https://", f"https://{token}@")
+    auth_url = _REPO_URL.replace("https://", f"https://x-access-token:{token}@")
     integration_dst = os.path.join(config_path, "custom_components", "paddisense")
     modules_dst = os.path.join(config_path, "PaddiSense")
 

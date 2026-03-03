@@ -13,6 +13,6 @@
     "ruamel.yaml>=0.18.0",
     "cryptography>=41.0.0"
   ],
-  "version": "2026.3.16",
+  "version": "2026.3.17",
   "single_config_entry": true
 }

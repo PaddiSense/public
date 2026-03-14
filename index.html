@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>PaddiSense - Farm Management System</title>
+  <title>PaddiSense - Sensing The Future</title>
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body {
@@ -25,16 +25,25 @@
       text-align: center;
       box-shadow: 0 8px 32px rgba(0,0,0,0.3);
     }
+    .logo-img {
+      width: 120px;
+      height: auto;
+      margin-bottom: 16px;
+    }
     .logo {
       font-size: 36px;
       font-weight: 700;
       color: #E9E100;
-      margin-bottom: 8px;
+      margin-bottom: 4px;
     }
-    .tagline {
-      font-size: 16px;
-      color: #aaa;
-      margin-bottom: 32px;
+    .slogan {
+      font-size: 15px;
+      font-weight: 500;
+      color: #E9E100;
+      opacity: 0.7;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      margin-bottom: 24px;
     }
     .description {
       font-size: 15px;
@@ -62,49 +71,57 @@
       font-size: 14px;
       color: #ccc;
     }
+    .feature-text strong {
+      color: #e0e0e0;
+    }
     .footer {
       font-size: 13px;
       color: #555;
-    }
-    .footer a {
-      color: #E9E100;
-      text-decoration: none;
     }
   </style>
 </head>
 <body>
   <div class="card">
+    <img src="paddisense-logo.png" alt="PaddiSense" class="logo-img">
     <div class="logo">PaddiSense</div>
-    <div class="tagline">Farm Management System</div>
+    <div class="slogan">Sensing The Future</div>
     <p class="description">
-      A modular farm management platform for Home Assistant OS.
-      Water management, crop tracking, inventory, weather, and more
-      — all running locally on your farm.
+      A modular farm management platform.
+      Water, crops, machinery, weather, and more
+      &mdash; all running locally on your farm.
     </p>
     <div class="features">
       <div class="feature">
         <span class="feature-icon">&#128167;</span>
-        <span class="feature-text">Precision Water Management (PWM)</span>
+        <span class="feature-text"><strong>PWM</strong> &mdash; Precision Water Management</span>
       </div>
       <div class="feature">
         <span class="feature-icon">&#127806;</span>
-        <span class="feature-text">Crop tracking with Real Time Rice integration</span>
+        <span class="feature-text"><strong>HFM</strong> &mdash; Harvest &amp; Field Management</span>
       </div>
       <div class="feature">
-        <span class="feature-icon">&#127777;</span>
-        <span class="feature-text">Weather forecasting and local station support</span>
-      </div>
-      <div class="feature">
-        <span class="feature-icon">&#128230;</span>
-        <span class="feature-text">Chemical, fertiliser and seed inventory</span>
+        <span class="feature-icon">&#129514;</span>
+        <span class="feature-text"><strong>IPM</strong> &mdash; Inputs &amp; Product Management</span>
       </div>
       <div class="feature">
         <span class="feature-icon">&#128668;</span>
-        <span class="feature-text">Case IH FieldOps integration</span>
+        <span class="feature-text"><strong>Machine Data</strong> &mdash; Case IH &amp; John Deere sync</span>
+      </div>
+      <div class="feature">
+        <span class="feature-icon">&#128295;</span>
+        <span class="feature-text"><strong>ASM</strong> &mdash; Asset &amp; Service Management</span>
+      </div>
+      <div class="feature">
+        <span class="feature-icon">&#127777;</span>
+        <span class="feature-text"><strong>Weather</strong> &mdash; Local station &amp; forecasts</span>
+      </div>
+      <div class="feature">
+        <span class="feature-icon">&#128202;</span>
+        <span class="feature-text"><strong>Insights</strong> &mdash; Water allocations &amp; stream flows</span>
       </div>
       <div class="feature">
         <span class="feature-icon">&#128274;</span>
-        <span class="feature-text">Offline-first, local data, your farm your data</span>
+        <span class="feature-text">Offline-first &mdash; your farm, your data</span>
       </div>
     </div>
     <div class="footer">
@@ -113,4 +130,3 @@
   </div>
 </body>
 </html>
-

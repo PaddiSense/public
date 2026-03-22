@@ -2,6 +2,7 @@
 code via a Cloudflare Worker, then adds the private PaddiSense repo and
 installs paddisense-server through the HA Supervisor API."""
 
+import asyncio
 import logging
 import os
 from pathlib import Path
@@ -22,6 +23,9 @@ WORKER_URL = "https://paddisense-api.paddisense.workers.dev/validate"
 
 # The slug the private repo will register the addon under
 PADDISENSE_SLUG = "d425496f_paddisense-server"
+
+# Internal addon-to-addon URL for PaddiSense server
+PADDISENSE_INTERNAL = "http://d425496f_paddisense-server:8100"
 
 
 def _supervisor_headers() -> dict:
@@ -159,8 +163,53 @@ async def install(request: Request):
             500,
         )
 
+    # --- Step 4: Start addon, wait for healthy, auto-enroll ---
+    try:
+        async with httpx.AsyncClient(timeout=30) as client:
+            start_resp = await client.post(
+                f"{SUPERVISOR}/addons/{PADDISENSE_SLUG}/start",
+                headers=_supervisor_headers(),
+            )
+            if start_resp.status_code not in (200, 201):
+                log.warning("Start failed: %s %s", start_resp.status_code, start_resp.text)
+                # Not fatal — addon installed, grower can start manually
+    except httpx.RequestError as exc:
+        log.warning("Could not start addon: %s", exc)
+
+    # Wait for PaddiSense to become healthy (up to 60s)
+    enrolled = False
+    async with httpx.AsyncClient(timeout=10) as client:
+        for attempt in range(12):
+            await asyncio.sleep(5)
+            try:
+                health = await client.get(f"{PADDISENSE_INTERNAL}/health")
+                if health.status_code == 200:
+                    log.info("PaddiSense healthy after %ds", (attempt + 1) * 5)
+                    # Auto-enroll with the same connection code
+                    try:
+                        enroll_resp = await client.post(
+                            f"{PADDISENSE_INTERNAL}/gsm/api/bootstrap-enroll",
+                            json={"code": licence_code},
+                            timeout=30,
+                        )
+                        if enroll_resp.status_code == 200:
+                            log.info("Auto-enrollment successful")
+                            enrolled = True
+                        else:
+                            log.warning("Auto-enroll returned %s: %s",
+                                        enroll_resp.status_code, enroll_resp.text)
+                    except httpx.RequestError as exc:
+                        log.warning("Auto-enroll request failed: %s", exc)
+                    break
+            except httpx.RequestError:
+                log.debug("PaddiSense not ready yet (attempt %d/12)", attempt + 1)
+
+    msg = "PaddiSense installed and enrolled!" if enrolled else \
+          "PaddiSense installed! Open it from the sidebar to complete setup."
+
     return JSONResponse({
         "ok": True,
-        "message": "PaddiSense installed successfully!",
+        "message": msg,
+        "enrolled": enrolled,
         "addon_path": f"{ingress_path}/../{PADDISENSE_SLUG}",
     })

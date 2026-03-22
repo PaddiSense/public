@@ -206,7 +206,7 @@ async function doInstall() {
   var btn = document.getElementById("install-btn");
   btn.disabled = true;
   document.getElementById("log").innerHTML = "";
-  setStatus("info", '<span class="spinner"></span> Validating licence...');
+  setStatus("info", '<span class="spinner"></span> Validating and installing... this may take a minute');
 
   log("Starting install...");
   log("Licence code: " + code.substring(0, 20) + "...");
@@ -222,11 +222,19 @@ async function doInstall() {
     var data = await resp.json();
 
     if (data.ok) {
-      log("Install successful!", "ok");
-      setStatus("success",
-        "PaddiSense installed successfully! Open it from the sidebar or " +
-        '<a href="' + data.addon_path + '" style="color:inherit;text-decoration:underline;">click here</a>.'
-      );
+      if (data.enrolled) {
+        log("Install and enrollment successful!", "ok");
+        setStatus("success",
+          "PaddiSense installed and enrolled! Open it from the sidebar or " +
+          '<a href="' + data.addon_path + '" style="color:inherit;text-decoration:underline;">click here</a>.'
+        );
+      } else {
+        log("Install successful (enrollment pending)", "ok");
+        setStatus("success",
+          "PaddiSense installed! Open it from the sidebar to complete setup: " +
+          '<a href="' + data.addon_path + '" style="color:inherit;text-decoration:underline;">click here</a>.'
+        );
+      }
       btn.textContent = "Done";
     } else {
       log("Error: " + (data.error || "Unknown"), "err");

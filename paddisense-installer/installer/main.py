@@ -21,7 +21,7 @@ SUPERVISOR_TOKEN = os.environ.get("SUPERVISOR_TOKEN", "")
 WORKER_URL = "https://paddisense-api.paddisense.workers.dev/validate"
 
 # The slug the private repo will register the addon under
-PADDISENSE_SLUG = "90a3f3a7_paddisense-server"
+PADDISENSE_SLUG = "d425496f_paddisense-server"
 
 
 def _supervisor_headers() -> dict:

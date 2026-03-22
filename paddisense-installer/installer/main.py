@@ -18,7 +18,7 @@ templates = Jinja2Templates(directory=str(Path(__file__).parent / "templates"))
 
 SUPERVISOR = "http://supervisor"
 SUPERVISOR_TOKEN = os.environ.get("SUPERVISOR_TOKEN", "")
-WORKER_URL = "https://paddisense-api.pmcdonnell.workers.dev/validate"
+WORKER_URL = "https://paddisense-api.paddisense.workers.dev/validate"
 
 # The slug the private repo will register the addon under
 PADDISENSE_SLUG = "90a3f3a7_paddisense-server"

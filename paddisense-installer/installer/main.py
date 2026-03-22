@@ -107,14 +107,19 @@ async def install(request: Request):
                     json={"repository": repo_url},
                 )
                 if add_resp.status_code not in (200, 201):
-                    log.error("Failed to add repo: %s %s", add_resp.status_code, add_resp.text)
-                    return JSONResponse(
-                        {"ok": False, "error": "Failed to add addon repository."},
-                        500,
-                    )
-                log.info("Added private repo to store")
+                    resp_text = add_resp.text
+                    if add_resp.status_code == 400 and "already in the store" in resp_text:
+                        log.info("Private repo already in store (confirmed by Supervisor)")
+                    else:
+                        log.error("Failed to add repo: %s %s", add_resp.status_code, resp_text)
+                        return JSONResponse(
+                            {"ok": False, "error": "Failed to add addon repository."},
+                            500,
+                        )
+                else:
+                    log.info("Added private repo to store")
             else:
-                log.info("Private repo already in store")
+                log.info("Private repo already in store (matched by URL)")
 
     except httpx.RequestError as exc:
         log.error("Supervisor store request failed: %s", exc)

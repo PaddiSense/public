@@ -1,0 +1,18 @@
+---
+name: PaddiSense Installer
+version: "1.0.0"
+slug: paddisense-installer
+description: Install PaddiSense on your Home Assistant using your licence connection code.
+url: https://github.com/PaddiSense/public
+arch:
+  - amd64
+  - aarch64
+ingress: true
+ingress_port: 8101
+panel_icon: mdi:download-circle
+panel_title: PaddiSense Installer
+homeassistant_api: true
+hassio_api: true
+hassio_role: manager
+startup: application
+init: false

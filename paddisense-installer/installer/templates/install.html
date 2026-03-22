@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+<title>PaddiSense Installer</title>
+<style>
+  :root {
+    --bg: #0f172a;
+    --card: #1e293b;
+    --border: #334155;
+    --text: #e2e8f0;
+    --muted: #94a3b8;
+    --accent: #4ade80;
+    --accent-hover: #22c55e;
+    --error: #f87171;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+  }
+  .container {
+    width: 100%;
+    max-width: 480px;
+  }
+  .logo {
+    text-align: center;
+    margin-bottom: 2rem;
+  }
+  .logo h1 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--accent);
+  }
+  .logo p {
+    color: var(--muted);
+    font-size: 0.9rem;
+    margin-top: 0.25rem;
+  }
+  .card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 1.5rem;
+  }
+  label {
+    display: block;
+    font-size: 0.85rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    color: var(--muted);
+  }
+  textarea {
+    width: 100%;
+    height: 100px;
+    background: var(--bg);
+    color: var(--text);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 0.75rem;
+    font-family: monospace;
+    font-size: 0.8rem;
+    resize: vertical;
+  }
+  textarea:focus {
+    outline: none;
+    border-color: var(--accent);
+  }
+  .hint {
+    font-size: 0.8rem;
+    color: var(--muted);
+    margin-top: 0.5rem;
+  }
+  .btn {
+    display: block;
+    width: 100%;
+    margin-top: 1.25rem;
+    padding: 0.75rem;
+    background: var(--accent);
+    color: var(--bg);
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background 0.15s;
+  }
+  .btn:hover { background: var(--accent-hover); }
+  .btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+  #status {
+    margin-top: 1rem;
+    padding: 0.75rem;
+    border-radius: 8px;
+    font-size: 0.85rem;
+    display: none;
+  }
+  #status.info {
+    background: rgba(74, 222, 128, 0.1);
+    border: 1px solid var(--accent);
+    color: var(--accent);
+    display: block;
+  }
+  #status.error {
+    background: rgba(248, 113, 113, 0.1);
+    border: 1px solid var(--error);
+    color: var(--error);
+    display: block;
+  }
+  #status.success {
+    background: rgba(74, 222, 128, 0.15);
+    border: 1px solid var(--accent);
+    color: var(--accent);
+    display: block;
+  }
+  .success-link {
+    display: block;
+    margin-top: 1rem;
+    text-align: center;
+    color: var(--accent);
+    font-weight: 600;
+    text-decoration: none;
+  }
+  .success-link:hover { text-decoration: underline; }
+  .spinner {
+    display: inline-block;
+    width: 14px;
+    height: 14px;
+    border: 2px solid currentColor;
+    border-right-color: transparent;
+    border-radius: 50%;
+    animation: spin 0.6s linear infinite;
+    vertical-align: middle;
+    margin-right: 6px;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="logo">
+    <h1>PaddiSense Installer</h1>
+    <p>Connect your farm to PaddiSense</p>
+  </div>
+  <div class="card">
+    <label for="licence-code">Licence Connection Code</label>
+    <textarea id="licence-code" placeholder="Paste your GSM:... connection code here"></textarea>
+    <p class="hint">Your SunRice extension officer will provide this code when setting up your licence.</p>
+    <button class="btn" id="install-btn" onclick="doInstall()">Install PaddiSense</button>
+    <div id="status"></div>
+  </div>
+</div>
+<script>
+var BASE = "{{ base_path }}";
+
+function setStatus(cls, html) {
+  var el = document.getElementById("status");
+  el.className = cls;
+  el.innerHTML = html;
+}
+
+async function doInstall() {
+  var code = document.getElementById("licence-code").value.trim();
+  if (!code) {
+    setStatus("error", "Please paste your licence connection code.");
+    return;
+  }
+  var btn = document.getElementById("install-btn");
+  btn.disabled = true;
+  setStatus("info", '<span class="spinner"></span> Validating licence...');
+
+  try {
+    var resp = await fetch(BASE + "/install", {
+      method: "POST",
+      headers: {"Content-Type": "application/json"},
+      body: JSON.stringify({licence_code: code})
+    });
+    var data = await resp.json();
+
+    if (data.ok) {
+      setStatus("success",
+        "PaddiSense installed successfully! Open it from the sidebar or " +
+        '<a href="' + data.addon_path + '" style="color:inherit;text-decoration:underline;">click here</a>.'
+      );
+      btn.textContent = "Done";
+    } else {
+      setStatus("error", data.error || "Installation failed.");
+      btn.disabled = false;
+    }
+  } catch (err) {
+    setStatus("error", "Network error: " + err.message);
+    btn.disabled = false;
+  }
+}
+</script>
+</body>
+</html>

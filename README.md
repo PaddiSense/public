@@ -2,35 +2,43 @@
 
 Precision agriculture management for Home Assistant — paddock records, irrigation, spray programs, and more.
 
-## Installation via HACS
+## Install PaddiSense
 
-> **Requires a PaddiSense license key.** Contact [PaddiSense](https://auth.paddisense.com) to get one.
+Your SunRice extension officer will provide a **licence connection code** when setting up your account.
 
-### Step 1 — Add this repository to HACS
+### Step 1 — Add this repository
 
-1. Open HACS in your Home Assistant sidebar
-2. Go to **Integrations**
-3. Click the three-dot menu (⋮) → **Custom repositories**
-4. Add `https://github.com/PaddiSense/public` with category **Integration**
-5. Close the dialog
+1. Open Home Assistant
+2. Go to **Settings > Add-ons > Add-on Store**
+3. Click the **three-dot menu** (top right) > **Repositories**
+4. Paste this URL:
+   ```
+   https://github.com/PaddiSense/public
+   ```
+5. Click **Add** then **Close**
 
-### Step 2 — Install PaddiSense
+### Step 2 — Install the PaddiSense Installer
 
-1. Search for **PaddiSense** in HACS Integrations
-2. Click **Download**
-3. Restart Home Assistant when prompted
+1. Search for **PaddiSense Installer** in the Add-on Store
+2. Click **Install**
+3. Once installed, click **Open Web UI**
 
-### Step 3 — Enter your license key
+### Step 3 — Enter your connection code
 
-1. Go to **Settings → Devices & Services → Add Integration**
-2. Search for **PaddiSense**
-3. Enter your license key — this will download and install the full software
-4. Restart Home Assistant again when prompted
+1. Paste your `GSM:...` connection code into the installer
+2. Click **Install PaddiSense**
+3. The installer will download and set up PaddiSense automatically
 
-### Step 4 — Done
+### Step 4 — Open PaddiSense
 
-PaddiSense is now installed. Future updates are managed in-app via **PSM Settings → Update**.
+Once installed, PaddiSense appears in your sidebar. Open it to complete enrollment with your connection code.
 
 ---
 
-> Once installed, you can remove PaddiSense from HACS — it won't affect the running installation and in-app updates will handle future versions.
+## Support
+
+Contact your SunRice extension officer or raise an issue on this repository.
+
+---
+
+*PaddiSense runs locally on your farm. Your data stays on your hardware.*

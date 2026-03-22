@@ -143,6 +143,23 @@
     margin-right: 6px;
   }
   @keyframes spin { to { transform: rotate(360deg); } }
+  #log {
+    margin-top: 1rem;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 0.75rem;
+    font-family: monospace;
+    font-size: 0.75rem;
+    color: var(--muted);
+    max-height: 200px;
+    overflow-y: auto;
+    display: none;
+  }
+  #log.visible { display: block; }
+  #log div { padding: 2px 0; }
+  #log div.err { color: var(--error); }
+  #log div.ok { color: var(--accent); }
 </style>
 </head>
 <body>
@@ -157,6 +174,7 @@
     <p class="hint">Your SunRice extension officer will provide this code when setting up your licence.</p>
     <button class="btn" id="install-btn" onclick="doInstall()">Install PaddiSense</button>
     <div id="status"></div>
+    <div id="log"></div>
   </div>
 </div>
 <script>
@@ -168,6 +186,17 @@ function setStatus(cls, html) {
   el.innerHTML = html;
 }
 
+function log(msg, cls) {
+  var el = document.getElementById("log");
+  el.classList.add("visible");
+  var d = document.createElement("div");
+  if (cls) d.className = cls;
+  var ts = new Date().toLocaleTimeString();
+  d.textContent = ts + "  " + msg;
+  el.appendChild(d);
+  el.scrollTop = el.scrollHeight;
+}
+
 async function doInstall() {
   var code = document.getElementById("licence-code").value.trim();
   if (!code) {
@@ -176,27 +205,36 @@ async function doInstall() {
   }
   var btn = document.getElementById("install-btn");
   btn.disabled = true;
+  document.getElementById("log").innerHTML = "";
   setStatus("info", '<span class="spinner"></span> Validating licence...');
 
+  log("Starting install...");
+  log("Licence code: " + code.substring(0, 20) + "...");
+
   try {
+    log("Sending to server for validation...");
     var resp = await fetch(BASE + "/install", {
       method: "POST",
       headers: {"Content-Type": "application/json"},
       body: JSON.stringify({licence_code: code})
     });
+    log("Server responded: " + resp.status);
     var data = await resp.json();
 
     if (data.ok) {
+      log("Install successful!", "ok");
       setStatus("success",
         "PaddiSense installed successfully! Open it from the sidebar or " +
         '<a href="' + data.addon_path + '" style="color:inherit;text-decoration:underline;">click here</a>.'
       );
       btn.textContent = "Done";
     } else {
+      log("Error: " + (data.error || "Unknown"), "err");
       setStatus("error", data.error || "Installation failed.");
       btn.disabled = false;
     }
   } catch (err) {
+    log("Network error: " + err.message, "err");
     setStatus("error", "Network error: " + err.message);
     btn.disabled = false;
   }

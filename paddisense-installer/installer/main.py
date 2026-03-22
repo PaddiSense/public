@@ -96,8 +96,11 @@ async def install(request: Request):
             store_resp.raise_for_status()
             current_repos = store_resp.json().get("data", {}).get("repositories", [])
 
-            # Check if already added
-            if repo_url not in current_repos:
+            # Check if already added (compare by base URL, ignoring auth tokens)
+            repo_base = "github.com/PaddiSense/PaddiSense"
+            already_added = any(repo_base in r for r in current_repos)
+
+            if not already_added:
                 add_resp = await client.post(
                     f"{SUPERVISOR}/store/repositories",
                     headers=_supervisor_headers(),

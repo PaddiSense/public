@@ -1,6 +1,6 @@
 ---
 name: PaddiSense Installer
-version: "2026.3.3"
+version: "2026.3.4"
 slug: paddisense-installer
 description: Install PaddiSense on your Home Assistant using your licence connection code.
 url: https://github.com/PaddiSense/public

@@ -1,0 +1,480 @@
+/* ============================================================
+   PaddiSense Canonical Theme
+   ------------------------------------------------------------
+   Single source of truth for the PaddiSense design system.
+   Consumed by:
+     - PaddiSense   (paddisense-server/paddisense/static/)
+     - GSM          (gsm-server/gsm/static/css/)
+     - SeedManager  (seed-manager/seedmgr/static/)
+
+   Distribution:
+     Raw URL:
+       https://raw.githubusercontent.com/PaddiSense/public/main/theme/paddisense-theme.css
+     Each consumer syncs via its own tools/sync-theme.sh script
+     and commits the pulled file so runtime has no dependency on
+     github being reachable.
+
+   Pages opt in by putting `theme-ps` on <body>.
+   In GSM this is done via `{% block theme %}theme-ps{% endblock %}`.
+
+   Scope: this file contains ONLY what is truly universal across
+   consumers — design tokens and `.ps-*` component classes.
+   App-specific glue (e.g. GSM's `.admin-*` layout coupling) lives
+   in a small overrides file alongside this one in each consumer.
+
+   DO NOT hand-edit consumer copies. Edit this file, push to
+   PaddiSense/public main, then run sync-theme.sh in each consumer.
+   ============================================================ */
+
+/* ------------------------------------------------------------
+   :root — design tokens
+   ------------------------------------------------------------ */
+:root {
+    /* Core page */
+    --ps-bg:   rgb(18, 71, 115);   /* PaddiSense navy-blue page bg */
+    --ps-text: #fff;                /* text ON the blue bg */
+    --ps-nav:  #1e293b;             /* dark slate nav bar */
+
+    /* Cards / sections — WHITE cards on blue bg */
+    --ps-card-bg:     #fff;
+    --ps-card-text:   #1e293b;
+    --ps-card-border: #e2e8f0;
+    --ps-card-radius: 12px;
+
+    /* Buttons */
+    --ps-btn-primary:          #16a34a;             /* green  — Save/Submit/Confirm */
+    --ps-btn-primary-active:   #15803d;
+    --ps-btn-secondary:        rgb(243, 166, 32);   /* amber  — Cancel/Back/Other   */
+    --ps-btn-secondary-active: rgb(220, 150, 25);
+    --ps-btn-danger:           #dc2626;             /* red    — Delete              */
+    --ps-btn-danger-active:    #b91c1c;
+    --ps-btn-text:             #fff;
+    --ps-btn-radius:           8px;
+
+    /* Tabs */
+    --ps-tab-inactive:     rgba(255, 255, 255, 0.6);
+    --ps-tab-active-text:  #fff;
+    --ps-tab-active-border: rgb(243, 166, 32);
+    --ps-tab-active-bg:    rgba(243, 166, 32, 0.15);
+
+    /* Forms (inside white cards) */
+    --ps-input-bg:     #f8fafc;
+    --ps-input-border: #cbd5e1;
+    --ps-input-text:   #1e293b;
+    --ps-label:        #475569;
+
+    /* Semantic */
+    --ps-success: #16a34a;
+    --ps-warning: #d97706;
+    --ps-error:   #dc2626;
+    --ps-danger:  #dc2626;   /* alias */
+    --ps-info:    #2563eb;
+    --ps-muted:   #64748b;
+
+    /* Semantic backgrounds (for soft alerts/badges) */
+    --ps-success-bg: #dcfce7;
+    --ps-warning-bg: #fef3c7;
+    --ps-danger-bg:  #fee2e2;
+    --ps-info-bg:    #dbeafe;
+}
+
+/* ------------------------------------------------------------
+   body.theme-ps — background + base text colour
+   ------------------------------------------------------------
+   Consumers usually leave `.theme-ps` on <body>; any app-specific
+   layout selectors (sidebars, topbars, footers) belong in the
+   consumer's overrides file, NOT here.
+   ------------------------------------------------------------ */
+body.theme-ps {
+    background: var(--ps-bg);
+    color: var(--ps-text);
+}
+body.theme-ps h1,
+body.theme-ps h2 {
+    color: var(--ps-text);
+}
+
+/* ------------------------------------------------------------
+   .ps-section — white card on navy
+   ------------------------------------------------------------ */
+.ps-section {
+    background: var(--ps-card-bg);
+    color: var(--ps-card-text);
+    border: 1px solid var(--ps-card-border);
+    border-radius: var(--ps-card-radius);
+    padding: 20px 22px;
+    margin-bottom: 18px;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.18);
+}
+.ps-section h2,
+.ps-section h3,
+.ps-section h4 {
+    color: var(--ps-card-text);
+    margin-top: 0;
+}
+
+/* ------------------------------------------------------------
+   .ps-btn — buttons
+   ------------------------------------------------------------ */
+.ps-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 11px 22px;
+    font-size: 0.95rem;
+    font-weight: 700;
+    border: none;
+    border-radius: var(--ps-btn-radius);
+    color: var(--ps-btn-text);
+    text-decoration: none;
+    cursor: pointer;
+    line-height: 1.2;
+    min-height: 44px;
+    transition: background 0.12s, transform 0.05s;
+}
+.ps-btn:hover  { text-decoration: none; color: var(--ps-btn-text); }
+.ps-btn:active { transform: translateY(1px); }
+
+.ps-btn-primary           { background: var(--ps-btn-primary); }
+.ps-btn-primary:hover     { background: var(--ps-btn-primary-active); }
+.ps-btn-secondary         { background: var(--ps-btn-secondary); }
+.ps-btn-secondary:hover   { background: var(--ps-btn-secondary-active); }
+.ps-btn-danger            { background: var(--ps-btn-danger); }
+.ps-btn-danger:hover      { background: var(--ps-btn-danger-active); }
+
+.ps-btn-sm { padding: 6px 14px;  font-size: 0.85rem; min-height: 32px; }
+.ps-btn-lg { padding: 14px 28px; font-size: 1.05rem; min-height: 52px; }
+
+/* ------------------------------------------------------------
+   .ps-form-* — forms inside white cards
+   ------------------------------------------------------------ */
+.ps-form-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 14px 16px;
+}
+.ps-form-row        { margin-bottom: 14px; }
+.ps-form-row-wide   { grid-column: 1 / -1; }
+
+.ps-form-label {
+    display: block;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--ps-label);
+    margin-bottom: 6px;
+}
+.ps-form-label small { font-weight: 400; color: var(--ps-muted); }
+
+.ps-form-input,
+.ps-section input[type="text"],
+.ps-section input[type="number"],
+.ps-section input[type="date"],
+.ps-section input[type="email"],
+.ps-section input[type="password"],
+.ps-section select,
+.ps-section textarea {
+    display: block;
+    width: 100%;
+    padding: 10px 12px;
+    font-size: 0.95rem;
+    font-family: inherit;
+    color: var(--ps-input-text);
+    background: var(--ps-input-bg);
+    border: 1px solid var(--ps-input-border);
+    border-radius: 6px;
+    transition: border-color 0.12s, box-shadow 0.12s;
+}
+.ps-form-input:focus,
+.ps-section input:focus,
+.ps-section select:focus,
+.ps-section textarea:focus {
+    outline: none;
+    border-color: var(--ps-info);
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+}
+.ps-form-hint {
+    display: block;
+    font-size: 0.8rem;
+    color: var(--ps-muted);
+    margin-top: 4px;
+}
+.ps-form-actions {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    flex-wrap: wrap;
+    margin-top: 18px;
+    padding-top: 16px;
+    border-top: 1px solid var(--ps-card-border);
+}
+
+/* ------------------------------------------------------------
+   .ps-data-table — dense data tables
+   ------------------------------------------------------------ */
+.ps-table-wrap {
+    overflow-x: auto;
+    border: 1px solid var(--ps-card-border);
+    border-radius: 8px;
+    background: var(--ps-card-bg);
+}
+.ps-data-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.92rem;
+    color: var(--ps-card-text);
+}
+.ps-data-table thead th {
+    background: #f1f5f9;
+    color: var(--ps-label);
+    font-size: 0.78rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    text-align: left;
+    padding: 10px 12px;
+    border-bottom: 2px solid var(--ps-card-border);
+    white-space: nowrap;
+}
+.ps-data-table tbody td {
+    padding: 10px 12px;
+    border-bottom: 1px solid #f1f5f9;
+    vertical-align: middle;
+}
+.ps-data-table tbody tr:last-child td { border-bottom: none; }
+.ps-data-table tbody tr:hover         { background: #f8fafc; }
+.ps-data-table .col-num      { text-align: right; font-variant-numeric: tabular-nums; }
+.ps-data-table .col-actions  { width: 1%; white-space: nowrap; text-align: right; }
+
+/* ------------------------------------------------------------
+   .ps-stat-card — dashboard stat tiles
+   ------------------------------------------------------------ */
+.ps-stat-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 14px;
+    margin-bottom: 18px;
+}
+.ps-stat-card {
+    background: var(--ps-card-bg);
+    color: var(--ps-card-text);
+    border: 1px solid var(--ps-card-border);
+    border-left: 4px solid var(--ps-info);
+    border-radius: var(--ps-card-radius);
+    padding: 16px 18px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+.ps-stat-card .ps-stat-value {
+    font-size: 1.8rem;
+    font-weight: 800;
+    line-height: 1.1;
+}
+.ps-stat-card .ps-stat-label {
+    font-size: 0.82rem;
+    color: var(--ps-muted);
+    margin-top: 4px;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+}
+.ps-stat-card.accent-green { border-left-color: var(--ps-success); }
+.ps-stat-card.accent-blue  { border-left-color: var(--ps-info); }
+.ps-stat-card.accent-amber { border-left-color: var(--ps-warning); }
+.ps-stat-card.accent-red   { border-left-color: var(--ps-error); }
+
+/* ------------------------------------------------------------
+   .ps-tile — large action tiles (dashboard shortcuts)
+   ------------------------------------------------------------ */
+.ps-tile-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 14px;
+    margin-bottom: 18px;
+}
+.ps-tile {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    padding: 22px 20px;
+    background: var(--ps-card-bg);
+    color: var(--ps-card-text);
+    border: 1px solid var(--ps-card-border);
+    border-radius: var(--ps-card-radius);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    text-decoration: none;
+    min-height: 96px;
+    transition: transform 0.08s, box-shadow 0.12s;
+}
+.ps-tile:hover {
+    text-decoration: none;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.18);
+}
+.ps-tile-title {
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: var(--ps-card-text);
+}
+.ps-tile-sub {
+    font-size: 0.85rem;
+    color: var(--ps-muted);
+    line-height: 1.35;
+}
+
+/* ------------------------------------------------------------
+   .ps-detail-grid — read-only key/value list
+   ------------------------------------------------------------ */
+.ps-detail-grid { display: grid; grid-template-columns: 1fr; gap: 0; }
+.ps-detail-row {
+    display: flex;
+    padding: 8px 0;
+    border-bottom: 1px solid #f1f5f9;
+    align-items: baseline;
+}
+.ps-detail-row:last-child { border-bottom: none; }
+.ps-detail-label { flex: 0 0 160px; font-size: 0.85rem; font-weight: 600; color: var(--ps-label); }
+.ps-detail-value { flex: 1; font-size: 0.95rem; color: var(--ps-card-text); }
+.ps-detail-value-lg { flex: 1; font-size: 1.2rem; font-weight: 700; color: var(--ps-card-text); }
+.ps-detail-value-lg.accent { color: var(--ps-success); }
+.ps-detail-divider { border: none; border-top: 1px solid var(--ps-card-border); margin: 16px 0; }
+
+/* ------------------------------------------------------------
+   .ps-badge — small inline status pills
+   ------------------------------------------------------------ */
+.ps-badge {
+    display: inline-block;
+    padding: 3px 10px;
+    border-radius: 12px;
+    font-size: 0.78rem;
+    font-weight: 600;
+}
+.ps-badge-green { background: var(--ps-success-bg); color: #166534; }
+.ps-badge-amber { background: var(--ps-warning-bg); color: #92400e; }
+.ps-badge-red   { background: var(--ps-danger-bg);  color: #991b1b; }
+.ps-badge-blue  { background: var(--ps-info-bg);    color: #1e40af; }
+
+/* ------------------------------------------------------------
+   .ps-alert — block-level notifications
+   ------------------------------------------------------------ */
+.ps-alert {
+    padding: 12px 16px;
+    border-radius: 8px;
+    border: 1px solid;
+    font-size: 0.9rem;
+    margin-bottom: 14px;
+}
+.ps-alert-success { background: rgba(22, 163, 74, 0.12); border-color: rgba(22, 163, 74, 0.4); color: #166534; }
+.ps-alert-warning { background: rgba(217, 119, 6, 0.12); border-color: rgba(217, 119, 6, 0.4); color: #92400e; }
+.ps-alert-error   { background: rgba(220, 38, 38, 0.12); border-color: rgba(220, 38, 38, 0.4); color: #991b1b; }
+.ps-alert-info    { background: rgba(37, 99, 235, 0.12); border-color: rgba(37, 99, 235, 0.4); color: #1e40af; }
+
+/* ------------------------------------------------------------
+   .ps-tabs — horizontal tabs (nav, not JS-swap tabs)
+   ------------------------------------------------------------ */
+.ps-tabs {
+    display: flex;
+    gap: 4px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+    margin-bottom: 18px;
+    flex-wrap: wrap;
+}
+.ps-tab {
+    display: inline-block;
+    padding: 10px 18px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--ps-tab-inactive);
+    text-decoration: none;
+    border-bottom: 3px solid transparent;
+    border-radius: 6px 6px 0 0;
+    transition: color 0.12s, border-color 0.12s;
+}
+.ps-tab:hover        { color: var(--ps-tab-active-text); text-decoration: none; }
+.ps-tab.active {
+    color: var(--ps-tab-active-text);
+    border-bottom-color: var(--ps-tab-active-border);
+    background: var(--ps-tab-active-bg);
+}
+
+/* ------------------------------------------------------------
+   Small utilities
+   ------------------------------------------------------------ */
+.ps-status-ok   { color: var(--ps-success); font-weight: 600; }
+.ps-status-err  { color: var(--ps-error);   font-weight: 600; }
+.ps-status-info { color: var(--ps-info);    font-weight: 600; }
+
+.ps-empty-msg {
+    text-align: center;
+    padding: 40px 20px;
+    color: var(--ps-muted);
+    font-size: 0.95rem;
+}
+
+.ps-h-actions {
+    display: flex;
+    gap: 8px;
+    margin-left: auto;
+    flex-wrap: wrap;
+}
+
+/* ------------------------------------------------------------
+   .ps-page-code — debug page-id badge (bottom-right)
+   ------------------------------------------------------------ */
+.ps-page-code {
+    position: fixed;
+    bottom: 8px;
+    right: 8px;
+    z-index: 9999;
+    background: rgba(0, 0, 0, 0.6);
+    color: #94a3b8;
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-size: 11px;
+    font-family: monospace;
+    pointer-events: none;
+}
+
+/* ------------------------------------------------------------
+   .ps-modal — confirm / PIN / small-form modal
+   ------------------------------------------------------------ */
+.ps-modal-backdrop {
+    position: fixed;
+    inset: 0;
+    z-index: 9000;
+    background: rgba(0, 0, 0, 0.65);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.ps-modal {
+    background: var(--ps-card-bg);
+    border: 1px solid var(--ps-card-border);
+    border-radius: 12px;
+    padding: 24px;
+    width: 90%;
+    max-width: 380px;
+    color: var(--ps-card-text);
+}
+
+/* ------------------------------------------------------------
+   @media print — reset for paper
+   ------------------------------------------------------------
+   Consumers should ALSO include app-specific print hides
+   (sidebars, topbars) in their overrides file.
+   ------------------------------------------------------------ */
+@media print {
+    body.theme-ps {
+        background: #fff !important;
+        color: #000 !important;
+    }
+    body.theme-ps .ps-section {
+        background: #fff !important;
+        color: #000 !important;
+        box-shadow: none !important;
+        border: 1px solid #999 !important;
+    }
+    .ps-page-code,
+    .ps-h-actions,
+    .no-print {
+        display: none !important;
+    }
+}

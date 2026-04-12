@@ -417,20 +417,41 @@ body.theme-ps h2 {
 }
 
 /* ------------------------------------------------------------
-   .ps-page-code — debug page-id badge (bottom-right)
+   .ps-page-code — debug page-id badge (top-right)
+   ------------------------------------------------------------
+   Shown in the top-right of every page for troubleshooting.
+   Each template overrides {% block page_id %}XX{% endblock %}
+   so Peter can reference the exact page by code.
+   Aligned with SeedManager's app.css convention so GSM, SM, and
+   PaddiSense all display the badge identically.
    ------------------------------------------------------------ */
 .ps-page-code {
     position: fixed;
-    bottom: 8px;
-    right: 8px;
+    top: 6px;
+    right: 10px;
     z-index: 9999;
-    background: rgba(0, 0, 0, 0.6);
-    color: #94a3b8;
-    padding: 2px 8px;
+    font-family: ui-monospace, "SFMono-Regular", Menlo, monospace;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    color: rgba(100, 116, 139, 0.9);
+    background: rgba(255, 255, 255, 0.92);
+    border: 1px solid rgba(148, 163, 184, 0.4);
+    padding: 2px 7px;
     border-radius: 4px;
-    font-size: 11px;
-    font-family: monospace;
     pointer-events: none;
+    user-select: none;
+    backdrop-filter: blur(2px);
+    -webkit-backdrop-filter: blur(2px);
+}
+/* Darker variant for kiosk (SeedManager base_kiosk.html uses body.kiosk-body) */
+body.kiosk-body .ps-page-code {
+    top: 8px;
+    right: 12px;
+    font-size: 11px;
+    background: rgba(30, 41, 59, 0.78);
+    color: rgba(226, 232, 240, 0.9);
+    border-color: rgba(51, 65, 85, 0.6);
 }
 
 /* ------------------------------------------------------------

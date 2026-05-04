@@ -1,0 +1,38 @@
+name: PaddiSense Server
+version: "2026.5.41"
+slug: paddisense-server
+description: PaddiSense farm management server
+url: https://github.com/PaddiSense/public
+image: ghcr.io/paddisense/{arch}-paddisense-server
+arch:
+  - amd64
+  - aarch64
+startup: application
+init: false
+ingress: true
+ingress_port: 8100
+panel_icon: mdi:sprout
+panel_title: PaddiSense
+homeassistant_api: true
+hassio_api: true
+map:
+  - config:rw
+  - media:rw
+options:
+  weather_poll_minutes: 5
+  ttn_enabled: false
+  ttn_broker_url: ""
+  ttn_broker_port: 1883
+  ttn_app_id: ""
+  ttn_api_key: ""
+  ttn_broker_type: "ttn"
+  rrapl_override_modules: false
+schema:
+  weather_poll_minutes: "int(1,60)"
+  ttn_enabled: bool
+  ttn_broker_url: "str?"
+  ttn_broker_port: "int(1,65535)?"
+  ttn_app_id: "str?"
+  ttn_api_key: "password?"
+  ttn_broker_type: "list(ttn|chirpstack)?"
+  rrapl_override_modules: "bool?"

@@ -31,18 +31,30 @@ def _resolve_paddisense_slug() -> str | None:
     """Find the paddisense-server addon slug in the store.
 
     The slug is a hash of the repo URL + addon name. Rather than hardcode it,
-    we search the store by addon name.
+    we search the store by addon slug suffix (paddisense-server).
     """
     try:
         import requests
         resp = requests.get(
-            f"{SUPERVISOR}/store/addons",
+            f"{SUPERVISOR}/addons",
             headers=_supervisor_headers(),
             timeout=10,
         )
         if resp.status_code == 200:
             for addon in resp.json().get("data", {}).get("addons", []):
-                if addon.get("name") == "PaddiSense Server":
+                if addon.get("slug", "").endswith("_paddisense-server"):
+                    return addon["slug"]
+        # Also try the store endpoint
+        resp2 = requests.get(
+            f"{SUPERVISOR}/store/addons",
+            headers=_supervisor_headers(),
+            timeout=10,
+        )
+        if resp2.status_code == 200:
+            for addon in resp2.json().get("data", {}).get("addons", []):
+                if addon.get("slug", "").endswith("_paddisense-server"):
+                    return addon["slug"]
+                if addon.get("slug", "").endswith("paddisense-server"):
                     return addon["slug"]
     except Exception as e:
         log.warning("Could not resolve PaddiSense slug: %s", e)

@@ -370,36 +370,35 @@ textarea.ps-form-control { min-height: 80px; resize: vertical; line-height: 1.5;
 
 
 /* ================================================================
-   12. STAT CARDS — .ps-stat-card
+   12. STAT CARDS — .ps-stat-card  (flat — P01.B standard)
    ================================================================ */
 .ps-stat-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-    gap: 14px; margin-bottom: 18px;
+    gap: 10px; margin-bottom: 12px;
 }
+.ps-stat-row {
+    /* horizontal flex variant when you want stats inline rather than grid */
+    display: flex; gap: 10px; margin-bottom: 12px; flex-wrap: wrap;
+}
+.ps-stat-row > .ps-stat-card { flex: 1; min-width: 120px; }
 .ps-stat-card {
     background: var(--ps-card-bg); color: var(--ps-card-text);
     border: 1px solid var(--ps-card-border);
-    border-left: 4px solid var(--ps-info);
     border-radius: var(--ps-card-radius);
-    padding: 16px 18px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    padding: 14px 16px;
 }
 .ps-stat-card .ps-stat-value {
     font-size: 28px; font-weight: 800; line-height: 1.1;
 }
 .ps-stat-card .ps-stat-label {
-    font-size: 12px; color: var(--ps-muted); margin-top: 4px;
-    text-transform: uppercase; letter-spacing: 0.04em;
+    font-size: 11px; color: var(--ps-muted); margin-top: 2px;
+    text-transform: uppercase; letter-spacing: 0.05em;
 }
-.ps-stat-card.accent-green { border-left-color: var(--ps-success); }
-.ps-stat-card.accent-blue  { border-left-color: var(--ps-info); }
-.ps-stat-card.accent-amber { border-left-color: var(--ps-warning); }
-.ps-stat-card.accent-red   { border-left-color: var(--ps-error); }
 
 
 /* ================================================================
-   13. TILES — .ps-tile
+   13. TILES — .ps-tile  (verbose) and .ps-tile-quick  (icon+label)
    ================================================================ */
 .ps-tile-grid {
     display: grid;
@@ -412,7 +411,6 @@ textarea.ps-form-control { min-height: 80px; resize: vertical; line-height: 1.5;
     background: var(--ps-card-bg); color: var(--ps-card-text);
     border: 1px solid var(--ps-card-border);
     border-radius: var(--ps-card-radius);
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
     text-decoration: none;
     transition: transform 0.08s, box-shadow 0.12s;
 }
@@ -422,6 +420,88 @@ textarea.ps-form-control { min-height: 80px; resize: vertical; line-height: 1.5;
 }
 .ps-tile-title { font-size: 16px; font-weight: 700; color: var(--ps-card-text); }
 .ps-tile-sub   { font-size: 14px; color: var(--ps-muted); line-height: 1.35; }
+
+/* Quick-action tile — centered icon over label. P01.B dashboard pattern. */
+.ps-tile-quick-grid {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 10px; margin-bottom: 16px;
+}
+@media (max-width: 900px) {
+    .ps-tile-quick-grid { grid-template-columns: repeat(3, 1fr); }
+}
+@media (max-width: 600px) {
+    .ps-tile-quick-grid { grid-template-columns: repeat(2, 1fr); }
+}
+.ps-tile-quick {
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center; gap: 6px;
+    padding: 20px 12px; min-height: 100px;
+    background: var(--ps-card-bg); color: var(--ps-card-text);
+    border: 1px solid var(--ps-card-border);
+    border-radius: 12px;
+    text-decoration: none;
+    transition: transform 0.1s, box-shadow 0.1s, border-color 0.1s;
+}
+.ps-tile-quick:hover {
+    text-decoration: none;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    border-color: var(--ps-input-border);
+}
+.ps-tile-quick:active { transform: scale(0.97); }
+.ps-tile-icon { font-size: 28px; line-height: 1; }
+.ps-tile-label {
+    font-size: 14px; font-weight: 700;
+    color: var(--ps-text); text-align: center;
+}
+
+
+/* ================================================================
+   13b. SECTION EYEBROW + FLAT CARD — small heading + compact card
+   ================================================================ */
+/* Eyebrow heading — sits above a row/grid as a quiet section label */
+.ps-section-eyebrow {
+    font-size: 13px; font-weight: 700;
+    color: var(--ps-muted);
+    text-transform: uppercase; letter-spacing: 0.05em;
+    margin: 0 0 10px;
+}
+
+/* Compact card — same as .ps-stat-card layout but without the
+   intrinsic stat typography. Use for sidebar stack / RTR-style cards. */
+.ps-card-flat {
+    background: var(--ps-card-bg);
+    border: 1px solid var(--ps-card-border);
+    border-radius: var(--ps-card-radius);
+    padding: 14px 16px;
+    margin-bottom: 10px;
+}
+
+
+/* ================================================================
+   13c. DASHBOARD LAYOUT — main + sidebar split
+   ================================================================ */
+.ps-dashboard-layout {
+    display: flex; gap: 16px;
+}
+.ps-dashboard-main { flex: 1; min-width: 0; }
+.ps-dashboard-sidebar { width: 200px; flex-shrink: 0; }
+@media (max-width: 800px) {
+    .ps-dashboard-layout { flex-direction: column; }
+    .ps-dashboard-sidebar { width: 100%; }
+}
+
+
+/* ================================================================
+   13d. TEXT-COLOUR UTILITIES
+   ================================================================ */
+.ps-text-success { color: var(--ps-success); }
+.ps-text-info    { color: var(--ps-info); }
+.ps-text-warning { color: var(--ps-warning); }
+.ps-text-danger  { color: var(--ps-error); }
+.ps-text-muted   { color: var(--ps-muted); }
+.ps-text-default { color: var(--ps-text); }
 
 
 /* ================================================================

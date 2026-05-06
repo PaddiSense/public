@@ -1,172 +1,279 @@
-/* ============================================================
-   PaddiSense Canonical Theme
-   ------------------------------------------------------------
-   Single source of truth for the PaddiSense design system.
-   Consumed by:
+/* ================================================================
+   PaddiSense Unified Theme — single source of truth
+   ----------------------------------------------------------------
+   Design tokens, base reset, and .ps-* component classes shared by:
      - PaddiSense   (paddisense-server/paddisense/static/)
      - GSM          (gsm-server/gsm/static/css/)
      - SeedManager  (seed-manager/seedmgr/static/)
 
-   Distribution:
-     Raw URL:
-       https://raw.githubusercontent.com/PaddiSense/public/main/theme/paddisense-theme.css
-     Each consumer syncs via its own tools/sync-theme.sh script
-     and commits the pulled file so runtime has no dependency on
-     github being reachable.
+   CANONICAL location: PaddiSense/public/theme/paddisense-theme.css
+   Raw URL:
+     https://raw.githubusercontent.com/PaddiSense/public/main/theme/paddisense-theme.css
 
-   Pages opt in by putting `theme-ps` on <body>.
-   In GSM this is done via `{% block theme %}theme-ps{% endblock %}`.
+   Consumers sync via their own tools/sync-theme.sh and commit the
+   pulled file so runtime has no dependency on github being reachable.
 
-   Scope: this file contains ONLY what is truly universal across
-   consumers — design tokens and `.ps-*` component classes.
-   App-specific glue (e.g. GSM's `.admin-*` layout coupling) lives
-   in a small overrides file alongside this one in each consumer.
+   Dark theme everywhere — no light/dark toggle. One set of values.
+   App-specific layout glue (admin sidebars, page headers, kiosk chrome)
+   lives in each consumer's overrides file alongside this one, NOT here.
 
-   DO NOT hand-edit consumer copies. Edit this file, push to
-   PaddiSense/public main, then run sync-theme.sh in each consumer.
-   ============================================================ */
+   RULES:
+   1. All colour references MUST use var(--ps-*) tokens
+   2. NEVER hardcode hex in component selectors
+   3. DO NOT hand-edit consumer copies. Edit this file in
+      PaddiSense/public, push to main, then run sync-theme.sh in
+      each consumer (GSM: gsm-server/tools/sync-theme.sh).
+   ================================================================ */
 
-/* ------------------------------------------------------------
-   :root — design tokens
-   ------------------------------------------------------------ */
+
+/* ================================================================
+   1. DESIGN TOKENS — :root
+   ================================================================ */
 :root {
-    /* Core page */
-    --ps-bg:   rgb(18, 71, 115);   /* PaddiSense navy-blue page bg */
-    --ps-text: #fff;                /* text ON the blue bg */
-    --ps-nav:  #1e293b;             /* dark slate nav bar */
+    /* Page */
+    --ps-bg:            #0f172a;
+    --ps-text:          #e2e8f0;
+    --ps-nav:           #1e293b;
 
-    /* Cards / sections — WHITE cards on blue bg */
-    --ps-card-bg:     #fff;
-    --ps-card-text:   #1e293b;
-    --ps-card-border: #e2e8f0;
-    --ps-card-radius: 12px;
+    /* Cards / sections */
+    --ps-card-bg:       #1e293b;
+    --ps-card-text:     #e2e8f0;
+    --ps-card-border:   #334155;
+    --ps-card-radius:   12px;
+
+    /* Forms */
+    --ps-input-bg:      #0f172a;
+    --ps-input-border:  #475569;
+    --ps-input-text:    #e2e8f0;
+    --ps-label:         #94a3b8;
 
     /* Buttons */
-    --ps-btn-primary:          #16a34a;             /* green  — Save/Submit/Confirm */
-    --ps-btn-primary-active:   #15803d;
-    --ps-btn-secondary:        rgb(243, 166, 32);   /* amber  — Cancel/Back/Other   */
-    --ps-btn-secondary-active: rgb(220, 150, 25);
-    --ps-btn-danger:           #dc2626;             /* red    — Delete              */
-    --ps-btn-danger-active:    #b91c1c;
-    --ps-btn-text:             #fff;
-    --ps-btn-radius:           8px;
+    --ps-btn-primary:           #16a34a;
+    --ps-btn-primary-active:    #15803d;
+    --ps-btn-secondary:         rgb(243, 166, 32);
+    --ps-btn-secondary-active:  rgb(220, 150, 25);
+    --ps-btn-danger:            #dc2626;
+    --ps-btn-danger-active:     #b91c1c;
+    --ps-btn-text:              #fff;
+    --ps-btn-radius:            8px;
 
     /* Tabs */
-    --ps-tab-inactive:     rgba(255, 255, 255, 0.6);
-    --ps-tab-active-text:  #fff;
+    --ps-tab-inactive:      rgba(255, 255, 255, 0.6);
+    --ps-tab-active-text:   #fff;
     --ps-tab-active-border: rgb(243, 166, 32);
-    --ps-tab-active-bg:    rgba(243, 166, 32, 0.15);
+    --ps-tab-active-bg:     rgba(243, 166, 32, 0.15);
 
-    /* Forms (inside white cards) */
-    --ps-input-bg:     #f8fafc;
-    --ps-input-border: #cbd5e1;
-    --ps-input-text:   #1e293b;
-    --ps-label:        #475569;
+    /* Toast */
+    --ps-toast-bg:   #1e293b;
+    --ps-toast-text: #fff;
 
-    /* Semantic */
-    --ps-success: #16a34a;
-    --ps-warning: #d97706;
-    --ps-error:   #dc2626;
-    --ps-danger:  #dc2626;   /* alias */
-    --ps-info:    #2563eb;
-    --ps-muted:   #64748b;
+    /* Status / semantic */
+    --ps-accent:    #2563eb;
+    --ps-info:      #60a5fa;
+    --ps-success:   #16a34a;
+    --ps-warning:   #d97706;
+    --ps-error:     #dc2626;
+    --ps-danger:    #dc2626;
+    --ps-muted:     #94a3b8;
 
-    /* Semantic backgrounds (for soft alerts/badges) */
-    --ps-success-bg: #dcfce7;
-    --ps-warning-bg: #fef3c7;
-    --ps-danger-bg:  #fee2e2;
-    --ps-info-bg:    #dbeafe;
+    /* Semantic backgrounds (soft badges / alerts) */
+    --ps-success-bg: rgba(22, 163, 74, 0.15);
+    --ps-warning-bg: rgba(217, 119, 6, 0.15);
+    --ps-danger-bg:  rgba(220, 38, 38, 0.15);
+    --ps-info-bg:    rgba(37, 99, 235, 0.15);
+
+    /* PWM-specific */
+    --ps-pwm-open:  #2563eb;
+    --ps-pwm-close: #dc2626;
 }
 
-/* ------------------------------------------------------------
-   body.theme-ps — background + base text colour
-   ------------------------------------------------------------
-   Consumers usually leave `.theme-ps` on <body>; any app-specific
-   layout selectors (sidebars, topbars, footers) belong in the
-   consumer's overrides file, NOT here.
-   ------------------------------------------------------------ */
-body.theme-ps {
+
+/* ================================================================
+   2. BASE RESET
+   ================================================================ */
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body {
+    height: 100%; width: 100%;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
     background: var(--ps-bg);
     color: var(--ps-text);
+    -webkit-font-smoothing: antialiased;
 }
-body.theme-ps h1,
-body.theme-ps h2 {
-    color: var(--ps-text);
+button, input, select, textarea {
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+    font-family: inherit;
 }
 
-/* ------------------------------------------------------------
-   .ps-section — white card on navy
-   ------------------------------------------------------------ */
+
+/* ================================================================
+   3. NAV BAR — .ps-nav
+   ================================================================ */
+.ps-nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+    height: 48px; background: var(--ps-nav); color: var(--ps-text);
+    display: flex; align-items: center; padding: 0 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+.ps-nav a, .ps-nav-link {
+    border: none; background: none; color: var(--ps-muted);
+    font-size: 14px; font-weight: 500; padding: 10px 14px;
+    border-radius: 6px; cursor: pointer;
+    white-space: nowrap; text-decoration: none;
+}
+.ps-nav a:hover, .ps-nav-link:hover {
+    background: var(--ps-card-border); color: var(--ps-text);
+}
+
+
+/* ================================================================
+   4. CONTENT AREA — .ps-content
+   ================================================================ */
+.ps-content {
+    margin-top: 48px; padding: 20px 16px;
+    max-width: 1200px; margin-left: auto; margin-right: auto;
+}
+
+
+/* ================================================================
+   5. CARDS / SECTIONS — .ps-card, .ps-section
+   ================================================================ */
+.ps-card,
 .ps-section {
     background: var(--ps-card-bg);
     color: var(--ps-card-text);
     border: 1px solid var(--ps-card-border);
     border-radius: var(--ps-card-radius);
-    padding: 20px 22px;
-    margin-bottom: 18px;
+    padding: 20px;
+    margin-bottom: 16px;
     box-shadow: 0 4px 16px rgba(0, 0, 0, 0.18);
 }
-.ps-section h2,
-.ps-section h3,
-.ps-section h4 {
+.ps-card h2, .ps-card h3, .ps-card h4,
+.ps-section h2, .ps-section h3, .ps-section h4 {
     color: var(--ps-card-text);
     margin-top: 0;
 }
+.ps-card-title { font-size: 18px; font-weight: 700; margin-bottom: 12px; color: var(--ps-card-text); }
+.ps-card-desc  { font-size: 14px; color: var(--ps-muted); margin-bottom: 16px; }
 
-/* ------------------------------------------------------------
-   .ps-btn — buttons
-   ------------------------------------------------------------ */
+
+/* ================================================================
+   6. BUTTONS — .ps-btn
+   ================================================================ */
 .ps-btn {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-    padding: 11px 22px;
-    font-size: 0.95rem;
-    font-weight: 700;
-    border: none;
-    border-radius: var(--ps-btn-radius);
-    color: var(--ps-btn-text);
-    text-decoration: none;
-    cursor: pointer;
-    line-height: 1.2;
-    min-height: 44px;
+    display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+    padding: 11px 22px; font-size: 14px; font-weight: 700;
+    border: none; border-radius: var(--ps-btn-radius);
+    color: var(--ps-btn-text); text-decoration: none; cursor: pointer;
+    line-height: 1.2; min-height: 44px;
     transition: background 0.12s, transform 0.05s;
 }
 .ps-btn:hover  { text-decoration: none; color: var(--ps-btn-text); }
 .ps-btn:active { transform: translateY(1px); }
+.ps-btn:disabled { opacity: 0.5; cursor: not-allowed; }
 
-.ps-btn-primary           { background: var(--ps-btn-primary); }
-.ps-btn-primary:hover     { background: var(--ps-btn-primary-active); }
-.ps-btn-secondary         { background: var(--ps-btn-secondary); }
-.ps-btn-secondary:hover   { background: var(--ps-btn-secondary-active); }
-.ps-btn-danger            { background: var(--ps-btn-danger); }
-.ps-btn-danger:hover      { background: var(--ps-btn-danger-active); }
+.ps-btn-primary         { background: var(--ps-btn-primary); }
+.ps-btn-primary:hover   { background: var(--ps-btn-primary-active); }
+.ps-btn-secondary       { background: var(--ps-btn-secondary); }
+.ps-btn-secondary:hover { background: var(--ps-btn-secondary-active); }
+.ps-btn-danger          { background: var(--ps-btn-danger); }
+.ps-btn-danger:hover    { background: var(--ps-btn-danger-active); }
 
-.ps-btn-sm { padding: 6px 14px;  font-size: 0.85rem; min-height: 32px; }
-.ps-btn-lg { padding: 14px 28px; font-size: 1.05rem; min-height: 52px; }
+.ps-btn-sm { padding: 6px 14px; font-size: 13px; min-height: 32px; }
+.ps-btn-lg { padding: 14px 28px; font-size: 16px; min-height: 52px; }
+.ps-btn-row { display: flex; gap: 8px; margin-top: 12px; }
 
-/* ------------------------------------------------------------
-   .ps-form-* — forms inside white cards
-   ------------------------------------------------------------ */
+
+/* ================================================================
+   7. TABS — .ps-tabs, .ps-tab
+   ================================================================ */
+.ps-tabs {
+    display: flex; overflow-x: auto; -webkit-overflow-scrolling: touch;
+    gap: 4px; flex-wrap: wrap;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+    position: sticky; top: 48px; z-index: 100;
+    margin-bottom: 18px;
+}
+.ps-tabs::-webkit-scrollbar { display: none; }
+.ps-tab {
+    display: inline-block; flex: 1; min-width: 80px;
+    padding: 10px 18px; font-size: 14px; font-weight: 600;
+    color: var(--ps-tab-inactive); text-decoration: none;
+    border: none; background: transparent; cursor: pointer;
+    text-align: center; white-space: nowrap;
+    border-bottom: 3px solid transparent;
+    border-radius: 6px 6px 0 0;
+    transition: color 0.12s, border-color 0.12s;
+}
+.ps-tab:hover { color: var(--ps-tab-active-text); text-decoration: none; }
+.ps-tab.active {
+    color: var(--ps-tab-active-text);
+    border-bottom-color: var(--ps-tab-active-border);
+    background: var(--ps-tab-active-bg);
+}
+.ps-tab-panel { display: none; padding: 16px 12px 100px; }
+.ps-tab-panel.active { display: block; }
+
+
+/* ================================================================
+   8. FORMS — .ps-form-*, .ps-input, .ps-label, .ps-field
+   ================================================================ */
+
+/* Canonical form control (preferred) */
+.ps-form-control {
+    display: block; width: 100%;
+    padding: 10px 12px; font-size: 14px; font-family: inherit;
+    border: 2px solid var(--ps-input-border); border-radius: 8px;
+    background: var(--ps-input-bg); color: var(--ps-input-text);
+    -webkit-appearance: none; appearance: none;
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+    box-sizing: border-box;
+    transition: border-color 0.12s, box-shadow 0.12s;
+}
+.ps-form-control:focus {
+    outline: none;
+    border-color: var(--ps-info);
+    box-shadow: 0 0 0 3px rgba(96, 165, 250, 0.15);
+}
+.ps-form-control::placeholder { color: var(--ps-muted); }
+select.ps-form-control {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%2394a3b8' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 12px center;
+    padding-right: 36px;
+}
+textarea.ps-form-control { min-height: 80px; resize: vertical; line-height: 1.5; }
+.ps-form-control-lg { padding: 14px; font-size: 16px; min-height: 48px; border-radius: 10px; }
+
+/* Form group / label */
+.ps-form-group { margin-bottom: 14px; }
+.ps-form-group > label {
+    display: block; font-size: 13px; font-weight: 600;
+    color: var(--ps-label); margin-bottom: 4px;
+}
+.ps-form-label {
+    display: block; font-size: 13px; font-weight: 600;
+    color: var(--ps-label); margin-bottom: 6px;
+}
+.ps-form-label small { font-weight: 400; color: var(--ps-muted); }
+.ps-form-hint { display: block; font-size: 12px; color: var(--ps-muted); margin-top: 4px; }
+
+/* Form grid layout */
 .ps-form-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
     gap: 14px 16px;
 }
-.ps-form-row        { margin-bottom: 14px; }
-.ps-form-row-wide   { grid-column: 1 / -1; }
-
-.ps-form-label {
-    display: block;
-    font-size: 0.85rem;
-    font-weight: 600;
-    color: var(--ps-label);
-    margin-bottom: 6px;
+.ps-form-row      { margin-bottom: 14px; }
+.ps-form-row-wide { grid-column: 1 / -1; }
+.ps-form-actions {
+    display: flex; gap: 12px; align-items: center; flex-wrap: wrap;
+    margin-top: 18px; padding-top: 16px;
+    border-top: 1px solid var(--ps-card-border);
 }
-.ps-form-label small { font-weight: 400; color: var(--ps-muted); }
 
-.ps-form-input,
+/* Form input inside .ps-section / .ps-card (auto-style native inputs) */
 .ps-section input[type="text"],
 .ps-section input[type="number"],
 .ps-section input[type="date"],
@@ -174,44 +281,33 @@ body.theme-ps h2 {
 .ps-section input[type="password"],
 .ps-section select,
 .ps-section textarea {
-    display: block;
-    width: 100%;
-    padding: 10px 12px;
-    font-size: 0.95rem;
-    font-family: inherit;
-    color: var(--ps-input-text);
-    background: var(--ps-input-bg);
-    border: 1px solid var(--ps-input-border);
-    border-radius: 6px;
+    display: block; width: 100%;
+    padding: 10px 12px; font-size: 14px; font-family: inherit;
+    color: var(--ps-input-text); background: var(--ps-input-bg);
+    border: 1px solid var(--ps-input-border); border-radius: 6px;
     transition: border-color 0.12s, box-shadow 0.12s;
 }
-.ps-form-input:focus,
 .ps-section input:focus,
 .ps-section select:focus,
 .ps-section textarea:focus {
-    outline: none;
-    border-color: var(--ps-info);
-    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
-}
-.ps-form-hint {
-    display: block;
-    font-size: 0.8rem;
-    color: var(--ps-muted);
-    margin-top: 4px;
-}
-.ps-form-actions {
-    display: flex;
-    gap: 12px;
-    align-items: center;
-    flex-wrap: wrap;
-    margin-top: 18px;
-    padding-top: 16px;
-    border-top: 1px solid var(--ps-card-border);
+    outline: none; border-color: var(--ps-info);
+    box-shadow: 0 0 0 3px rgba(96, 165, 250, 0.15);
 }
 
-/* ------------------------------------------------------------
-   .ps-data-table — dense data tables
-   ------------------------------------------------------------ */
+/* Legacy shorthand aliases */
+.ps-field { margin-bottom: 12px; }
+.ps-label { font-size: 13px; font-weight: 600; color: var(--ps-label); margin-bottom: 4px; display: block; }
+.ps-input {
+    width: 100%; padding: 10px 12px;
+    border: 1px solid var(--ps-input-border); border-radius: 8px;
+    font-size: 14px; background: var(--ps-input-bg); color: var(--ps-input-text);
+}
+.ps-input:focus { outline: none; border-color: var(--ps-info); box-shadow: 0 0 0 3px rgba(96, 165, 250, 0.15); }
+
+
+/* ================================================================
+   9. DATA TABLES — .ps-data-table
+   ================================================================ */
 .ps-table-wrap {
     overflow-x: auto;
     border: 1px solid var(--ps-card-border);
@@ -219,45 +315,70 @@ body.theme-ps h2 {
     background: var(--ps-card-bg);
 }
 .ps-data-table {
-    width: 100%;
-    border-collapse: collapse;
-    font-size: 0.92rem;
-    color: var(--ps-card-text);
+    width: 100%; border-collapse: collapse;
+    font-size: 14px; color: var(--ps-card-text);
 }
 .ps-data-table thead th {
-    background: #f1f5f9;
-    color: var(--ps-label);
-    font-size: 0.78rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.04em;
-    text-align: left;
-    padding: 10px 12px;
+    background: var(--ps-input-bg);
+    color: var(--ps-label); font-size: 12px; font-weight: 700;
+    text-transform: uppercase; letter-spacing: 0.04em;
+    text-align: left; padding: 10px 12px;
     border-bottom: 2px solid var(--ps-card-border);
     white-space: nowrap;
 }
 .ps-data-table tbody td {
     padding: 10px 12px;
-    border-bottom: 1px solid #f1f5f9;
+    border-bottom: 1px solid var(--ps-card-border);
     vertical-align: middle;
 }
 .ps-data-table tbody tr:last-child td { border-bottom: none; }
-.ps-data-table tbody tr:hover         { background: #f8fafc; }
-.ps-data-table .col-num      { text-align: right; font-variant-numeric: tabular-nums; }
-.ps-data-table .col-actions  { width: 1%; white-space: nowrap; text-align: right; }
+.ps-data-table tbody tr:hover { background: rgba(255, 255, 255, 0.03); }
+.ps-data-table .col-num     { text-align: right; font-variant-numeric: tabular-nums; }
+.ps-data-table .col-actions { width: 1%; white-space: nowrap; text-align: right; }
 
-/* ------------------------------------------------------------
-   .ps-stat-card — dashboard stat tiles
-   ------------------------------------------------------------ */
+/* GSM column helpers */
+.ps-data-table .col-check    { width: 2rem; text-align: center; }
+.ps-data-table .col-mod-name { white-space: nowrap; font-weight: 500; }
+.ps-data-table .col-mod-desc { color: var(--ps-muted); font-size: 13px; }
+
+
+/* ================================================================
+   10. BADGES — .ps-badge
+   ================================================================ */
+.ps-badge {
+    display: inline-block; padding: 3px 10px;
+    border-radius: 12px; font-size: 12px; font-weight: 600;
+}
+.ps-badge-green { background: var(--ps-success-bg); color: var(--ps-success); }
+.ps-badge-amber { background: var(--ps-warning-bg); color: var(--ps-warning); }
+.ps-badge-red   { background: var(--ps-danger-bg);  color: var(--ps-error); }
+.ps-badge-blue  { background: var(--ps-info-bg);    color: var(--ps-info); }
+.ps-badge-grey  { background: rgba(148, 163, 184, 0.15); color: var(--ps-muted); }
+
+
+/* ================================================================
+   11. ALERTS — .ps-alert
+   ================================================================ */
+.ps-alert {
+    padding: 12px 16px; border-radius: 8px;
+    border: 1px solid; font-size: 14px; margin-bottom: 14px;
+}
+.ps-alert-success { background: var(--ps-success-bg); border-color: rgba(22, 163, 74, 0.4);  color: var(--ps-success); }
+.ps-alert-warning { background: var(--ps-warning-bg); border-color: rgba(217, 119, 6, 0.4);  color: var(--ps-warning); }
+.ps-alert-error   { background: var(--ps-danger-bg);  border-color: rgba(220, 38, 38, 0.4);  color: var(--ps-error); }
+.ps-alert-info    { background: var(--ps-info-bg);    border-color: rgba(37, 99, 235, 0.4);  color: var(--ps-info); }
+
+
+/* ================================================================
+   12. STAT CARDS — .ps-stat-card
+   ================================================================ */
 .ps-stat-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-    gap: 14px;
-    margin-bottom: 18px;
+    gap: 14px; margin-bottom: 18px;
 }
 .ps-stat-card {
-    background: var(--ps-card-bg);
-    color: var(--ps-card-text);
+    background: var(--ps-card-bg); color: var(--ps-card-text);
     border: 1px solid var(--ps-card-border);
     border-left: 4px solid var(--ps-info);
     border-radius: var(--ps-card-radius);
@@ -265,237 +386,277 @@ body.theme-ps h2 {
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 .ps-stat-card .ps-stat-value {
-    font-size: 1.8rem;
-    font-weight: 800;
-    line-height: 1.1;
+    font-size: 28px; font-weight: 800; line-height: 1.1;
 }
 .ps-stat-card .ps-stat-label {
-    font-size: 0.82rem;
-    color: var(--ps-muted);
-    margin-top: 4px;
-    text-transform: uppercase;
-    letter-spacing: 0.04em;
+    font-size: 12px; color: var(--ps-muted); margin-top: 4px;
+    text-transform: uppercase; letter-spacing: 0.04em;
 }
 .ps-stat-card.accent-green { border-left-color: var(--ps-success); }
 .ps-stat-card.accent-blue  { border-left-color: var(--ps-info); }
 .ps-stat-card.accent-amber { border-left-color: var(--ps-warning); }
 .ps-stat-card.accent-red   { border-left-color: var(--ps-error); }
 
-/* ------------------------------------------------------------
-   .ps-tile — large action tiles (dashboard shortcuts)
-   ------------------------------------------------------------ */
+
+/* ================================================================
+   13. TILES — .ps-tile
+   ================================================================ */
 .ps-tile-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-    gap: 14px;
-    margin-bottom: 18px;
+    gap: 14px; margin-bottom: 18px;
 }
 .ps-tile {
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-    padding: 22px 20px;
-    background: var(--ps-card-bg);
-    color: var(--ps-card-text);
+    display: flex; flex-direction: column; gap: 6px;
+    padding: 22px 20px; min-height: 96px;
+    background: var(--ps-card-bg); color: var(--ps-card-text);
     border: 1px solid var(--ps-card-border);
     border-radius: var(--ps-card-radius);
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
     text-decoration: none;
-    min-height: 96px;
     transition: transform 0.08s, box-shadow 0.12s;
 }
 .ps-tile:hover {
-    text-decoration: none;
-    transform: translateY(-2px);
+    text-decoration: none; transform: translateY(-2px);
     box-shadow: 0 6px 18px rgba(0, 0, 0, 0.18);
 }
-.ps-tile-title {
-    font-size: 1.05rem;
-    font-weight: 700;
-    color: var(--ps-card-text);
-}
-.ps-tile-sub {
-    font-size: 0.85rem;
-    color: var(--ps-muted);
-    line-height: 1.35;
-}
+.ps-tile-title { font-size: 16px; font-weight: 700; color: var(--ps-card-text); }
+.ps-tile-sub   { font-size: 14px; color: var(--ps-muted); line-height: 1.35; }
 
-/* ------------------------------------------------------------
-   .ps-detail-grid — read-only key/value list
-   ------------------------------------------------------------ */
+
+/* ================================================================
+   14. DETAIL GRIDS — .ps-detail-grid, .ps-detail-row
+   ================================================================ */
 .ps-detail-grid { display: grid; grid-template-columns: 1fr; gap: 0; }
 .ps-detail-row {
-    display: flex;
-    padding: 8px 0;
-    border-bottom: 1px solid #f1f5f9;
+    display: flex; padding: 8px 0;
+    border-bottom: 1px solid var(--ps-card-border);
     align-items: baseline;
 }
 .ps-detail-row:last-child { border-bottom: none; }
-.ps-detail-label { flex: 0 0 160px; font-size: 0.85rem; font-weight: 600; color: var(--ps-label); }
-.ps-detail-value { flex: 1; font-size: 0.95rem; color: var(--ps-card-text); }
-.ps-detail-value-lg { flex: 1; font-size: 1.2rem; font-weight: 700; color: var(--ps-card-text); }
+.ps-detail-label { flex: 0 0 160px; font-size: 13px; font-weight: 600; color: var(--ps-label); }
+.ps-detail-value { flex: 1; font-size: 14px; color: var(--ps-card-text); }
+.ps-detail-value-lg { flex: 1; font-size: 18px; font-weight: 700; color: var(--ps-card-text); }
 .ps-detail-value-lg.accent { color: var(--ps-success); }
 .ps-detail-divider { border: none; border-top: 1px solid var(--ps-card-border); margin: 16px 0; }
 
-/* ------------------------------------------------------------
-   .ps-badge — small inline status pills
-   ------------------------------------------------------------ */
-.ps-badge {
-    display: inline-block;
-    padding: 3px 10px;
-    border-radius: 12px;
-    font-size: 0.78rem;
-    font-weight: 600;
-}
-.ps-badge-green { background: var(--ps-success-bg); color: #166534; }
-.ps-badge-amber { background: var(--ps-warning-bg); color: #92400e; }
-.ps-badge-red   { background: var(--ps-danger-bg);  color: #991b1b; }
-.ps-badge-blue  { background: var(--ps-info-bg);    color: #1e40af; }
 
-/* ------------------------------------------------------------
-   .ps-alert — block-level notifications
-   ------------------------------------------------------------ */
-.ps-alert {
-    padding: 12px 16px;
-    border-radius: 8px;
-    border: 1px solid;
-    font-size: 0.9rem;
-    margin-bottom: 14px;
+/* ================================================================
+   15. MODALS — .ps-modal
+   ================================================================ */
+.ps-modal-backdrop {
+    position: fixed; inset: 0; z-index: 9000;
+    background: rgba(0, 0, 0, 0.65);
+    display: flex; align-items: center; justify-content: center;
 }
-.ps-alert-success { background: rgba(22, 163, 74, 0.12); border-color: rgba(22, 163, 74, 0.4); color: #166534; }
-.ps-alert-warning { background: rgba(217, 119, 6, 0.12); border-color: rgba(217, 119, 6, 0.4); color: #92400e; }
-.ps-alert-error   { background: rgba(220, 38, 38, 0.12); border-color: rgba(220, 38, 38, 0.4); color: #991b1b; }
-.ps-alert-info    { background: rgba(37, 99, 235, 0.12); border-color: rgba(37, 99, 235, 0.4); color: #1e40af; }
-
-/* ------------------------------------------------------------
-   .ps-tabs — horizontal tabs (nav, not JS-swap tabs)
-   ------------------------------------------------------------ */
-.ps-tabs {
-    display: flex;
-    gap: 4px;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.15);
-    margin-bottom: 18px;
-    flex-wrap: wrap;
-}
-.ps-tab {
-    display: inline-block;
-    padding: 10px 18px;
-    font-size: 0.95rem;
-    font-weight: 600;
-    color: var(--ps-tab-inactive);
-    text-decoration: none;
-    border-bottom: 3px solid transparent;
-    border-radius: 6px 6px 0 0;
-    transition: color 0.12s, border-color 0.12s;
-}
-.ps-tab:hover        { color: var(--ps-tab-active-text); text-decoration: none; }
-.ps-tab.active {
-    color: var(--ps-tab-active-text);
-    border-bottom-color: var(--ps-tab-active-border);
-    background: var(--ps-tab-active-bg);
+.ps-modal {
+    background: var(--ps-card-bg); color: var(--ps-card-text);
+    border: 1px solid var(--ps-card-border);
+    border-radius: var(--ps-card-radius); padding: 24px;
+    width: 90%; max-width: 380px;
 }
 
-/* ------------------------------------------------------------
-   Small utilities
-   ------------------------------------------------------------ */
+
+/* ================================================================
+   16. TOAST — .ps-toast
+   ================================================================ */
+.ps-toast {
+    position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%);
+    z-index: 9999;
+    background: var(--ps-toast-bg); color: var(--ps-toast-text);
+    border: 1px solid var(--ps-card-border); border-radius: 8px;
+    padding: 10px 20px; font-size: 13px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+    transition: opacity 0.3s; pointer-events: none;
+}
+
+
+/* ================================================================
+   17. MESSAGES — .ps-msg
+   ================================================================ */
+.ps-msg { font-size: 13px; margin-top: 8px; padding: 8px 12px; border-radius: 6px; }
+.ps-msg-ok  { background: var(--ps-success-bg); color: var(--ps-success); }
+.ps-msg-err { background: var(--ps-danger-bg);  color: var(--ps-error); }
+
+
+/* ================================================================
+   18. STATUS ROWS — .ps-row
+   ================================================================ */
+.ps-row {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 10px 0; border-bottom: 1px solid var(--ps-card-border);
+}
+.ps-row:last-child { border-bottom: none; }
+
+
+/* ================================================================
+   19. SMALL UTILITIES
+   ================================================================ */
 .ps-status-ok   { color: var(--ps-success); font-weight: 600; }
 .ps-status-err  { color: var(--ps-error);   font-weight: 600; }
 .ps-status-info { color: var(--ps-info);    font-weight: 600; }
-
 .ps-empty-msg {
-    text-align: center;
-    padding: 40px 20px;
-    color: var(--ps-muted);
-    font-size: 0.95rem;
+    text-align: center; padding: 40px 20px;
+    color: var(--ps-muted); font-size: 14px;
 }
-
 .ps-h-actions {
-    display: flex;
-    gap: 8px;
-    margin-left: auto;
-    flex-wrap: wrap;
+    display: flex; gap: 8px; margin-left: auto; flex-wrap: wrap;
 }
 
-/* ------------------------------------------------------------
-   .ps-page-code — debug page-id badge (top-right)
-   ------------------------------------------------------------
-   Shown in the top-right of every page for troubleshooting.
-   Each template overrides {% block page_id %}XX{% endblock %}
-   so Peter can reference the exact page by code.
-   Aligned with SeedManager's app.css convention so GSM, SM, and
-   PaddiSense all display the badge identically.
-   ------------------------------------------------------------ */
+/* Page-code debug badge (top-right) */
 .ps-page-code {
-    position: fixed;
-    top: 6px;
-    right: 10px;
-    z-index: 9999;
+    position: fixed; top: 6px; right: 10px; z-index: 9999;
     font-family: ui-monospace, "SFMono-Regular", Menlo, monospace;
-    font-size: 10px;
-    font-weight: 700;
-    letter-spacing: 0.5px;
-    color: rgba(100, 116, 139, 0.9);
-    background: rgba(255, 255, 255, 0.92);
-    border: 1px solid rgba(148, 163, 184, 0.4);
-    padding: 2px 7px;
-    border-radius: 4px;
-    pointer-events: none;
-    user-select: none;
-    backdrop-filter: blur(2px);
-    -webkit-backdrop-filter: blur(2px);
-}
-/* Darker variant for kiosk (SeedManager base_kiosk.html uses body.kiosk-body) */
-body.kiosk-body .ps-page-code {
-    top: 8px;
-    right: 12px;
-    font-size: 11px;
-    background: rgba(30, 41, 59, 0.78);
-    color: rgba(226, 232, 240, 0.9);
-    border-color: rgba(51, 65, 85, 0.6);
-}
-
-/* ------------------------------------------------------------
-   .ps-modal — confirm / PIN / small-form modal
-   ------------------------------------------------------------ */
-.ps-modal-backdrop {
-    position: fixed;
-    inset: 0;
-    z-index: 9000;
-    background: rgba(0, 0, 0, 0.65);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-.ps-modal {
+    font-size: 10px; font-weight: 700; letter-spacing: 0.5px;
+    color: var(--ps-muted);
     background: var(--ps-card-bg);
     border: 1px solid var(--ps-card-border);
-    border-radius: 12px;
-    padding: 24px;
-    width: 90%;
-    max-width: 380px;
-    color: var(--ps-card-text);
+    padding: 2px 7px; border-radius: 4px;
+    pointer-events: none; user-select: none;
+    backdrop-filter: blur(2px); -webkit-backdrop-filter: blur(2px);
+}
+body.kiosk-body .ps-page-code {
+    top: 8px; right: 12px; font-size: 11px;
+    background: rgba(30, 41, 59, 0.78);
+    color: var(--ps-muted);
+    border-color: var(--ps-card-border);
 }
 
-/* ------------------------------------------------------------
-   @media print — reset for paper
-   ------------------------------------------------------------
-   Consumers should ALSO include app-specific print hides
-   (sidebars, topbars) in their overrides file.
-   ------------------------------------------------------------ */
+
+/* ================================================================
+   20. GSM-SPECIFIC UTILITIES
+   ================================================================ */
+
+/* Smaller stat value for long text */
+.ps-stat-value-sm { font-size: 16px; font-weight: 700; line-height: 1.2; }
+
+/* Muted inline placeholder text */
+.ps-muted-text { color: var(--ps-muted); font-style: italic; }
+
+/* Inline form wrapper (tight in tables) */
+.ps-inline-form { margin: 0; display: inline; }
+
+/* Hidden clipboard fallback */
+.ps-copy-fallback { position: fixed; left: -9999px; top: 0; }
+
+/* Code textarea (read-only tokens / connection strings) */
+.ps-textarea-code {
+    width: 100%; height: 80px;
+    font-family: ui-monospace, monospace; font-size: 13px;
+    resize: none;
+    background: var(--ps-input-bg); color: var(--ps-input-text);
+    border: 1px solid var(--ps-input-border); border-radius: 6px;
+    padding: 8px;
+}
+
+/* Activation link block inside success alert */
+.ps-activation-link {
+    display: block; padding: 8px; border-radius: 4px;
+    background: var(--ps-input-bg); color: var(--ps-input-text);
+    border: 1px solid var(--ps-card-border);
+    word-break: break-all; font-size: 13px; margin: 8px 0;
+}
+
+/* Tall textarea (KB article edit body) */
+.ps-textarea-tall {
+    min-height: 320px; font-family: inherit;
+    font-size: 14px; line-height: 1.5;
+}
+
+/* KB article styles */
+.ps-topic-summary { font-size: 13px; color: var(--ps-muted); margin: 0 0 12px; }
+.ps-article-list { display: flex; flex-direction: column; gap: 0; }
+.ps-article { padding: 14px 0; border-bottom: 1px solid var(--ps-card-border); }
+.ps-article:last-child { border-bottom: none; }
+.ps-article:first-child { padding-top: 6px; }
+.ps-article-head {
+    display: flex; justify-content: space-between;
+    align-items: flex-start; gap: 12px; margin-bottom: 4px;
+}
+.ps-article-title { font-weight: 700; color: var(--ps-card-text); flex: 1; }
+.ps-article-body {
+    font-size: 13px; white-space: pre-wrap;
+    line-height: 1.5; color: var(--ps-card-text);
+}
+.ps-article-tags { margin-top: 6px; display: flex; gap: 4px; flex-wrap: wrap; }
+.ps-article-regions { margin-top: 6px; font-size: 12px; color: var(--ps-muted); }
+.ps-article-data { margin-top: 8px; }
+.ps-article-data summary { font-size: 12px; cursor: pointer; color: var(--ps-muted); }
+.ps-article-data pre {
+    font-size: 12px; padding: 8px; border-radius: 4px;
+    background: var(--ps-input-bg); color: var(--ps-card-text);
+    overflow-x: auto; max-height: 300px; margin-top: 6px;
+}
+
+
+/* ================================================================
+   21. RESPONSIVE — mobile breakpoint
+   ================================================================ */
+@media (max-width: 768px) {
+    .ps-nav { height: 44px; }
+    .ps-content { margin-top: 44px; padding: 12px; }
+    .ps-tabs { top: 44px; }
+    .ps-form-grid { grid-template-columns: 1fr; }
+}
+
+
+/* ================================================================
+   22. RESPONSIVE — .ps-mobile / .ps-desktop body classes
+   ================================================================ */
+
+/* Mobile: tighter spacing */
+.ps-mobile .ps-section,
+.ps-mobile .ps-card { padding: 14px; margin-bottom: 10px; }
+.ps-mobile .ps-card-title { font-size: 16px; margin-bottom: 8px; }
+
+.ps-mobile .ps-stat-card { padding: 10px 8px; min-width: 60px; }
+.ps-mobile .ps-stat-card .ps-stat-value { font-size: 20px; }
+.ps-mobile .ps-stat-card .ps-stat-label { font-size: 10px; }
+
+/* Mobile: tables scroll horizontally */
+.ps-mobile .ps-data-table { font-size: 13px; }
+.ps-mobile .ps-data-table th,
+.ps-mobile .ps-data-table td { padding: 8px; }
+.ps-mobile .ps-table-wrap { -webkit-overflow-scrolling: touch; }
+
+/* Mobile: forms stack */
+.ps-mobile .ps-form-grid { grid-template-columns: 1fr !important; }
+
+/* Mobile: buttons and toolbars */
+.ps-mobile .ps-btn-row { flex-wrap: wrap; }
+.ps-mobile .ps-btn { min-height: 44px; font-size: 14px; }
+
+/* Mobile: modals full-width */
+.ps-mobile .ps-modal { max-width: 95vw; padding: 16px; }
+
+/* Mobile: tiles 2-col */
+.ps-mobile .ps-tile-grid { grid-template-columns: 1fr 1fr !important; gap: 8px; }
+.ps-mobile .ps-tile { min-height: 80px; }
+.ps-mobile .ps-tile-title { font-size: 14px; }
+
+/* Mobile: nav bar */
+.ps-mobile .ps-nav { height: 44px; }
+.ps-mobile .ps-content { margin-top: 44px; padding: 10px; }
+
+/* Desktop: wider spacing */
+.ps-desktop .ps-content { padding: 20px 24px; }
+
+
+/* ================================================================
+   23. PRINT — reset for paper
+   ================================================================ */
 @media print {
-    body.theme-ps {
+    body {
         background: #fff !important;
         color: #000 !important;
     }
-    body.theme-ps .ps-section {
+    .ps-card, .ps-section, .ps-stat-card {
         background: #fff !important;
         color: #000 !important;
         box-shadow: none !important;
         border: 1px solid #999 !important;
     }
-    .ps-page-code,
-    .ps-h-actions,
-    .no-print {
+    .ps-page-code, .ps-h-actions, .no-print {
         display: none !important;
     }
 }

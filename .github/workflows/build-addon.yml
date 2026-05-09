@@ -35,27 +35,27 @@ jobs:
         with:
           repository: PaddiSense/PaddiSense
           ref: main
-          token: \${{ secrets.PRIVATE_REPO_PAT }}
+          token: ${{ secrets.PRIVATE_REPO_PAT }}
           path: source
 
       - name: Extract version
         id: version
         run: |
-          if [ -n "\${{ github.event.inputs.version }}" ]; then
-            echo "version=\${{ github.event.inputs.version }}" >> "\$GITHUB_OUTPUT"
-          elif [ -n "\${{ github.event.client_payload.version }}" ]; then
-            echo "version=\${{ github.event.client_payload.version }}" >> "\$GITHUB_OUTPUT"
+          if [ -n "${{ github.event.inputs.version }}" ]; then
+            echo "version=${{ github.event.inputs.version }}" >> "$GITHUB_OUTPUT"
+          elif [ -n "${{ github.event.client_payload.version }}" ]; then
+            echo "version=${{ github.event.client_payload.version }}" >> "$GITHUB_OUTPUT"
           else
-            VERSION=\$(grep '^version:' source/paddisense-server/config.yaml | sed 's/version: *"\(.*\)"/\1/')
-            echo "version=\$VERSION" >> "\$GITHUB_OUTPUT"
+            VERSION=$(grep '^version:' source/paddisense-server/config.yaml | sed 's/version: *"\(.*\)"/\1/')
+            echo "version=$VERSION" >> "$GITHUB_OUTPUT"
           fi
 
       - name: Log in to GHCR
         uses: docker/login-action@v3
         with:
-          registry: \${{ env.REGISTRY }}
-          username: \${{ github.actor }}
-          password: \${{ secrets.GITHUB_TOKEN }}
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v3
@@ -68,10 +68,10 @@ jobs:
         with:
           context: source/paddisense-server
           file: source/paddisense-server/Dockerfile
-          platforms: \${{ matrix.platform }}
+          platforms: ${{ matrix.platform }}
           push: true
           tags: |
-            \${{ env.IMAGE_BASE }}/\${{ matrix.arch }}-paddisense-server:\${{ steps.version.outputs.version }}
-            \${{ env.IMAGE_BASE }}/\${{ matrix.arch }}-paddisense-server:latest
+            ${{ env.IMAGE_BASE }}/${{ matrix.arch }}-paddisense-server:${{ steps.version.outputs.version }}
+            ${{ env.IMAGE_BASE }}/${{ matrix.arch }}-paddisense-server:latest
           cache-from: type=gha
           cache-to: type=gha,mode=max

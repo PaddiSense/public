@@ -1,5 +1,5 @@
 name: PaddiSense Server
-version: "2026.5.50"
+version: "2026.5.64"
 slug: paddisense-server
 description: PaddiSense farm management server
 url: https://github.com/PaddiSense/public

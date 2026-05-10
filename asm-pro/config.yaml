@@ -1,0 +1,35 @@
+name: ASM Pro
+version: "2026.5.1"
+slug: asm-pro
+description: ASM Pro — asset management, maintenance tracking, and parts inventory
+url: https://github.com/PaddiSense/ASM-Pro
+image: ghcr.io/paddisense/{arch}-asm-pro
+arch:
+  - amd64
+  - aarch64
+startup: application
+init: false
+ingress: true
+ingress_port: 8099
+panel_icon: mdi:wrench
+panel_title: ASM Pro
+homeassistant_api: true
+hassio_api: true
+map:
+  - addon_config:rw
+  - media:rw
+  - share:rw
+options:
+  db_host: "77b2833f-timescaledb"
+  db_port: 5432
+  db_name: "asmpro"
+  db_user: "postgres"
+  db_password: ""
+  admin_key: ""
+schema:
+  db_host: str
+  db_port: port
+  db_name: str
+  db_user: str
+  db_password: password
+  admin_key: str?

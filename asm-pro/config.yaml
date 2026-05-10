@@ -1,7 +1,7 @@
 name: PaddiSense ASM Pro
 version: "2026.5.1"
 slug: asm-pro
-description: PaddiSense ASM Pro — asset management, maintenance tracking, and parts inventory
+description: ASM Pro — asset management, maintenance tracking, and parts inventory
 url: https://github.com/PaddiSense/ASM-Pro
 image: ghcr.io/paddisense/{arch}-asm-pro
 arch:

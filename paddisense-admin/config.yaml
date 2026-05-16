@@ -1,0 +1,45 @@
+name: PaddiSense Admin
+version: "2026.5.3"
+slug: paddisense-admin
+description: Central management plane — fleet, licences, GSM orchestration across all PaddiSense products
+url: https://github.com/PaddiSense/Admin
+image: ghcr.io/paddisense/{arch}-paddisense-admin
+arch:
+  - amd64
+  - aarch64
+startup: application
+init: false
+ingress: true
+ingress_port: 8101
+panel_icon: mdi:view-dashboard-variant
+panel_title: Admin
+ports:
+  8101/tcp: 8101
+ports_description:
+  8101/tcp: PaddiSense Admin API (addon heartbeats)
+homeassistant_api: true
+hassio_api: true
+hassio_role: manager
+map:
+  - addon_config:rw
+  - config:rw
+options:
+  db_host: "77b2833f-timescaledb"
+  db_port: 5432
+  db_name: "paddisense_admin"
+  db_user: "postgres"
+  db_password: ""
+  admin_key: ""
+  gsm_addon_slug: "ac0187df_gsm-server"
+  gsm_api_base: "http://ac0187df-gsm-server:8099"
+  github_token: ""
+schema:
+  db_host: str
+  db_port: port
+  db_name: str
+  db_user: str
+  db_password: password
+  admin_key: str?
+  gsm_addon_slug: str?
+  gsm_api_base: str?
+  github_token: str?

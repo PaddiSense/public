@@ -1,7 +1,7 @@
-name: PaddiSense ASM Pro
-version: "2026.5.3"
+name: PaddiSense Assets
+version: "2026.5.4"
 slug: asm-pro
-description: ASM Pro — asset management, maintenance tracking, and parts inventory
+description: PaddiSense Assets — asset management, maintenance tracking, and parts inventory
 url: https://github.com/PaddiSense/ASM-Pro
 image: ghcr.io/paddisense/{arch}-asm-pro
 arch:
@@ -12,7 +12,7 @@ init: false
 ingress: true
 ingress_port: 8099
 panel_icon: mdi:wrench
-panel_title: PaddiSense ASM
+panel_title: PaddiSense Assets
 homeassistant_api: true
 hassio_api: true
 map:

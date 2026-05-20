@@ -2,6 +2,8 @@ name: PaddiSense Assets
 version: "2026.6.6"
 slug: asm-pro
 description: PaddiSense Assets — asset management, maintenance tracking, and parts inventory
+logo: true
+icon: true
 url: https://github.com/PaddiSense/ASM-Pro
 image: ghcr.io/paddisense/{arch}-asm-pro
 arch:

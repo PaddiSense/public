@@ -1,7 +1,9 @@
-name: SugarSense
+name: PaddiSense Sugar
 version: "2026.6.9"
 slug: sugarsense
-description: SugarSense — sugar cane harvest planning and farm management
+description: PaddiSense Sugar — sugar cane harvest planning and farm management
+logo: true
+icon: true
 url: https://github.com/PaddiSense/SugarSense
 image: ghcr.io/paddisense/{arch}-sugarsense
 arch:
@@ -12,7 +14,7 @@ init: false
 ingress: true
 ingress_port: 8097
 panel_icon: mdi:barley
-panel_title: SugarSense
+panel_title: PaddiSense Sugar
 homeassistant_api: true
 hassio_api: true
 map:

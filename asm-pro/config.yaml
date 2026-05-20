@@ -1,5 +1,5 @@
 name: PaddiSense Assets
-version: "2026.6.6"
+version: "2026.6.7"
 slug: asm-pro
 description: PaddiSense Assets — asset management, maintenance tracking, and parts inventory
 logo: true
@@ -17,6 +17,7 @@ panel_icon: mdi:wrench
 panel_title: PaddiSense Assets
 homeassistant_api: true
 hassio_api: true
+hassio_role: manager
 map:
   - addon_config:rw
   - media:rw

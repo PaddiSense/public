@@ -1,5 +1,5 @@
 name: PaddiSense Sugar
-version: "2026.6.9"
+version: "2026.6.10"
 slug: sugarsense
 description: PaddiSense Sugar — sugar cane harvest planning and farm management
 logo: true
@@ -12,11 +12,12 @@ arch:
 startup: application
 init: false
 ingress: true
-ingress_port: 8097
+ingress_port: 8101
 panel_icon: mdi:barley
 panel_title: PaddiSense Sugar
 homeassistant_api: true
 hassio_api: true
+hassio_role: manager
 map:
   - addon_config:rw
   - media:rw
@@ -25,7 +26,7 @@ options:
   db_port: 5432
   db_name: "sugarsense"
   db_user: "postgres"
-  db_password: ""
+  db_password: "homeassistant"
   admin_key: ""
 schema:
   db_host: str

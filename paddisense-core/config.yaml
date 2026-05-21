@@ -2,6 +2,7 @@ name: PaddiSense Core
 version: "2026.6.172"
 slug: paddisense-core
 description: PaddiSense Core — spatial farm management, machine data, HFM, weather
+image: ghcr.io/paddisense/{arch}-paddisense-core
 logo: true
 icon: true
 url: https://github.com/PaddiSense/PaddiSense-Core

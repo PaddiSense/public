@@ -1,0 +1,40 @@
+name: PaddiSense PWM
+version: "2026.6.49"
+slug: paddisense-pwm
+description: PaddiSense PWM — Precision Water Management for rice irrigation
+logo: true
+icon: true
+image: ghcr.io/paddisense/{arch}-paddisense-pwm
+url: https://github.com/PaddiSense/PWM
+arch:
+  - amd64
+  - aarch64
+startup: application
+init: false
+ingress: true
+ingress_port: 8096
+panel_icon: mdi:water-pump
+panel_title: PaddiSense PWM
+homeassistant_api: true
+hassio_api: true
+hassio_role: manager
+map:
+  - addon_config:rw
+  - media:rw
+  - share:rw
+options:
+  db_host: "77b2833f-timescaledb"
+  db_port: 5432
+  db_name: "paddisense_pwm"
+  db_user: "postgres"
+  db_password: ""
+  admin_key: ""
+  github_pat: ""
+schema:
+  db_host: str
+  db_port: port
+  db_name: str
+  db_user: str
+  db_password: password
+  admin_key: str?
+  github_pat: str?

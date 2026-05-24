@@ -1,18 +1,18 @@
 name: PaddiSense Livestock
-version: "2026.6.2"
+version: "2026.6.5"
 slug: paddisense-livestock
 description: PaddiSense Livestock -- stock tracking, mob management, movements
 logo: true
 icon: true
-image: ghcr.io/paddisense/{arch}-paddisense-livestock
 url: https://github.com/PaddiSense/Livestock
+image: ghcr.io/paddisense/{arch}-paddisense-livestock
 arch:
   - amd64
   - aarch64
 startup: application
 init: false
 ingress: true
-ingress_port: 8098
+ingress_port: 8103
 panel_icon: mdi:cow
 panel_title: Livestock
 homeassistant_api: true
@@ -26,7 +26,7 @@ options:
   db_port: 5432
   db_name: "paddisense_livestock"
   db_user: "postgres"
-  db_password: ""
+  db_password: "homeassistant"
   admin_key: ""
 schema:
   db_host: str

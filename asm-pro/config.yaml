@@ -12,7 +12,7 @@ arch:
 startup: application
 init: false
 ingress: true
-ingress_port: 8099
+ingress_port: 8102
 panel_icon: mdi:wrench
 panel_title: PaddiSense Assets
 homeassistant_api: true

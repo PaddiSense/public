@@ -1,11 +1,11 @@
 name: PaddiSense Core
-version: "2026.6.172"
+version: "2026.6.266"
 slug: paddisense-core
 description: PaddiSense Core — spatial farm management, machine data, HFM, weather
-image: ghcr.io/paddisense/{arch}-paddisense-core
 logo: true
 icon: true
 url: https://github.com/PaddiSense/PaddiSense-Core
+image: ghcr.io/paddisense/{arch}-paddisense-core
 arch:
   - amd64
   - aarch64
@@ -27,16 +27,10 @@ options:
   db_port: 5432
   db_name: "paddicore"
   db_user: "postgres"
-  db_password: ""
-  admin_key: ""
-  github_pat: ""
-  heartbeat_url: ""
+  db_password: "homeassistant"
 schema:
   db_host: str
   db_port: port
   db_name: str
   db_user: str
   db_password: password
-  admin_key: str?
-  github_pat: password?
-  heartbeat_url: str?

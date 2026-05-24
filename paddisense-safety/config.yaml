@@ -1,11 +1,11 @@
 name: PaddiSense Safety
-version: "2026.6.11"
+version: "2026.6.12"
 slug: paddisense-safety
 description: PaddiSense Safety — Worker Safety System (WSS) with zone monitoring and escalation alerts
 logo: true
 icon: true
-image: ghcr.io/paddisense/{arch}-paddisense-safety
 url: https://github.com/PaddiSense/Safety
+image: ghcr.io/paddisense/{arch}-paddisense-safety
 arch:
   - amd64
   - aarch64
@@ -27,7 +27,7 @@ options:
   db_port: 5432
   db_name: "paddisense_safety"
   db_user: "postgres"
-  db_password: ""
+  db_password: "homeassistant"
   admin_key: ""
 schema:
   db_host: str

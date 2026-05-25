@@ -1,5 +1,5 @@
 name: PaddiSense Core
-version: "2026.6.285"
+version: "2026.6.296"
 slug: paddisense-core
 description: PaddiSense Core — spatial farm management, machine data, HFM, weather
 logo: true
@@ -20,6 +20,7 @@ hassio_api: true
 hassio_role: manager
 map:
   - addon_config:rw
+  - config:rw
   - media:rw
   - share:rw
 options:

@@ -1,0 +1,37 @@
+name: PaddiSense Store
+version: "2026.7.4"
+slug: paddisense-store
+description: PaddiSense Store -- product registry, chemical inventory, stock management
+logo: true
+icon: true
+url: https://github.com/PaddiSense/Store
+image: ghcr.io/paddisense/{arch}-paddisense-store
+arch:
+  - amd64
+  - aarch64
+startup: application
+init: false
+ingress: true
+ingress_port: 8104
+panel_icon: mdi:store
+panel_title: Store
+homeassistant_api: true
+hassio_api: true
+map:
+  - addon_config:rw
+  - media:rw
+  - share:rw
+options:
+  db_host: "77b2833f-timescaledb"
+  db_port: 5432
+  db_name: "paddisense_store"
+  db_user: "postgres"
+  db_password: "homeassistant"
+  admin_key: ""
+schema:
+  db_host: str
+  db_port: port
+  db_name: str
+  db_user: str
+  db_password: password
+  admin_key: str?

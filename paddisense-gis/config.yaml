@@ -1,0 +1,37 @@
+name: PaddiSense GIS
+version: "2026.7.1"
+slug: paddisense-gis
+description: PaddiSense GIS — spatial farm management, machine data, HFM, NDVI, analytics
+logo: true
+icon: true
+url: https://github.com/PaddiSense/GIS
+image: ghcr.io/paddisense/{arch}-paddisense-gis
+arch:
+  - amd64
+  - aarch64
+startup: application
+init: false
+ingress: true
+ingress_port: 8106
+panel_icon: mdi:map
+panel_title: GIS
+homeassistant_api: true
+hassio_api: true
+hassio_role: manager
+map:
+  - addon_config:rw
+  - config:rw
+  - media:rw
+  - share:rw
+options:
+  db_host: "77b2833f-timescaledb"
+  db_port: 5432
+  db_name: "paddicore"
+  db_user: "postgres"
+  db_password: "homeassistant"
+schema:
+  db_host: str
+  db_port: port
+  db_name: str
+  db_user: str
+  db_password: password

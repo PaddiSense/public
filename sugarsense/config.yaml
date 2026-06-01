@@ -14,7 +14,7 @@ init: false
 ingress: true
 ingress_port: 8101
 panel_icon: mdi:barley
-panel_title: PaddiSense Sugar
+panel_title: Sugar
 homeassistant_api: true
 hassio_api: true
 hassio_role: manager

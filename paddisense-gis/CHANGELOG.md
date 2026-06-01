@@ -1,17 +1,13 @@
-# Changelog
+# PaddiSense GIS — Changelog
 
-## 2026.7.5
-- Stripped Core functions (metrics, database, GSM UI) — GIS is farming only
-- GSM boundary exchange moved to GIS module card in Core
+All notable changes to PaddiSense GIS.
 
-## 2026.7.4
-- Fix licence check — uses provider_credentials table
-
-## 2026.7.2
-- Dashboard tile launcher (Farm Map, Events, RTR, Data Sync, Import Hub)
-- Removed Weather/Chem/Burn tiles (separate addons now)
-
-## 2026.7.1
+## 2026.6.1
 - Initial release — extracted from PaddiSense Core
-- Spatial engine, HFM field events, machine data, NDVI, Import Hub
-- GSM boundary sync, planning, analytics, RTR, KB
+- Spatial engine, HFM field events, machine data (CNH/JD/Trimble), NDVI
+- GSM boundary sync, planning, analytics, RTR, Knowledge Bank
+- Import Hub (CSV/GeoJSON/KML/SHP), crop zones, notifications
+- Dashboard tile launcher (Farm Map, Events, RTR, Data Sync, Import Hub)
+- Licence check via Core provider_credentials
+- Application logging fix for visible addon diagnostics
+

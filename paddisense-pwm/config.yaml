@@ -1,5 +1,5 @@
 name: PaddiSense PWM
-version: "2026.6.51"
+version: "2026.6.58"
 slug: paddisense-pwm
 description: PaddiSense PWM — Precision Water Management for rice irrigation
 logo: true
@@ -14,7 +14,7 @@ init: false
 ingress: true
 ingress_port: 8096
 panel_icon: mdi:water-pump
-panel_title: PaddiSense PWM
+panel_title: PWM
 homeassistant_api: true
 hassio_api: true
 hassio_role: manager

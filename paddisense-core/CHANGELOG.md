@@ -1,33 +1,36 @@
-# Changelog
+# PaddiSense Core — Changelog
+
+All notable changes to PaddiSense Core (system gateway).
+
+## 2026.6.315
+- Fix application logging — all addon log output now visible (heartbeat, backup, selftest)
+- Add Store, Weather, GIS to heartbeat addon health discovery
+- Fix fallback port map for addon health polling
+- Heartbeat confirmed working to Admin
+
+## 2026.6.312
+- Fix licence management page (G01.B) — JS errors prevented Core licence from displaying
+- Null checks on GSM status elements, missing function stub added
 
 ## 2026.6.309
-- Fix addon port map — add GIS/Store/Weather ports, correct existing ports
-- This fixes licence activation for new addons on grower boxes
-
-## 2026.6.308
-- Fix addon module list crash (boundary slot DOM protection)
+- Fix addon port map for licence activation (GIS, Store, Weather, Livestock, ASM, Sugar)
+- Correct ports for all 10 addons in discovery and licence forwarding
 
 ## 2026.6.307
-- GSM boundary exchange moved into GIS module card (only shows when GIS licensed)
+- GSM boundary exchange section moved into GIS module card on G01.B
+- Only visible when GIS addon is licensed
 
 ## 2026.6.304
-- Backups write to /config/backups/ (host filesystem, survives crashes)
-- Backup all 8 addon databases with 3-day rolling retention
-- Download button on backup files
+- Backups write to /config/backups/ on host filesystem (survives addon reinstall)
+- All 8 addon databases backed up daily with 3-day rolling retention
+- Download button on backup files for USB export
 
 ## 2026.6.300
-- Deep clean: remove all farming references from metrics, selftest, heartbeat
-- Core is now system gateway only (heartbeat, licences, addon discovery)
+- Core stripped to system gateway — all farming logic moved to GIS addon
+- Heartbeat, licences, addon discovery, backup, selftest only
+- Consistent PaddiSense naming across all 10 addons
 
-## 2026.6.267
-- Weather station management improvements
-- GSM paddock display fix for new growers
-- Record Event page with Review/New modes
-- Full mobile wizard for field recording
-- Security fixes and code quality sweep
-- NDVI reference layer on record page
+## 2026.6.297
+- Security hardening: login rate limiting, path validation
+- Paddock delete FK safety (nullify dependent records first)
 
-## 2026.6.243
-- CVE fixes (cryptography, Pillow)
-- Pre-deploy audit automation
-- Import Hub shapefile support

@@ -5,6 +5,7 @@ description: PaddiSense Core — system gateway, licence management, addon healt
 logo: true
 icon: true
 url: https://github.com/PaddiSense/PaddiSense-Core
+image: ghcr.io/paddisense/{arch}-paddisense-core
 arch:
   - amd64
   - aarch64
@@ -34,3 +35,4 @@ schema:
   db_name: str
   db_user: str
   db_password: password
+

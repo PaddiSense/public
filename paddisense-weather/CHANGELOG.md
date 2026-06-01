@@ -1,19 +1,24 @@
-# Changelog
+# PaddiSense Weather — Changelog
+
+All notable changes to PaddiSense Weather.
 
 ## 2026.7.20
-- Version bump for image rebuild
+- Application logging fix — addon log output now visible for diagnostics
 
 ## 2026.7.19
-- Clean toolbar: Rain, Radar, Wind, Temp, Clouds, Thunder layer toggles
+- Radar toolbar: Rain, Radar, Wind, Temp, Clouds, Thunder layer toggles
 
 ## 2026.7.15
 - Rain radar page with Windy embed (full resolution at any zoom)
+- Paddock boundaries overlaid on radar via server-side proxy
 
 ## 2026.7.3
-- Dedicated settings page for station management
-- Rain radar page with RainViewer + farm paddock overlay
+- Settings page for station management and Ecowitt API credentials
+- Burn forecast assessment page (mixing height, ventilation index)
 
 ## 2026.7.1
 - Initial release — extracted from PaddiSense Core weather module
-- Weather stations (local Ecowitt + API)
-- Open-Meteo 16-day forecast, spray assessment, wind rose
+- Weather stations (local Ecowitt via HA + Ecowitt Cloud API)
+- Open-Meteo 16-day forecast, Delta-T spray assessment, wind rose
+- Background poller (5-minute cycle)
+

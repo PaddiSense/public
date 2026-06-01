@@ -1,28 +1,28 @@
-# Changelog
+# PaddiSense Livestock — Changelog
+
+All notable changes to PaddiSense Livestock.
 
 ## 2026.6.37
 - Auto-migrate mobs to breeding groups on startup (preserves grower data)
-- Breeding group CREATE TABLE includes all columns
 
 ## 2026.6.36
-- Breeding groups as primary entity with stock type tabs
+- Breeding groups as primary entity with stock type tabs (Sheep/Cattle)
 - Full detail form: sex class, lambing status, attributes
-- Events recorded against breeding groups (lot_id)
+- Events recorded against breeding groups
 
 ## 2026.6.35
-- Breeding Groups page with countdown rings, event recording
+- Breeding Groups page with countdown rings and event recording
 - Mobs page becomes paddock assignment view
-- 4-page nav: Breeding Groups > Mobs > History > Rams > Settings
+- 5-page nav: Breeding Groups, Mobs, History, Rams, Settings
 
 ## 2026.6.28
 - Paddock sync picker with excluded paddock tracking
 - Ram cards with genetics (sire, dam, bloodline, source)
-- Off-farm split (partial mob moves create new records)
+- Off-farm split workflow (partial mob moves)
 
 ## 2026.6.6
 - Sync paddocks from PaddiSense Core
-- Bug fixes and enhancements
 
 ## 2026.6.5
-- Port conflict fix (8103)
-- Code quality improvements
+- Initial release — mob management, movements, events, ram registry
+

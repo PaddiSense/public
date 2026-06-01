@@ -12,7 +12,7 @@ ingress: true
 ingress_port: 8098
 homeassistant_api: true
 panel_icon: mdi:seed
-panel_title: PaddiSense SM
+panel_title: Seed Manager
 ports:
   8098/tcp: 8098
 ports_description:

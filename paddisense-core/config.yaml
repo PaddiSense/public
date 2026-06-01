@@ -1,5 +1,5 @@
 name: PaddiSense Core
-version: "2026.6.331"
+version: "2026.6.332"
 slug: paddisense-core
 description: PaddiSense Core — system gateway, licence management, addon health monitoring
 logo: true
@@ -13,8 +13,8 @@ startup: application
 init: false
 ingress: true
 ingress_port: 8100
-panel_icon: mdi:map-marker-radius
-panel_title: PaddiSense
+panel_icon: mdi:heart-pulse
+panel_title: Core
 homeassistant_api: true
 hassio_api: true
 hassio_role: manager
@@ -35,4 +35,3 @@ schema:
   db_name: str
   db_user: str
   db_password: password
-

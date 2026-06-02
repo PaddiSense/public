@@ -36,7 +36,7 @@ jobs:
           pip install ruff bandit
 
       - name: Ruff lint check
-        run: ruff check --config source/sugarsense/ruff.toml source/sugarsense/sugarsense
+        run: ruff check source/sugarsense/sugarsense
 
       - name: Bandit security scan
         run: bandit -r source/sugarsense/sugarsense -ll -q || true
@@ -103,4 +103,3 @@ jobs:
             ${{ env.IMAGE_BASE }}/${{ matrix.arch }}-sugarsense:latest
           cache-from: type=gha
           cache-to: type=gha,mode=max
-

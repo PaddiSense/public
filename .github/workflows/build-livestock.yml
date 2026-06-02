@@ -36,7 +36,7 @@ jobs:
           pip install ruff bandit
 
       - name: Ruff lint check
-        run: ruff check --config source/paddisense-livestock/ruff.toml source/paddisense-livestock/paddisense_livestock
+        run: ruff check source/paddisense-livestock/paddisense_livestock
 
       - name: Bandit security scan
         run: bandit -r source/paddisense-livestock/paddisense_livestock -ll -q || true
@@ -103,4 +103,3 @@ jobs:
             ${{ env.IMAGE_BASE }}/${{ matrix.arch }}-paddisense-livestock:latest
           cache-from: type=gha
           cache-to: type=gha,mode=max
-

@@ -70,12 +70,12 @@ jobs:
         id: version
         run: |
           if [ -n "${{ github.event.inputs.version }}" ]; then
-            echo "version=${{ github.event.inputs.version }}" >> "\$GITHUB_OUTPUT"
+            echo "version=${{ github.event.inputs.version }}" >> "$GITHUB_OUTPUT"
           elif [ -n "${{ github.event.client_payload.version }}" ]; then
-            echo "version=${{ github.event.client_payload.version }}" >> "\$GITHUB_OUTPUT"
+            echo "version=${{ github.event.client_payload.version }}" >> "$GITHUB_OUTPUT"
           else
             VERSION=$(grep '^version:' source/paddisense-pwm/config.yaml | sed 's/version: *"\(.*\)"/\1/')
-            echo "version=\$VERSION" >> "\$GITHUB_OUTPUT"
+            echo "version=$VERSION" >> "$GITHUB_OUTPUT"
           fi
 
       - name: Log in to GHCR

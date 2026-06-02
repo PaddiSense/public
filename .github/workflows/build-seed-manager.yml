@@ -14,19 +14,8 @@ env:
   IMAGE_BASE: ghcr.io/paddisense
 
 jobs:
-  build:
+  quality-gate:
     runs-on: ubuntu-latest
-    permissions:
-      contents: read
-      packages: write
-    strategy:
-      matrix:
-        arch: [amd64, aarch64]
-        include:
-          - arch: amd64
-            platform: linux/amd64
-          - arch: aarch64
-            platform: linux/arm64
     steps:
       - name: Checkout private source
         uses: actions/checkout@v4
@@ -35,27 +24,73 @@ jobs:
           ref: main
           token: ${{ secrets.PRIVATE_REPO_PAT }}
           path: source
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: |
+          pip install -r source/seed-manager/requirements.txt
+          pip install ruff bandit
+
+      - name: Ruff lint check
+        run: ruff check --config source/seed-manager/ruff.toml source/seed-manager/seedmgr
+
+      - name: Bandit security scan
+        run: bandit -r source/seed-manager/seedmgr -ll -q || true
+
+  build:
+    needs: quality-gate
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+
+    strategy:
+      matrix:
+        arch: [amd64, aarch64]
+        include:
+          - arch: amd64
+            platform: linux/amd64
+          - arch: aarch64
+            platform: linux/arm64
+
+    steps:
+      - name: Checkout private source
+        uses: actions/checkout@v4
+        with:
+          repository: PaddiSense/SeedManager
+          ref: main
+          token: ${{ secrets.PRIVATE_REPO_PAT }}
+          path: source
+
       - name: Extract version
         id: version
         run: |
           if [ -n "${{ github.event.inputs.version }}" ]; then
-            echo "version=${{ github.event.inputs.version }}" >> "$GITHUB_OUTPUT"
+            echo "version=${{ github.event.inputs.version }}" >> "\$GITHUB_OUTPUT"
           elif [ -n "${{ github.event.client_payload.version }}" ]; then
-            echo "version=${{ github.event.client_payload.version }}" >> "$GITHUB_OUTPUT"
+            echo "version=${{ github.event.client_payload.version }}" >> "\$GITHUB_OUTPUT"
           else
             VERSION=$(grep '^version:' source/seed-manager/config.yaml | sed 's/version: *"\(.*\)"/\1/')
-            echo "version=$VERSION" >> "$GITHUB_OUTPUT"
+            echo "version=\$VERSION" >> "\$GITHUB_OUTPUT"
           fi
+
       - name: Log in to GHCR
         uses: docker/login-action@v3
         with:
           registry: ${{ env.REGISTRY }}
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
+
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v3
+
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
+
       - name: Build and push
         uses: docker/build-push-action@v6
         with:
@@ -64,7 +99,8 @@ jobs:
           platforms: ${{ matrix.platform }}
           push: true
           tags: |
-            ${{ env.IMAGE_BASE }}/${{ matrix.arch }}-rrapl-seed-manager:${{ steps.version.outputs.version }}
-            ${{ env.IMAGE_BASE }}/${{ matrix.arch }}-rrapl-seed-manager:latest
+            ${{ env.IMAGE_BASE }}/${{ matrix.arch }}-seed-manager:${{ steps.version.outputs.version }}
+            ${{ env.IMAGE_BASE }}/${{ matrix.arch }}-seed-manager:latest
           cache-from: type=gha
           cache-to: type=gha,mode=max
+

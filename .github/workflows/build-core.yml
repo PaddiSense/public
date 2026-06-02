@@ -14,7 +14,35 @@ env:
   IMAGE_BASE: ghcr.io/paddisense
 
 jobs:
+  quality-gate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout private source
+        uses: actions/checkout@v4
+        with:
+          repository: PaddiSense/Core
+          ref: main
+          token: ${{ secrets.PRIVATE_REPO_PAT }}
+          path: source
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: |
+          pip install -r source/paddisense-core/requirements.txt
+          pip install ruff bandit
+
+      - name: Ruff lint check
+        run: ruff check --config source/paddisense-core/ruff.toml source/paddisense-core/paddicore
+
+      - name: Bandit security scan
+        run: bandit -r source/paddisense-core/paddicore -ll -q || true
+
   build:
+    needs: quality-gate
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -75,3 +103,4 @@ jobs:
             ${{ env.IMAGE_BASE }}/${{ matrix.arch }}-paddisense-core:latest
           cache-from: type=gha
           cache-to: type=gha,mode=max
+

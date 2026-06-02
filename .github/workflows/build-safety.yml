@@ -36,7 +36,7 @@ jobs:
           pip install ruff bandit
 
       - name: Ruff lint check
-        run: ruff check --config source/paddisense-safety/ruff.toml source/paddisense-safety/paddisense_safety
+        run: ruff check source/paddisense-safety/paddisense_safety
 
       - name: Bandit security scan
         run: bandit -r source/paddisense-safety/paddisense_safety -ll -q || true
@@ -103,4 +103,3 @@ jobs:
             ${{ env.IMAGE_BASE }}/${{ matrix.arch }}-paddisense-safety:latest
           cache-from: type=gha
           cache-to: type=gha,mode=max
-

@@ -36,7 +36,7 @@ jobs:
           pip install ruff bandit
 
       - name: Ruff lint check
-        run: ruff check --config source/paddisense-gis/ruff.toml source/paddisense-gis/paddisense_gis
+        run: ruff check source/paddisense-gis/paddisense_gis
 
       - name: Bandit security scan
         run: bandit -r source/paddisense-gis/paddisense_gis -ll -q || true
@@ -103,4 +103,3 @@ jobs:
             ${{ env.IMAGE_BASE }}/${{ matrix.arch }}-paddisense-gis:latest
           cache-from: type=gha
           cache-to: type=gha,mode=max
-

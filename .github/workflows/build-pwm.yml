@@ -36,7 +36,7 @@ jobs:
           pip install ruff bandit
 
       - name: Ruff lint check
-        run: ruff check --config source/paddisense-pwm/ruff.toml source/paddisense-pwm/paddisense_pwm
+        run: ruff check source/paddisense-pwm/paddisense_pwm
 
       - name: Bandit security scan
         run: bandit -r source/paddisense-pwm/paddisense_pwm -ll -q || true
@@ -103,4 +103,3 @@ jobs:
             ${{ env.IMAGE_BASE }}/${{ matrix.arch }}-paddisense-pwm:latest
           cache-from: type=gha
           cache-to: type=gha,mode=max
-

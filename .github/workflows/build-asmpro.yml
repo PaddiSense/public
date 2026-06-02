@@ -36,7 +36,7 @@ jobs:
           pip install ruff bandit
 
       - name: Ruff lint check
-        run: ruff check --config source/asm-pro/ruff.toml source/asm-pro/asmpro
+        run: ruff check source/asm-pro/asmpro
 
       - name: Bandit security scan
         run: bandit -r source/asm-pro/asmpro -ll -q || true
@@ -103,4 +103,3 @@ jobs:
             ${{ env.IMAGE_BASE }}/${{ matrix.arch }}-asm-pro:latest
           cache-from: type=gha
           cache-to: type=gha,mode=max
-

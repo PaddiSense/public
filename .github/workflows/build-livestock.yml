@@ -14,7 +14,35 @@ env:
   IMAGE_BASE: ghcr.io/paddisense
 
 jobs:
+  quality-gate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout private source
+        uses: actions/checkout@v4
+        with:
+          repository: PaddiSense/Livestock
+          ref: main
+          token: ${{ secrets.PRIVATE_REPO_PAT }}
+          path: source
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: |
+          pip install -r source/paddisense-livestock/requirements.txt
+          pip install ruff bandit
+
+      - name: Ruff lint check
+        run: ruff check --config source/paddisense-livestock/ruff.toml source/paddisense-livestock/paddisense_livestock
+
+      - name: Bandit security scan
+        run: bandit -r source/paddisense-livestock/paddisense_livestock -ll -q || true
+
   build:
+    needs: quality-gate
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -42,12 +70,12 @@ jobs:
         id: version
         run: |
           if [ -n "${{ github.event.inputs.version }}" ]; then
-            echo "version=${{ github.event.inputs.version }}" >> "$GITHUB_OUTPUT"
+            echo "version=${{ github.event.inputs.version }}" >> "\$GITHUB_OUTPUT"
           elif [ -n "${{ github.event.client_payload.version }}" ]; then
-            echo "version=${{ github.event.client_payload.version }}" >> "$GITHUB_OUTPUT"
+            echo "version=${{ github.event.client_payload.version }}" >> "\$GITHUB_OUTPUT"
           else
             VERSION=$(grep '^version:' source/paddisense-livestock/config.yaml | sed 's/version: *"\(.*\)"/\1/')
-            echo "version=$VERSION" >> "$GITHUB_OUTPUT"
+            echo "version=\$VERSION" >> "\$GITHUB_OUTPUT"
           fi
 
       - name: Log in to GHCR
@@ -75,3 +103,4 @@ jobs:
             ${{ env.IMAGE_BASE }}/${{ matrix.arch }}-paddisense-livestock:latest
           cache-from: type=gha
           cache-to: type=gha,mode=max
+

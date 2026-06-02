@@ -36,7 +36,7 @@ jobs:
           pip install ruff bandit
 
       - name: Ruff lint check
-        run: ruff check --config source/seed-manager/ruff.toml source/seed-manager/seedmgr
+        run: ruff check source/seed-manager/seedmgr
 
       - name: Bandit security scan
         run: bandit -r source/seed-manager/seedmgr -ll -q || true
@@ -103,4 +103,3 @@ jobs:
             ${{ env.IMAGE_BASE }}/${{ matrix.arch }}-seed-manager:latest
           cache-from: type=gha
           cache-to: type=gha,mode=max
-

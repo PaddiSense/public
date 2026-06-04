@@ -1,7 +1,7 @@
 name: PaddiSense Store
-version: "2026.6.22"
+version: "2026.6.23"
 slug: paddisense-store
-description: PaddiSense Store -- product registry, chemical inventory, stock management
+description: PaddiSense Store — product registry, chemical inventory, stock management
 logo: true
 icon: true
 url: https://github.com/PaddiSense/Store

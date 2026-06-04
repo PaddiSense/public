@@ -61,14 +61,17 @@ jobs:
           pip install ruff mypy bandit pytest httpx types-psycopg2 types-requests types-qrcode
 
       - name: Gate 1 — Ruff lint (HARD)
-        run: ruff check source/asm-pro/asmpro
+        working-directory: source/asm-pro
+        run: ruff check asmpro
 
       - name: Gate 2 — Mypy type check (HARD)
-        run: mypy source/asm-pro/asmpro
+        working-directory: source/asm-pro
+        run: mypy asmpro
 
       - name: Gate 3 — Bandit security scan (HARD — zero HIGH)
+        working-directory: source/asm-pro
         run: |
-          out=$(bandit -r source/asm-pro/asmpro -ll -q 2>&1 || true)
+          out=$(bandit -r asmpro -ll -q 2>&1 || true)
           echo "$out"
           high=$(echo "$out" | awk '/Severity: High/ {n++} END {print n+0}')
           if [ "$high" -gt 0 ]; then

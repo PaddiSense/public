@@ -58,7 +58,7 @@ jobs:
       - name: Install dependencies
         run: |
           pip install -r source/asm-pro/requirements.txt
-          pip install ruff mypy bandit pytest httpx
+          pip install ruff mypy bandit pytest httpx types-psycopg2 types-requests types-qrcode
 
       - name: Gate 1 — Ruff lint (HARD)
         run: ruff check source/asm-pro/asmpro

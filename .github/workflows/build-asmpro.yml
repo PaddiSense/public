@@ -16,6 +16,31 @@ env:
 jobs:
   quality-gate:
     runs-on: ubuntu-latest
+
+    # Postgres for pytest — tests use psycopg2 + RealDictCursor, schema
+    # is applied on app startup via _db.ensure_database() (idempotent).
+    services:
+      postgres:
+        image: postgres:17
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: homeassistant
+          POSTGRES_DB: asmpro
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U postgres"
+          --health-interval 5s
+          --health-timeout 3s
+          --health-retries 10
+
+    env:
+      ASM_DB_HOST: localhost
+      ASM_DB_PORT: "5432"
+      ASM_DB_NAME: asmpro
+      ASM_DB_USER: postgres
+      ASM_DB_PASSWORD: homeassistant
+
     steps:
       - name: Checkout private source
         uses: actions/checkout@v4
@@ -33,13 +58,27 @@ jobs:
       - name: Install dependencies
         run: |
           pip install -r source/asm-pro/requirements.txt
-          pip install ruff bandit
+          pip install ruff mypy bandit pytest httpx
 
-      - name: Ruff lint check
+      - name: Gate 1 — Ruff lint (HARD)
         run: ruff check source/asm-pro/asmpro
 
-      - name: Bandit security scan
-        run: bandit -r source/asm-pro/asmpro -ll -q || true
+      - name: Gate 2 — Mypy type check (HARD)
+        run: mypy source/asm-pro/asmpro
+
+      - name: Gate 3 — Bandit security scan (HARD — zero HIGH)
+        run: |
+          out=$(bandit -r source/asm-pro/asmpro -ll -q 2>&1 || true)
+          echo "$out"
+          high=$(echo "$out" | awk '/Severity: High/ {n++} END {print n+0}')
+          if [ "$high" -gt 0 ]; then
+            echo "FAIL: $high HIGH severity finding(s)"
+            exit 1
+          fi
+
+      - name: Gate 4 — Pytest (HARD)
+        working-directory: source/asm-pro
+        run: pytest tests/ --tb=short -q
 
   build:
     needs: quality-gate

@@ -2,6 +2,9 @@
 
 All notable changes to PaddiSense Weather.
 
+## 2026.6.39
+- Per-station card: rain totals (Event / Today / Weekly / Monthly / Yearly) now grouped in a single column. Fix NaN on history chart x-axis.
+
 ## 2026.6.38
 - API stations now show event / weekly / monthly / yearly rain totals (was only daily).
 

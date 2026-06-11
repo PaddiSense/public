@@ -2,6 +2,9 @@
 
 All notable changes to PaddiSense Weather.
 
+## 2026.6.38
+- API stations now show event / weekly / monthly / yearly rain totals (was only daily).
+
 ## 2026.6.37
 - Fix NaN on API station wind direction charts.
 

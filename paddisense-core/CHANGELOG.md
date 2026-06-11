@@ -2,6 +2,24 @@
 
 All notable changes to PaddiSense Core (system gateway).
 
+## 2026.6.356
+### Added
+- Private GHCR registry credential support — Core registers pull token from connection code with Supervisor on startup (WR-PS-027)
+- Heartbeat reports `ghcr_creds_registered` for fleet readiness tracking
+- Graceful shutdown handler — cancels background tasks and closes DB pool cleanly
+- Mobile smoke tests (6 new tests)
+- `error_tracker.py` and `perf_tracker.py` shared modules
+
+### Changed
+- All route handlers use async DB cursor (thread executor) — no longer blocks the event loop
+- Consolidated Supervisor API calls to single adapter module
+- All 24 database migrations annotated with rollback + backward-compat notes
+- mypy: 61 errors → 0 (full type annotation compliance)
+- ruff: 0 errors, bandit: 0 HIGH findings
+
+### Fixed
+- CHANGELOG now tracks every version (was 45 versions behind)
+
 ## 2026.6.315
 - Fix application logging — all addon log output now visible (heartbeat, backup, selftest)
 - Add Store, Weather, GIS to heartbeat addon health discovery

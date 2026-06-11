@@ -3,16 +3,16 @@
 All notable changes to PaddiSense Weather.
 
 ## 2026.6.37
-- Fix NaN on API-station wind direction charts (`/api/remote-stations` returned a string instead of a number).
+- Fix NaN on API station wind direction charts.
 
 ## 2026.6.36
-- Add "Last: X ago" freshness badge per station on W01 so you can see when each station last received data.
+- Each station now shows when it last received data.
 
 ## 2026.6.35
-- Fix Settings page showing "Not configured" for Ecowitt API credentials after a successful save (display-only bug; saves were always landing).
+- Fix Ecowitt API credentials wrongly showing "Not configured" after save.
 
 ## 2026.6.34
-- Fix steady-weather offline: working gauges with no value changes in the last 15 min were misclassified as offline. Station-level liveness now uses a 24 h window.
+- Fix stations showing offline in steady weather.
 
 ## 2026.6.33
 - Fix sensor cadence jitter: station-level liveness check covers all readers (temp / humidity / wind / pressure / rain) when any one entity is fresh.

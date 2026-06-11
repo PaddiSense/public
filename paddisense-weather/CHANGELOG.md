@@ -2,6 +2,9 @@
 
 All notable changes to PaddiSense Weather.
 
+## 2026.6.37
+- Fix NaN on API-station wind direction charts (`/api/remote-stations` returned a string instead of a number).
+
 ## 2026.6.36
 - Add "Last: X ago" freshness badge per station on W01 so you can see when each station last received data.
 

@@ -2,6 +2,9 @@
 
 All notable changes to PaddiSense Weather.
 
+## 2026.6.35
+- Fix Settings page showing "Not configured" for Ecowitt API credentials after a successful save (display-only bug; saves were always landing).
+
 ## 2026.6.34
 - Fix steady-weather offline: working gauges with no value changes in the last 15 min were misclassified as offline. Station-level liveness now uses a 24 h window.
 

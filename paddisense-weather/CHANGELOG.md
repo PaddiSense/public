@@ -2,6 +2,12 @@
 
 All notable changes to PaddiSense Weather.
 
+## 2026.6.44
+- Rain history filter buttons now adapt to the metric (hourly / daily / weekly / monthly / yearly ranges instead of generic 3h / 12h). Chart always shows the full requested range, with zero bars for periods with no data yet.
+
+## 2026.6.40
+- Per-stat history chart styles: rain renders as bars (mm per period, reset-aware), wind direction as a scatter.
+
 ## 2026.6.39
 - Per-station card: rain totals (Event / Today / Weekly / Monthly / Yearly) now grouped in a single column. Fix NaN on history chart x-axis.
 

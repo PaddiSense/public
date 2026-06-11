@@ -2,6 +2,9 @@
 
 All notable changes to PaddiSense Weather.
 
+## 2026.6.46
+- Internal audit-log + code-quality pass — no user-visible changes.
+
 ## 2026.6.45
 - Internal hardening pass — no user-visible changes.
 

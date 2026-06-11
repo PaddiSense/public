@@ -2,6 +2,9 @@
 
 All notable changes to PaddiSense Weather.
 
+## 2026.6.36
+- Add "Last: X ago" freshness badge per station on W01 so you can see when each station last received data.
+
 ## 2026.6.35
 - Fix Settings page showing "Not configured" for Ecowitt API credentials after a successful save (display-only bug; saves were always landing).
 

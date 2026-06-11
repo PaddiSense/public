@@ -2,6 +2,9 @@
 
 All notable changes to PaddiSense Weather.
 
+## 2026.6.45
+- Internal hardening pass — no user-visible changes.
+
 ## 2026.6.44
 - Rain history filter buttons now adapt to the metric (hourly / daily / weekly / monthly / yearly ranges instead of generic 3h / 12h). Chart always shows the full requested range, with zero bars for periods with no data yet.
 

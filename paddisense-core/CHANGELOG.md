@@ -1,5 +1,8 @@
 # Changelog
 
+## 2026.6.363
+- Boundary sync security: replay protection and payload integrity
+
 ## 2026.6.362
 - Heartbeat security: signed heartbeats with replay protection
 - Improved session security and cookie protection

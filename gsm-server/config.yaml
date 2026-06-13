@@ -1,5 +1,5 @@
 name: Grower Services Manager
-version: "2026.5.276"
+version: "2026.5.277"
 slug: gsm-server
 description: PaddiSense Grower Services Manager — CRM, data sharing, knowledge bank
 logo: true
@@ -10,6 +10,7 @@ arch:
   - amd64
   - aarch64
 startup: application
+init: false
 ingress: true
 ingress_port: 8099
 panel_icon: mdi:barley
@@ -23,6 +24,7 @@ map:
   - media:rw
   - share:rw
   - config:rw
+homeassistant_api: true
 hassio_api: true
 hassio_role: manager
 options:

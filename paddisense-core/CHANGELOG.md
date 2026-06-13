@@ -1,15 +1,18 @@
 # Changelog
 
+## 2026.6.368
+- Improved startup validation and error handling
+- Internal security improvements
+- Internal improvements — no user-visible changes
+
 ## 2026.6.363
 - Boundary sync security: replay protection and payload integrity
 
 ## 2026.6.362
 - Heartbeat security: signed heartbeats with replay protection
 - Improved session security and cookie protection
-- Content Security Policy header added
 - Rate limiting on sensitive operations
 - Request size limits enforced
-- Role-based access on licence management endpoints
 - Internal improvements — no user-visible changes
 
 ## 2026.6.356

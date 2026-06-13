@@ -1,0 +1,214 @@
+name: Build GSM Server
+
+# ADR-004 Phase A — builds the GSM addon's container image and pushes
+# it to private GHCR. Same shape as build-asmpro.yml / build-safety.yml
+# (canonical pattern: workflow in paddisense-public, source checked out
+# from the private repo via PRIVATE_REPO_PAT, multi-arch matrix build).
+#
+# Triggered by:
+#   - repository_dispatch event_type=build-gsm  (canonical, Peter fires
+#     this after dev-verify per Rule 81 strict order)
+#   - workflow_dispatch                          (manual fallback)
+#
+# NOT triggered by tag push or branch push — feedback_rule_103
+# enforces "source repo never holds a GHCR push workflow."
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: "Version to build (e.g. 2026.5.270). Defaults to source config.yaml."
+        required: false
+  repository_dispatch:
+    types: [build-gsm]
+
+env:
+  REGISTRY:   ghcr.io
+  IMAGE_BASE: ghcr.io/paddisense
+
+jobs:
+  quality-gate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    # Postgres for pytest — GSM's selftest + a handful of integration
+    # tests touch the DB. Schema is bootstrapped by gsm.db.init_db()
+    # on first connection (idempotent), so the test job just needs the
+    # cluster reachable.
+    services:
+      postgres:
+        image: postgis/postgis:17-3.5
+        env:
+          POSTGRES_USER:     postgres
+          POSTGRES_PASSWORD: homeassistant
+          POSTGRES_DB:       gsm
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U postgres"
+          --health-interval 5s
+          --health-timeout 3s
+          --health-retries 10
+
+    env:
+      GSM_DB_HOST:     localhost
+      GSM_DB_PORT:     "5432"
+      GSM_DB_NAME:     gsm
+      GSM_DB_USER:     postgres
+      GSM_DB_PASSWORD: homeassistant
+
+    steps:
+      - name: Checkout private source
+        uses: actions/checkout@v4
+        with:
+          repository: PaddiSense/GrowerServicesManager
+          ref: main
+          token: ${{ secrets.PRIVATE_REPO_PAT }}
+          path: source
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install system deps (libgeos for shapely, libpq for psycopg2)
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends libgeos-dev libpq-dev
+
+      - name: Install runtime + audit toolchain
+        run: |
+          pip install -r source/gsm-server/requirements.txt
+          pip install ruff==0.15.14 mypy==1.16.0 bandit==1.9.1 \
+                      pip-audit==2.10.0 pytest==9.0.3
+
+      - name: Gate 1 — Ruff lint (Rule 85, HARD)
+        working-directory: source/gsm-server
+        run: ruff check gsm
+
+      - name: Gate 2 — Mypy type check (Rule 65, HARD)
+        working-directory: source/gsm-server
+        run: mypy gsm
+
+      - name: Gate 3 — Bandit security scan (Rule 88, HARD — zero HIGH)
+        working-directory: source/gsm-server
+        run: |
+          out=$(bandit -r gsm -ll -q 2>&1 || true)
+          echo "$out"
+          high=$(echo "$out" | awk '/Severity: High/ {n++} END {print n+0}')
+          if [ "$high" -gt 0 ]; then
+            echo "FAIL: $high HIGH severity finding(s)"
+            exit 1
+          fi
+
+      - name: Gate 4 — Pip-audit CVE scan (Rule 155, HARD — zero CVE)
+        working-directory: source/gsm-server
+        run: |
+          if [ -f .pip-audit-skip ]; then
+            ARGS="-r requirements.txt --strict"
+            while IFS= read -r v; do
+              case "$v" in ''|\#*) continue ;; esac
+              ARGS="$ARGS --ignore-vuln $v"
+            done < .pip-audit-skip
+          else
+            ARGS="-r requirements.txt --strict"
+          fi
+          pip-audit $ARGS
+
+      - name: Gate 5 — Pytest (Rule 87, HARD)
+        working-directory: source/gsm-server
+        run: pytest tests/ --tb=short -q
+
+  build:
+    needs: quality-gate
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    permissions:
+      contents: read
+      packages: write
+
+    strategy:
+      matrix:
+        # ADR-004 Phase A scope: amd64 only. SunRice prod + default
+        # Azure surfaces are amd64. aarch64 added when a real aarch64
+        # host materialises — the matrix structure supports it
+        # without further refactor.
+        arch: [amd64]
+        include:
+          - arch:     amd64
+            platform: linux/amd64
+
+    steps:
+      - name: Checkout private source
+        uses: actions/checkout@v4
+        with:
+          repository: PaddiSense/GrowerServicesManager
+          ref: main
+          token: ${{ secrets.PRIVATE_REPO_PAT }}
+          path: source
+
+      - name: Extract version
+        id: version
+        run: |
+          if [ -n "${{ github.event.inputs.version }}" ]; then
+            V="${{ github.event.inputs.version }}"
+          elif [ -n "${{ github.event.client_payload.version }}" ]; then
+            V="${{ github.event.client_payload.version }}"
+          else
+            V=$(grep '^version:' source/gsm-server/config.yaml | sed 's/version: *"\(.*\)"/\1/')
+          fi
+          echo "version=$V" >> "$GITHUB_OUTPUT"
+
+      - name: Sanity-check source version files match
+        run: |
+          CFG=$(grep -m1 '^version:' source/gsm-server/config.yaml | sed -E 's/.*"([^"]+)".*/\1/')
+          INI=$(grep -m1 '__version__' source/gsm-server/gsm/__init__.py | sed -E 's/.*"([^"]+)".*/\1/')
+          V="${{ steps.version.outputs.version }}"
+          [ "$CFG" = "$V" ] || { echo "::error::config.yaml version ($CFG) != build version ($V)"; exit 1; }
+          [ "$INI" = "$V" ] || { echo "::error::__init__.py version ($INI) != build version ($V)"; exit 1; }
+          echo "version files match: $V"
+
+      - name: Log in to GHCR
+        uses: docker/login-action@v3
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v3
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Build and push
+        uses: docker/build-push-action@v6
+        with:
+          context: source/gsm-server
+          file:    source/gsm-server/Dockerfile
+          platforms: ${{ matrix.platform }}
+          push: true
+          build-args: |
+            BUILD_VERSION=${{ steps.version.outputs.version }}
+          tags: |
+            ${{ env.IMAGE_BASE }}/${{ matrix.arch }}-gsm-server:${{ steps.version.outputs.version }}
+            ${{ env.IMAGE_BASE }}/${{ matrix.arch }}-gsm-server:latest
+          cache-from: type=gha,scope=gsm-server-${{ matrix.arch }}
+          cache-to:   type=gha,scope=gsm-server-${{ matrix.arch }},mode=max
+          provenance: false
+          sbom:       false
+
+      - name: Summary
+        run: |
+          {
+            echo "## ${{ matrix.arch }} build complete"
+            echo ""
+            echo "**Image:** \`${IMAGE_BASE}/${{ matrix.arch }}-gsm-server:${{ steps.version.outputs.version }}\`"
+            echo "**Also tagged:** \`:latest\`"
+            echo "**Platform:** ${{ matrix.platform }}"
+            echo "**Quality gates:** ruff + mypy + bandit + pip-audit + pytest — ALL PASSED"
+            echo ""
+            echo "ADR-004 Phase A — no production change. Phase B (public addon"
+            echo "config) lives at \`gsm-server/config.yaml\` in this repo;"
+            echo "bump its \`version:\` field to consume this image on next supervisor refresh."
+          } >> "$GITHUB_STEP_SUMMARY"

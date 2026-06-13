@@ -1,0 +1,57 @@
+name: Grower Services Manager
+version: "2026.5.269"
+slug: gsm-server
+description: PaddiSense Grower Services Manager — CRM, data sharing, knowledge bank
+logo: true
+icon: true
+url: https://github.com/PaddiSense/GrowerServicesManager
+image: ghcr.io/paddisense/{arch}-gsm-server
+arch:
+  - amd64
+  - aarch64
+startup: application
+ingress: true
+ingress_port: 8099
+panel_icon: mdi:barley
+panel_title: GSM
+ports:
+  8099/tcp: 8099
+ports_description:
+  8099/tcp: GSM API (grower clients)
+map:
+  - addon_config:rw
+  - media:rw
+  - share:rw
+  - config:rw
+hassio_api: true
+hassio_role: manager
+options:
+  db_host: "77b2833f-timescaledb"
+  db_port: 5432
+  db_name: "gsm"
+  db_user: "postgres"
+  db_password: "homeassistant"
+  admin_key: ""
+  cdse_client_id: ""
+  cdse_client_secret: ""
+  github_token: ""
+  admin_heartbeat_url: ""
+  server_id: "gsm-prod"
+  admin_licence_code: ""
+  admin_shared_secret: ""
+  ghcr_pull_token: ""
+schema:
+  db_host: str
+  db_port: port
+  db_name: str
+  db_user: str
+  db_password: password
+  admin_key: password?
+  cdse_client_id: str?
+  cdse_client_secret: password?
+  github_token: password?
+  admin_heartbeat_url: str?
+  server_id: str?
+  admin_licence_code: str?
+  admin_shared_secret: password?
+  ghcr_pull_token: password?

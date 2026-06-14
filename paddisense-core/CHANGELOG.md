@@ -1,6 +1,9 @@
 # Changelog
 
 ## 2026.6.368
+## 2026.6.369
+- Farm rename: all addon references updated from GIS to Farm
+
 - Improved startup validation and error handling
 - Internal security improvements
 - Internal improvements — no user-visible changes

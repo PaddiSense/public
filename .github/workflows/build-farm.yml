@@ -1,4 +1,4 @@
-name: Build PaddiSense GIS
+name: Build PaddiSense Farm
 
 on:
   workflow_dispatch:
@@ -7,7 +7,7 @@ on:
         description: "Version to build"
         required: true
   repository_dispatch:
-    types: [build-gis]
+    types: [build-farm]
 
 env:
   REGISTRY: ghcr.io
@@ -20,7 +20,7 @@ jobs:
       - name: Checkout private source
         uses: actions/checkout@v4
         with:
-          repository: PaddiSense/GIS
+          repository: PaddiSense/Farm
           ref: main
           token: ${{ secrets.PRIVATE_REPO_PAT }}
           path: source
@@ -36,10 +36,10 @@ jobs:
           pip install ruff bandit
 
       - name: Ruff lint check
-        run: ruff check source/paddisense-gis/paddisense_gis
+        run: ruff check source/paddisense-gis/paddisense_farm
 
       - name: Bandit security scan
-        run: bandit -r source/paddisense-gis/paddisense_gis -ll -q || true
+        run: bandit -r source/paddisense-gis/paddisense_farm -ll -q || true
 
   build:
     needs: quality-gate
@@ -61,7 +61,7 @@ jobs:
       - name: Checkout private source
         uses: actions/checkout@v4
         with:
-          repository: PaddiSense/GIS
+          repository: PaddiSense/Farm
           ref: main
           token: ${{ secrets.PRIVATE_REPO_PAT }}
           path: source
@@ -99,7 +99,7 @@ jobs:
           platforms: ${{ matrix.platform }}
           push: true
           tags: |
-            ${{ env.IMAGE_BASE }}/${{ matrix.arch }}-paddisense-gis:${{ steps.version.outputs.version }}
-            ${{ env.IMAGE_BASE }}/${{ matrix.arch }}-paddisense-gis:latest
+            ${{ env.IMAGE_BASE }}/${{ matrix.arch }}-paddisense-farm:${{ steps.version.outputs.version }}
+            ${{ env.IMAGE_BASE }}/${{ matrix.arch }}-paddisense-farm:latest
           cache-from: type=gha
           cache-to: type=gha,mode=max

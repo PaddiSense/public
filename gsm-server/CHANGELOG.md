@@ -2,6 +2,24 @@
 
 All notable changes to GSM.
 
+## 2026.5.283
+- Internal improvements — no user-visible changes.
+
+## 2026.5.282
+- New: Admin can now see the list of farms that will sync with a grower's box when a business is selected.
+
+## 2026.5.281
+- Internal improvements — no user-visible changes.
+
+## 2026.5.280
+- Internal improvements — no user-visible changes.
+
+## 2026.5.279
+- Internal improvements — no user-visible changes.
+
+## 2026.5.278
+- Internal improvements — no user-visible changes.
+
 ## 2026.5.277
 - Internal improvements — no user-visible changes.
 

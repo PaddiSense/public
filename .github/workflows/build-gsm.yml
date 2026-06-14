@@ -115,6 +115,32 @@ jobs:
           fi
           pip-audit $ARGS
 
+      # Pre-seed runtime paths the addon expects to exist on a real HA box.
+      # Two classes of issue surfaced in the v.283 / v.284 build cascade:
+      #   1. gsm/rtr.py historically did `Path('/share/uploaded data').mkdir()`
+      #      at module-import time. CI runners have no /share and aren't root,
+      #      so the import crashed. v.284 lazy-inited; this step also pre-seeds
+      #      the dir so any future module-level read/exists check works.
+      #   2. gsm.db.init_db() is wired to FastAPI startup events, which the
+      #      bare TestClient(app) fixture doesn't trigger. v.285 added a
+      #      session-scoped conftest fixture; this step pre-seeds the schema
+      #      explicitly as belt-and-braces so even a future test that boots
+      #      its own TestClient context can rely on a migrated DB.
+      # Both steps are belt-and-braces — the v.284 + v.285 code fixes are the
+      # primary defence, and these steps keep the next class-of-issue from
+      # silently re-emerging.
+      - name: Pre-seed runtime paths (R163 keystone — close build-env drift)
+        run: |
+          sudo mkdir -p '/share/uploaded data'
+          sudo chmod 777 /share '/share/uploaded data'
+
+      - name: Pre-seed DB schema (init_db before pytest)
+        working-directory: source/gsm-server
+        env:
+          PYTHONPATH: .
+        run: |
+          python -c "from gsm.db import init_db; init_db(); print('schema bootstrapped')"
+
       - name: Gate 5 — Pytest (Rule 87, HARD)
         working-directory: source/gsm-server
         run: pytest tests/ --tb=short -q

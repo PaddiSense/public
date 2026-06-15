@@ -2,6 +2,9 @@
 
 All notable changes to GSM.
 
+## 2026.5.288
+- Internal improvements — no user-visible changes.
+
 ## 2026.5.287
 - Internal improvements — no user-visible changes.
 

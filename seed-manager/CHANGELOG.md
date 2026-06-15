@@ -2,6 +2,17 @@
 
 All notable changes to PaddiSense Seed Manager.
 
+## 2026.6.135
+- Unified PaddiSense dark theme — consistent look across all addons
+- Dashboard redesigned with hub-tile layout matching other PaddiSense modules
+- Kiosk home page updated with new tile layout
+- Grading kiosk: selecting Trash as product type auto-selects Trash bin
+- Storage map cards now show coloured backgrounds with readable dark text
+- Security improvements — login rate limiting, session cookie hardening
+- Improved mobile pages with consistent button styling
+- Browser cache busting for reliable CSS/JS updates after deploys
+- Internal improvements — no user-visible changes
+
 ## 2026.6.105
 - Application logging fix — addon log output now visible for diagnostics
 

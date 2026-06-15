@@ -2,6 +2,9 @@
 
 All notable changes to GSM.
 
+## 2026.5.293
+- Fixes the "+ New farm" button on the CRM page (was returning a server error).
+
 ## 2026.5.292
 - Internal improvements — no user-visible changes.
 

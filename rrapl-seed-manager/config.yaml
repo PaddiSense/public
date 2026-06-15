@@ -1,9 +1,9 @@
 name: PaddiSense Seed Manager
-version: "2026.6.101"
+version: "2026.6.136"
 slug: rrapl-seed-manager
 description: PaddiSense Seed Manager — seed inventory, movements, grading, and moisture tracking
-image: ghcr.io/paddisense/{arch}-rrapl-seed-manager
 url: https://github.com/PaddiSense/SeedManager
+image: ghcr.io/paddisense/{arch}-seed-manager
 arch:
   - amd64
   - aarch64
@@ -12,7 +12,7 @@ ingress: true
 ingress_port: 8098
 homeassistant_api: true
 panel_icon: mdi:seed
-panel_title: PaddiSense SM
+panel_title: Seed Manager
 ports:
   8098/tcp: 8098
 ports_description:
@@ -26,7 +26,7 @@ options:
   db_port: 5432
   db_name: "seedmgr"
   db_user: "postgres"
-  db_password: ""
+  db_password: "homeassistant"
   plc_host: ""
   plc_port: 502
   admin_key: ""

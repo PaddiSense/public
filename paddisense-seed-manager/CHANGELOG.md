@@ -2,6 +2,16 @@
 
 All notable changes to PaddiSense Seed Manager.
 
+## 2026.6.150
+- Consistent styling across all pages — tables, forms, cards, config sections all match
+- Silo tab on storage page now shows stock correctly
+- Config sections aligned — all sections use same accordion pattern
+- Grading outputs table matches sources table styling
+- Clickable rows on grading list — tap anywhere to open
+- Ecowitt sensor readings validated for freshness (stale readings rejected)
+- Kiosk edit scoped to recent inbound movements only
+- Internal improvements — no user-visible changes
+
 ## 2026.6.146
 - "Add another like this" button on movement detail — quickly repeat a bin weigh with same variety, source, and destination
 - Season selector added to bin weigh form — choose which season a movement belongs to

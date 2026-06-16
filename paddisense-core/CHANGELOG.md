@@ -1,6 +1,14 @@
 # Changelog
 
-## 2026.6.368
+## 2026.6.376
+- Improved browser security protections
+- Improved mobile interface readability and touch targets
+- Better error messages on backup and restore operations
+- Added system self-test and addon discovery endpoints
+- File backup support for addon data directories
+- Unified visual theme across all pages
+- Internal improvements — no user-visible changes
+
 ## 2026.6.369
 - Farm rename: all addon references updated from GIS to Farm
 

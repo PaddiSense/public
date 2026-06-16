@@ -1,9 +1,9 @@
 name: PaddiSense Seed Manager
-version: "2026.6.146"
-slug: rrapl-seed-manager
+version: "2026.6.147"
+slug: paddisense-seed-manager
 description: PaddiSense Seed Manager — seed inventory, movements, grading, and moisture tracking
 url: https://github.com/PaddiSense/SeedManager
-image: ghcr.io/paddisense/{arch}-seed-manager
+image: ghcr.io/paddisense/{arch}-paddisense-seed-manager
 arch:
   - amd64
   - aarch64

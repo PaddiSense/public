@@ -99,7 +99,7 @@ jobs:
           platforms: ${{ matrix.platform }}
           push: true
           tags: |
-            ${{ env.IMAGE_BASE }}/${{ matrix.arch }}-seed-manager:${{ steps.version.outputs.version }}
-            ${{ env.IMAGE_BASE }}/${{ matrix.arch }}-seed-manager:latest
+            ${{ env.IMAGE_BASE }}/${{ matrix.arch }}-paddisense-seed-manager:${{ steps.version.outputs.version }}
+            ${{ env.IMAGE_BASE }}/${{ matrix.arch }}-paddisense-seed-manager:latest
           cache-from: type=gha
           cache-to: type=gha,mode=max

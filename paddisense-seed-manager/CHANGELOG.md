@@ -2,6 +2,11 @@
 
 All notable changes to PaddiSense Seed Manager.
 
+## 2026.6.151
+- Security: nonce-based Content Security Policy — stronger XSS protection
+- All inline styles extracted to CSS classes — cleaner, faster page loads
+- Internal improvements — no user-visible changes
+
 ## 2026.6.150
 - Consistent styling across all pages — tables, forms, cards, config sections all match
 - Silo tab on storage page now shows stock correctly

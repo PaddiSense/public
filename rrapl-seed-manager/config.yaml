@@ -1,5 +1,5 @@
 name: PaddiSense Seed Manager
-version: "2026.6.136"
+version: "2026.6.146"
 slug: rrapl-seed-manager
 description: PaddiSense Seed Manager — seed inventory, movements, grading, and moisture tracking
 url: https://github.com/PaddiSense/SeedManager
@@ -19,6 +19,7 @@ ports_description:
   8098/tcp: Seed Manager web UI
 map:
   - addon_config:rw
+  - config:rw
   - media:rw
   - share:rw
 options:

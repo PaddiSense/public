@@ -2,6 +2,13 @@
 
 All notable changes to PaddiSense Seed Manager.
 
+## 2026.6.146
+- "Add another like this" button on movement detail — quickly repeat a bin weigh with same variety, source, and destination
+- Season selector added to bin weigh form — choose which season a movement belongs to
+- Source and seed source fields now support adding new items inline
+- Consistent page styling across all pages
+- Movement save reliability fix
+
 ## 2026.6.135
 - Unified PaddiSense dark theme — consistent look across all addons
 - Dashboard redesigned with hub-tile layout matching other PaddiSense modules

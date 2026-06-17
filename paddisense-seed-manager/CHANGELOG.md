@@ -2,6 +2,12 @@
 
 All notable changes to PaddiSense Seed Manager.
 
+## 2026.6.154
+- Fixed large sidebar icons on first page load
+- Improved mobile readability — larger text on all mobile pages
+- Storage map: smoother modal and filter experience
+- Internal improvements — no user-visible changes
+
 ## 2026.6.151
 - Security: nonce-based Content Security Policy — stronger XSS protection
 - All inline styles extracted to CSS classes — cleaner, faster page loads

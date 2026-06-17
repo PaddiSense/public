@@ -2,10 +2,13 @@
 
 All notable changes to PaddiSense Seed Manager.
 
-## 2026.6.154
-- Fixed large sidebar icons on first page load
-- Improved mobile readability — larger text on all mobile pages
+## 2026.6.166
+- Dedicated mobile layout matching all other PaddiSense addons — proper topbar with Home button on every page
+- Fixed weight calculation and "Add new source" on bin weigh form
+- Fixed theme not loading on some pages
+- Improved mobile readability — larger text, better touch targets
 - Storage map: smoother modal and filter experience
+- Mobile versions for all pages including Config, System, and Automation
 - Internal improvements — no user-visible changes
 
 ## 2026.6.151

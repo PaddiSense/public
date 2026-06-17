@@ -2,6 +2,11 @@
 
 All notable changes to PaddiSense Weather.
 
+## 2026.6.50
+- Improved browser security protections
+- Better station data handling and error messages
+- Internal improvements — no user-visible changes
+
 ## 2026.6.46
 - Internal improvements — no user-visible changes.
 

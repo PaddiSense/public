@@ -2,6 +2,11 @@
 
 All notable changes to PaddiSense Seed Manager.
 
+## 2026.6.167
+- Stronger browser security — Content Security Policy hardened
+- Fixed weight calculation and source selection on bin weigh form
+- All interactive elements working reliably across browser, mobile, and kiosk
+
 ## 2026.6.166
 - Dedicated mobile layout matching all other PaddiSense addons — proper topbar with Home button on every page
 - Fixed weight calculation and "Add new source" on bin weigh form

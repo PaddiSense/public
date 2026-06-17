@@ -2,6 +2,8 @@ name: PaddiSense Seed Manager
 version: "2026.6.153"
 slug: paddisense-seed-manager
 description: PaddiSense Seed Manager — seed inventory, movements, grading, and moisture tracking
+logo: true
+icon: true
 url: https://github.com/PaddiSense/SeedManager
 image: ghcr.io/paddisense/{arch}-paddisense-seed-manager
 arch:
@@ -13,10 +15,6 @@ ingress_port: 8098
 homeassistant_api: true
 panel_icon: mdi:seed
 panel_title: Seed Manager
-ports:
-  8098/tcp: 8098
-ports_description:
-  8098/tcp: Seed Manager web UI
 map:
   - addon_config:rw
   - config:rw

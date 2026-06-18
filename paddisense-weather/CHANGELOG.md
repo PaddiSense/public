@@ -2,6 +2,13 @@
 
 All notable changes to PaddiSense Weather.
 
+## 2026.6.57
+- Radar page: Farm Location and My Location buttons for quick map centering, GPS position marker on map
+- Weather page: source labels on station cards (Local / Cloud API / Open-Meteo), wind rose starts collapsed for cleaner layout
+- Open-Meteo station card now shows computed fields (Delta-T, dew point, apparent temperature)
+- Forecast date colour fix and button styling improvements
+- Internal improvements — no user-visible changes
+
 ## 2026.6.50
 - Improved browser security protections
 - Better station data handling and error messages

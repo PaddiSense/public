@@ -2,6 +2,14 @@
 
 All notable changes to PaddiSense Seed Manager.
 
+## 2026.6.189
+- Drying rack automation redesigned — manage fan mode and thresholds per rack from a dedicated detail page
+- Rack overview shows bin summary at a glance with moisture readings
+- Storage map: edit bin stock directly (variety, generation, material type, weight)
+- Grading outputs carry variety and source information from input bins
+- Movement detail shows clear indicators for grading-generated movements
+- Improved mobile layout on storage and rack pages
+
 ## 2026.6.176
 - Fixed grading order creation when no active season is set — shows error message instead of silent failure
 - Fixed grading output save error (internal server error when saving graded seed)

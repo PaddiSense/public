@@ -2,6 +2,13 @@
 
 All notable changes to PaddiSense Seed Manager.
 
+## 2026.6.176
+- Fixed grading order creation when no active season is set — shows error message instead of silent failure
+- Fixed grading output save error (internal server error when saving graded seed)
+- "Add another like this" on bin weigh now clears the bin and keeps moisture reading
+- Improved season validation with clear user guidance
+- Internal improvements — no user-visible changes
+
 ## 2026.6.167
 - Stronger browser security — Content Security Policy hardened
 - Fixed weight calculation and source selection on bin weigh form

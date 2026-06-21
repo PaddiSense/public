@@ -2,6 +2,9 @@
 
 All notable changes to GSM.
 
+## 2026.5.330
+- Internal hardening and security improvements; restores the farm detail page after a regression.
+
 ## 2026.5.293
 - Fixes the "+ New farm" button on the CRM page (was returning a server error).
 

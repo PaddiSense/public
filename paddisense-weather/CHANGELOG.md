@@ -1,3 +1,10 @@
+## 2026.6.66
+- Year-to-date rainfall now shown for the forecast weather source
+- Rain radar: Radar view shows first, and "My Location" now works inside the app
+- Fixed the spray/conditions banner colour
+- Wind rose now updates when you change the hour filter (1/3/6/24 hr)
+- Internal code tidy-up — no user-visible change
+
 # PaddiSense Weather — Changelog
 
 All notable changes to PaddiSense Weather.

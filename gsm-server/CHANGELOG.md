@@ -2,6 +2,12 @@
 
 All notable changes to GSM.
 
+## 2026.5.334
+- Internal improvements — no user-visible changes.
+
+## 2026.5.333
+- Stops duplicate addon repositories appearing in the supervisor store after the GitHub access token rotates.
+
 ## 2026.5.332
 - Internal improvements — no user-visible changes.
 

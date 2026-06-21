@@ -133,6 +133,20 @@ jobs:
         run: |
           sudo mkdir -p '/share/uploaded data'
           sudo chmod 777 /share '/share/uploaded data'
+          # v.299+ — GSM persists the admin session secret at
+          # /data/keys/admin_session_secret (R145). The auth middleware
+          # loads it on the first request, so even a /health smoke test
+          # triggers mkdir + write of /data/keys. CI runners don't have
+          # /data writable; without this pre-seed, every TestClient(app)
+          # test fails with PermissionError. Mirrors the v.283 /share
+          # fix — same shape, different runtime path.
+          # Other /data subpaths used by the addon at request time:
+          # /data/keys, /data/ndvi, /data/event_photos, /data/home,
+          # /data/bug_reports.jsonl, /data/release_gate.json, /data/
+          # gsm_proxy_webhook_id. Pre-seed /data writable so any future
+          # addition is covered without another workflow edit.
+          sudo mkdir -p /data/keys /data/ndvi /data/event_photos /data/home
+          sudo chmod -R 777 /data
 
       - name: Pre-seed DB schema (init_db before pytest)
         working-directory: source/gsm-server

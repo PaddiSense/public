@@ -2,6 +2,9 @@
 
 All notable changes to GSM.
 
+## 2026.5.331
+- Fixes the "Enter Licence Code" button on the Sibling Addons page (cards now expand to accept a code).
+
 ## 2026.5.330
 - Internal hardening and security improvements; restores the farm detail page after a regression.
 

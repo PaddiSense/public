@@ -1,6 +1,9 @@
 # Changelog
 
-<<<<<<< Updated upstream
+## 2026.6.378
+- Fixed the Licences page: addon panels now expand so you can enter your connection code
+- Internal improvements — no user-visible changes
+
 ## 2026.6.376
 - Improved browser security protections
 - Improved mobile interface readability and touch targets
@@ -9,7 +12,7 @@
 - File backup support for addon data directories
 - Unified visual theme across all pages
 - Internal improvements — no user-visible changes
-=======
+
 ## 2026.6.373
 - Updated visual theme to match the PaddiSense standard look
 - Improved sidebar navigation with icons
@@ -18,7 +21,6 @@
 
 ## 2026.6.370
 - Backup now includes addon photos and files alongside database backups
->>>>>>> Stashed changes
 
 ## 2026.6.369
 - Farm rename: all addon references updated from GIS to Farm

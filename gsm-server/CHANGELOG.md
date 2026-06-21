@@ -2,6 +2,9 @@
 
 All notable changes to GSM.
 
+## 2026.5.332
+- Internal improvements — no user-visible changes.
+
 ## 2026.5.331
 - Fixes the "Enter Licence Code" button on the Sibling Addons page (cards now expand to accept a code).
 

@@ -14,10 +14,6 @@ env:
   IMAGE_BASE: ghcr.io/paddisense
 
 jobs:
-<<<<<<< Updated upstream
-  quality-gate:
-    runs-on: ubuntu-latest
-=======
   # Golden Rules [RELEASE] gate (red-team Wave 3 / Rule 100/155). Runs the DB-free
   # pre-release-audit gates (lint/type/SAST/CVE/theme/audit-currency/193.3) against the
   # exact released source before the image builds. Reuses the existing PRIVATE_REPO_PAT —
@@ -28,7 +24,6 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: read
->>>>>>> Stashed changes
     steps:
       - name: Checkout private source
         uses: actions/checkout@v4
@@ -37,9 +32,6 @@ jobs:
           ref: main
           token: ${{ secrets.PRIVATE_REPO_PAT }}
           path: source
-<<<<<<< Updated upstream
-
-=======
       - name: Checkout contracts (documentation)
         uses: actions/checkout@v4
         with:
@@ -47,27 +39,10 @@ jobs:
           ref: main
           token: ${{ secrets.PRIVATE_REPO_PAT }}
           path: documentation
->>>>>>> Stashed changes
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
           python-version: "3.11"
-<<<<<<< Updated upstream
-
-      - name: Install dependencies
-        run: |
-          pip install -r source/paddisense-core/requirements.txt
-          pip install ruff bandit
-
-      - name: Ruff lint check
-        run: ruff check source/paddisense-core/paddicore
-
-      - name: Bandit security scan
-        run: bandit -r source/paddisense-core/paddicore -ll -q || true
-
-  build:
-    needs: quality-gate
-=======
       - name: Install tools + addon deps
         run: |
           python -m pip install --upgrade pip
@@ -83,7 +58,6 @@ jobs:
 
   build:
     needs: [quality-gate]
->>>>>>> Stashed changes
     runs-on: ubuntu-latest
     permissions:
       contents: read

@@ -1,5 +1,17 @@
 # Changelog
 
+## 2026.6.96 — 2026-06-23
+
+- New: Asset videos now have a category — **Prestart** (shown in the prestart wizard) or **Instruction** (shown only on the asset's Videos page). Set the category when uploading, or change it later with the edit pencil.
+- New: The video Videos page is now available on mobile with the same upload + edit experience as desktop.
+- New: People (formerly Users) — four canonical roles (Contractor, Co-ordinator, Manager, Administrator). Only Managers use a PIN to log in. The username is derived from the Display Name automatically.
+- New: Maintenance Requests drawer — schedule / conduct / update / resolve / ignore / reopen / re-assign actions all wired through one consistent dropdown.
+- Change: Asset detail mobile is now a tile-based hub — each section opens its own page so the page loads instantly.
+- Change: Prestart wizard mobile photo capture restored.
+- Fix: People filter on the Config page dropped legacy role names and now matches the new canonical list.
+- Fix: Sublist picker on the Config page lost its click target after the theme refresh.
+- Fix: Asset Videos list page no longer fails silently when any video has been uploaded.
+
 ## 2026.6.70 — 2026-06-12
 
 - New: Parts now have a Supplier field

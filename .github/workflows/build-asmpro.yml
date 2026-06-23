@@ -60,6 +60,16 @@ jobs:
           pip install -r source/asm-pro/requirements.txt
           pip install ruff mypy bandit pytest httpx types-psycopg2 types-requests types-qrcode
 
+      - name: Prepare runtime data dirs
+        run: |
+          # The addon writes its CSRF signing key + video uploads under
+          # /data (mounted persistent in the supervisor; absent on CI).
+          # Without these dirs every request crashes with
+          #   FileNotFoundError: '/data/keys'
+          # so /health and every test that exercises a route 500s.
+          sudo mkdir -p /data/keys /data/asm_videos /data/asm_videos_tmp /data/asm_video_chunks
+          sudo chown -R $USER:$USER /data
+
       - name: Gate 1 — Ruff lint (HARD)
         working-directory: source/asm-pro
         run: ruff check asmpro

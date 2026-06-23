@@ -1,5 +1,12 @@
 # Changelog
 
+## 2026.6.100 — 2026-06-23
+
+- New: The **Add Asset** form now has the same fields as the Edit Asset form — Site → Location → Area picker (cascading), Attributes (Type/Value), Meter Type, Service Interval, Prestart Required. No more dropping into Edit to fill in the rest after creating.
+- New: **Assign issue** and **Technician** fields are now dropdowns sourced from the People list (Contractor / Co-ordinator / Manager). No more typos or "Bob" vs "bob" duplicate assignees. Existing free-text names are preserved with a "not on People list" note so nothing silently changes.
+- Fix: **"Assign" button on a Maintenance Request drawer** now opens the assign form on the first click. It previously needed two clicks (or did nothing at all) because of a CSS quirk in how the form was being shown.
+- Fix: Asset Videos list no longer fails silently when any video has been uploaded — a missing date-format conversion was crashing the list endpoint server-side.
+
 ## 2026.6.96 — 2026-06-23
 
 - New: Asset videos now have a category — **Prestart** (shown in the prestart wizard) or **Instruction** (shown only on the asset's Videos page). Set the category when uploading, or change it later with the edit pencil.

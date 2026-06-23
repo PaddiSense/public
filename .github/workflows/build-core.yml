@@ -14,8 +14,21 @@ env:
   IMAGE_BASE: ghcr.io/paddisense
 
 jobs:
+<<<<<<< Updated upstream
   quality-gate:
     runs-on: ubuntu-latest
+=======
+  # Golden Rules [RELEASE] gate (red-team Wave 3 / Rule 100/155). Runs the DB-free
+  # pre-release-audit gates (lint/type/SAST/CVE/theme/audit-currency/193.3) against the
+  # exact released source before the image builds. Reuses the existing PRIVATE_REPO_PAT —
+  # no new secret, no GitHub paid feature (it's a needs: dependency, not branch protection).
+  # PS_CI=1 → pytest + session markers skipped (no DB / no session in CI); they stay dev-box gates.
+  # PILOT on Core; rolls to the other build-*.yml once validated (steward, WR-PS-047).
+  quality-gate:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+>>>>>>> Stashed changes
     steps:
       - name: Checkout private source
         uses: actions/checkout@v4
@@ -24,11 +37,22 @@ jobs:
           ref: main
           token: ${{ secrets.PRIVATE_REPO_PAT }}
           path: source
+<<<<<<< Updated upstream
 
+=======
+      - name: Checkout contracts (documentation)
+        uses: actions/checkout@v4
+        with:
+          repository: PaddiSense/documentation
+          ref: main
+          token: ${{ secrets.PRIVATE_REPO_PAT }}
+          path: documentation
+>>>>>>> Stashed changes
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
           python-version: "3.11"
+<<<<<<< Updated upstream
 
       - name: Install dependencies
         run: |
@@ -43,6 +67,23 @@ jobs:
 
   build:
     needs: quality-gate
+=======
+      - name: Install tools + addon deps
+        run: |
+          python -m pip install --upgrade pip
+          pip install ruff mypy bandit pip-audit
+          pip install -r source/paddisense-core/requirements.txt || true
+      - name: Pre-release audit (CI mode)
+        working-directory: source/paddisense-core
+        env:
+          PS_CI: "1"
+          PS_CONTRACTS_DIR: ${{ github.workspace }}/documentation/contracts
+          PS_THEME_MASTER: ${{ github.workspace }}/documentation/theme/paddisense-tokens.css
+        run: sh "$GITHUB_WORKSPACE/documentation/contracts/pre-release-audit.sh" paddicore
+
+  build:
+    needs: [quality-gate]
+>>>>>>> Stashed changes
     runs-on: ubuntu-latest
     permissions:
       contents: read

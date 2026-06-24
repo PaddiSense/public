@@ -62,6 +62,7 @@ jobs:
     permissions:
       contents: read
       packages: write
+      id-token: write        # R197: keyless cosign signing via GitHub OIDC
 
     strategy:
       matrix:
@@ -107,6 +108,7 @@ jobs:
         uses: docker/setup-buildx-action@v3
 
       - name: Build and push
+        id: build            # R197: exposes steps.build.outputs.digest
         uses: docker/build-push-action@v6
         with:
           context: source/paddisense-core
@@ -118,3 +120,35 @@ jobs:
             ${{ env.IMAGE_BASE }}/${{ matrix.arch }}-paddisense-core:latest
           cache-from: type=gha
           cache-to: type=gha,mode=max
+
+      # ── R197 image provenance — canonical block (documentation/contracts/R197_PROVENANCE.md;
+      #    validated WR-AS-020 / ASM-Pro #77). cosign verify exit = the gate (Rule 192).
+      - name: Install cosign + syft
+        uses: sigstore/cosign-installer@v3
+
+      - name: Generate CycloneDX SBOM
+        # WR-AS-020 finding: scan the build CONTEXT filesystem, not image:@digest — syft on
+        # the amd64 runner can't pull an aarch64-only image variant. Filesystem scan is
+        # symmetric across arches (trade-off: misses base-image OS packages).
+        uses: anchore/sbom-action@v0
+        with:
+          path: source/paddisense-core
+          format: cyclonedx-json
+          output-file: sbom.cdx.json
+
+      - name: Sign + attest + verify (fail-closed = the R197 gate)
+        env:
+          COSIGN_YES: "true"
+          IMG: ${{ env.IMAGE_BASE }}/${{ matrix.arch }}-paddisense-core@${{ steps.build.outputs.digest }}
+        run: |
+          set -euo pipefail
+          cosign sign "$IMG"
+          cosign attest --predicate sbom.cdx.json --type cyclonedx "$IMG"
+          cosign verify "$IMG" \
+            --certificate-identity-regexp '^https://github\.com/PaddiSense/public/\.github/workflows/build-.+\.yml@refs/heads/main$' \
+            --certificate-oidc-issuer 'https://token.actions.githubusercontent.com' \
+            >/dev/null
+          cosign verify-attestation "$IMG" --type cyclonedx \
+            --certificate-identity-regexp '^https://github\.com/PaddiSense/public/\.github/workflows/build-.+\.yml@refs/heads/main$' \
+            --certificate-oidc-issuer 'https://token.actions.githubusercontent.com' \
+            >/dev/null

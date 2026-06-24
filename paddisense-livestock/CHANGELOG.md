@@ -2,6 +2,10 @@
 
 All notable changes to PaddiSense Livestock.
 
+## 2026.6.43
+- Security: hardened browser Content-Security-Policy header — every page now ships with a per-request nonce that prevents injected scripts from running. No user-visible change to existing pages.
+- Internal improvements — Golden-Rules compliance lift (v.38-v.42 source-only releases collapsed into this grower release).
+
 ## 2026.6.37
 - Auto-migrate mobs to breeding groups on startup (preserves grower data)
 

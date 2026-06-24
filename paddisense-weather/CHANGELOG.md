@@ -1,3 +1,7 @@
+## 2026.6.67
+- Security: hardened browser Content-Security-Policy — every page now ships with a per-request nonce that prevents injected scripts from running. No user-visible change.
+- Internal improvements — Golden-Rules-v2.42 compliance lift (script wiring restructured, mypy + ruff + tests all green).
+
 ## 2026.6.66
 - Year-to-date rainfall now shown for the forecast weather source
 - Rain radar: Radar view shows first, and "My Location" now works inside the app

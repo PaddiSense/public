@@ -165,9 +165,17 @@ jobs:
         uses: sigstore/cosign-installer@v3
 
       - name: Generate CycloneDX SBOM
+        # WR-AS-020 first-of-fleet finding (2026-06-24): scanning the pushed
+        # image works on amd64 (runner arch matches) but fails on aarch64 —
+        # syft picks the runner's linux/amd64 variant from the index and the
+        # aarch64 image has no amd64 child. Scanning the build CONTEXT
+        # filesystem is symmetric across arches, captures Python+ruby+OS
+        # package manifests in source, and doesn't need registry/daemon
+        # platform negotiation. Trade-off: misses base-image OS packages,
+        # but for a Python addon those rarely move version-to-version.
         uses: anchore/sbom-action@v0
         with:
-          image: ${{ env.IMAGE_BASE }}/${{ matrix.arch }}-asm-pro@${{ steps.build.outputs.digest }}
+          path: source/asm-pro
           format: cyclonedx-json
           output-file: sbom.cdx.json
 

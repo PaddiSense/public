@@ -80,7 +80,8 @@ jobs:
         run: |
           pip install -r source/gsm-server/requirements.txt
           pip install ruff==0.15.14 mypy==1.16.0 bandit==1.9.1 \
-                      pip-audit==2.10.0 pytest==9.0.3
+                      pip-audit==2.10.0 pytest==9.0.3 \
+                      types-requests types-psycopg2
 
       - name: Gate 1 — Ruff lint (Rule 85, HARD)
         working-directory: source/gsm-server

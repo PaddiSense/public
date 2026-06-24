@@ -1,5 +1,13 @@
 # Changelog
 
+## 2026.6.107 — 2026-06-24
+
+- New: **Resolve Issue** now has a "Resolved By" dropdown sourced from the People list, replacing the free-text "Your name" box. Stops typos drifting into the service history.
+- Changed: Every active user now appears in every People dropdown — Assign, Resolve By, Technician — regardless of role. Office-job admins and coordinators can resolve / be assigned issues alongside field staff.
+- Fix: A few hidden cross-location data leaks closed — staff with limited site access can no longer see or change assets / issues / services / parts / photos / videos / prestarts at sites they're not assigned to.
+- Fix: Auditing of failed logins now records the typed username (was landing blank).
+- Internal improvements — no user-visible changes (dependency CVEs closed, body-size cap on JSON, password change now revokes the user's existing sessions, dev-DB hygiene).
+
 ## 2026.6.100 — 2026-06-23
 
 - New: The **Add Asset** form now has the same fields as the Edit Asset form — Site → Location → Area picker (cascading), Attributes (Type/Value), Meter Type, Service Interval, Prestart Required. No more dropping into Edit to fill in the rest after creating.

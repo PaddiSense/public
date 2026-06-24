@@ -1,5 +1,9 @@
 # Changelog
 
+## 2026.6.113 — 2026-06-24
+
+- Internal: photos and videos now live in a shared folder (`/share/asm-pro-files/`) the central backup can read. Previously they lived in a private container folder — a full restore brought back the database rows but the actual images and videos were missing. Existing photos and videos migrate over automatically on first start.
+
 ## 2026.6.112 — 2026-06-24
 
 - Fix: **Edit Asset on mobile** — Delete / Cancel / Save buttons now stack vertically so the labels always fit (previously they wrapped on narrower phones).

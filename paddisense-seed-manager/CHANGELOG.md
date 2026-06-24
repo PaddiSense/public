@@ -2,6 +2,11 @@
 
 All notable changes to PaddiSense Seed Manager.
 
+## 2026.6.210
+- Drying Racks (mobile): redesigned — tap a bin position to assign a bin and moisture sensor right there; clearer layout with easy-to-read position numbers.
+- Storage map: seed source is now picked from your defined list; cards are tidier (moisture figure removed).
+- Reliability, data-accuracy and security improvements.
+
 ## 2026.6.189
 - Drying rack automation redesigned — manage fan mode and thresholds per rack from a dedicated detail page
 - Rack overview shows bin summary at a glance with moisture readings

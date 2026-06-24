@@ -1,5 +1,13 @@
 # Changelog
 
+## 2026.6.112 — 2026-06-24
+
+- Fix: **Edit Asset on mobile** — Delete / Cancel / Save buttons now stack vertically so the labels always fit (previously they wrapped on narrower phones).
+- Fix: **Photo upload on mobile** — taking or uploading a photo from an asset page now works (was silently failing).
+- Fix: **Photo viewing** — photos uploaded on mobile appear on the desktop view straight away (no more "1 photo" with an empty grid). Same image won't re-fetch when you re-visit the page — instant render from cache.
+- New: **Caption on photo upload (desktop)** — optional caption field prompts you for a short description; the caption renders as an overlay on the photo tile.
+- Internal: image-provenance signing wired (cosign + CycloneDX SBOM) — every grower image v.112 onward ships cryptographically signed and provenance-attested.
+
 ## 2026.6.107 — 2026-06-24
 
 - New: **Resolve Issue** now has a "Resolved By" dropdown sourced from the People list, replacing the free-text "Your name" box. Stops typos drifting into the service history.

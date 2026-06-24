@@ -99,6 +99,7 @@ jobs:
     permissions:
       contents: read
       packages: write
+      id-token: write        # R197: keyless cosign signing via GitHub OIDC
 
     strategy:
       matrix:
@@ -144,6 +145,7 @@ jobs:
         uses: docker/setup-buildx-action@v3
 
       - name: Build and push
+        id: build            # R197: exposes steps.build.outputs.digest
         uses: docker/build-push-action@v6
         with:
           context: source/asm-pro
@@ -155,3 +157,33 @@ jobs:
             ${{ env.IMAGE_BASE }}/${{ matrix.arch }}-asm-pro:latest
           cache-from: type=gha
           cache-to: type=gha,mode=max
+
+      # ── R197 image provenance (WR-AS-020 first-of-fleet validation, ASM-Pro
+      #    standing in for Livestock per Peter, 2026-06-24). Canonical block
+      #    from documentation/contracts/R197_PROVENANCE.md.
+      - name: Install cosign + syft
+        uses: sigstore/cosign-installer@v3
+
+      - name: Generate CycloneDX SBOM
+        uses: anchore/sbom-action@v0
+        with:
+          image: ${{ env.IMAGE_BASE }}/${{ matrix.arch }}-asm-pro@${{ steps.build.outputs.digest }}
+          format: cyclonedx-json
+          output-file: sbom.cdx.json
+
+      - name: Sign + attest + verify (fail-closed = the R197 gate)
+        env:
+          COSIGN_YES: "true"
+          IMG: ${{ env.IMAGE_BASE }}/${{ matrix.arch }}-asm-pro@${{ steps.build.outputs.digest }}
+        run: |
+          set -euo pipefail
+          cosign sign "$IMG"
+          cosign attest --predicate sbom.cdx.json --type cyclonedx "$IMG"
+          cosign verify "$IMG" \
+            --certificate-identity-regexp '^https://github\.com/PaddiSense/public/\.github/workflows/build-.+\.yml@refs/heads/main$' \
+            --certificate-oidc-issuer 'https://token.actions.githubusercontent.com' \
+            >/dev/null
+          cosign verify-attestation "$IMG" --type cyclonedx \
+            --certificate-identity-regexp '^https://github\.com/PaddiSense/public/\.github/workflows/build-.+\.yml@refs/heads/main$' \
+            --certificate-oidc-issuer 'https://token.actions.githubusercontent.com' \
+            >/dev/null

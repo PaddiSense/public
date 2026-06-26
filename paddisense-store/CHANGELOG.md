@@ -2,6 +2,9 @@
 
 All notable changes to PaddiSense Store.
 
+## 2026.6.49
+- Tidied the Settings screen — removed a developer-only "Base" option that isn't relevant on your add-on.
+
 ## 2026.6.48
 - Fix — on the Use page (phone), the **+** buttons were subtracting stock like the **−** buttons; **+** now correctly raises the projected stock.
 - Internal security hardening — no user-visible change.

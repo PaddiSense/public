@@ -1,5 +1,5 @@
 name: PaddiSense Store
-version: "2026.6.48"
+version: "2026.6.49"
 slug: paddisense-store
 description: PaddiSense Store — product registry, chemical inventory, stock management
 logo: true
@@ -28,6 +28,7 @@ options:
   db_user: "postgres"
   db_password: "homeassistant"
   admin_key: ""
+  seed_author_mode: false
 schema:
   db_host: str
   db_port: port
@@ -35,3 +36,4 @@ schema:
   db_user: str
   db_password: password
   admin_key: str?
+  seed_author_mode: bool?

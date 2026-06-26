@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PaddiSense — Authorisation Complete</title>
+<style>
+  :root { --bg:#0f172a; --card:#1e293b; --border:#334155; --text:#e2e8f0; --muted:#94a3b8; --accent:#16a34a; --err:#dc2626; }
+  * { box-sizing: border-box; }
+  body { margin:0; min-height:100vh; display:flex; align-items:center; justify-content:center;
+         background:var(--bg); color:var(--text); font-family:-apple-system,Segoe UI,Roboto,sans-serif; padding:20px; }
+  .card { background:var(--card); border:1px solid var(--border); border-radius:16px; max-width:520px; width:100%; padding:28px; }
+  h1 { font-size:20px; margin:0 0 4px; }
+  .ok { color:var(--accent); } .bad { color:var(--err); }
+  p { color:var(--muted); font-size:14px; line-height:1.5; }
+  .codebox { display:flex; gap:8px; margin:16px 0; }
+  #code { flex:1; padding:14px; font-family:ui-monospace,monospace; font-size:14px; word-break:break-all;
+          background:#0b1220; border:2px solid var(--accent); border-radius:10px; color:var(--text); }
+  button { border:none; border-radius:10px; padding:0 18px; font-size:15px; font-weight:700; cursor:pointer;
+           background:var(--accent); color:#fff; min-width:96px; }
+  button:active { opacity:.85; }
+  ol { color:var(--muted); font-size:14px; line-height:1.7; padding-left:20px; }
+  .err-box { background:rgba(220,38,38,.12); border:1px solid var(--err); border-radius:10px; padding:14px; color:var(--text); font-size:14px; }
+</style>
+</head>
+<body>
+  <div class="card">
+    <div id="success" style="display:none;">
+      <h1 class="ok">&#10003; Authorisation complete</h1>
+      <p>Copy the code below and paste it into <strong>PaddiSense Farm &rarr; Machine Data</strong> to finish connecting.</p>
+      <div class="codebox">
+        <input id="code" readonly>
+        <button id="copyBtn" type="button">Copy</button>
+      </div>
+      <ol>
+        <li>Tap <strong>Copy</strong> above.</li>
+        <li>Return to PaddiSense Farm &rarr; Machine Data.</li>
+        <li>Paste the code into the box and tap <strong>Submit</strong>.</li>
+      </ol>
+    </div>
+    <div id="failure" style="display:none;">
+      <h1 class="bad">Authorisation failed</h1>
+      <div class="err-box" id="errMsg">No authorisation code was returned. Please try connecting again from PaddiSense Farm.</div>
+    </div>
+  </div>
+<script>
+(function () {
+  var q = new URLSearchParams(window.location.search);
+  var code = q.get('code');
+  var error = q.get('error');
+  var errDesc = q.get('error_description');
+  if (code) {
+    document.getElementById('success').style.display = 'block';
+    var input = document.getElementById('code');
+    input.value = code;
+    document.getElementById('copyBtn').addEventListener('click', function () {
+      input.select();
+      try { navigator.clipboard.writeText(code); } catch (e) { document.execCommand('copy'); }
+      this.textContent = 'Copied';
+      var b = this; setTimeout(function () { b.textContent = 'Copy'; }, 1500);
+    });
+  } else {
+    document.getElementById('failure').style.display = 'block';
+    if (error) document.getElementById('errMsg').textContent =
+      'Error: ' + error + (errDesc ? ' — ' + errDesc : '') + '. Please try connecting again from PaddiSense Farm.';
+  }
+})();
+</script>
+</body>
+</html>

@@ -2,6 +2,14 @@
 
 All notable changes to PaddiSense Store.
 
+## 2026.6.46
+- New look — now matches the rest of your PaddiSense add-ons.
+- Settings rebuilt — manage your categories, units, chemical groups and active ingredients in a cleaner list (enable/disable, reorder, rename inline).
+- Starter data — common chemical groups and active ingredients are pre-loaded on a new install.
+- "Empty container" — on the Use page, write off the last bit of a finished drum in one tap.
+- Products — choose a sector (Cropping/Livestock) and the category list narrows to match.
+- Fix — inventory value now displays correctly.
+
 ## 2026.6.1
 - Initial release — extracted from PaddiSense Core chemical store
 - Product registry with 13 categories (crop + livestock sectors)

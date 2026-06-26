@@ -2,6 +2,10 @@
 
 All notable changes to PaddiSense Store.
 
+## 2026.6.48
+- Fix — on the Use page (phone), the **+** buttons were subtracting stock like the **−** buttons; **+** now correctly raises the projected stock.
+- Internal security hardening — no user-visible change.
+
 ## 2026.6.46
 - New look — now matches the rest of your PaddiSense add-ons.
 - Settings rebuilt — manage your categories, units, chemical groups and active ingredients in a cleaner list (enable/disable, reorder, rename inline).

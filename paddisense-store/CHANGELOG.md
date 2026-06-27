@@ -2,6 +2,9 @@
 
 All notable changes to PaddiSense Store.
 
+## 2026.6.51
+- Fix: new products now appear on the Store page right away (previously only visible once stock was received).
+
 ## 2026.6.50
 - Fix: the new-product form now has its Cropping/Livestock sectors on a fresh install, so new products save and display correctly.
 

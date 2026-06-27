@@ -2,6 +2,9 @@
 
 All notable changes to PaddiSense Store.
 
+## 2026.6.50
+- Fix: the new-product form now has its Cropping/Livestock sectors on a fresh install, so new products save and display correctly.
+
 ## 2026.6.49
 - Tidied the Settings screen — removed a developer-only "Base" option that isn't relevant on your add-on.
 

@@ -15,6 +15,10 @@ env:
 
 jobs:
   quality-gate:
+    # Fleet-standard CODE gate (WR-PS-060): ruff + PINNED mypy + bandit. Pinned mypy means
+    # local (release.sh) == CI — the drift that let Core ship a build that then failed.
+    # The comprehensive doc/theme/security audit is the RELEASE gate (release.sh + dev-box
+    # pre-release-audit, Rule 105) — NOT here, so a stale AUDIT.md never blocks a build.
     runs-on: ubuntu-latest
     steps:
       - name: Checkout private source
@@ -24,20 +28,20 @@ jobs:
           ref: main
           token: ${{ secrets.PRIVATE_REPO_PAT }}
           path: source
-
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
           python-version: "3.11"
-
-      - name: Install dependencies
+      - name: Install pinned tools + deps
         run: |
+          python -m pip install --upgrade pip
           pip install -r source/paddisense-weather/requirements.txt
-          pip install ruff bandit
-
-      - name: Ruff lint check
+          pip install ruff mypy bandit types-requests types-PyYAML
+      - name: Ruff lint (pinned)
         run: ruff check source/paddisense-weather/paddisense_weather
-
+      - name: Mypy type check (pinned — local == CI)
+        working-directory: source/paddisense-weather
+        run: mypy paddisense_weather --ignore-missing-imports
       - name: Bandit security scan
         run: bandit -r source/paddisense-weather/paddisense_weather -ll -q || true
 

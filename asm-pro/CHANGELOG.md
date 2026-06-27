@@ -1,4 +1,7 @@
 # Changelog
+## 2026.6.114
+- Fix: the add-on could fail to start on a brand-new install and could not be licensed. Both resolved.
+
 
 ## 2026.6.113 — 2026-06-24
 

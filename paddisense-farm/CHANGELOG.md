@@ -1,5 +1,8 @@
 # Changelog
 
+## 2026.6.35
+- Fix: Farm can now be licensed from Core (an auth check was rejecting the licence push).
+
 ## 2026.6.34
 - Fix: Farm can now be licensed from Core (a security check was rejecting the licence).
 

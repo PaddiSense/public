@@ -2,6 +2,9 @@
 
 All notable changes to PaddiSense Store.
 
+## 2026.6.53
+- Updated starter product set with active constituents, concentrations and chemical groups.
+
 ## 2026.6.51
 - Fix: new products now appear on the Store page right away (previously only visible once stock was received).
 

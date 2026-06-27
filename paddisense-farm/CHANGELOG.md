@@ -1,5 +1,8 @@
 # Changelog
 
+## 2026.6.33
+- Fix: Farm now starts reliably on ARM boxes (a startup check was timing out and looping).
+
 ## 2026.6.32
 - Fix: Farm now installs on ARM grower boxes (the previous version was missing its ARM image).
 

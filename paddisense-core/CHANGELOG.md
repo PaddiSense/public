@@ -1,5 +1,8 @@
 # Changelog
 
+## 2026.6.382
+- Maintenance + reliability improvements.
+
 ## 2026.6.378
 - Fixed the Licences page: addon panels now expand so you can enter your connection code
 - Internal improvements — no user-visible changes

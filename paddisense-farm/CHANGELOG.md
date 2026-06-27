@@ -1,5 +1,8 @@
 # Changelog
 
+## 2026.6.34
+- Fix: Farm can now be licensed from Core (a security check was rejecting the licence).
+
 ## 2026.6.33
 - Fix: Farm now starts reliably on ARM boxes (a startup check was timing out and looping).
 

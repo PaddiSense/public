@@ -19,7 +19,6 @@ homeassistant_api: true
 hassio_api: true
 hassio_role: manager
 map:
-  - addon_config:rw
   - config:rw
   - media:rw
   - share:rw

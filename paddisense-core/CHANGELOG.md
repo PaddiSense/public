@@ -1,5 +1,17 @@
 # Changelog
 
+## 2026.7.4
+- More reliable database connections: add-ons now recover automatically after a password change instead of needing a restart
+- Fixed an issue where reinstalling an add-on could break sign-in for other add-ons until keys were reset
+- Uploaded backup restores now accept encrypted backup files only, protecting your data
+- User access management: farm users are limited to the modules ticked for them
+- Simpler user roles: operator, manager and admin
+- Internal improvements to licensing and fleet health reporting
+
+## 2026.6.404
+- User management: add farm users and choose which modules each user can see
+- Access management is limited to admin users
+
 ## 2026.6.382
 - Maintenance + reliability improvements.
 

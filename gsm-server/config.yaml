@@ -8,7 +8,6 @@ url: https://github.com/PaddiSense/GrowerServicesManager
 image: ghcr.io/paddisense/{arch}-gsm-server
 arch:
   - amd64
-  - aarch64
 startup: application
 init: false
 ingress: true

@@ -2,6 +2,13 @@
 
 All notable changes to GSM.
 
+## 2026.7.25
+- Security hardening across authentication, session handling and audit logging.
+- Fixes a fault that stopped GSM creating its database on a brand-new install.
+- Fleet view now shows an independent verdict on each box's reported version.
+- Backups are supervised and alerting is verified end-to-end.
+- Declares amd64 only — this add-on has never shipped an aarch64 image.
+
 ## 2026.5.336
 - Internal improvements — no user-visible changes.
 

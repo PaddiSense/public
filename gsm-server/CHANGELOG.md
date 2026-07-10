@@ -2,6 +2,12 @@
 
 All notable changes to GSM.
 
+## 2026.7.32
+- Error reports sent off-box no longer include grower names, emails, phone numbers or database passwords.
+- Fixes the webhook proxy silently turning updates and deletions into read-only requests.
+- Data-retention housekeeping now runs and records what it did; enrolment records are anonymised as intended.
+- Adds a diagnostic that identifies which shared key a box actually read.
+
 ## 2026.7.25
 - Security hardening across authentication, session handling and audit logging.
 - Fixes a fault that stopped GSM creating its database on a brand-new install.

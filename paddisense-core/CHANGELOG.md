@@ -1,5 +1,19 @@
 # Changelog
 
+## 2026.7.10
+- New: Core can now be locked behind a sign-in. Set the owner password and give your admin
+  user their own password on the Access page — from then on, opening Core asks for a sign-in.
+  Until you set those passwords, nothing changes.
+- Sign in with your name as it appears in Home Assistant ("Peter McDonnell" works — exact
+  spelling of the account name is not required)
+- Opening Core now lands on the system dashboard, showing every add-on with its live version
+  and health — this page previously showed add-ons as "not installed" by mistake
+- Fixed sign-in not working when Home Assistant is accessed over a plain HTTP address
+- A password recovery guide is included — an admin can always reset any password, and the
+  owner login is always the way back in
+- Reliability: per-user module access updates now reach every installed add-on
+- Core sign-ins last 12 hours, so you sign in about once a day
+
 ## 2026.7.4
 - More reliable database connections: add-ons now recover automatically after a password change instead of needing a restart
 - Fixed an issue where reinstalling an add-on could break sign-in for other add-ons until keys were reset

@@ -2,6 +2,21 @@
 
 All notable changes to GSM.
 
+## 2026.7.41
+
+Security-hardening release — the close-out of an external engineering review, plus a fix so operators
+stop getting false-alarm emails.
+
+- Grower data is now separated at the **database** level, not only in application code: a query can no
+  longer return one business's paddocks, farms or events to another, even if a filter is wrong.
+- Licence secrets are **encrypted at rest** (and no longer appear in plain text in backups).
+- Map labels and imported names are safely escaped, so pasted content can't run in the browser.
+- Dependencies are integrity-pinned and the app image is cryptographically signed; the add-on now ships a
+  security confinement profile.
+- File-upload handling is hardened against oversized/decompression-bomb archives.
+- Database changes now have an executable rollback path.
+- Fixed a monitoring rule that was emailing operators about the system's own internal test probes.
+
 ## 2026.7.32
 - Error reports sent off-box no longer include grower names, emails, phone numbers or database passwords.
 - Fixes the webhook proxy silently turning updates and deletions into read-only requests.

@@ -1,5 +1,15 @@
 # Changelog
 
+## 2026.7.17
+- Stronger licence security: connection codes and licence updates are now always verified
+  before they are accepted. If an older connection code is refused during enrolment,
+  generate a fresh code in your PaddiSense portal and enrol again.
+- Licence deactivation is now managed from your PaddiSense provider rather than the
+  per-add-on buttons in Core, so a licence can no longer be removed by mistake.
+- Faster automatic recovery if the system's database connection is interrupted, and an
+  on-screen alert if the box has not been able to report in for more than 15 minutes.
+- More reliable backups: a failed backup can no longer overwrite a good one.
+
 ## 2026.7.10
 - New: Core can now be locked behind a sign-in. Set the owner password and give your admin
   user their own password on the Access page — from then on, opening Core asks for a sign-in.

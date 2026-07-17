@@ -3,7 +3,7 @@ name: Build GSM Server
 # ADR-004 Phase A — builds the GSM addon's container image and pushes
 # it to private GHCR. Same shape as build-asmpro.yml / build-safety.yml
 # (canonical pattern: workflow in paddisense-public, source checked out
-# from the private repo via PRIVATE_REPO_PAT, multi-arch matrix build).
+# from the private repo via SRC_READ_PAT (least-priv read-only, R160), multi-arch matrix build).
 #
 # Triggered by:
 #   - repository_dispatch event_type=build-gsm  (canonical, Peter fires
@@ -63,7 +63,7 @@ jobs:
         with:
           repository: PaddiSense/GrowerServicesManager
           ref: main
-          token: ${{ secrets.PRIVATE_REPO_PAT }}
+          token: ${{ secrets.SRC_READ_PAT }}
           path: source
 
       - name: Set up Python
@@ -186,7 +186,7 @@ jobs:
         with:
           repository: PaddiSense/GrowerServicesManager
           ref: main
-          token: ${{ secrets.PRIVATE_REPO_PAT }}
+          token: ${{ secrets.SRC_READ_PAT }}
           path: source
 
       - name: Extract version

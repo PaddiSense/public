@@ -26,7 +26,7 @@ jobs:
         with:
           repository: PaddiSense/Weather
           ref: main
-          token: ${{ secrets.PRIVATE_REPO_PAT }}
+          token: ${{ secrets.SRC_READ_PAT }}
           path: source
       - name: Set up Python
         uses: actions/setup-python@v5
@@ -68,7 +68,7 @@ jobs:
         with:
           repository: PaddiSense/Weather
           ref: main
-          token: ${{ secrets.PRIVATE_REPO_PAT }}
+          token: ${{ secrets.SRC_READ_PAT }}
           path: source
 
       - name: Inject canonical theme (build-injection — ADR-007)
@@ -76,7 +76,7 @@ jobs:
         with:
           repository: PaddiSense/documentation
           ref: main
-          token: ${{ secrets.PRIVATE_REPO_PAT }}
+          token: ${{ secrets.SRC_READ_PAT }}
           path: docs-theme
           sparse-checkout: theme/paddisense-tokens.css
           sparse-checkout-cone-mode: false

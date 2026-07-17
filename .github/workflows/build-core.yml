@@ -16,7 +16,7 @@ env:
 jobs:
   # Golden Rules [RELEASE] gate (red-team Wave 3 / Rule 100/155). Runs the DB-free
   # pre-release-audit gates (lint/type/SAST/CVE/theme/audit-currency/193.3) against the
-  # exact released source before the image builds. Reuses the existing PRIVATE_REPO_PAT —
+  # exact released source before the image builds. Reuses the least-priv read-only SRC_READ_PAT (R160) —
   # no new secret, no GitHub paid feature (it's a needs: dependency, not branch protection).
   # PS_CI=1 → pytest + session markers skipped (no DB / no session in CI); they stay dev-box gates.
   # PILOT on Core; rolls to the other build-*.yml once validated (steward, WR-PS-047).
@@ -31,7 +31,7 @@ jobs:
         with:
           repository: PaddiSense/Core
           ref: main
-          token: ${{ secrets.PRIVATE_REPO_PAT }}
+          token: ${{ secrets.SRC_READ_PAT }}
           path: source
       - name: Set up Python
         uses: actions/setup-python@v5
@@ -73,7 +73,7 @@ jobs:
         with:
           repository: PaddiSense/Core
           ref: main
-          token: ${{ secrets.PRIVATE_REPO_PAT }}
+          token: ${{ secrets.SRC_READ_PAT }}
           path: source
 
       - name: Extract version

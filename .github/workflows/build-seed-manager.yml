@@ -26,7 +26,7 @@ jobs:
         with:
           repository: PaddiSense/SeedManager
           ref: main
-          token: ${{ secrets.PRIVATE_REPO_PAT }}
+          token: ${{ secrets.SRC_READ_PAT }}
           path: source
       - name: Set up Python
         uses: actions/setup-python@v5
@@ -68,7 +68,7 @@ jobs:
         with:
           repository: PaddiSense/SeedManager
           ref: main
-          token: ${{ secrets.PRIVATE_REPO_PAT }}
+          token: ${{ secrets.SRC_READ_PAT }}
           path: source
 
       - name: Extract version

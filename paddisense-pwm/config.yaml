@@ -19,7 +19,9 @@ homeassistant_api: true
 hassio_api: true
 hassio_role: manager
 map:
-  - addon_config:rw
+  - type: homeassistant_config
+    read_only: false
+    path: /config
   - media:rw
   - share:rw
 options:

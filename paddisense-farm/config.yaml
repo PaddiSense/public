@@ -20,6 +20,7 @@ hassio_api: true
 hassio_role: manager
 map:
   - config:rw
+  - addon_config:rw
   - media:rw
   - share:rw
 options:
@@ -28,9 +29,11 @@ options:
   db_name: "paddisense_farm"
   db_user: "postgres"
   db_password: "homeassistant"
+  seed_author_mode: false
 schema:
   db_host: str
   db_port: port
   db_name: str
   db_user: str
   db_password: password
+  seed_author_mode: bool?

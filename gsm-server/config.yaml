@@ -12,12 +12,8 @@ startup: application
 init: false
 ingress: true
 ingress_port: 8099
-panel_icon: mdi:barley
+panel_icon: mdi:map
 panel_title: GSM
-ports:
-  8099/tcp: 8099
-ports_description:
-  8099/tcp: GSM API (grower clients)
 map:
   - addon_config:rw
   - media:rw
@@ -51,7 +47,7 @@ schema:
   cdse_client_id: str?
   cdse_client_secret: password?
   github_token: password?
-  admin_heartbeat_url: str?
+  admin_heartbeat_url: password?
   server_id: str?
   admin_licence_code: str?
   admin_shared_secret: password?

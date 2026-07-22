@@ -1,7 +1,7 @@
 name: PaddiSense Weather
 version: "2026.7.6"
 slug: paddisense-weather
-description: PaddiSense Weather -- weather stations, forecast, burn forecast, spray assessment
+description: PaddiSense Weather — weather stations, forecast, burn forecast, spray assessment
 logo: true
 icon: true
 url: https://github.com/PaddiSense/Weather
@@ -34,4 +34,4 @@ schema:
   db_name: str
   db_user: str
   db_password: password
-  admin_key: str?
+  admin_key: password?

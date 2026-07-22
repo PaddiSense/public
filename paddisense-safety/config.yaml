@@ -18,6 +18,10 @@ panel_title: Safety
 homeassistant_api: true
 hassio_api: true
 hassio_role: manager
+ports:
+  8097/tcp: null
+ports_description:
+  8097/tcp: "Office-TV kiosk display (optional). Map to a free host port + set kiosk_key to enable; /kiosk is token-gated, the rest stays behind login. LAN only."
 map:
   - addon_config:rw
   - media:rw
@@ -29,10 +33,12 @@ options:
   db_user: "postgres"
   db_password: "homeassistant"
   admin_key: ""
+  kiosk_key: ""
 schema:
   db_host: str
   db_port: port
   db_name: str
   db_user: str
   db_password: password
-  admin_key: str?
+  admin_key: password?
+  kiosk_key: password?

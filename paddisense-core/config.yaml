@@ -29,9 +29,13 @@ options:
   db_name: "paddicore"
   db_user: "postgres"
   db_password: "homeassistant"
+  postgres_superuser_password: ""
+  postgres_superuser_password_old: ""
 schema:
   db_host: str
   db_port: port
   db_name: str
   db_user: str
   db_password: password
+  postgres_superuser_password: password?
+  postgres_superuser_password_old: password?

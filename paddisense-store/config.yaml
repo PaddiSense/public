@@ -35,5 +35,5 @@ schema:
   db_name: str
   db_user: str
   db_password: password
-  admin_key: str?
+  admin_key: password?
   seed_author_mode: bool?

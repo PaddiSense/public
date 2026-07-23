@@ -1,0 +1,109 @@
+# Catalog drift gate (WR-PS-115 layer (b) — P-Claude, acked design 2026-07-23).
+#
+# The catalog config.yamls are GENERATED artifacts (release.sh Step 7). This CI is the
+# HAND-EDIT net: layers (a)/(c) guard the release path; this guards direct pushes to
+# this repo. For every catalog addon stamped `# source: <repo>@<sha>` by the generator,
+# it checks out THAT source ref (deterministic — never source-HEAD, which lawfully runs
+# ahead between releases) and runs the same shared check-catalog-drift.py the release
+# gate uses. Unstamped catalogs (pre-generator) warn-skip: the gate hardens addon-by-
+# addon as each gets its first regenerated release.
+name: Catalog drift gate
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  drift:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout catalog
+        uses: actions/checkout@v4
+        with:
+          path: public
+
+      - name: Checkout contracts (PaddiSense/documentation)
+        uses: actions/checkout@v4
+        with:
+          repository: PaddiSense/documentation
+          token: ${{ secrets.SRC_READ_PAT }}
+          path: docs
+
+      - name: Set up Python 3.12
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install PyYAML
+        run: pip install --quiet pyyaml
+
+      - name: "Gate selftest (the checker must bite before we trust its verdicts)"
+        run: python3 docs/contracts/check-catalog-drift.py --selftest
+
+      - name: "Drift-check every stamped addon against its stamped source ref"
+        env:
+          SRC_READ_PAT: ${{ secrets.SRC_READ_PAT }}
+        run: |
+          python3 - <<'PY'
+          import importlib.util, os, re, subprocess, sys
+          from pathlib import Path
+          import yaml
+
+          pub, docs = Path("public").resolve(), Path("docs/contracts")
+          checker = docs / "check-catalog-drift.py"
+
+          # slug -> addon-name map from the checker itself (single source of truth)
+          spec = importlib.util.spec_from_file_location("cdrift", checker)
+          mod = importlib.util.module_from_spec(spec)
+          spec.loader.exec_module(mod)
+          name_by_slug = {slug: name for name, (_, slug) in mod.ADDONS.items()}
+
+          pat = os.environ["SRC_READ_PAT"]
+          fails, warns, ok = [], [], []
+          for cfg in sorted(pub.glob("*/config.yaml")):
+              slug_dir = cfg.parent.name
+              text = cfg.read_text()
+              m = re.search(r"^#\s*source:\s*([\w./-]+)@([0-9a-fA-F]{7,40})\s*$", text, re.M)
+              if not m:
+                  warns.append(f"{slug_dir}: no source stamp (pre-generator) — skipped; "
+                               f"becomes ENFORCED at its first regenerated release")
+                  continue
+              repo, sha = m.group(1), m.group(2)
+              addon = name_by_slug.get(yaml.safe_load(text).get("slug"))
+              if addon is None:
+                  fails.append(f"{slug_dir}: slug not in the checker's managed-addon map")
+                  continue
+              dest = Path("src") / slug_dir
+              if not dest.exists():
+                  url = f"https://x-access-token:{pat}@github.com/{repo}.git"
+                  r1 = subprocess.run(["git", "clone", "--quiet", "--no-checkout", url, str(dest)])
+                  r2 = subprocess.run(["git", "-C", str(dest), "checkout", "--quiet", sha]) \
+                      if r1.returncode == 0 else r1
+                  if r1.returncode or r2.returncode:
+                      fails.append(f"{slug_dir}: cannot fetch {repo}@{sha[:9]}")
+                      continue
+              # locate the addon dir inside the source repo by slug match
+              want = yaml.safe_load(text).get("slug")
+              src_dir = None
+              for c in list(dest.glob("*/config.yaml")) + list(dest.glob("config.yaml")):
+                  try:
+                      d = yaml.safe_load(c.read_text())
+                  except Exception:
+                      continue
+                  if isinstance(d, dict) and d.get("slug") == want:
+                      src_dir = c.parent
+                      break
+              if src_dir is None:
+                  fails.append(f"{slug_dir}: source dir for slug '{want}' not found in {repo}@{sha[:9]}")
+                  continue
+              env = dict(os.environ, PS_PUBLIC_DIR=str(pub), PS_SOURCE_DIR=str(src_dir.resolve()))
+              r = subprocess.run([sys.executable, str(checker), addon], env=env)
+              (ok if r.returncode == 0 else fails).append(f"{slug_dir} vs {repo}@{sha[:9]}")
+
+          for w in warns: print(f"  ⚠ {w}")
+          for o in ok: print(f"  ✓ {o}")
+          for f in fails: print(f"  ✗ {f}")
+          print(f"\ncatalog-drift CI: {len(ok)} clean · {len(warns)} unstamped-skipped · {len(fails)} FAILED")
+          sys.exit(1 if fails else 0)
+          PY

@@ -1,14 +1,18 @@
+# GENERATED from the source config.yaml by release.sh Step 7 (WR-PS-115).
+# DO NOT hand-edit — any edit is overwritten at the next release.
+# source: PaddiSense/Livestock@8accd1e3fb62fde35f241fe6120c4c0caceef8a3
+# Catalog-only deltas are declared in contracts/catalog-overrides.yaml;
+# contracts/check-catalog-drift.py verifies catalog == source on every release + in CI.
 name: PaddiSense Livestock
-version: "2026.7.4"
+version: 2026.7.7
 slug: paddisense-livestock
 description: PaddiSense Livestock -- stock tracking, mob management, movements
 logo: true
 icon: true
 url: https://github.com/PaddiSense/Livestock
-image: ghcr.io/paddisense/{arch}-paddisense-livestock
 arch:
-  - amd64
-  - aarch64
+- amd64
+- aarch64
 startup: application
 init: false
 ingress: true
@@ -18,16 +22,16 @@ panel_title: Livestock
 homeassistant_api: true
 hassio_api: true
 map:
-  - addon_config:rw
-  - media:rw
-  - share:rw
+- addon_config:rw
+- media:rw
+- share:rw
 options:
-  db_host: "77b2833f-timescaledb"
+  db_host: 77b2833f-timescaledb
   db_port: 5432
-  db_name: "paddisense_livestock"
-  db_user: "postgres"
-  db_password: "homeassistant"
-  admin_key: ""
+  db_name: paddisense_livestock
+  db_user: postgres
+  db_password: homeassistant
+  admin_key: ''
 schema:
   db_host: str
   db_port: port
@@ -35,3 +39,4 @@ schema:
   db_user: str
   db_password: password
   admin_key: password?
+image: ghcr.io/paddisense/{arch}-paddisense-livestock

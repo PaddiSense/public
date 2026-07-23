@@ -1,14 +1,18 @@
+# GENERATED from the source config.yaml by release.sh Step 7 (WR-PS-115).
+# DO NOT hand-edit — any edit is overwritten at the next release.
+# source: PaddiSense/PWM@d7a1441cdf4c5035a89e94dee9f983b958020a50
+# Catalog-only deltas are declared in contracts/catalog-overrides.yaml;
+# contracts/check-catalog-drift.py verifies catalog == source on every release + in CI.
 name: PaddiSense PWM
-version: "2026.7.167"
+version: 2026.7.181
 slug: paddisense-pwm
 description: PaddiSense PWM — Precision Water Management for rice irrigation
 logo: true
 icon: true
 url: https://github.com/PaddiSense/PWM
-image: ghcr.io/paddisense/{arch}-paddisense-pwm
 arch:
-  - amd64
-  - aarch64
+- amd64
+- aarch64
 startup: application
 init: false
 ingress: true
@@ -19,19 +23,19 @@ homeassistant_api: true
 hassio_api: true
 hassio_role: manager
 map:
-  - type: homeassistant_config
-    read_only: false
-    path: /config
-  - media:rw
-  - share:rw
+- type: homeassistant_config
+  read_only: false
+  path: /config
+- media:rw
+- share:rw
 options:
-  db_host: "77b2833f-timescaledb"
+  db_host: 77b2833f-timescaledb
   db_port: 5432
-  db_name: "paddisense_pwm"
-  db_user: "postgres"
-  db_password: "homeassistant"
-  admin_key: ""
-  github_pat: ""
+  db_name: paddisense_pwm
+  db_user: postgres
+  db_password: homeassistant
+  admin_key: ''
+  github_pat: ''
 schema:
   db_host: str
   db_port: port
@@ -40,3 +44,4 @@ schema:
   db_password: password
   admin_key: password?
   github_pat: password?
+image: ghcr.io/paddisense/{arch}-paddisense-pwm

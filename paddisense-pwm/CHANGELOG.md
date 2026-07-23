@@ -1,5 +1,167 @@
 # Changelog
 
+## 2026.7.181 — release-audit tidy (mypy)
+
+### Fixed
+- One `var-annotated` mypy error in the v179 dangling-pump guard (`pumps/control.py`) — caught by
+  the pre-release audit, no behaviour change. This is the grower release of the v179–180 Farm
+  infrastructure work.
+
+## 2026.7.180 — W04: import Farm-drawn bays
+
+### Added
+- **W04 "Farm Bays (drawn in Farm)" section** (Peter-directed 2026-07-23): unbound Farm bays list in
+  the paddock sidebar with an Import button each — creates the PWM bay pre-bound (shape mirrored from
+  Farm, one-door). Shows which enabled paddock the bay lands in, or that its paddock isn't enabled in
+  PWM yet (the server refuses with the same message). Stale-sync note when Farm is unreachable.
+- **Bay editor honours the one-door up front**: a Farm-bound bay's "Redraw Boundary" button is
+  disabled and reads "Shape is Farm-owned — edit in Farm" (the server already 409s the write; the UI
+  now says so before the draw instead of after).
+
+## 2026.7.179 — Farm infrastructure consumer (WR-PS-154): bays, pumps, gates, channels
+
+### Added
+- **Farm is the single author of physical infrastructure** (Peter 2026-07-23): bays, pumps, gates and
+  channels are DRAWN on the Farm map; PWM pulls them read-only over the fleet sibling-pull
+  (`/api/spatial/infrastructure` + `/api/spatial/bays`, 5-min cache, degrades to last-known when Farm
+  is unreachable). Direction is strictly one-way — Farm never pulls from PWM (the Farm-side migration
+  export is dead); PWM's ingress hardening is untouched.
+- **Bind**: each PWM pump/channel/gate/bay links to its Farm feature by the stable Farm `uuid`
+  (migration 010, `farm_uuid` on all four tables; bays bind on Farm's bay id until Farm mints bay
+  uuids). Assignment is its own act — a Link picker on W05 (pump) and W06 (channel + gate), backed by
+  `POST /api/farm-infra/bind` (type-checked, one Farm feature ↔ one PWM row).
+- **Import**: a Farm-drawn feature with no PWM record becomes one, pre-bound (`POST
+  /api/farm-infra/import`) — W06's new Farm panel lists them. Gates land under their channel via
+  Farm's `parent_uuid` containment; bays map their paddock via `gis_paddock_id`. PWM adds only the
+  control shell; every physical fact stays Farm's.
+- **One-door geometry (per-asset)**: once bound, PWM refuses to author that asset's position/shape —
+  pump/gate lat-lon, channel `data.path` and bay `geometry` edits 409 with "Farm-owned"; unchanged
+  full-form echoes pass. Farm's geometry is mirrored into the legacy columns on every pull so the
+  map/hydro graph/automation read exactly what they always read.
+- **Dangling fail-closed**: a bound Farm ref missing from a SUCCESSFUL pull pauses that asset's
+  automation (irrigation skips the bay, gate automation skips the gate, pump starts refuse 409) until
+  re-bound or unbound. Farm-down is NOT dangling — the cache degrades stale, automation untouched.
+- Supervised 5-min background sync (`farm_infra_sync`); `GET /api/farm-infra` +
+  `POST /api/farm-infra/refresh` for the UI. 25 new tests (pull/degrade, bind, import, one-door,
+  dangling incl. the pump-start refusal).
+
+### Fixed
+- 4 stale bench-sim tests updated to the v178 recycle-loop vessel model (pit/mcs1-3/bays, ML/day
+  rates) — they still asserted the retired channel/pit model.
+
+## 2026.7.178 — W09S bench: volume/ML-per-day water engine + sim-speed
+
+### Changed
+- **Engine rebuilt to Peter's real-world volume model.** Flows are now **ML/day** (Pump 1 = 30, Pump 2
+  = 20, gate/valve = 60 x open%, bay loss = 5/bay); each vessel holds a fixed **ML capacity** (pit 15,
+  MCS1/2/3 = 5/20/2, bays 2/3); **depth = volume/capacity x full-depth**, so the same flow spikes a
+  small section (MCS3 = 2 ML) ~10x faster than a big one (MCS2 = 20 ML) — the real unbalanced holding.
+  Bays lose water (seepage/crop); the pit depletes accordingly (no auto top-up — inject/reset). New
+  **sim-speed** control (1x / 10x / 60x) fast-forwards time so a multi-hour automation proves in minutes.
+  Depth stays in cm (UI + thresholds unchanged); only the depth delta per flow is capacity-scaled.
+  Engine controls form is ML/day + speed. Physics pinned by 5 volume tests (conservation + capacity
+  scaling). Bench-only.
+
+## 2026.7.177 — W09S bench: workbench mirrors live mode/auto state
+
+### Fixed
+- **The workbench now reflects state changed anywhere** (real page OR workbench), not just pump
+  running. Bay nodes show their live **mode** (Flush/Pond/Off); channel-gate nodes show **AUTO/MANUAL**;
+  the gate control panel shows the current Auto/Manual state and highlights the active one. The
+  5-second poll (`/api/bays` + `/api/channels`) drives it, and every panel action re-reads state so
+  the panel updates immediately. Bench-only.
+
+## 2026.7.176 — W09S bench: gate + pump control panels (full grower-toggle mock-up)
+
+### Added
+- **Gate + pump node controls** on the W09S diagram (bench-only), completing the full set. Pump nodes →
+  Start/Stop; gate/valve nodes (MC-01/MC-02, RB-01/02/03) → Open/Hold/Close; the channel gates
+  (MC-01/MC-02) also get **Auto/Manual**. Pump/valve commands use the board's own device command
+  (by device name — the Rule-10 bench exception); gate Auto/Manual calls the real
+  `/api/gates/{id}/auto-toggle`. With the bay panels (v175) the workbench now toggles everything a
+  grower can — bay mode/depths/flush + gate auto/manual/open/close + pump on/off — all on the real
+  production endpoints, so any scenario (Bay 1 Flush + Bay 2 Pond, MC-01 → Manual emergency release)
+  is the real automation.
+
+## 2026.7.175 — W09S bench: node control panels (real bay controls)
+
+### Added
+- **Click a diagram node → its control panel** (bench-only). Bay nodes open a panel with the REAL
+  grower controls, each wired to the production endpoint: mode Flush/Pond/Off (`/api/bays/{id}/mode`),
+  min/max depth +/− (`/depth-threshold/adjust`), flush hold +/− minutes (`/flush-timer/adjust`), and
+  set-actual-depth (inject — the rig has no sensors). Channel vessels get set-depth; gate/pump manual
+  controls are the next increment. Every control edits the same rows the paddock/config pages do — one
+  source of truth, so a bench scenario (Bay 1 Flush + Bay 2 Pond) drives the real automation.
+
+## 2026.7.174 — W09S bench: L-shape flow diagram (whiteboard layout)
+
+### Changed
+- **W09S diagram rebuilt to the whiteboard L-shape** (`flow.jpeg`): the main channel across the top
+  (Recycle Pit → PMP1 → MCS1 → MC-01 → MCS2 → MC-02 → MCS3 → PMP2), the vertical bay cascade dropping
+  from MCS2 (RB-01 → Bay 1 → RB-02 → Bay 2 → RB-03), and the two return lines (RB-03 → pit, PMP2 → pit)
+  drawn as SVG connectors. Vessels fill to live depth + click-to-inject; gates/pumps show live state.
+  Node divs positioned via JS (zero inline style). Bench-only. Reused real grower controls per node next.
+
+## 2026.7.173 — W09S bench: serial bay cascade + locked model/scope
+
+### Changed
+- **Bay topology relaxed to the serial cascade** (Peter's real-world model): only Bay 1 draws from
+  MCS2; each bay drains into the next (RB-02 = Bay 1 → Bay 2), the last bay drains to the Recycle Pit
+  (RB-03). `set_topology` no longer requires a supply on Bay 2; the W09S bind form updated (Bay 1
+  supply RB-01 + drain RB-02; Bay 2 drain RB-03). Model + full-control workbench scope locked in
+  `docs/W09S_WORKBENCH.md` (recycle loop, reuse the real grower controls, inject-for-depth). Bench-only.
+
+## 2026.7.172 — W09S bench: fixed recycle-loop diagram
+
+### Added
+- **Loop diagram** on W09S, drawn from the bench topology (not `/api/hydro/graph`, which can't
+  express the loop or the drains). The recycle chain renders as live vessels — Recycle Pit → MCS1 →
+  MCS2 → MCS3, plus Bay 1/2 — that fill to the engine's live depth and are click-to-inject, with the
+  actuators between them (PMP1, MC-01, MC-02, PMP2, bay supply + B1/B2 drains) showing live pump/valve
+  state from `/api/devices`. Shows the true flow including the drain cascade (B1→B2→pit) and the
+  Pump-2 return, matching the v171 physics. Replaces the graph-driven flow visual on the bench page.
+  Bench-only, no grower surface.
+
+## 2026.7.171 — W09S bench: rebuilt to the real-world recycle-loop water model
+
+### Changed
+- **`sim_water` engine rebuilt to the real recycle loop** (Peter's model; was a linear chain):
+  recycle pit → PMP1 → MCS1 → MC-01 → MCS2 → bay supply; MCS2 → MC-02 → MCS3 → PMP2 → pit; B1 drains
+  into B2, B2 into the pit. Water now MOVES between vessels (mass-conserving `_move` helper) instead
+  of appearing/vanishing, so every automation sees the exact threshold crossings the real closed
+  chain does. Vessel↔board mapping corrected: pit=PMP1 sensor · MCS1=MC-01 · MCS2=MC-02 · MCS3=PMP2 ·
+  bay_i=supply_i. Level keys, inject-mapping, offset writeback and the W09S level chips (Recycle pit /
+  MCS1 / MCS2 / MCS3 / Bay 1 / Bay 2) updated to match. Physics pinned by 6 tests incl. full-loop
+  conservation. Bench-only, no grower surface.
+
+## 2026.7.170 — fix: W09S full-width page clears the sidebar
+
+### Fixed
+- **W09S full-screen shell slid under the fixed sidebar.** `main.ps-fullscreen` zeroes the
+  `.ps-main-content` sidebar offset (`margin:0`, WR-PS-113), so a full-width fullscreen page reaches
+  `left:0` behind the sidebar. Re-applied the `--ps-sidebar-width` left offset on the W09S container
+  (desktop only; ≤768px the sidebar is a slide-out). Content now locks to the right of the menu.
+
+## 2026.7.169 — W09S bench: full-width workbench shell
+
+### Changed
+- **W09S is now a full-screen workbench** (bench-only, no grower surface): the route opts into
+  `fullscreen`, and the container fills the viewport as a flex column with the live flow visual as
+  the hero (flex-fill); the rig-topology + engine controls sit compact in the fold beneath.
+  Realises the W09S "full-width workbench, not a column" spec.
+
+## 2026.7.168 — W09S bench: 5-node water chain (Pump1 → MC-01 → bays → MC-02 → Pump2)
+
+### Added
+- **Bench-sim rig extended to the full W09S chain** (bench-only, no grower surface). `set_topology`
+  now binds `gate2_device` (MC-02, the downstream channel) + `pump2_device` (Pump 2, demand), both
+  optional so a partial rig (e.g. Pump-2 unpowered) still binds. The water engine (`sim_water.py`)
+  models the 5-node chain: bay drains feed the downstream channel (`channel2`), MC-02's gate releases
+  it into Pump-2's sump (`pit2`), and Pump-2 running draws `pit2` down — the demand trigger. Inject +
+  the flow-visual live-device set cover the two new nodes; the W09S bind form gained MC-02 + Pump-2
+  pickers. Physics pinned by `tests/test_bench_sim_chain.py` (3/3). Foundation for the W09S workbench
+  and the HZ-03/HZ-04 bench close-out.
+
 ## 2026.7.167 — fix: farm WiFi resolves from the MAIN esphome secrets (the ESPHome UI editor)
 
 ### Fixed

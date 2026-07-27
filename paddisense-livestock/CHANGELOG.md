@@ -1,5 +1,15 @@
 # Changelog
 
+## 2026.7.9 — Bugfix: dragging a breeding group into a paddock didn't update the paddock
+
+### Fixed
+- **Moving a breeding group into a paddock (L02 drag-and-drop) left the paddock unchanged.** Repro (Peter): drag a group onto a paddock → the count modal appears → click Move → the paddock did not update. The DnD count-picker (`confirmCountPicker`, desktop `mobs.html`) created a mob in the paddock and then POSTed to `/mobs/{id}/members`, which writes only per-animal `str_mob_members` — it attached **nothing at all for an untagged group**, and for any group it never created the `str_mob_lots` (group→mob) link that the paddock board is built from, so `str_mobs.head_count` stayed 0 and the paddock showed no head. Fixed to POST `/breeding-lots/{lot_id}/assign` `{mob_id, head_count}` — the same primitive the working "Assign Group" modal uses — which creates the `str_mob_lots` link and updates the mob's head_count, so `/breeding-lots/summary` reflects the move immediately. Works for tagged and untagged groups. Mobile already used `/assign`. `tests/test_breeding_group_non_eid_head.py::test_moving_group_into_paddock_updates_paddock_summary`. Full suite 118 pass.
+
+## 2026.7.8 — Bugfix: breeding-group head double-counted after moving into a paddock
+
+### Fixed
+- **Breeding-group `total_head` inflated once the group was moved into a paddock (mob).** Repro (Peter): create a 50-head group → 50 (correct); move all 50 head into a paddock on the mobs page → the group card then read **110** (it added the mob to the group's own total). Root cause: `_HEAD_COLUMNS_SQL` computed `GREATEST(mob_lot_head, member_count) + non_eid_head`, but the mob-assignment (`str_mob_lots.head_count`) already covers the WHOLE group including its untagged head — so `non_eid_head` was counted twice (a 50-untagged group read 100; a 10-EID + 50-untagged group read 110). Fixed to **`GREATEST(mob_lot_head, member_count + non_eid_head)`** — the mob-lot is a *location* overlay of the same animals, compared against the group's full atomic composition, never summed with a slice of it. One-line fix in the shared fragment, so it corrects both the L01 group cards and the L02 paddock summary. Confirmed on live dev data (a 50/48-head group that read 100/96 now reads 50/48). `tests/test_breeding_group_non_eid_head.py::test_mob_assigned_group_does_not_double_count_untagged` (fails pre-fix). Full suite 117 pass.
+
 ## 2026.7.7 — Security: setuptools CVE pin
 
 ### Security

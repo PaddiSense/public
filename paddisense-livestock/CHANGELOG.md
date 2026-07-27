@@ -1,5 +1,18 @@
 # Changelog
 
+## 2026.7.11 — Mobile: wire the Sale flow to the head-reducing endpoint
+
+### Fixed
+- **Mobile Sale event was still log-only.** The mobile `mobs.html` event modal now mirrors desktop: for head-reducing types (sale/death/cull) it shows a tagged-animal picker + an untagged-head input and submits to `POST /breeding-lots/{lot_id}/reduce`, so a sale decrements the group total **and** the paddock on mobile too (same backend + reduction rule as v2026.7.10). No backend change — mobile now calls the endpoint desktop already used.
+
+## 2026.7.10 — Head-reducing events now decrement the group AND the paddock
+
+### Fixed
+- **Sale/death/cull events did not change stock numbers.** Repro (Peter): a 500-head breeding group, sell 400 → the group still showed 500 and the paddock did not drop. `create_event` only wrote a log row (`str_events`); no event type touched any of the four head counters (`non_eid_head`, `str_breeding_group_members`, `str_mob_lots`, `str_mobs.head_count`).
+- **New `POST /breeding-lots/{lot_id}/reduce`** — records a head-reducing event (sale/death/cull/off_farm) and actually decrements head in one transaction: the operator's chosen **tagged animals** (marked `sold`/`died`/`culled`, `left_at` set on their group + mob membership) plus an **untagged count** (off `non_eid_head`), and the **same total** is dropped off the group's paddock presence (`str_mob_lots` → recompute `str_mobs.head_count`) so the paddock falls too. Spreads across mobs largest-first (or a named mob); never goes negative. Logs a `str_events` row for history/audit.
+- **Sale modal** (desktop `mobs.html`) now presents a tagged-animal picker (the group's current EID members) + an untagged-head input and submits to `/reduce`, so both the group total and the paddock update on save. (Reduction rule per Peter: operator explicitly picks the tagged animals + untagged number.)
+- `tests/test_breeding_group_non_eid_head.py::test_head_reducing_event_drops_group_and_paddock` (a mob-assigned 2-tagged+8-untagged group; sell 1 tagged + 5 untagged → group 4, paddock 4, sold animal marked + removed). Full suite 118 pass.
+
 ## 2026.7.9 — Bugfix: dragging a breeding group into a paddock didn't update the paddock
 
 ### Fixed

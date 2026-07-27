@@ -1,14 +1,17 @@
+# GENERATED from the source config.yaml by release.sh Step 7 (WR-PS-115).
+# DO NOT hand-edit — any edit is overwritten at the next release.
+# source: PaddiSense/SeedManager@6bb4cb07cdf438f99ee61403bce68fb3185b004b
+# Catalog-only deltas are declared in contracts/catalog-overrides.yaml;
+# contracts/check-catalog-drift.py verifies catalog == source on every release + in CI.
 name: PaddiSense Seed Manager
-version: "2026.6.223"
+version: 2026.7.9
 slug: paddisense-seed-manager
-description: PaddiSense Seed Manager — seed inventory, movements, grading, and moisture tracking
-logo: true
-icon: true
+description: PaddiSense Seed Manager — seed inventory, movements, grading, and moisture
+  tracking
 url: https://github.com/PaddiSense/SeedManager
-image: ghcr.io/paddisense/{arch}-paddisense-seed-manager
 arch:
-  - amd64
-  - aarch64
+- amd64
+- aarch64
 startup: application
 ingress: true
 ingress_port: 8098
@@ -18,21 +21,21 @@ panel_title: Seed Manager
 ports:
   8098/tcp: 8098
 ports_description:
-  8098/tcp: "Seed Manager web UI"
+  8098/tcp: Seed Manager web UI
 map:
-  - addon_config:rw
-  - config:rw
-  - media:rw
-  - share:rw
+- addon_config:rw
+- config:rw
+- media:rw
+- share:rw
 options:
-  db_host: "77b2833f-timescaledb"
+  db_host: 77b2833f-timescaledb
   db_port: 5432
-  db_name: "seedmgr"
-  db_user: "postgres"
-  db_password: "homeassistant"
-  plc_host: ""
+  db_name: seedmgr
+  db_user: postgres
+  db_password: homeassistant
+  plc_host: ''
   plc_port: 502
-  admin_key: ""
+  admin_key: ''
 schema:
   db_host: str
   db_port: port
@@ -42,3 +45,6 @@ schema:
   plc_host: str?
   plc_port: port?
   admin_key: password?
+image: ghcr.io/paddisense/{arch}-paddisense-seed-manager
+icon: true
+logo: true

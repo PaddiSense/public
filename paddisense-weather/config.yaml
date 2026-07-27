@@ -1,14 +1,19 @@
+# GENERATED from the source config.yaml by release.sh Step 7 (WR-PS-115).
+# DO NOT hand-edit — any edit is overwritten at the next release.
+# source: PaddiSense/Weather@bd8d12426061448a934a982bdbe413815c722b8f
+# Catalog-only deltas are declared in contracts/catalog-overrides.yaml;
+# contracts/check-catalog-drift.py verifies catalog == source on every release + in CI.
 name: PaddiSense Weather
-version: "2026.7.6"
+version: 2026.7.9
 slug: paddisense-weather
-description: PaddiSense Weather — weather stations, forecast, burn forecast, spray assessment
+description: PaddiSense Weather — weather stations, forecast, burn forecast, spray
+  assessment
 logo: true
 icon: true
 url: https://github.com/PaddiSense/Weather
-image: ghcr.io/paddisense/{arch}-paddisense-weather
 arch:
-  - amd64
-  - aarch64
+- amd64
+- aarch64
 startup: application
 init: false
 ingress: true
@@ -18,16 +23,16 @@ panel_title: Weather
 homeassistant_api: true
 hassio_api: true
 map:
-  - addon_config:rw
-  - media:rw
-  - share:rw
+- addon_config:rw
+- media:rw
+- share:rw
 options:
-  db_host: "77b2833f-timescaledb"
+  db_host: 77b2833f-timescaledb
   db_port: 5432
-  db_name: "paddisense_weather"
-  db_user: "postgres"
-  db_password: "homeassistant"
-  admin_key: ""
+  db_name: paddisense_weather
+  db_user: postgres
+  db_password: homeassistant
+  admin_key: ''
 schema:
   db_host: str
   db_port: port
@@ -35,3 +40,4 @@ schema:
   db_user: str
   db_password: password
   admin_key: password?
+image: ghcr.io/paddisense/{arch}-paddisense-weather

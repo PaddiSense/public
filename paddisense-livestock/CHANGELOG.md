@@ -1,5 +1,19 @@
 # Changelog
 
+## 2026.7.13 — Paddock "Sync from Farm" tick-filter now works (only selected come in)
+
+### Fixed
+- **Selecting a subset in "Sync from Farm" brought them ALL in.** Root cause: the v2026.7.12 startup auto-sync imported every source paddock on boot (a fresh box has no exclusions) — so all 46 were already in before the operator could tick a subset, and the tick did nothing. Two changes:
+  - **Startup auto-sync is now UPDATE-ONLY** — it refreshes the names of paddocks the operator has *already* imported and never inserts new ones. Importing is opt-in via the modal (the filter).
+  - **The tick-apply now DEACTIVATES un-selected Farm-source paddocks** — so ticking a subset (or unticking later) yields exactly that active set. Reversible (`active=FALSE`, not deleted); locally-created (`LOC-…`) paddocks are never touched.
+- `tests/test_paddock_sync_source.py::test_tick_filter_deactivates_unselected` (fails pre-fix — an unselected already-imported paddock stayed active).
+
+## 2026.7.12 — Paddock sync now pulls from Farm (the spatial source of truth), not Core
+
+### Fixed
+- **"Sync Paddocks" showed "No paddocks found in Core".** The sync read Core's `/api/spatial/paddocks`, but paddocks live in **Farm** (the fleet's spatial authority) — Core has none. `_fetch_spatial_paddocks` now tries **Farm first**, Core as fallback, parsing each source's GeoJSON FeatureCollection (id + name from feature properties). Mirrors PWM's canonical sibling-pull (`_GIS_URLS`, `X-Ingress-Path: /api/hassio_ingress/internal`). Farm's addon slug differs by install, so both are tried: grower/catalog `c2cb91d2-paddisense-gis:8106` and dev-source `f1ecce39-paddisense-farm:8106`. The button + modal are relabelled "Sync from Farm"; the startup auto-sync is repointed too and now **respects the operator's tick-exclusion list** (an unticked paddock is not silently re-added each boot). Live-verified: 46 paddocks pulled from Farm on dev. `tests/test_paddock_sync_source.py` (Farm-first, Core-fallback, empty).
+- **Follow-up (noted):** the Farm slugs are hardcoded (matching Core + PWM convention); a config option would remove them.
+
 ## 2026.7.11 — Mobile: wire the Sale flow to the head-reducing endpoint
 
 ### Fixed

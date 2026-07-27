@@ -1,5 +1,14 @@
 # Changelog
 
+## 2026.7.10 — stop printing Ecowitt API keys in the addon log (Peter, found live on PROD)
+
+### Security
+- httpx logs every request URL at INFO, and the Ecowitt cloud call carries the grower's
+  `application_key`/`api_key` as URL query parameters — both keys were printed to the
+  addon log every 5-minute poll cycle. The `httpx`/`httpcore` loggers are now quieted to
+  WARNING at module load (`main.py`); Weather's own log calls were verified clean (no
+  key values logged anywhere). Two regression tests pin it (`TestNoSecretsInHttpLogs`).
+
 ## 2026.7.9 — owner-login rotation self-heal (WR-PS-192/074 structural fix)
 
 ### Fixed

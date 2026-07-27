@@ -1,39 +1,45 @@
+# GENERATED from the source config.yaml by release.sh Step 7 (WR-PS-115).
+# DO NOT hand-edit — any edit is overwritten at the next release.
+# source: PaddiSense/Safety@952574e5c3818a1a4a2efaf28e705e5be8e422f7
+# Catalog-only deltas are declared in contracts/catalog-overrides.yaml;
+# contracts/check-catalog-drift.py verifies catalog == source on every release + in CI.
 name: PaddiSense Safety
-version: "2026.7.5"
+version: 2026.7.9
 slug: paddisense-safety
-description: PaddiSense Safety — Worker Safety System (WSS) with zone monitoring and escalation alerts
+description: PaddiSense Safety — Worker Safety System (WSS) with zone monitoring and
+  escalation alerts
 logo: true
 icon: true
 url: https://github.com/PaddiSense/Safety
-image: ghcr.io/paddisense/{arch}-paddisense-safety
 arch:
-  - amd64
-  - aarch64
+- amd64
+- aarch64
 startup: application
 init: false
 ingress: true
 ingress_port: 8097
+ports:
+  8097/tcp: null
+ports_description:
+  8097/tcp: Office-TV kiosk display (optional). Map to a free host port + set kiosk_key
+    to enable; /kiosk is token-gated, the rest stays behind login. LAN only.
 panel_icon: mdi:shield-account
 panel_title: Safety
 homeassistant_api: true
 hassio_api: true
 hassio_role: manager
-ports:
-  8097/tcp: null
-ports_description:
-  8097/tcp: "Office-TV kiosk display (optional). Map to a free host port + set kiosk_key to enable; /kiosk is token-gated, the rest stays behind login. LAN only."
 map:
-  - addon_config:rw
-  - media:rw
-  - share:rw
+- addon_config:rw
+- media:rw
+- share:rw
 options:
-  db_host: "77b2833f-timescaledb"
+  db_host: 77b2833f-timescaledb
   db_port: 5432
-  db_name: "paddisense_safety"
-  db_user: "postgres"
-  db_password: "homeassistant"
-  admin_key: ""
-  kiosk_key: ""
+  db_name: paddisense_safety
+  db_user: postgres
+  db_password: homeassistant
+  admin_key: ''
+  kiosk_key: ''
 schema:
   db_host: str
   db_port: port
@@ -42,3 +48,4 @@ schema:
   db_password: password
   admin_key: password?
   kiosk_key: password?
+image: ghcr.io/paddisense/{arch}-paddisense-safety

@@ -1,14 +1,18 @@
+# GENERATED from the source config.yaml by release.sh Step 7 (WR-PS-115).
+# DO NOT hand-edit — any edit is overwritten at the next release.
+# source: PaddiSense/Store@d48c915c01fb1627180b091a360b7900dff1bbb5
+# Catalog-only deltas are declared in contracts/catalog-overrides.yaml;
+# contracts/check-catalog-drift.py verifies catalog == source on every release + in CI.
 name: PaddiSense Store
-version: "2026.6.54"
+version: 2026.7.5
 slug: paddisense-store
 description: PaddiSense Store — product registry, chemical inventory, stock management
 logo: true
 icon: true
 url: https://github.com/PaddiSense/Store
-image: ghcr.io/paddisense/{arch}-paddisense-store
 arch:
-  - amd64
-  - aarch64
+- amd64
+- aarch64
 startup: application
 init: false
 ingress: true
@@ -18,16 +22,16 @@ panel_title: Store
 homeassistant_api: true
 hassio_api: true
 map:
-  - addon_config:rw
-  - media:rw
-  - share:rw
+- addon_config:rw
+- media:rw
+- share:rw
 options:
-  db_host: "77b2833f-timescaledb"
+  db_host: 77b2833f-timescaledb
   db_port: 5432
-  db_name: "paddisense_store"
-  db_user: "postgres"
-  db_password: "homeassistant"
-  admin_key: ""
+  db_name: paddisense_store
+  db_user: postgres
+  db_password: homeassistant
+  admin_key: ''
   seed_author_mode: false
 schema:
   db_host: str
@@ -37,3 +41,4 @@ schema:
   db_password: password
   admin_key: password?
   seed_author_mode: bool?
+image: ghcr.io/paddisense/{arch}-paddisense-store

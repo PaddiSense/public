@@ -1,5 +1,227 @@
 # Changelog
 
+## 2026.7.44 — WR-PS-192 root cause (create-only provisioning) + startup /share app-pool self-heal
+
+> Supersedes v2026.7.43 (never ran healthy on dev — the create-only change exposed the
+> gap below before the same-version rebuild could pick up the fix; relabelled to v.44 so
+> the version matches the shipped code).
+
+### Fixed
+- **Boot provisioning no longer ALTERs existing role passwords** (`_ensure_role` is
+  create-only at boot). The every-boot repave silently fought the explicit credential
+  rails: on 2026-07-27, Core's local `db_role.key` seed vanished, boot fell back to the
+  master key and repaved all 22 role passwords — while every WR-074-flipped addon still
+  held old-key credentials. Any addon that restarted crashed on DB auth (PWM did).
+  Password changes now belong ONLY to the signed `rotate_secret` rail
+  (`create_addon_roles(..., repave=True)`) and cred-flip. The isolated `*_test` cluster
+  still repaves (same carve-out + predicate as the WR-192 divergence guard).
+- **`publish_box_db_key_to_share` refuses to pave over a conflicting `/share` key.** The
+  unconditional every-boot publish ran BEFORE the WR-192 divergence guard, so a drifted
+  local key overwrote `/share` first and the guard always compared equal — neutered by
+  its own boot ordering. A differing `/share` key now stays put: CRITICAL log + HA
+  persistent notification. `force=True` reserved for the signed rotation rail.
+- **Startup app-pool `/share` self-heal.** With provisioning create-only, Core no longer
+  force-matches the roles to its own key each boot, so a Core whose local key diverged
+  from the seed the roles were minted with must converge on the `/share` seed at startup —
+  exactly like its sibling addons — instead of crashing. The WR-PS-175 second-tier
+  fallback existed only on the request path (`_acquire_conn_from_share`); `init_app_pool`
+  now has it too (never the superuser pool; both-seeds mismatch still fails closed, R173).
+  `verify_owner_roles` also tries the `/share` seed so boot readiness isn't a misleading
+  0/11.
+- 8 regression tests (`tests/test_role_provisioning_create_only.py`).
+
+### Operational note (dev box, 2026-07-27 evening)
+- Incident recovery: all 10 flipped addons re-converged on the current derivation via the
+  cred-flip semantics (Peter-run, one at a time, health-verified 11/11 `db_ok`). The
+  distinct rotation seed is GONE — the fleet now derives from the master key (Phase-1a
+  fallback). Re-establishing a distinct seed = run the signed `rotate_secret` rail.
+
+## 2026.7.43 — (folded into v2026.7.44 — never shipped healthy)
+
+## 2026.7.42 — Hone PLAT-08: dependencies hash-locked, image installs --require-hashes
+
+### Fixed
+- **Boot provisioning no longer ALTERs existing role passwords** (`_ensure_role` is
+  create-only at boot). The every-boot repave silently fought the explicit credential
+  rails: on 2026-07-27, Core's local `db_role.key` seed vanished, boot fell back to the
+  master key and repaved all 22 role passwords — while every WR-074-flipped addon still
+  held old-key credentials in its stored options. Any addon that restarted crashed on DB
+  auth (PWM did). Password changes now belong ONLY to the signed `rotate_secret` rail
+  (`create_addon_roles(..., repave=True)`) and cred-flip. The isolated `*_test` cluster
+  still repaves (same carve-out + predicate as the WR-192 divergence guard).
+- **`publish_box_db_key_to_share` refuses to pave over a conflicting `/share` key.** The
+  unconditional every-boot publish ran BEFORE the WR-192 divergence guard, so a drifted
+  local key overwrote `/share` first and the guard always compared equal — neutered by
+  its own boot ordering. A differing `/share` key now stays put: CRITICAL log + HA
+  persistent notification, remedy is deliberate (reconcile local↔/share or rotate).
+  `force=True` is reserved for the signed rotation rail.
+- 8 regression tests (`tests/test_role_provisioning_create_only.py`) pin all three
+  behaviours: no boot ALTER, refuse-publish-on-conflict (+ evidence preserved), rotation
+  as the one forced/repave caller.
+
+### Operational note (dev box, 2026-07-27 evening)
+- Incident recovery: all 10 flipped addons re-converged on the current derivation via the
+  cred-flip semantics (Peter-run, one at a time, health-verified 11/11 `db_ok`). The
+  distinct rotation seed is GONE — the fleet now derives from the master key (Phase-1a
+  fallback). Re-establishing a distinct seed = run the signed `rotate_secret` rail.
+
+## 2026.7.42 — Hone PLAT-08: dependencies hash-locked, image installs --require-hashes
+
+### Security
+- **`requirements.lock` regenerated with `pip-compile --generate-hashes --allow-unsafe`**
+  (55 packages, 1275 sha256 hashes, 0 unhashed — pip/setuptools pinned too). The old
+  lock carried zero `--hash` lines, so the image build would accept any archive a
+  compromised index/mirror served for a pinned version.
+- **Dockerfile installs ONLY from the lock with `--require-hashes`** — a package whose
+  archive doesn't match its recorded hash, or any dep missing from the lock, aborts the
+  build. No unverified fallback path (GSM v2026.7.33 donor pattern, fail-closed).
+- **`.github/dependabot.yml` added** (pip + docker + github-actions, weekly) — the
+  SRV-PLAT-05 outdated-dependency tracking half; PRs update `requirements.txt` and the
+  hash lock is regenerated alongside the merge (command pinned in the file header).
+- Proven both ways before ship: clean lock resolves + hash-checks (exit 0); one flipped
+  hash byte → pip refuses with "THESE PACKAGES DO NOT MATCH THE HASHES".
+
+## 2026.7.41 — WR-PS-192 hardening: role re-mint refuses on key divergence + restart-addon uses `self`
+
+### Fixed
+- **`create_addon_roles` now refuses to re-provision when Core's local db-role key
+  has drifted from `/share/paddisense/db_role.key`** (the copy the addons derive
+  from). Every boot it ALTERs role passwords to the local-derived value; if a
+  rapid-redeploy race churns local `/data` away from `/share` (the 2026-07-27
+  incident), an un-guarded re-mint would set every role to a password the addons
+  don't have and break fleet DB auth at once. The guard is fleet-only (skipped on
+  the `*_test` cluster) and logs CRITICAL, leaving roles intact — the fix is to
+  reconcile local↔`/share` (a clean restart's `publish_box_db_key_to_share` does
+  this, which recovered it live). Note: the earlier "stale in-memory cache" framing
+  was wrong — `get_db_role_key_bytes()` reads the file each call; the real fault is
+  local↔`/share` file drift, which this guards.
+- **`/admin/restart-addon` now targets `/addons/self/restart`** instead of an
+  env/hostname-derived slug that Supervisor 404'd on (found driving the WR-192
+  recovery — the restart endpoint returned 500 "HTTP 404"). `self` is Supervisor's
+  canonical self-reference, same idiom `heartbeat.py` already uses.
+- 6 tests: divergence detection (differs/matches/no-share), guard refuses-before-
+  write, proceeds-when-aligned, and skips on the test cluster.
+
+## 2026.7.40 — cred-flip: verify the LIVE admin-pool role, not just db_ok (weak-signal gap)
+
+### Fixed
+- **A flip is "done" only when the admin pool actually connects as the owner
+  role** (`pg_stat_activity` check), not when `/health db_ok` is true. `db_ok`
+  reflects the runtime-derived `*_app` pool, which works regardless of the
+  flip — so an addon whose build predates the `db_user`→admin-pool mapping (or
+  that never restarted into it) reported success/"already flipped" while its
+  admin pool stayed on the `postgres` superuser (found live 2026-07-27 on
+  store/planner/farm). Now: "already flipped" requires the owner role live;
+  success requires `db_ok` AND owner-live, else roll back with an honest error
+  naming the likely cause (stale build). +2 tests.
+
+## 2026.7.39 — WR-PS-116 Core half: the §9-A.12 addon_update executor (fleet rollout rail)
+
+### Added
+- **Core now receives and executes Admin's signed `addon_update` directives**
+  (`core/update_directive.py`) — the box-side half of the "Roll out to fleet"
+  gate (Admin half live in v2026.7.77/.78). Built against the FROZEN
+  `SIGNED_LICENCE_CONTRACT.md §9-A.12`, riding the existing
+  `signed_instructions[]` heartbeat array beside owner_reset/rotate_secret.
+- **Verify → bind → quiet-window → execute:** pinned-key Ed25519 + payload-
+  carried 15-min TTL + nonce + durable HWM; then the three bindings that make
+  a captured directive inert — `target` == this box's server_id, installed ==
+  `from_version`, catalog head == `target_version` (store-reloaded first) —
+  plus a fleet-slug allowlist (admin/gsm excluded). Wrong box / wrong version /
+  catalog mismatch ⇒ refuse loudly, never install.
+- **Quiet window (Amendment 5 by construction — no box-side queue):** a
+  deferred delivery is simply declined and re-served by Admin next heartbeat,
+  so whatever installs was verified seconds earlier and a Halt stops the flow
+  within one beat. `normal` defers on any `busy_reason`; `critical` installs
+  through pump/flush but still waits for `valve_moving`. Health `busy_reason`
+  is the v1 interface (PWM grows the field at bench time; absent = clear).
+- **Attestation** `extra.addon_update` on every heartbeat (old→new + result)
+  for Admin's convergence view — written before dispatch so Core-updating-Core
+  survives its own container restart. `auto_update`-ON is flagged loudly (it
+  would bypass the gate). Supervisor prior-image watchdog = recorded follow-up
+  (§9-A.12 amendment 2). 12 tests across the full frozen matrix.
+
+## 2026.7.38 — cred-flip: non-canary failures are independent (farm mid-deploy stranded store/planner)
+
+### Fixed
+- **flip_all no longer aborts the whole pass on a non-canary failure.** Live
+  lesson: farm bounced twice (mid-deploy on another Claude's session) and its
+  abort stranded store + planner on the superuser. A failed CANARY still
+  aborts (systemic doubt); after a good canary each attempt is independent —
+  it rolled itself back, the rest get their turn, failures are collected and
+  reported. Farm now runs second-to-last, PWM last. +1 test, order test
+  extended.
+
+## 2026.7.37 — 🔴 restore misroute fixed: date-stamped backups restored into the WRONG database
+
+### Security / Fixed
+- **Caught live by the WR-074 step-4 restore drill:** `_detect_target_db` could
+  not match date-stamped filenames (`2026.07.27-paddisense-safety.sql.gz.enc` —
+  the `startswith` never fired past the date), and the fallthrough DEFAULTED to
+  `paddicore` — Safety's dump restored into Core's database. Every dated addon
+  backup restored via DB01 has been misrouting this way. Fix: the date/time
+  stamp is stripped before matching, and BOTH detection paths (on-box +
+  upload) now **fail closed** — an unrecognisable filename is refused with a
+  400, never guessed. 10 regression tests incl. the exact incident filename
+  (proven-fail pre-fix).
+- **Cleanup migration `drop_misrouted_restore_leak`** removes the leaked
+  foreign tables (`wss_*`) from paddicore — idempotent, heals any box that
+  ever hit the same misroute (notification_* already covered by the legacy
+  drop). Damage audit on dev: Core's own tables and users untouched (the
+  colliding `ps_users` COPY appended nothing); leak was 6 foreign tables.
+
+## 2026.7.36 — WR-PS-074 Phase-2 half (i): THE credential flip (existing boxes off the shared superuser)
+
+### Security
+- **Every domain addon's saved options flip off `db_user: postgres` /
+  `db_password: homeassistant` onto its per-DB owner role** (`pwm_owner`,
+  `farm_owner`, … — DDL inside its own database, nothing else), with the
+  box-derived password. A leaked addon credential no longer opens every
+  database on the box. Core itself is deliberately NOT flipped (gateway:
+  creates DBs/roles, takes the fleet backup — its superuser rotation is the
+  ADR-013/SEC-08 lane). The `*_app` DML pools are untouched.
+- **Fail-closed verify harness (Peter-ratified order):** box gate =
+  owner-roles verify 11/11 `flip_ready`; per addon: a REAL owner-role login
+  BEFORE options are touched → Supervisor options write → restart → poll
+  `/health db_ok` → on failure the previous credentials are restored, the
+  addon restarted again, and a persistent notification raised (R171).
+  Sequential with canary ordering: safety first, PWM last, abort on first
+  failure. Idempotent (already-flipped addons skip).
+- **Unattended execution for grower boxes:** startup task, default ON
+  (code-default — grower boxes have no env plumbing; `PS_CRED_FLIP_AUTO=0`
+  kill-switch), plus `/admin/cred-flip {slug}` + `/admin/cred-flip-all`
+  for manual canary/re-run. 8 tests (pre-verify gates the flip, rollback
+  proven, canary order pinned, kill-switch honoured).
+
+## 2026.7.35 — SSRF guard runs at send time (Hone SEC-10 rebind TOCTOU)
+
+### Security
+- **The heartbeat sender re-runs the SSRF guard immediately before every
+  POST.** The URL was validated at save, but a DNS record re-pointed at an
+  internal target afterwards sailed through the 5-minute send (save→fetch
+  rebind TOCTOU, the documented SEC-10 residual). The send-time re-check
+  shrinks the window from days to the check→connect gap of one request; a
+  rebound-internal URL is refused with a SECURITY log and the heartbeat
+  marked failed. Full resolve-and-pin considered + rejected: IP-pinning
+  breaks TLS hostname verification on the fleet's lifeline for a
+  defence-in-depth residual. Tests prove refuse-internal and still-sends-
+  external (and caught that py3.12 correctly treats TEST-NET as private).
+
+## 2026.7.34 — Executable migration rollbacks (Hone SCAL-04)
+
+### Added
+- **`MIGRATION_ROLLBACKS` ledger + `rollback_migration(name)` + CLI**
+  (`python3 -m paddicore.core.db._migrate --rollback <name>` / `--list-rollbacks`).
+  Every migration now carries a tested, executable down() — or an explicit
+  `None` marking it IRREVERSIBLE, where the tool refuses and points at the
+  daily backups instead of pretending a data-drop can be undone. Rollbacks are
+  audited; the idempotent forward pass re-applies cleanly after a rollback
+  (round-trip pinned by test). A completeness test fails the suite if a future
+  migration lands without a rollback decision — the comment-only gap SCAL-04
+  flagged can't silently return. (Note: the register's cited GSM donor
+  `tools/rollback-migration.py` does not exist — flagged for the provenance
+  gate; this is a fresh build.)
+
 ## 2026.7.33 — Dependency CVE refresh (release gate catch, Rule 155)
 
 ### Security

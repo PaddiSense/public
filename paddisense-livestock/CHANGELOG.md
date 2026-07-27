@@ -1,5 +1,25 @@
 # Changelog
 
+## 2026.7.14 — owner-login rotation self-heal (WR-PS-192/074 structural fix, port of Weather bd8d124)
+
+### Fixed
+- **Incident 2026-07-27 (fleet class — Weather was the victim):** a flipped `*_owner` login
+  uses a STATIC stored options password; a DB-role seed re-mint changed the Postgres role
+  underneath it and the addon stranded on its next restart (DB init failed → licence gate
+  fail-closed → licence screen). Livestock carries the same pool code, so the same fix lands
+  here before it bites.
+- Structural fix in `core/db/_pool.py` (verbatim port of Weather v2026.7.9 / bd8d124): for
+  `*_owner` logins the password is now DERIVED from the `/share` box key first (the fleet's
+  derivation truth, Core v2026.7.44), with the stored options password as fallback; loud
+  WARNING when the stored copy is stale. The admin/owner pool also gained the same
+  auth-failure rebuild-and-retry self-heal the app pool has had since 2026-07-09.
+  `db_user: postgres` (pre-flip) boxes are unaffected — stored password only, never derived.
+- Regression tests (`tests/test_pool_selfheal.py`): owner candidate ladder + admin-pool
+  self-heal + end-to-end stale-stored-password recovery against the real test cluster
+  (throwaway role `livestock_selfheal_test_owner`). The old
+  `test_admin_pool_never_selfheals` assertion was INVERTED with justification — it encoded
+  the incident's faulty assumption. Full suite 128 pass.
+
 ## 2026.7.13 — Paddock "Sync from Farm" tick-filter now works (only selected come in)
 
 ### Fixed

@@ -1,5 +1,232 @@
 # Changelog
 
+## 2026.7.199 — mypy release-gate fix (water_balance None guard)
+
+### Fixed
+- `automation/water_balance.py::_node_level`: explicit `None` guard on the entity `state`
+  before `float()` — the pre-release audit's mypy gate blocked v2026.7.198's grower cut on
+  `arg-type` (`Any | None`). Runtime behaviour unchanged (the old code caught `TypeError`);
+  the type contract is now explicit. No other changes.
+
+## 2026.7.198 — owner-login rotation self-heal (WR-PS-192/074 structural fix, port of Weather bd8d124)
+
+### Fixed
+- **Incident 2026-07-27 (Weather was the victim; PWM carries the same class):** a flipped
+  `*_owner` login uses a STATIC stored options password; a DB-role seed re-mint changes the
+  Postgres role underneath it and the addon strands on its next restart (DB init failed →
+  licence gate fail-closed → licence screen).
+- Structural fix in `core/db/_pool.py`: for `*_owner` logins the password is now DERIVED
+  from the `/share` box key first (the fleet's derivation truth, Core v2026.7.44), with the
+  stored options password as fallback; loud WARNING when the stored copy is stale. The
+  admin/owner pool also gained the same auth-failure rebuild-and-retry self-heal the app
+  pool has had since 2026-07-09 (PWM's own incident). `db_user: postgres` (pre-flip) boxes
+  are unaffected — stored password only, never derived.
+- Regression tests: owner candidate ladder + admin-pool self-heal (old
+  `test_admin_pool_never_selfheals` INVERTED — its assertion encoded the incident's faulty
+  assumption) + end-to-end stale-stored-password recovery on the real test cluster.
+
+## 2026.7.197 — Hone PLAT-08: dependencies hash-locked, image installs --require-hashes
+
+### Security
+- **`requirements.lock` regenerated with `pip-compile --generate-hashes --allow-unsafe`**
+  (45 packages, 982 sha256 hashes, 0 unhashed — pip/setuptools pinned too). The old lock
+  carried zero `--hash` lines.
+- **Dockerfile installs ONLY from the lock with `--require-hashes`** — an archive that
+  doesn't match its recorded hash, or a dep missing from the lock, aborts the build; no
+  unverified fallback (GSM v2026.7.33 donor pattern, matches Core v2026.7.42).
+- **`.github/dependabot.yml` added** (pip + docker + github-actions, weekly) — the
+  SRV-PLAT-05 tracking half; regenerate the hash lock alongside any dependency merge.
+- Proven both ways before ship: clean lock resolves + hash-checks; one flipped hash byte
+  → pip refuses with "THESE PACKAGES DO NOT MATCH THE HASHES".
+
+## 2026.7.196 — Water-balance checker: gate depth sensors were NEVER read (permanent STALE-SENSOR)
+
+### Fixed
+- **Every sensored gate flagged STALE-SENSOR forever** — a hydro-graph gate node's `sensor_device`
+  is the gate's stored `depth_sensor` (an entity id), but the balance checker's `_node_level()`
+  treated every `sensor_device` as a DEVICE NAME and fed it to the resolver, which anchors nothing
+  for an entity id → level None on every sample → stale flag on every evaluation. Found live during
+  the HZ-03 bench run (MC-01/MC-02 flags that never cleared). `_node_level` now reads entity-id
+  sensor_devices directly from HA state (unit-normalised); device names keep the resolver path.
+  3 tests. Also repaired live data: MC-01's stored depth sensor pointed at MC-02's dead pre-rename
+  entity id (cross-wired) and MC-02 had none — both re-pointed to their own boards' live sensors.
+
+## 2026.7.195 — W03 rebuilt as the Automations viewer (Peter-directed design session)
+
+### Changed
+- **Desktop W03 is now the read-only Automations viewer** — pick an automation (Flush · Pond ·
+  Demand Pumping · Demand Level · Channel Management · Water Balance backstop) and see the
+  canonical **trigger → response contract**, rendered faithfully from the controller source (cited
+  per automation, monolith-parity verified), plus every live instance with its parameters and last
+  decision trace. Two OPEN RULINGS are flagged inline in the Flush contract (timer-end release
+  behaviour; paddock-wide gate close on flush start) — surfaced, not buried.
+- **The HZ-03 balance policy gets its first UI**: OFF / ALARM / HOLD buttons on the Water Balance
+  view (manager-gated POST, server-confirmed paint); `GET /api/hydro/balance` now returns the
+  current `policy`. The old broken editor page is retired on desktop (gate/pump rule EDITING lives
+  on W05/W06 since v.83); mobile keeps the legacy editor unchanged. Editor structural gates
+  re-scoped to mobile; 5 new viewer gates added.
+- Phase 2 (design agreed, not built): the HA-authoring round-trip — build rule-shaped automations
+  in HA's automation UI on dev, PWM imports/validates/executes with its guard chain, exports back
+  for editing. Dev-only, beside Bench Sim.
+
+## 2026.7.194 — Bench (W09) is grower-facing: calibration belongs to the field
+
+### Changed
+- **W09 Bench graduated out of the Development section** (Peter 2026-07-24): actuator/depth
+  calibration lives there and growers calibrate in the field. Sidebar entry now sits directly
+  below Notifications in the setup group; route un-gated. Its entire command surface rides the
+  operator-gated device endpoint — the same control class W01/W02 already give a grower.
+  **W09S Bench Sim (water engine / depth inject) stays dev-only** — route 404s and nav hidden on
+  grower installs; the bench-fixture APIs (test paddock / test mode) stay dev-only too. Gate tests
+  updated to pin the new split.
+
+## 2026.7.193 — base.yaml 2.3.0 hardening (v192 hotfix: duplicate sensor key): SNTP time fallback + OTA failure visibility (fleet OTA test cut)
+
+### Added
+- **SNTP fallback clock** — time came ONLY from HA, so an HA outage left boards clockless
+  (timestamped logs, schedules, time-anchored logic drift). SNTP now keeps the clock honest
+  independently; HA remains primary.
+- **`OTA Failures` diagnostic sensor** — failed OTAs were invisible (silent dashboard retry).
+  A reboot-surviving counter increments on every `on_error` and surfaces in HA, so a board that
+  repeatedly aborts updates is visible instead of silently stuck on old firmware.
+- **`api: reboot_timeout: 0s` documented as deliberate** — a timeout here would reboot every board
+  on the farm periodically whenever HA is down, and a reboot blips the pump relay on the GPIO15
+  strapping pin (Hone FW-08). WiFi-level recovery has its own reboot path.
+
+This cut flags every board with an update by design: the fleet-wide OTA run IS the OTA bench test,
+with one board interrupted at ~50% for the Hone FW-10 dual-partition rollback proof.
+
+## 2026.7.191 — WiFi saga closed: root cause was a secrets SSID/password mismatch; IDF pin corrected to 5.4.4
+
+### Fixed
+- **The real root cause of the fleet-wide flash failures (2026-07-24):** dev's `secrets.yaml` had
+  carried `RRAPL_HomeAssistant` + the **IOT network's password** since 2026-07-07 — harmless while
+  builds resolved the (correct) shadow secrets, fatal once v167 retired the shadow: every fresh
+  build since compiled the wrong password for its SSID → "4-Way Handshake Timeout" on every AP,
+  every board, while old firmware (built from the shadow pair) stayed connected. Peter set the
+  right password in the ESPHome Secrets UI → dev-rb-02 online first try. Model of record:
+  **dev boards → RRAPL_HomeAssistant, prod boards → RRAPL_IOT, one Secrets-UI source per box.**
+- **v190's esp-idf pin corrected 5.5.1 → 5.4.4**: the esphome-libs mirror only serves the latest
+  patch per minor, so 5.5.1 404'd at build time. 5.4.4 is bench-proven (dev-rb-02). The pin stays
+  as hygiene (framework was NOT the culprit) — an unpinned framework let builder updates silently
+  swap the radio stack; bumps are now deliberate + canary-first.
+
+## 2026.7.190 — PIN esp-idf 5.5.1 (ESPHome 2026.7.2 builder broke ESP32 WiFi auth)
+
+### Fixed
+- **Every board flashed from the ESPHome 2026.7.2 builder failed to join WiFi** ("4-Way Handshake
+  Timeout" / "Auth Expired") while previously-flashed boards stayed connected — the phone-connects,
+  secrets-verified, AP-unchanged triangulation left one variable: the builder's bundled esp-idf.
+  Known upstream class (esphome/esphome#13443: esp-idf 5.5.2 breaks ESP32 WiFi auth; 5.5.1 good).
+  `base.yaml` now **pins `framework: esp-idf version: "5.5.1"`** — an unpinned framework meant every
+  builder update silently swapped our radio stack under the fleet. Future bumps are deliberate,
+  canary-first per docs/FIRMWARE_ROLLOUT.md.
+
+## 2026.7.189 — Dev boxes mint dev-* device names (dev/prod share one LAN)
+
+### Fixed
+- **Dev and prod boxes minted identical device names** (`pmp-NN`/`ch-NN`/`rb-NN`) on the same
+  physical network — two boards with the same mDNS hostname = identity fights, wrong-board API
+  connections, "invalid encryption key" chaos (Peter root-spotted it live: prod picked up dev's
+  ch-02). A dev box (admin_key convention) now mints **`dev-pmp-NN` / `dev-ch-NN` /
+  `dev-rb-NN`** — a namespace structurally collision-free with grower boxes.
+  Prod-style names never feed the dev counter (numbering starts fresh). Test pinned.
+
+## 2026.7.187 — Board-stranding class KILLED: creds harvest from the flashed YAML, never re-mint
+
+### Fixed
+- **Root cause of three stranded boards found and closed** (pdev-mc-01 2026-07-20, pmp-01 + rb_01
+  2026-07-23; audit-trail proven). The kill chain: discover's prune deletes a registry row →
+  re-creates it BARE (no `yaml_vars`) → the next regenerate MINTED fresh per-device creds → the
+  board still runs what it was flashed with → OTA + native API both dead, serial flash the only
+  recovery. On a 50-farm fleet this is a truck roll.
+  Fix, two layers: `get_or_create_device_secrets` now **harvests the creds from the device's own
+  YAML file** (the record of what the board was actually flashed with) before ever minting —
+  minting is reserved for genuinely new devices with no YAML; and discover's row creation harvests
+  at insert so re-created rows are never bare. Self-healing: a bare row + existing YAML now
+  recovers silently (logged loudly as `creds_harvested`). 3 tests pin the precedence
+  (registry → YAML → mint).
+
+## 2026.7.186 — Pump runtime/water/service accrual FIXED + ESPHome "modified" churn FIXED
+
+### Fixed
+- **Pump run sessions never opened since the port** — `track_pump_state()` (which writes
+  `pwm_pump_run_log`, the source for runtime totals, water use = hours x flow, and service-hour
+  accrual) had ZERO callers: the monolith called it from the live poll and the port lost the call
+  site. Found on PROD: main pump ran for hours, all three meters frozen. New supervised
+  `pump_run_tracker` loop samples every pump each minute (UI-independent — the monolith only
+  tracked while a page was open). Offline board = session closes (board meters own the dark gap);
+  unresolvable entities = skip, never a false stop. 3 tests.
+- **Every board flipped to "modified" in ESPHome after every PWM update/restart** — `run.sh`
+  blind-copied all firmware includes on every startup (added 2026-07-19 to fix the sync's missing
+  module files, but it bypassed the content compare), bumping every include's mtime; the ESPHome
+  dashboard compares include mtimes against each board's last compile. Now copies only when
+  content differs — byte-identical includes are left untouched.
+
+## 2026.7.185 — Ganged actuator pairs are ONE control in the demand workflow
+
+### Added
+- **Ganged gates (two actuators, one water — `gang_switches` on the board) now appear as a single
+  "(both actuators)" entry** in the W05 upstream picker AND the auto-stop watch list (Peter
+  2026-07-23). Linking one writes the identical Pump Watch rule into BOTH actuator blocks
+  (`suffix: "both"` on the pump-watch endpoint), so the pair regulates in unison through the
+  ordinary per-actuator machinery — one card, one set of Low/High Demand boxes. Independent
+  2-actuator gates keep their two per-actuator entries. Tests pin the both-blocks write.
+
+## 2026.7.184 — W05 upstream card redesign (Peter walk, 2026-07-23)
+
+### Changed
+- **"1. Watch" → "Watch Sensor"**; "+ Link" button gone (both picks create the link; both pickers
+  now RESET after linking — the retained Watch value turned the next actuator pick into a surprise
+  duplicate link).
+- **Sensor list shows names only** — the live reading in the option text cluttered the picker.
+- **The in-card sensor select is gone** — it duplicated the Watch picker and read as a confusing
+  extra option. The watched sensor shows as text in the card header ("Pit sensor → controls MC-01");
+  unlink (×) and re-pick to change it.
+- **Low/High clearly separated:** each link card now carries two bordered boxes — **"Low Demand
+  setting"** and **"High Demand setting"** — each with labelled fields: *Min depth (cm) — gate opens
+  below* and *Max depth (cm) — gate closes above*. Same stored truth (per-gate Pump Watch), just no
+  longer crammed into two cryptic inline rows.
+
+## 2026.7.183 — W05 walk fixes: depths appear on link, phone sensors out of the depth list
+
+### Fixed
+- **Upstream link depths were hidden behind a third click** — the LOW/HIGH min/max inputs live on
+  the link card, which only appeared after "+ Link". Now picking BOTH "Watch" + "Control with"
+  creates the card (and its depth inputs) immediately; + Link stays for parity (Peter walk
+  2026-07-23: "I can set the watch and the gate but not depths").
+- **Companion-app phone "distance" sensors excluded from the canonical water-depth list** — the HA
+  phone app publishes a `device_class: distance` sensor per phone, which passed the filter and
+  polluted every depth picker. phone/ipad/tablet name hints now reject (test pinned).
+
+## 2026.7.182 — Demand: AUTO arm on the pump card + manual takeover + OFF opens (Peter-directed)
+
+### Added
+- **W02 pump card AUTO button** (desktop + mobile), next to OFF/LOW/HIGH: one arm for BOTH demand
+  autos — auto-stop (all watched gates closed = zero demand, or flood max → pump stops) and level
+  auto-compute (the demand level follows the watched gates). `POST /api/pumps/{id}/demand/auto`;
+  refuses to arm with nothing watched. The demand panel now also shows when only auto-stop
+  monitoring is configured (it used to hide unless upstream level control was enabled).
+
+### Changed
+- **Manual takeover sticks (trap closed):** tapping OFF/LOW/HIGH drops AUTO server-side. Before
+  this, the level auto-compute ran whenever demand was configured and silently overwrote a manual
+  pick within one controller cycle — the missing "button to select auto" in its truest form.
+- **Demand OFF opens the gates (Peter ruled 2026-07-23: "off — just keep the gate open"):** the
+  OFF transition now drives the controlled gate(s) OPEN (was: closed), and the gate's Pump Watch
+  stops regulating at level none (was: silently kept regulating on the LOW band). Explicit
+  `action: close` level configs still close.
+- W05 saves carry runtime state through: the mobile save no longer resets the live demand level to
+  OFF on every config save, and both bases preserve the new AUTO flag instead of dropping it
+  (whole-object channel_control replace). Mobile's dead `close_at_cm` inputs removed (nothing has
+  consumed them since 2026-07-14 — the real thresholds are per-gate Pump Watch LOW/HIGH min/max,
+  now labelled as min/max on the desktop upstream cards).
+
+### Tests
+- `tests/test_demand_auto.py` (8): manual takeover drops AUTO · OFF opens (not closes) · arm/disarm
+  round-trip · arm refused with nothing watched · auto-compute + zero-demand stop both skipped when
+  manual · pump_watch skips at level none.
+
 ## 2026.7.181 — release-audit tidy (mypy)
 
 ### Fixed

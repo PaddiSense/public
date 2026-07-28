@@ -1,11 +1,46 @@
 # Changelog
 
-## 2026.7.45
+## 2026.7.46 — canary head check reads `version_latest` (A-Claude's find, first PROD canary)
 
-### Improved
-- Fleet updates now install more reliably: the add-on store is properly refreshed before an update is attempted, and the box now reports the reason whenever an update is waiting — so support can see what's happening without accessing your system.
-### Reliability
-- The system health check now recovers automatically after security-key maintenance, instead of showing the add-on as unhealthy when it is actually fine.
+### Fixed
+- The catalog-head binding read the store entry's `version` field — which on a box where
+  installed ≠ catalog tracks the INSTALLED build, so the check refused `catalog_head_mismatch`
+  forever even with a current catalog and the v.45 poll. Now reads `version_latest` (the
+  catalog head on every Supervisor variant), falling back to `version`. Test stubs updated to
+  model the real field semantics so this class is regression-locked.
+
+## 2026.7.45 — WR-PS-116 amendment: catalog-head poll + refusal/deferral heartbeat attestation
+
+### Fixed (first live canary findings, 2026-07-27)
+- **Catalog-head reload race:** `/store/reload` is async on the Supervisor (and rapid repeats
+  are throttled), so `_bindings_reason`'s immediate read served the pre-reload cache — the
+  first real canary (Weather → RRAPL) refused `catalog_head_mismatch` on every heartbeat
+  against a current catalog. The head check now polls (5 tries / ~16 s) before ruling; a
+  genuinely stale catalog still refuses.
+- **Fleet-visible outcomes (A-Claude's idea, Peter-approved):** refusals and quiet-window
+  deferrals now stamp the `addon_update_attest` heartbeat block (`refused:<reason>` /
+  `deferred:<busy>`, last-state-wins, `since` preserved while the outcome is unchanged) so
+  Admin's fleet view shows WHY a rollout isn't landing — no per-box log digging. Reasons are
+  closed enums; no secrets ride out. Admin panel half is A-Claude's (WR-PS-116 amendment).
+- 22 directive tests green (7 assertions updated to the new attested-outcome behaviour + 4 new).
+
+### Fixed (third find of the night — async health path had NO self-heal)
+- `async_cursor` (the `/health` DB probe) called `pool.getconn()` directly, bypassing
+  `_acquire_conn`'s auth-failure rebuild-retry — after a key event the request path healed
+  but `/health` reported degraded FOREVER (Admin's fleet view trusts /health; on a grower
+  box this is a false "addon down"). Async acquire now routes through the same self-heal;
+  health warnings now name the exception. Found via the suite's durable `db_ok` failure;
+  406/406 green after the fix.
+
+### Fixed (SECOND live WR-PS-192 incident, same night)
+- **Test-suite cluster repave:** `create_addon_roles` skipped the WR-192 divergence guard for
+  `*_test` DBs on an "isolated test cluster" assumption that is FALSE on a dev box — the test
+  DB shares the production Postgres and roles are cluster-wide, so a suite run from a shell
+  with a drifted `/data` key repaved all 22 fleet role passwords from the stale key (Core
+  down until a manual repave; this was also the mechanism behind the evening incident).
+  Test-context provisioning now derives from the PUBLISHED `/share` key whenever one exists
+  (repave becomes convergent — a no-op on a healthy cluster); the local key remains only for
+  genuinely `/share`-less environments (CI's disposable cluster). 2 regression tests.
 
 ## 2026.7.44 — WR-PS-192 root cause (create-only provisioning) + startup /share app-pool self-heal
 

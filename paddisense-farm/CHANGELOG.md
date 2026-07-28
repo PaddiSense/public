@@ -1,20 +1,14 @@
 # Changelog
 
-## 2026.7.87 — dual-mypy ignore pattern (CI vs local config skew)
+## 2026.7.87
 
-### Fixed
-- v2026.7.86 removed two `# type: ignore[assignment]` comments the LOCAL mypy config calls
-  unused — but CI's quality gate (different flags/stubs, unpinned latest mypy) still needs
-  them, and its build failed. Restored with the documented dual pattern
-  `# type: ignore[assignment,unused-ignore]`, green under both configs. Toolchain-skew
-  finding handed to the release-chain steward. No behaviour change.
+### Maintenance
+- Internal code-quality fixes; no change to how Farm works.
 
-## 2026.7.86 — mypy release-gate fix (stale type-ignores)
+## 2026.7.86
 
-### Fixed
-- Removed two stale `# type: ignore[assignment]` comments (`machine/jd_api.py`,
-  `machine/cnh_api.py`) that current mypy flags as `unused-ignore` — blocked the
-  v2026.7.85 grower cut at the release mypy gate. No behaviour change.
+### Reliability
+- The add-on now reconnects to its database automatically after system updates or maintenance. Previously, a restart at the wrong moment could leave the add-on showing its licence screen until it was manually repaired — that can no longer happen.
 
 ## 2026.7.85 — WR-PS-192/074: owner-login rotation self-heal (port of Weather bd8d124) (DEV)
 

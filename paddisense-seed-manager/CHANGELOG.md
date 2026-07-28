@@ -1,31 +1,9 @@
-# PaddiSense Seed Manager — Changelog
+# Changelog
 
-## 2026.7.9 — owner-login rotation self-heal (WR-PS-192/074 structural fix)
+## 2026.7.9
 
-### Fixed
-- **Incident 2026-07-27 (Weather was the victim; ported here from Weather v2026.7.9 /
-  bd8d124 before SM could strand the same way):** a flipped `*_owner` login uses a
-  STATIC stored options password; a DB-role seed re-mint changes the Postgres role
-  underneath it and the addon strands on its next restart.
-- Structural fix in `seedmgr/db/_pool.py`: for `*_owner` logins the password is now
-  DERIVED from the `/share` box key first (the fleet's derivation truth, Core
-  v2026.7.44), with the stored options password as fallback; loud WARNING when the
-  stored copy is stale. The admin/owner pool also gained the same auth-failure
-  rebuild-and-retry self-heal the app pool has had since 2026-07-09.
-  `db_user: postgres` (pre-flip, incl. standalone RRAPL today) boxes are unaffected —
-  stored password only, never derived.
-- Regression tests: owner candidate ladder + admin-pool self-heal + end-to-end
-  stale-stored-password recovery (`seed_selfheal_test_owner` throwaway role),
-  proven-fail against the pre-fix code.
-
-### Changed
-- Theme tokens re-cp'd byte-identical to the canonical master (Rule 17 —
-  pre-existing drift after the fleet palette-consolidation pass, flagged by the
-  verify-commit gate; no SM-specific CSS lives in the tokens copy).
-- `seedmgr/theme-exempt.txt` added (first SM commit since the 2026-07-21 hex-gate
-  hardening): declares the 31 pre-existing template/JS colour uses explicitly
-  (chart series, `_sensorColors`, DOM borderColor, grading print-report tables) —
-  all unchanged this release; chart-series token migration remains open UI debt.
+### Reliability
+- The add-on now reconnects to its database automatically after system updates or maintenance. Previously, a restart at the wrong moment could leave the add-on showing its licence screen until it was manually repaired — that can no longer happen.
 
 ## 2026.7.8 — WR-PS-183: redactor re-vendored (all six GitHub token classes)
 

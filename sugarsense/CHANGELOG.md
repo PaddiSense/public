@@ -1,31 +1,9 @@
 # Changelog
 
-## 2026.7.18 — owner-login rotation self-heal (WR-PS-192/074 structural fix, port of Weather bd8d124)
+## 2026.7.18
 
-### Fixed
-- **Incident 2026-07-27 (Weather was the victim; SugarSense carried the same latent
-  defect):** a flipped `sugar_owner` login holds a STATIC stored options password; a
-  DB-role seed re-mint changes the Postgres role underneath it and the addon strands on
-  its next restart (DB init fails → licence gate fail-closed → licence screen).
-- Structural fix in `core/db/_pool.py`: for `*_owner` logins the password is now DERIVED
-  from the `/share` box key first (the fleet's derivation truth, Core v2026.7.44), with the
-  stored options password as fallback; loud WARNING when the stored copy is stale. The
-  admin/owner pool also gained the same auth-failure rebuild-and-retry self-heal the app
-  pool has had since 2026-07-09. `db_user: postgres` (pre-flip) boxes are unaffected —
-  stored password only, never derived.
-- Regression tests: owner candidate ladder + admin-pool self-heal + end-to-end
-  stale-stored-password recovery (`sugar_selfheal_test_owner` throwaway role),
-  proven-fail against the pre-fix code.
-- Test bootstrap hardened (same incident class, found live): the shared test cluster's
-  `sugar_app` role had been rotated underneath the suite and `conftest.py` only
-  created-if-absent — the whole suite failed auth on a clean checkout. Bootstrap now
-  re-aligns the TEST role to the derived password when it can no longer authenticate
-  (test-only; production role passwords are minted by Core, never here).
-
-### Changed
-- Theme tokens re-copied byte-identical from the canonical master (Rule 17 gate flagged
-  drift — the fleet palette-consolidation had not been re-synced here; no SugarSense-side
-  edits, straight `cp` of the steward's master).
+### Reliability
+- The add-on now reconnects to its database automatically after system updates or maintenance. Previously, a restart at the wrong moment could leave the add-on showing its licence screen until it was manually repaired — that can no longer happen.
 
 ## 2026.7.17 — WR-PS-183: redactor re-vendored (all six GitHub token classes)
 

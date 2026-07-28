@@ -1,29 +1,14 @@
 # Changelog
 
-## 2026.7.199 — mypy release-gate fix (water_balance None guard)
+## 2026.7.199
 
-### Fixed
-- `automation/water_balance.py::_node_level`: explicit `None` guard on the entity `state`
-  before `float()` — the pre-release audit's mypy gate blocked v2026.7.198's grower cut on
-  `arg-type` (`Any | None`). Runtime behaviour unchanged (the old code caught `TypeError`);
-  the type contract is now explicit. No other changes.
+### Maintenance
+- Internal code-quality fix; no change to how PWM works.
 
-## 2026.7.198 — owner-login rotation self-heal (WR-PS-192/074 structural fix, port of Weather bd8d124)
+## 2026.7.198
 
-### Fixed
-- **Incident 2026-07-27 (Weather was the victim; PWM carries the same class):** a flipped
-  `*_owner` login uses a STATIC stored options password; a DB-role seed re-mint changes the
-  Postgres role underneath it and the addon strands on its next restart (DB init failed →
-  licence gate fail-closed → licence screen).
-- Structural fix in `core/db/_pool.py`: for `*_owner` logins the password is now DERIVED
-  from the `/share` box key first (the fleet's derivation truth, Core v2026.7.44), with the
-  stored options password as fallback; loud WARNING when the stored copy is stale. The
-  admin/owner pool also gained the same auth-failure rebuild-and-retry self-heal the app
-  pool has had since 2026-07-09 (PWM's own incident). `db_user: postgres` (pre-flip) boxes
-  are unaffected — stored password only, never derived.
-- Regression tests: owner candidate ladder + admin-pool self-heal (old
-  `test_admin_pool_never_selfheals` INVERTED — its assertion encoded the incident's faulty
-  assumption) + end-to-end stale-stored-password recovery on the real test cluster.
+### Reliability
+- The add-on now reconnects to its database automatically after system updates or maintenance. Previously, a restart at the wrong moment could leave the add-on showing its licence screen until it was manually repaired — that can no longer happen.
 
 ## 2026.7.197 — Hone PLAT-08: dependencies hash-locked, image installs --require-hashes
 

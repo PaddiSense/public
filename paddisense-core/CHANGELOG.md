@@ -1,5 +1,34 @@
 # Changelog
 
+## 2026.7.48 — Core-updating-Core self-update leg (WR-116 amendment 2)
+
+### Added
+- **Boot-time reconciliation of a Core self-update.** When a rollout directive targets
+  `paddisense-core`, the `/addons/paddisense-core/update` call kills this container mid-execution,
+  so the post-dispatch "installed" attest can never run. Core now writes a durable
+  `addon_update_self_pending` marker *before* dispatching, and reconciles it on the next boot
+  (`reconcile_self_update`): running == target → attest `installed` (Admin sees the leg landed);
+  running == from → attest `self_update_failed` + a throttled operator alert (R171, persistent
+  notification); any other version → `self_update_unexpected`. Wired into startup after the DB is
+  ready, before the heartbeat, so the first heartbeat carries the reconciled outcome.
+- If a self-update `/update` call returns an error *without* killing the container, the marker is
+  cleared inline (the outcome is already known) so the next boot does not re-diagnose it.
+
+### Notes
+- **Boundary (honest):** this closes the self-update *detection + attest + alert* half of amendment 2.
+  A Core that never boots at all cannot run this reconciliation — that case remains Admin's
+  canary-silence auto-halt (amendment 2 (a)) + Peter, because a dead Core cannot self-heal (the
+  fixer is the broken thing). Amendment 7 (store-slow reload/decide split) is a separate cut.
+- 7 new tests (`TestCoreUpdatingCore`): marker written on self-dispatch, none on sibling, converged/
+  failed/unexpected reconciliation, no-op without marker, inline-error marker clear. 30 directive
+  tests green; ruff + mypy clean.
+- Red-team: the marker is box-local state (config table), carries no secret, and is single-shot
+  (cleared after reconcile). A stale marker from an aborted dispatch reconciles to
+  `self_update_unexpected` (running == neither), never a false `installed`.
+- Commercial-grade: operability-historical — a self-update outcome that was previously invisible
+  (attest stuck at `dispatched` forever) now converges to a definite `installed`/`self_update_failed`
+  in Admin's attest block, with an operator alert on failure.
+
 ## 2026.7.47 — self-diagnosing refusals + realistic-semantics happy-path test (A-Claude rulings)
 
 ### Improved

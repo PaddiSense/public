@@ -3,6 +3,10 @@
 > Plain-English release notes for growers. The full technical changelog lives in the
 > source repo (`CHANGELOG.md`); this is the version that ships in the grower catalog.
 
+## 2026.7.51
+
+**Internal improvements — no user-visible changes.**
+
 ## 2026.7.50
 
 **Internal improvements — no user-visible changes.**

@@ -1,19 +1,50 @@
 # Changelog
 
-## 2026.7.10
+## 2026.7.11 — local rain gauge overrides Open-Meteo for the rain panel (Peter)
+
+### Fixed
+- **Rain Detail on W01 now follows your local station, like the wind rose already does.**
+  After you add a local station, the Rain Detail card was still showing Open-Meteo. It now
+  uses your local rain gauge as the source whenever the station has one — even a brand-new
+  station with no history yet, or a gauge sitting on 0 mm in dry weather. Open-Meteo is used
+  for rain only when no local gauge is present, and stays the source for the 7/14/16-day
+  forecast, ET0, and all modelled data as before.
+- The rain source is **sticky**: once a station is known to have a gauge it stays the rain
+  source, so a brief gateway drop-out won't bounce the panel back to Open-Meteo. The gauge is
+  auto-detected and stored when you save the station (no extra setup).
+
+## 2026.7.10 — stop printing Ecowitt API keys in the addon log (Peter, found live on PROD)
 
 ### Security
-- Weather-station (Ecowitt) API keys are no longer written to the add-on's log.
+- httpx logs every request URL at INFO, and the Ecowitt cloud call carries the grower's
+  `application_key`/`api_key` as URL query parameters — both keys were printed to the
+  addon log every 5-minute poll cycle. The `httpx`/`httpcore` loggers are now quieted to
+  WARNING at module load (`main.py`); Weather's own log calls were verified clean (no
+  key values logged anywhere). Two regression tests pin it (`TestNoSecretsInHttpLogs`).
 
-## 2026.7.9
+## 2026.7.9 — owner-login rotation self-heal (WR-PS-192/074 structural fix)
 
-### Reliability
-- The add-on now reconnects to its database automatically after system updates or maintenance. Previously, a restart at the wrong moment could leave the add-on showing its licence screen until it was manually repaired — that can no longer happen.
+### Fixed
+- **Incident 2026-07-27:** the flipped `weather_owner` login used a STATIC stored options
+  password; a DB-role seed re-mint changed the Postgres role underneath it and the addon
+  stranded on its next restart (DB init failed → licence gate fail-closed → licence screen).
+- Structural fix in `core/db/_pool.py`: for `*_owner` logins the password is now DERIVED
+  from the `/share` box key first (the fleet's derivation truth, Core v2026.7.44), with the
+  stored options password as fallback; loud WARNING when the stored copy is stale. The
+  admin/owner pool also gained the same auth-failure rebuild-and-retry self-heal the app
+  pool has had since 2026-07-09. `db_user: postgres` (pre-flip) boxes are unaffected —
+  stored password only, never derived.
+- Regression tests: owner candidate ladder + admin-pool self-heal + end-to-end
+  stale-stored-password recovery, proven-fail against the pre-fix code.
 
-## 2026.7.8
+## 2026.7.8 — wind-rose speed bins recalibrated (Peter request)
 
-### Improved
-- Wind roses now use finer wind-speed bands: 0-3, 3-10, 10-20, 20-35 and 35+ km/h — on the main wind rose and every station's rose, desktop and mobile.
+### Changed
+- Wind-rose speed bins changed from 0-5 / 5-15 / 15-25 / 25-35 / 35+ km/h to
+  **0-3 / 3-10 / 10-20 / 20-35 / 35+ km/h** on every rose: the main W01 wind rose,
+  every station-card rose (shared `drawWindRose` + `WR_SPEED_RANGES`, desktop + mobile),
+  and the canonical `WIND_SPEED_RANGES` declaration in `api/constants.py`.
+  Colours per band unchanged. No other changes.
 
 ## 2026.7.7 — theme palette-consolidation re-cp (no visual change)
 

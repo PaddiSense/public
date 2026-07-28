@@ -1,5 +1,15 @@
 # Changelog
 
+## 2026.7.47 — self-diagnosing refusals + realistic-semantics happy-path test (A-Claude rulings)
+
+### Improved
+- Rollout refusals now CARRY the observed values — `catalog_head_mismatch (head=… target=…)`,
+  `installed_version_mismatch (installed=… from=…)` — in the log line and the heartbeat attest.
+  A bare reason cost three rounds of guessing on the first PROD canary; two numbers settle it.
+- New named regression: installed BEHIND catalog with head == target MUST reach install — the
+  matrix proved every refusal but never the install with realistic Supervisor field values,
+  which is how a rail that could never install passed its tests. 23 directive tests green.
+
 ## 2026.7.46 — canary head check reads `version_latest` (A-Claude's find, first PROD canary)
 
 ### Fixed

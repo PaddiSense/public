@@ -1,14 +1,18 @@
+# GENERATED from the source config.yaml by release.sh Step 7 (WR-PS-115).
+# DO NOT hand-edit — any edit is overwritten at the next release.
+# source: PaddiSense/Farm@6c15067b5ab2e16033592e64c2c9ac3d75570e51
+# Catalog-only deltas are declared in contracts/catalog-overrides.yaml;
+# contracts/check-catalog-drift.py verifies catalog == source on every release + in CI.
 name: PaddiSense Farm
-version: "2026.7.78"
+version: 2026.7.87
 slug: paddisense-farm
-description: PaddiSense Farm — spatial farm management, machine data, HFM, NDVI, analytics
+description: PaddiSense Farm — paddock, crop and event management for rice farming
 logo: true
 icon: true
 url: https://github.com/PaddiSense/Farm
-image: ghcr.io/paddisense/{arch}-paddisense-farm
 arch:
-  - amd64
-  - aarch64
+- amd64
+- aarch64
 startup: application
 init: false
 ingress: true
@@ -19,16 +23,16 @@ homeassistant_api: true
 hassio_api: true
 hassio_role: manager
 map:
-  - config:rw
-  - addon_config:rw
-  - media:rw
-  - share:rw
+- config:rw
+- addon_config:rw
+- media:rw
+- share:rw
 options:
-  db_host: "77b2833f-timescaledb"
+  db_host: 77b2833f-timescaledb
   db_port: 5432
-  db_name: "paddisense_farm"
-  db_user: "postgres"
-  db_password: "homeassistant"
+  db_name: paddisense_farm
+  db_user: postgres
+  db_password: homeassistant
   seed_author_mode: false
 schema:
   db_host: str
@@ -37,3 +41,4 @@ schema:
   db_user: str
   db_password: password
   seed_author_mode: bool?
+image: ghcr.io/paddisense/{arch}-paddisense-farm

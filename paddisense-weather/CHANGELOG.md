@@ -1,5 +1,16 @@
 # Changelog
 
+## 2026.7.12 — support the GW2000 piezo rain gauge (Peter)
+
+Ecowitt GW2000-class gateways expose a **piezo** (haptic) rain sensor whose entities carry
+a `_piezo` suffix (e.g. `daily_rain_piezo`) — the previous mapping only knew the traditional
+names, so a piezo gauge's rain wasn't picked up and the panel fell back to Open-Meteo. Now:
+- Rain reading + gauge-detection resolve to the **piezo** entities when present (preferred —
+  the deliberately-fitted, more accurate sensor), falling back to the traditional gauge.
+- Any local gauge (piezo **or** traditional) still overrides Open-Meteo for rain.
+- The background poller resolves the same way, so piezo rain is recorded in history too.
+Traditional-only stations are unchanged.
+
 ## 2026.7.11 — local rain gauge overrides Open-Meteo for the rain panel (Peter)
 
 ### Fixed

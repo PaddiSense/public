@@ -1,5 +1,19 @@
 # Changelog
 
+## 2026.7.35 — Fix: resolving a maintenance issue with no asset could error
+
+### Fixed
+- Resolving a maintenance issue that isn't tied to an asset (e.g. a field report)
+  failed with a server error. It now resolves cleanly. (Completes the v2026.7.34
+  fix, which only covered issues whose asset had been deleted.)
+
+## 2026.7.34 — Fix: resolving an older maintenance issue could error
+
+### Fixed
+- Resolving a maintenance issue whose asset had since been **deleted** failed with
+  a server error. It now resolves cleanly — the service record keeps the asset's
+  name for history even though the asset itself is gone.
+
 ## 2026.7.33 — Your Base list choices now define what a new site starts with
 
 ### Changed

@@ -1,9 +1,53 @@
 # Changelog
 
-## 2026.7.5
+## 2026.7.8 — pricing figures held to 2 decimal places (Peter)
 
-### Reliability
-- The add-on now reconnects to its database automatically after system updates or maintenance. Previously, a restart at the wrong moment could leave the add-on showing its licence screen until it was manually repaired — that can no longer happen.
+Every dollar figure in the purchase-price calculator (total spend, price per unit, and the
+saved cost-per-stored-unit) now displays to exactly 2 decimals, matching how costs are stored.
+
+## 2026.7.7 — fix: pricing calculator now opens on the Receive page
+
+The "Calc from invoice" modal opened but was invisible on Receive — the shared modal's
+show/chrome styles lived only on the Store/History pages, not globally. Promoted the modal
+styles to `app.css` so the calculator renders on every page that uses it (Receive, History,
+product form). No behaviour change beyond the fix.
+
+## 2026.7.6 — purchase-price calculator + application-units list + retroactive price fixes (Peter)
+
+### Added
+- **Application Units are now a managed list** (Settings) — no longer hard-wired. Add/rename/reorder
+  your own like the other lists.
+- **Units carry a conversion** (measure + factor) so the app can convert between how a product is
+  bought and how it's stored — `tonne` is now included.
+- **Products have a "Bought by" (purchase) unit** — how invoices are priced (e.g. Urea bought by the
+  tonne, stored in kg). Shown on the product form, defaults to the stored unit.
+- **Purchase-price calculator** on Receive and on the History edit screen ("Calc from invoice"):
+  enter the invoice total + product amount and it works out the cost per stored unit for you — every
+  figure shown at once so a mistake is easy to spot. Converts between units (e.g. $/tonne → $/kg).
+
+### Fixed / changed
+- **Correcting a purchase price now re-values stock retroactively** — the weighted-average cost is
+  rebuilt as if the corrected price had always applied (exact even after some stock was used or voided),
+  replacing the previous approximate adjustment.
+- Every product/receive price field now spells out **which unit** the price is per — no guessing.
+
+## 2026.7.5 — owner-login rotation self-heal (WR-PS-192/074 structural fix, port of Weather bd8d124)
+
+### Fixed
+- **Incident 2026-07-27 (Weather was the victim; Store carries the same class):** a flipped
+  `*_owner` login uses a STATIC stored options password; a DB-role seed re-mint changes the
+  Postgres role underneath it and the addon strands on its next restart (DB init failed →
+  licence gate fail-closed → licence screen).
+- Structural fix in `core/db/_pool.py` (verbatim port of Weather v2026.7.9 / bd8d124): for
+  `*_owner` logins the password is now DERIVED from the `/share` box key first (the fleet's
+  derivation truth, Core v2026.7.44), with the stored options password as fallback; loud
+  WARNING when the stored copy is stale. The admin/owner pool also gained the same
+  auth-failure rebuild-and-retry self-heal the app pool has had since 2026-07-09.
+  `db_user: postgres` (pre-flip) boxes are unaffected — stored password only, never derived.
+- Regression tests: owner candidate ladder + admin-pool self-heal + end-to-end
+  stale-stored-password recovery (throwaway role `store_selfheal_test_owner`); the old
+  `test_admin_pool_never_selfheals` assertion INVERTED — it encoded the incident's faulty
+  assumption.
 
 ## 2026.7.4 — WR-PS-108 fleet flip: access-sync enforce ON by default
 

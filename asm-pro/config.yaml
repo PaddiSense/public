@@ -1,14 +1,19 @@
+# GENERATED from the source config.yaml by release.sh Step 7 (WR-PS-115).
+# DO NOT hand-edit — any edit is overwritten at the next release.
+# source: PaddiSense/ASM-Pro@9863c7a3e853876889650ab2a2e2d4b68ebfc9f6
+# Catalog-only deltas are declared in contracts/catalog-overrides.yaml;
+# contracts/check-catalog-drift.py verifies catalog == source on every release + in CI.
 name: PaddiSense Assets
-version: "2026.7.5"
+version: 2026.7.33
 slug: asm-pro
-description: PaddiSense Assets — asset management, maintenance tracking, and parts inventory
+description: PaddiSense Assets — asset management, maintenance tracking, and parts
+  inventory
 logo: true
 icon: true
 url: https://github.com/PaddiSense/ASM-Pro
-image: ghcr.io/paddisense/{arch}-asm-pro
 arch:
-  - amd64
-  - aarch64
+- amd64
+- aarch64
 startup: application
 init: false
 ingress: true
@@ -19,16 +24,17 @@ homeassistant_api: true
 hassio_api: true
 hassio_role: manager
 map:
-  - addon_config:rw
-  - media:rw
-  - share:rw
+- addon_config:rw
+- media:rw
+- share:rw
 options:
-  db_host: "77b2833f-timescaledb"
+  db_host: 77b2833f-timescaledb
   db_port: 5432
-  db_name: "asmpro"
-  db_user: "postgres"
-  db_password: "homeassistant"
-  admin_key: ""
+  db_name: asmpro
+  db_user: postgres
+  db_password: homeassistant
+  admin_key: ''
+  seed_author_mode: false
 schema:
   db_host: str
   db_port: port
@@ -36,3 +42,5 @@ schema:
   db_user: str
   db_password: password
   admin_key: password?
+  seed_author_mode: bool?
+image: ghcr.io/paddisense/{arch}-asm-pro

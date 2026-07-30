@@ -1,5 +1,21 @@
 # Changelog
 
+## 2026.7.9 — fix: licence activation failing with a false "signature verification" error
+
+Two grower boxes could not activate a new licence — the box reported a licence **signature
+verification** failure, while already-enrolled boxes kept running. The signature was never the
+problem: the addon's least-privilege database role (`store_app`) was missing its table grants, so
+the licence **save** crashed with `permission denied for table store_config` *after* the signed
+one-time token had already been consumed. The retry then looked like a replay and was rejected as a
+bad signature.
+
+- **Permanent fix:** Store now ensures its own database grants at startup instead of relying solely
+  on Core to provision them out-of-band. Self-healing on every restart, idempotent, non-fatal.
+- The licence save now returns a clear, retryable error if the database ever refuses it, instead of
+  an unhandled crash that masqueraded as a signature failure.
+
+No data or configuration change is required — the box heals itself on update/restart.
+
 ## 2026.7.8 — pricing figures held to 2 decimal places (Peter)
 
 Every dollar figure in the purchase-price calculator (total spend, price per unit, and the

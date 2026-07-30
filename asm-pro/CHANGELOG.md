@@ -1,5 +1,35 @@
 # Changelog
 
+## 2026.7.37 — Asset & parts UI: cadence restored, attribute dropdowns, 3-up part cards
+
+### Fixed
+- **Prestart Cadence can be set again.** The per-asset cadence (daily/weekly/monthly/none) field was
+  dropped from the desktop forms in an earlier "Add/Edit parity" change, leaving the stored cadence with
+  no way to edit it. It's back on the Add, Edit (desktop) and Edit (mobile) asset forms, sourced from the
+  editable Prestart Cadences list.
+- **Link-Asset-to-Part modal** no longer opens stuck tiny — it now reserves room for the asset search.
+
+### Changed
+- **Asset attribute "Type" is now a dropdown** of your managed Attribute Types (you can still type a
+  custom one — nothing existing is lost), on the Add and Edit asset forms (desktop + mobile).
+- **Parts cards** now lay out **3-to-a-row**, auto-expanding to fit their content, instead of full-width.
+- **Removed the unused "Types" list** from the Assets config tab (nothing consumed it — assets use
+  Category + Meter Type).
+
+## 2026.7.36 — Robustness: self-heal the database permissions the addon needs at startup
+
+### Fixed
+- The addon now ensures its own least-privilege database grants when it starts, instead of
+  relying solely on the central system to have provisioned them. On a box where those grants
+  were never applied (or were lost during a database-owner change), the addon previously failed
+  every database operation with `permission denied` — and, when activating a licence, surfaced a
+  misleading "licence signature verification failed" error. It now heals itself on restart.
+- Licence activation now returns a clear, retryable error if the database ever refuses the save,
+  instead of an unhandled crash that masqueraded as a signature failure.
+
+No data or configuration change is required — the box heals itself on update/restart. (WR-PS-201;
+Store v2026.7.9 is the reference fix.)
+
 ## 2026.7.35 — Fix: resolving a maintenance issue with no asset could error
 
 ### Fixed

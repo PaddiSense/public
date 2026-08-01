@@ -1,0 +1,143 @@
+name: Build PaddiSense Planner
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: "Version to build"
+        required: true
+  repository_dispatch:
+    types: [build-planner]
+
+env:
+  REGISTRY: ghcr.io
+  IMAGE_BASE: ghcr.io/paddisense
+
+jobs:
+  quality-gate:
+    # Fleet-standard CODE gate (WR-PS-060): ruff + PINNED mypy + bandit. Pinned mypy means
+    # local (release.sh) == CI — the drift that let Core ship a build that then failed.
+    # The comprehensive doc/theme/security audit is the RELEASE gate (release.sh + dev-box
+    # pre-release-audit, Rule 105) — NOT here, so a stale AUDIT.md never blocks a build.
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout private source
+        uses: actions/checkout@v4
+        with:
+          repository: PaddiSense/planning
+          ref: main
+          token: ${{ secrets.SRC_READ_PAT }}
+          path: source
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install pinned tools + deps
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r source/paddisense-planner/requirements.txt
+          pip install ruff mypy bandit types-requests types-PyYAML
+      - name: Ruff lint (pinned)
+        run: ruff check source/paddisense-planner/paddisense_planner
+      - name: Mypy type check (pinned — local == CI)
+        working-directory: source/paddisense-planner
+        run: mypy paddisense_planner --ignore-missing-imports
+      - name: Bandit security scan
+        run: bandit -r source/paddisense-planner/paddisense_planner -ll -q || true
+
+  build:
+    needs: quality-gate
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+      id-token: write        # R197: keyless cosign signing via GitHub OIDC
+
+    strategy:
+      matrix:
+        arch: [amd64, aarch64]
+        include:
+          - arch: amd64
+            platform: linux/amd64
+          - arch: aarch64
+            platform: linux/arm64
+
+    steps:
+      - name: Checkout private source
+        uses: actions/checkout@v4
+        with:
+          repository: PaddiSense/planning
+          ref: main
+          token: ${{ secrets.SRC_READ_PAT }}
+          path: source
+
+      - name: Extract version
+        id: version
+        run: |
+          if [ -n "${{ github.event.inputs.version }}" ]; then
+            echo "version=${{ github.event.inputs.version }}" >> "$GITHUB_OUTPUT"
+          elif [ -n "${{ github.event.client_payload.version }}" ]; then
+            echo "version=${{ github.event.client_payload.version }}" >> "$GITHUB_OUTPUT"
+          else
+            VERSION=$(grep '^version:' source/paddisense-planner/config.yaml | sed 's/version: *"\(.*\)"/\1/')
+            echo "version=$VERSION" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Log in to GHCR
+        uses: docker/login-action@v3
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v3
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Build and push
+        id: build            # R197: exposes steps.build.outputs.digest
+        uses: docker/build-push-action@v6
+        with:
+          context: source/paddisense-planner
+          file: source/paddisense-planner/Dockerfile
+          platforms: ${{ matrix.platform }}
+          push: true
+          tags: |
+            ${{ env.IMAGE_BASE }}/${{ matrix.arch }}-paddisense-planner:${{ steps.version.outputs.version }}
+            ${{ env.IMAGE_BASE }}/${{ matrix.arch }}-paddisense-planner:latest
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+      # ── R197 image provenance — canonical block (documentation/contracts/R197_PROVENANCE.md;
+      #    validated WR-AS-020 / ASM-Pro #77). cosign verify exit = the gate (Rule 192).
+      - name: Install cosign + syft
+        uses: sigstore/cosign-installer@v3
+
+      - name: Generate CycloneDX SBOM
+        # WR-AS-020 finding: scan the build CONTEXT filesystem, not image:@digest — syft on
+        # the amd64 runner can't pull an aarch64-only image variant. Filesystem scan is
+        # symmetric across arches (trade-off: misses base-image OS packages).
+        uses: anchore/sbom-action@v0
+        with:
+          path: source/paddisense-planner
+          format: cyclonedx-json
+          output-file: sbom.cdx.json
+
+      - name: Sign + attest + verify (fail-closed = the R197 gate)
+        env:
+          COSIGN_YES: "true"
+          IMG: ${{ env.IMAGE_BASE }}/${{ matrix.arch }}-paddisense-planner@${{ steps.build.outputs.digest }}
+        run: |
+          set -euo pipefail
+          cosign sign "$IMG"
+          cosign attest --predicate sbom.cdx.json --type cyclonedx "$IMG"
+          cosign verify "$IMG" \
+            --certificate-identity-regexp '^https://github\.com/PaddiSense/public/\.github/workflows/build-.+\.yml@refs/heads/main$' \
+            --certificate-oidc-issuer 'https://token.actions.githubusercontent.com' \
+            >/dev/null
+          cosign verify-attestation "$IMG" --type cyclonedx \
+            --certificate-identity-regexp '^https://github\.com/PaddiSense/public/\.github/workflows/build-.+\.yml@refs/heads/main$' \
+            --certificate-oidc-issuer 'https://token.actions.githubusercontent.com' \
+            >/dev/null

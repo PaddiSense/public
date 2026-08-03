@@ -1,14 +1,248 @@
 # Changelog
 
-## 2026.7.87
 
-### Maintenance
-- Internal code-quality fixes; no change to how Farm works.
+## 2026.8.8 — WR-PS-419: accept an operator's own deactivate from this box's console
 
-## 2026.7.86
+### Fixed
+- Core's console "remove licence" button carries no Admin signature — it is not a remote revoke —
+  so this addon refused it `unsigned_rejected` and the grower could not remove a licence from their
+  own box. Now a caller presenting a valid **box-key internal-auth token** (WR-PS-204) is accepted
+  as a local operator act: cryptographic proof of "Core, here", not `/23` position.
+- **Admin's remote revoke is unchanged** and still requires the Ed25519 signature; only the local
+  path is opened. Tests: `tests/test_local_operator_deactivate.py` (4) — no token is not local
+  authorisation, a valid token is, the route actually consults the check, and signature
+  verification is still on the route so the narrow path cannot become a general bypass.
 
-### Reliability
-- The add-on now reconnects to its database automatically after system updates or maintenance. Previously, a restart at the wrong moment could leave the add-on showing its licence screen until it was manually repaired — that can no longer happen.
+## 2026.8.7 — Grower boxes trust ONLY the prod Admin signing key (per-lane keyring)
+
+### Security
+- The vendored Admin keyring carried **two** keys since 2026-08-01: `admin-2026a` (prod) and
+  `admin-dev-2026a` (the DEV Admin instance). Signature verification resolves the licence's own
+  `key_id`, not `active` — so shipping both would make the **development** Admin a trusted licence
+  authority on every grower box. Peter ruled it out (2026-08-03) before the first release that
+  would have carried it; no released version has ever contained the dev key.
+- `data/admin_signing_pubkey.json` is now the **prod-only** keyring, re-vendored byte-identical
+  from canonical. Dev boxes re-add the dev key out-of-band via `PS_ADMIN_PUBKEY_FILE` (a mechanism
+  `licence_verify` already supports) pointing at `/share/paddisense/admin_signing_pubkey.dev.json`
+  — a file growers never have, so `run.sh`'s conditional export is a no-op on a grower box.
+
+## 2026.8.6 — WR-PS-201 §9-A: a failed licence save hands back the reserved nonce
+
+### Fixed
+- `verify_artifact` RESERVES the signed artifact's one-time nonce the instant the signature checks
+  out — *before* anything is persisted. When the save then failed (classically `farm_app` missing its
+  DML grant on a fresh or owner-flipped box), the reservation stood, so Core's retry of the
+  IDENTICAL artifact was judged a **replay** and the grower was shown
+  **"Licence signature verification failed"** for what was a database fault. That false diagnosis is
+  what sent two grower boxes down the wrong path on 2026-07-30.
+- Re-vendored the canonical `core/licence_verify.py` (byte-identical, `cmp -s` clean) to pick up
+  `release_nonce()`, and wired it at the licence-save site: on a save that is genuinely dead —
+  *after* the in-line grant self-heal and retry — the nonce is released so the retry is judged on
+  its merits. On SUCCESS the reservation stands, preserving the single-use guarantee.
+
+### Tests
+- `tests/test_licence_nonce_release.py` — release frees a reserved nonce; the instruction-shaped
+  `target` subject key works as well as `licence_id`; and an unsigned/partial payload is a safe
+  no-op that must NOT over-release.
+
+## 2026.8.5 — WR-PS-152 F-D3: re-vendor the canonical log redactor (`enc:v2:` masking restored)
+
+### Fixed
+- The vendored log redactor had drifted to the **v1-only** `enc:` pattern, so an `enc:v2:` or bare
+  `enc:` encrypted-secret token appearing in a log line or stored error string was **NOT masked**
+  (Rules 88/164). Re-vendored byte-identical from canonical `documentation/shared/log_redactor.py`
+  (`cmp -s` clean), restoring the optional-version-segment pattern from WR-PS-152 F-D3.
+- The drift survived because `check-vendored-sync.py` could not resolve this addon's vendored path
+  (the manifest carried no `dest_by_addon` row for this package name), so the ADR-020 gate skipped
+  the file — and the addon's own test asserted `enc:v1:` only. Both closed: manifest row added, and
+  `tests/test_log_redactor.py` gains `enc_token_v2` + `enc_token_bare` cases (Rule 106 regression —
+  proven to FAIL against the drifted pattern before the fix).
+
+## 2026.8.4 — ADR-020: canonical `core/ingress.py` upgraded (cached, fail-closed)
+
+### Changed
+- Re-vendored `core/ingress.py` (canonical) — `is_ingress` now uses the fleet-standard
+  cached, fail-closed infra-peer resolution (ADR-020 Option A, Core's model) instead of a
+  per-request DNS lookup. No behaviour change beyond the perf fix + loopback trust.
+
+
+
+## 2026.8.3 — ADR-020 convergence (canonical `core/ingress.py`)
+
+### Changed
+- Vendored `core/ingress.py` (canonical `is_ingress` resolved-proxy pin + `INGRESS_SESSION`/
+  `INTERNAL_SESSION`) from `documentation/contracts/ingress.py`; `core/auth.py` imports it instead
+  of a local copy. Green through `check-fleet-structure` + `check-vendored-sync`. No behaviour
+  change — the ingress logic is byte-identical, now canonical-sourced.
+
+
+## 2026.8.2 — Box-key internal-auth token for sibling proxies (fleet root-cause fix)
+
+### Security
+- New `core/internal_auth.py` (vendored fleet-wide from `documentation/contracts/internal_auth.py`):
+  a symmetric bearer token derived from the shared box master key
+  (`/share/paddisense/master.key`) via HMAC. This replaces the legacy
+  `172.30.32.0/23` subnet trust — the mechanism that let any sibling addon forge
+  `X-Ingress-Path` for an admin session (closed in v2026.8.1) but was ALSO the only
+  thing authenticating legitimate sibling→Farm calls (PWM/Safety/Livestock pulling
+  `/api/spatial/*`). Pinning is_ingress in v2026.8.1 correctly killed the forge but
+  broke those proxies; this restores them on a cryptographic footing.
+- **Receiver:** `core/auth.py::require_auth` now grants a **read-only** (`viewer`)
+  session to a caller presenting this box's valid internal token — reads
+  (viewer-visible spatial GETs) pass, per-route role gates still block any mutation,
+  so a leaked token cannot write. is_ingress stays pinned to the resolved proxy IP.
+- **Caller:** `hfm/products.py` (Farm → Store `/api/hfm/products`) now attaches
+  `internal_headers()` so it keeps working once Store pins its own is_ingress.
+- The Core→addon access-sync push is Ed25519-signed already and is out of scope here;
+  its `_verify_internal` subnet fallback stays on its own instrumented track.
+
+
+## 2026.8.1 — Pin ingress trust to the resolved proxy peer (Rule 167/172/187)
+
+### Security
+- `core/auth.py::is_ingress` no longer trusts the broad `172.30.32.0/23` Supervisor
+  subnet — it now pins to the **exact resolved IP** of an HA ingress proxy
+  (`supervisor`/`homeassistant`/`hassio`), matching the PWM reference fix. Under the
+  old subnet trust, **any sibling addon on the hassio bridge could forge the
+  `X-Ingress-Path` header and obtain the Farm admin ingress session** (verified live
+  this session: a sibling addon forged the header and read `/api/spatial/bays` as
+  admin). Replaces `_SUPERVISOR_NETWORK` with `_INGRESS_PROXY_HOSTS` +
+  `_is_trusted_ingress_proxy()`; an untrusted peer presenting the header is now denied
+  and logged. Regression test: `tests/test_smoke.py::test_forged_ingress_header_from_untrusted_peer_rejected`.
+
+
+## 2026.7.100 — Trust the DEV Admin signing key (dev-box enrolment)
+
+### Changed
+- Re-vendored `paddisense_farm/data/admin_signing_pubkey.json` from canonical `documentation/contracts/admin_signing_pubkey.json` — adds `admin-dev-2026a` beside prod `admin-2026a` so this DEV box verifies DEV-Admin-signed licences (verification is per-key_id, so additive; prod key unchanged). Fleet keyring propagation (Core did the same, v2026.7.58). ⚠ ships the dev key to PROD at the next grower release — per-lane keyring decision owed to Peter+A before a prod cut.
+
+## 2026.7.99 — M3: remove pumps + gates from Farm (authored in PWM)
+
+### Removed
+- Pumps and gates are no longer Farm infrastructure types — they're authored in PWM. Removed the
+  `pump` + `gate` feature-types from the registry seed (`_INFRA_FEATURE_TYPES_SEED` + their attribute
+  defs) so fresh boxes never offer them; migration `m3_remove_pump_gate_infra` deletes the
+  `pump` / `pump-_electric` / `gate` types + any drawn rows on existing boxes (dev had 2 pumps + 1
+  electric pump + 6 gates), nulling any field-event link first. Idempotent; rollback note in the
+  migration. **Kept in Farm:** the 11 supply channels, drain channels, bays, roads, sheds, dams,
+  bores, fences, pipelines, powerlines — everything else. Registry/tree/export/delete tests were
+  retargeted from pump/gate to kept types (supply_channel / bore). 255 tests pass; ruff + mypy clean.
+
+## 2026.7.98 — M3 course-correction: restore Farm infrastructure + bays
+
+### Changed
+- Reverted v2026.7.96 (M3 Phase 1) + v2026.7.97 (M3 Phase 2) — they removed too much from Farm.
+  Corrected split (Peter, 2026-07-31): **Farm KEEPS all infrastructure drawn on its map** — bays,
+  channels, roads, sheds, the typed registry; **only PUMPS + GATES move to PWM** (authored there).
+  Bays stay Farm-drawn + PWM-consumed; channels stay in Farm (visual) and PWM keeps making its own.
+  This commit restores everything (255 tests pass). The pump+gate removal from Farm and the PWM
+  bay-consumer restore are the follow-ups — see `docs/SESSION_PICKUP.md`.
+
+## 2026.7.95 — Licence activation self-heals its database access
+
+### Fixed
+- On some boxes the least-privileged database role Farm uses for everyday queries (`farm_app`)
+  could be missing the permissions it needs — for example if they were never granted, or were
+  lost when the database owner changed. When that happened, activating your licence could fail
+  with a misleading "signature verification failed" message that was really a database permission
+  problem. Farm now re-grants its own database permissions on every startup (safe to repeat), so
+  the problem heals itself on the next restart. If a licence still can't be saved, you now get a
+  clear "verified but could not be stored — retry after restart" message instead of a hard error.
+
+## 2026.7.94 — Events now use your local date, not UTC
+
+### Fixed
+- When you record a field event, its date now defaults to **today in your local time**.
+  Previously the default came from UTC, so an event logged first thing in the morning could
+  default to *yesterday* — landing under the wrong season and matching the wrong day's weather.
+  The date pickers, Today/Yesterday quick-picks, burn-forecast day labels, and imported-event
+  dates all follow local time now, and server-side event queries slice the day on your local
+  calendar. Existing records are unchanged.
+
+## 2026.7.93 — mobile sweep: match.html stacks on a phone + events_gsm tabs/buttons tightened
+
+### Fixed
+- **`match.html` (boundary matching) was unusable on mobile** — a static two-panel flex (table + a
+  fixed 35% / min-280px side map) with zero `@media`, so on a phone the map squeezed the table to
+  nothing (its own comment noted the map "shoves the table panel out"). Added `@media max-width:768px`:
+  `#mainLayout` stacks (table over map), the map goes full-width at 46vh, and the top/search bars wrap.
+- **`events_gsm` mobile polish** — it already renders via the responsive `desktop/base.html` (hamburger
+  sidebar) and stacks its main grid, but the 3-up nav tabs and the action-button row were cramped on a
+  phone; the mobile `@media` now lets tab labels wrap and stacks the button row full-width.
+- **HOME-button consistency** — audited every page's HOME control against the fleet-standard
+  `.ps-mobile-home` (blue box, white text, in the master theme). `record-desktop` used a bare `🏠 Home`
+  emoji link → normalised to `.ps-mobile-home`. (Remaining outliers flagged for a follow-up call: the
+  Farm-Map `🏠` rides the mobile-map redesign; `hfm_wizard` / `record-mobile` use a context-aware
+  chevron "‹ Home"/"‹ Map" back-button, left as-is pending Peter's ruling.)
+
+## 2026.7.92 — Farm Map (MP02) is now mobile-responsive (full-screen map + drawers)
+
+### Fixed
+- **On a phone the Farm Map showed only the tree.** `/farmmap` serves one `farmmap.html` for both
+  desktop and mobile, and its layout was a fixed CSS grid (`300px 1fr 320px` = tree | map | analysis)
+  with **zero `@media` queries** — so on a ~375px screen the 300px tree ate the width, the map
+  collapsed to nothing and the analysis panel was off-screen. Added a mobile layout (`@media
+  max-width: 768px`): the **map goes full-screen**, the **tree becomes a ☰ slide-in drawer**, and the
+  **analysis becomes a bottom-sheet** that slides up when a feature is selected (auto-detected via a
+  MutationObserver on `#analysis`); a backdrop or re-tapping ☰ closes them. Desktop is untouched —
+  every rule gates on the media query. One file, no duplicate mobile page.
+
+## 2026.7.91 — split-bay UX: new pieces stay ON + remember the split width
+
+### Fixed
+- **After splitting a bay, the new pieces came back OFF.** A split deletes the original and mints
+  fresh bay ids, which aren't in `savedLayerKeys` (the localStorage set that drives layer visibility),
+  so the post-split `refreshTree` restored everything except the new pieces. `applySplit` now adds the
+  returned `bay_ids`/`zone_ids` to `savedLayerKeys` (and drops the deleted original's key) before the
+  refresh, so the new pieces are visible and existing siblings stay on.
+- **Split-width reset to 5 every time.** The Bank (m) input hardcoded `value="5"` on open; now it seeds
+  from the remembered `splitBank` and persists the last entered value to localStorage
+  (`farmmap.splitBank.v1`), so it survives both re-opening the tool and a page reload.
+
+## 2026.7.90 — bay delete: add DELETE /api/spatial/bays/{id} + Delete button on the map edit panel
+
+### Fixed
+- **Bays could not be deleted.** The map bay/paddock/crop edit panel (`objectForm` in `farmmap.html`)
+  had a Save button but **no Delete**, and there was **no `DELETE /api/spatial/bays/{id}` route at all**
+  (only paddocks/crops/infrastructure had one) — so a duplicate bay (two SW1 from copy-to-bay) was
+  unremovable. Added `delete_bay` (operator role, parity with split/cut/buffer; nullifies the
+  `field_events.bay_id` FK first, like `delete_paddock`) + a **Delete button** in `objectForm` wired per
+  kind (bays → `/api/spatial/bays/{id}`, paddock → `/api/spatial/paddocks/{id}`, crop →
+  `/crop-zones/api/zones/{id}`). Role tests added (`test_role_gates_spatial.py`: viewer 403, operator passes).
+
+## 2026.7.89 — re-sync canonical geo_io (KML reader + dispatcher; additive)
+
+### Changed
+- Re-vendored `documentation/shared/geo_io.py` (byte-identical) after it gained a KML
+  geometry reader + `read_features` dispatcher for GSM's import wizard. Additive only —
+  Farm doesn't call the new functions yet (its own parsers stand); full suite green. Keeps
+  Farm's vendored copy in lockstep with canonical (GIS_SPATIAL_IO coordination).
+
+## 2026.7.88 — adopt fleet-canonical geo_io (Phase 0; no behaviour change)
+
+### Changed
+- Vendored `documentation/shared/geo_io.py` → `paddisense_farm/core/geo_io.py` (byte-identical)
+  and pointed Farm's SEC-25 zip guard (`import_hub/parsers.py`) and shapefile writer
+  (`api/spatial_export.py`) at it. Public names/signatures/contracts preserved, so the
+  machine/isoxml/kb callers are unchanged. One reviewed delta: zip ratio cap 100:1 → 200:1.
+  Extraction so GSM can reuse the same battle-tested spatial mechanism (GIS_SPATIAL_IO plan).
+  Full Farm test suite green (incl. the zip-bomb-cap test). No behaviour change.
+
+## 2026.7.87 — dual-mypy ignore pattern (CI vs local config skew)
+
+### Fixed
+- v2026.7.86 removed two `# type: ignore[assignment]` comments the LOCAL mypy config calls
+  unused — but CI's quality gate (different flags/stubs, unpinned latest mypy) still needs
+  them, and its build failed. Restored with the documented dual pattern
+  `# type: ignore[assignment,unused-ignore]`, green under both configs. Toolchain-skew
+  finding handed to the release-chain steward. No behaviour change.
+
+## 2026.7.86 — mypy release-gate fix (stale type-ignores)
+
+### Fixed
+- Removed two stale `# type: ignore[assignment]` comments (`machine/jd_api.py`,
+  `machine/cnh_api.py`) that current mypy flags as `unused-ignore` — blocked the
+  v2026.7.85 grower cut at the release mypy gate. No behaviour change.
 
 ## 2026.7.85 — WR-PS-192/074: owner-login rotation self-heal (port of Weather bd8d124) (DEV)
 

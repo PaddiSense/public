@@ -1,10 +1,10 @@
 # GENERATED from the source config.yaml by release.sh Step 7 (WR-PS-115).
 # DO NOT hand-edit — any edit is overwritten at the next release.
-# source: PaddiSense/GrowerServicesManager@ad8ab2deb2521a96d401a2872dd426186cc176d1
+# source: PaddiSense/GrowerServicesManager@962f8489f97eb633ddf9028cb0a0f69f82bdef52
 # Catalog-only deltas are declared in contracts/catalog-overrides.yaml;
 # contracts/check-catalog-drift.py verifies catalog == source on every release + in CI.
 name: Grower Services Manager
-version: 2026.7.60
+version: 2026.8.25
 slug: gsm-server
 description: PaddiSense Grower Services Manager — CRM, data sharing, knowledge bank
 url: https://github.com/PaddiSense/GrowerServicesManager
@@ -32,21 +32,22 @@ options:
   db_password: ''
   db_req_user: ''
   db_req_password: ''
-  admin_key: ''
+  server_id: gsm-prod
+  admin_connection_code: ''
+  admin_heartbeat_url: ''
+  admin_shared_secret: ''
+  admin_licence_code: ''
+  admin_api_key_for_admin: ''
+  signed_licence_enforce: true
   owner_recovery_key: ''
+  backup_passphrase: ''
   cdse_client_id: ''
   cdse_client_secret: ''
   github_token: ''
-  admin_heartbeat_url: ''
-  server_id: gsm-prod
-  admin_licence_code: ''
-  admin_shared_secret: ''
   ghcr_pull_token: ''
-  signed_licence_enforce: true
   retention_purge_enabled: false
   postgres_superuser_password: ''
   postgres_superuser_password_old: ''
-  backup_passphrase: ''
 schema:
   db_host: str
   db_port: port
@@ -55,19 +56,20 @@ schema:
   db_password: password
   db_req_user: str?
   db_req_password: password?
-  admin_key: password?
+  server_id: str?
+  admin_connection_code: password?
+  admin_heartbeat_url: password?
+  admin_shared_secret: password?
+  admin_licence_code: str?
+  admin_api_key_for_admin: password?
+  signed_licence_enforce: bool?
   owner_recovery_key: password?
+  backup_passphrase: password?
   cdse_client_id: str?
   cdse_client_secret: password?
   github_token: password?
-  admin_heartbeat_url: password?
-  server_id: str?
-  admin_licence_code: str?
-  admin_shared_secret: password?
   ghcr_pull_token: password?
-  signed_licence_enforce: bool?
   retention_purge_enabled: bool?
   postgres_superuser_password: password?
   postgres_superuser_password_old: password?
-  backup_passphrase: password?
 image: ghcr.io/paddisense/{arch}-gsm-server

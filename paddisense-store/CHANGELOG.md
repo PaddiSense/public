@@ -1,5 +1,94 @@
 # Changelog
 
+
+## 2026.8.6 — Log redaction adopted (this addon had NONE) + prod-only Admin keyring
+
+### Security
+- **This addon shipped with no log redaction of any kind.** The canonical `RedactingFormatter`
+  (SEC-17 / KEY-01 / DATA-01; Rules 88 / 164 / 166) that the rest of the fleet has carried since
+  WR-PS-179 was never adopted here, so secrets (cloudhook URLs, PATs, bearer/DSN/`enc:` tokens,
+  labelled secrets) and PII (email, phone) reached the log verbatim — including uvicorn's own
+  access/error lines and any exception traceback. Vendored byte-identical from
+  `documentation/shared/log_redactor.py` and **wired at the entry point**, with
+  `log_config=None` so uvicorn's loggers propagate through the formatter instead of bypassing it.
+  Vendoring without wiring would have been a control that never fires.
+- **Prod-only Admin keyring.** The vendored `data/admin_signing_pubkey.json` carried
+  `admin-dev-2026a` beside prod `admin-2026a` since 2026-08-01. Verification resolves the
+  artifact's own `key_id`, not `active`, so shipping it would make the **development** Admin a
+  trusted licence authority on grower boxes. Pruned and re-vendored (Peter ruled 2026-08-03); no
+  released version ever carried it. Dev boxes re-add it via `PS_ADMIN_PUBKEY_FILE` →
+  `/share/paddisense/admin_signing_pubkey.dev.json`, gated in `run.sh` on that file existing, so
+  the export is inert on a grower box.
+
+### Tests
+- `tests/test_log_redactor.py` — the fleet-standard contract: every secret/PII class is masked in
+  both the message and the traceback, redaction is idempotent, and operational signal (versions,
+  ports, key fingerprints, `password_hash`) survives.
+
+## 2026.8.5 — WR-PS-603: licence activation self-heals the store_app grant IN-LINE (fresh-box fix)
+
+### Fixed (grower-blocking)
+- Growers on v2026.7.8 (pre the v2026.7.9 startup self-heal) could not activate Store — "licence
+  signature verification failed", which was really `permission denied for table store_config` on the
+  first `_save_licence` (store_app missing DML grants) AFTER the signed nonce was consumed, so Core's
+  retry read as `invalid_signature`. Root cause is the WR-201 grant class (NOT signing/pubkey — the
+  pinned `admin-2026a` key was present and every envelope verified 7/7).
+- The startup self-heal (v2026.7.9) only fixes the NEXT restart. `activate_licence` now **self-heals
+  the grant in-line and retries the save once** on failure, so a first-ever activation succeeds
+  without a manual restart — the fresh-box case behind both the Store grower incident and the PROD
+  Safety first-seed 500. Test: `test_save_selfheals_grant_then_retry_succeeds` (fail→grant→retry→200).
+
+Growers on <v2026.7.9 need this released to unblock activation.
+
+## 2026.8.4 — WR-PS-152 §9-A receiver hardening (box-binding + no-bare-TOFU flag)
+
+### Security (additive — no behaviour change on a legit own-box path)
+- **F-A1 box-binding** (`_verify_instruction_signature`): a validly-signed deactivate/revoke whose
+  subject (`licence_id`/`target`) != this box's stored identity (`licence`/`grower_id`) is rejected 400,
+  closing cross-box replay of a real Admin-signed revoke minted for another grower. Enforced only when
+  signed + subject-bearing + enrolled.
+- **F-A2 no-bare-TOFU flag** (`core/module_gate.py::_no_bare_tofu`, env `STORE_NO_BARE_TOFU`, default OFF):
+  refuses a bare first-pin (`reject_hard`) once the fleet re-issues `bound_fp`; transitional TOFU kept OFF.
+- Tests +3 (real-signed cross-grower→400, own→proceeds; flag on→reject_hard, off→TOFU-pins).
+
+Fan-out of Farm's WR-PS-152 F-A1/F-A2 to the shared §9-A receiver.
+
+## 2026.8.3 — ADR-020: canonical `core/ingress.py` upgraded (cached, fail-closed)
+
+### Changed
+- Re-vendored `core/ingress.py` (canonical) — `is_ingress` now uses the fleet-standard
+  cached, fail-closed infra-peer resolution (ADR-020 Option A, Core's model) instead of a
+  per-request DNS lookup. No behaviour change beyond the perf fix + loopback trust.
+
+
+
+## 2026.8.2 — ADR-020 convergence (canonical `core/ingress.py`)
+
+### Changed
+- Vendored `core/ingress.py` (canonical `is_ingress` + resolved-proxy pin + `INGRESS_SESSION`/
+  `INTERNAL_SESSION`) from `documentation/contracts/ingress.py`; `core/auth.py` now imports it
+  instead of holding a local copy. Added the `**Version:**` field to `docs/AUDIT.md`. Store is the
+  ADR-020 reference exemplar; green through `check-fleet-structure` + `check-vendored-sync`.
+  No behaviour change — the ingress logic is byte-identical, now canonical-sourced.
+
+
+## 2026.8.1 — Box-key internal-auth token + resolved-proxy ingress pin (fleet root-cause fix)
+
+### Security
+- Pinned `core/auth.py::is_ingress` to the **exact resolved IP** of an HA ingress
+  proxy (`supervisor`/`homeassistant`/`hassio`) instead of trusting the broad
+  `172.30.32.0/23` subnet — under it any sibling addon on the hassio bridge could
+  forge `X-Ingress-Path` and obtain this addon's admin ingress session (Rule 167/172/187).
+- New `core/internal_auth.py` (vendored fleet-wide from
+  `documentation/contracts/internal_auth.py`): a symmetric bearer token derived from
+  the shared box master key via HMAC. `core/auth.py::require_auth` grants a read-only (`viewer`) session to a valid-token caller, so Farm's `GET /api/hfm/products` proxy keeps working after Store's own ingress pin; per-route role gates still block any mutation. Replaces the subnet trust the
+  sibling proxy relied on with cryptographic box-key possession.
+
+## 2026.7.10 — Trust the DEV Admin signing key (dev-box enrolment)
+
+### Changed
+- Re-vendored `paddisense_store/data/admin_signing_pubkey.json` from canonical `documentation/contracts/admin_signing_pubkey.json` — adds `admin-dev-2026a` beside prod `admin-2026a` so this DEV box verifies DEV-Admin-signed licences (verification is per-key_id, so additive; prod key unchanged). Fleet keyring propagation (Core did the same, v2026.7.58). ⚠ ships the dev key to PROD at the next grower release — per-lane keyring decision owed to Peter+A before a prod cut.
+
 ## 2026.7.9 — fix: licence activation failing with a false "signature verification" error
 
 Two grower boxes could not activate a new licence — the box reported a licence **signature

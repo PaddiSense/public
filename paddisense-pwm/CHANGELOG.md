@@ -1,14 +1,262 @@
 # Changelog
 
-## 2026.7.199
 
-### Maintenance
-- Internal code-quality fix; no change to how PWM works.
+## 2026.8.9 — WR-PS-419: accept an operator's own deactivate from this box's console
 
-## 2026.7.198
+### Fixed
+- Core's console "remove licence" button carries no Admin signature — it is not a remote revoke —
+  so this addon refused it `unsigned_rejected` and the grower could not remove a licence from their
+  own box. Now a caller presenting a valid **box-key internal-auth token** (WR-PS-204) is accepted
+  as a local operator act: cryptographic proof of "Core, here", not `/23` position.
+- **Admin's remote revoke is unchanged** and still requires the Ed25519 signature; only the local
+  path is opened. Tests: `tests/test_local_operator_deactivate.py` (4) — no token is not local
+  authorisation, a valid token is, the route actually consults the check, and signature
+  verification is still on the route so the narrow path cannot become a general bypass.
 
-### Reliability
-- The add-on now reconnects to its database automatically after system updates or maintenance. Previously, a restart at the wrong moment could leave the add-on showing its licence screen until it was manually repaired — that can no longer happen.
+## 2026.8.8 — Grower boxes trust ONLY the prod Admin signing key (per-lane keyring)
+
+### Security
+- The vendored Admin keyring carried **two** keys since 2026-08-01: `admin-2026a` (prod) and
+  `admin-dev-2026a` (the DEV Admin instance). Signature verification resolves the licence's own
+  `key_id`, not `active` — so shipping both would make the **development** Admin a trusted licence
+  authority on every grower box. Peter ruled it out (2026-08-03) before the first release that
+  would have carried it; no released version has ever contained the dev key.
+- `data/admin_signing_pubkey.json` is now the **prod-only** keyring, re-vendored byte-identical
+  from canonical. Dev boxes re-add the dev key out-of-band via `PS_ADMIN_PUBKEY_FILE` (a mechanism
+  `licence_verify` already supports) pointing at `/share/paddisense/admin_signing_pubkey.dev.json`
+  — a file growers never have, so `run.sh`'s conditional export is a no-op on a grower box.
+
+## 2026.8.7 — WR-PS-201 §9-A: a failed licence save hands back the reserved nonce
+
+### Fixed
+- `verify_artifact` RESERVES the signed artifact's one-time nonce the instant the signature checks
+  out — *before* anything is persisted. When the save then failed (classically `pwm_app` missing its
+  DML grant on a fresh or owner-flipped box), the reservation stood, so Core's retry of the
+  IDENTICAL artifact was judged a **replay** and the grower was shown
+  **"Licence signature verification failed"** for what was a database fault. That false diagnosis is
+  what sent two grower boxes down the wrong path on 2026-07-30.
+- Re-vendored the canonical `core/licence_verify.py` (byte-identical, `cmp -s` clean) to pick up
+  `release_nonce()`, and wired it at the licence-save site: on a save that is genuinely dead —
+  *after* the in-line grant self-heal and retry — the nonce is released so the retry is judged on
+  its merits. On SUCCESS the reservation stands, preserving the single-use guarantee.
+
+### Tests
+- `tests/test_licence_nonce_release.py` — release frees a reserved nonce; the instruction-shaped
+  `target` subject key works as well as `licence_id`; and an unsigned/partial payload is a safe
+  no-op that must NOT over-release.
+
+## 2026.8.6 — WR-PS-152 F-D3: re-vendor the canonical log redactor (`enc:v2:` masking restored)
+
+### Fixed
+- The vendored log redactor had drifted to the **v1-only** `enc:` pattern, so an `enc:v2:` or bare
+  `enc:` encrypted-secret token appearing in a log line or stored error string was **NOT masked**
+  (Rules 88/164). Re-vendored byte-identical from canonical `documentation/shared/log_redactor.py`
+  (`cmp -s` clean), restoring the optional-version-segment pattern from WR-PS-152 F-D3.
+- The drift survived because `check-vendored-sync.py` could not resolve this addon's vendored path
+  (the manifest carried no `dest_by_addon` row for this package name), so the ADR-020 gate skipped
+  the file — and the addon's own test asserted `enc:v1:` only. Both closed: manifest row added, and
+  `tests/test_log_redactor.py` gains `enc_token_v2` + `enc_token_bare` cases (Rule 106 regression —
+  proven to FAIL against the drifted pattern before the fix).
+
+## 2026.8.5 — WR-PS-603: licence activation self-heals the pwm_app grant IN-LINE (fresh-box fix)
+
+### Fixed
+- On a fresh box the least-priv `pwm_app` role can be missing its DML grants (Core's out-of-band
+  provisioning never landed, or was lost on an owner-flip), so the licence save hits `permission
+  denied` AFTER the signed one-time nonce is consumed — Core's retry then reads as a replay →
+  `invalid_signature` → the misleading "signature verification failed" (Store grower incident
+  2026-07-30; PROD Safety first-seed 500 2026-08-02).
+- The startup grant self-heal only fixes the NEXT restart. The licence save path now **self-heals the
+  grant IN-LINE and retries the save once** (never the verify — the nonce is already consumed) so a
+  first-ever activation succeeds without a manual restart. Fan-out of the Store v2026.8.5 fix.
+- Test: `test_licence_save_selfheals_grant_then_retries` (fail → grant → retry → saved).
+
+## 2026.8.4 — WR-PS-152 §9-A receiver hardening (box-binding + no-bare-TOFU flag)
+
+### Security (additive — no behaviour change on a legit own-box path)
+- **F-A1 box-binding** (`api/licence.py::_verify_instruction_signature`): a validly-signed
+  deactivate/revoke whose subject (`licence_id`/`target`) does not match this box's stored identity
+  (`licence`/`grower_id`) is now rejected 400 — closing cross-box replay of a real Admin-signed revoke
+  minted for another grower. Only enforced when signed + subject-bearing + enrolled.
+- **F-A2 no-bare-TOFU flag** (`core/module_gate.py::_no_bare_tofu`, env `PWM_NO_BARE_TOFU`, default OFF):
+  when a licence has no `bound_fp`, the transitional access-sync path bare-TOFU-pins the first signed
+  push; with the flag ON (post fleet `bound_fp` re-issue) that push is refused (`reject_hard`) instead.
+- Tests: `TestInstructionBoxBinding` (real-signed cross-grower→400, own→proceeds) + module_gate flag
+  on→reject_hard / off→TOFU-pins.
+
+Fan-out of Farm's WR-PS-152 F-A1/F-A2 hardening to the shared §9-A receiver.
+
+
+
+## 2026.8.3 — ADR-020: canonical `core/ingress.py` upgraded (cached, fail-closed)
+
+### Changed
+- Re-vendored `core/ingress.py` (canonical) — `is_ingress` now uses the fleet-standard
+  cached, fail-closed infra-peer resolution (ADR-020 Option A, Core's model) instead of a
+  per-request DNS lookup. No behaviour change beyond the perf fix + loopback trust.
+
+
+
+## 2026.8.2 — ADR-020 convergence (canonical `core/ingress.py`)
+
+### Changed
+- Vendored `core/ingress.py` (canonical `is_ingress` resolved-proxy pin + `INGRESS_SESSION`/
+  `INTERNAL_SESSION`) from `documentation/contracts/ingress.py`; `core/auth.py` imports it instead
+  of a local copy. Green through `check-fleet-structure` + `check-vendored-sync`. No behaviour
+  change — the ingress logic is byte-identical, now canonical-sourced. Extracted the inline base `<style>` into `static/app.css`.
+
+
+## 2026.8.1 — Box-key internal-auth token on the Farm proxies (fleet root-cause fix)
+
+### Security
+- New `core/internal_auth.py` (vendored fleet-wide from
+  `documentation/contracts/internal_auth.py`): a symmetric bearer token derived from
+  the shared box master key (`/share/paddisense/master.key`) via HMAC.
+- The sibling→Farm proxies now attach `internal_headers()`: `api/farm_bays.py`
+  (`_fetch_farm_bays` → Farm `/api/spatial/bays`, the M3 bay consumer) and
+  `api/paddocks.py` (both `/api/spatial/paddocks` fetch sites). Farm v2026.8.1 pinned
+  its ingress trust to the resolved proxy IP, which correctly closed a sibling
+  header-forge but also dropped PWM's subnet-based access to Farm's reads; the token
+  restores those calls on a cryptographic footing (box-key possession) instead of
+  "being on the 172.30.32.0/23 bridge". PWM's own is_ingress was already pinned.
+
+
+## 2026.7.206 — Trust the DEV Admin signing key (dev-box enrolment)
+
+### Changed
+- Re-vendored `paddisense_pwm/data/admin_signing_pubkey.json` from canonical `documentation/contracts/admin_signing_pubkey.json` — adds `admin-dev-2026a` beside prod `admin-2026a` so this DEV box verifies DEV-Admin-signed licences (verification is per-key_id, so additive; prod key unchanged). Fleet keyring propagation (Core did the same, v2026.7.58). ⚠ ships the dev key to PROD at the next grower release — per-lane keyring decision owed to Peter+A before a prod cut.
+
+## 2026.7.205 — M3: restore the Farm BAY consumer (bays are drawn in Farm, imported here)
+
+### Added
+- `api/farm_bays.py` — a bay-only Farm consumer (the corrected M3 split: bays are authored in Farm and
+  consumed by PWM; pumps/gates/channels are authored in PWM). `GET /api/farm-bays` lists Farm's bays
+  flagged bound/unbound; `POST /api/farm-bays/import` creates a `pwm_bays` row pre-bound on `farm_uuid`
+  (geometry mirrored) once the bay's paddock is enabled in PWM (matched on `gis_paddock_id`). Live pull
+  on demand (paddock-proxy-style sibling discovery), no background sync. W04 (Config → Paddocks) shows
+  a **"Bays drawn in Farm"** section with a per-bay Import button.
+
+### Changed
+- Re-gated the bay-geometry one-door in `api/bays.py`: a Farm-imported bay's SHAPE is Farm-owned — a
+  real geometry edit returns 409 and the W04 Redraw button disables for it. PWM still owns everything
+  else on the bay (device, sensors, thresholds, automation). Pumps/gates/channels remain PWM-authored
+  and un-gated — their consumer was NOT restored. Tests: `test_farm_bays.py` (list / import / one-door).
+  666 tests pass; ruff + mypy clean.
+
+## 2026.7.204 — M3: PWM owns infrastructure authoring (Farm-infra consumer retired)
+
+### Changed
+- **Peter ruled 2026-07-31 ("M3"): PWM authors ALL physical infrastructure** — bays, pumps, gates,
+  channels are created + configured in PWM, reversing WR-PS-154's "Farm authors infra, PWM consumes"
+  direction (and the 2026-07-19/2026-07-23 rulings behind it). Rationale: infrastructure generation
+  belongs where the control lives; the spatial polygon isn't needed to control water, only the
+  asset's identity. Makes every box consistent — a lean Core+PWM box on an isolated network authors
+  its own infra locally; paddock boundaries still seed GSM→Farm; the cross-site consolidated infra
+  map is an Admin concern. Fleet-model reversal owed to `FLEET_ROLES.md` + the Farm↔PWM boundary doc
+  (steward WR filed to G); PWM `CLAUDE.md` Rule 28 is authoritative for PWM until those land.
+
+### Removed
+- Deleted `api/farm_infra.py` — the Farm-infra consumer layer (sibling-pull `_sync_loop`,
+  `/api/farm-infra` GET + `refresh`/`bind`/`import` endpoints, `geometry_door_refusal` one-door
+  guards, `is_farm_dangling` fail-closed, geometry mirror). Removed its importers: `main.py`
+  sync-task start, `api/__init__.py` router, the Farm-owned 409 guards in `api/channels.py`
+  (channel path + gate) / `api/bays.py` (bay shape) / `pumps/crud.py` (pump position), and the
+  dangling-pause branches in `automation/gate_automation.py`, `pumps/control.py`,
+  `automation/irrigation.py`.
+- Stripped the Farm-import UI from W05 (pump Farm-asset row + Refresh), W06 (Farm panel, `f-farm`
+  gate link, channel-link, import buttons), W04 (Farm Bays import section); un-gated the W04 bay
+  Redraw button and the W05/W06 lat/lon + channel-path/gate-position editors. Corrected stale
+  "Farm-ref dangling" guard descriptions on W03. Deleted `tests/test_farm_infra.py`.
+
+### Notes
+- Migration-010 `farm_uuid` columns left **dormant** — no destructive migration (reversible); the
+  rollback note stays in `core/db/_migrate.py`. Spatial drawing tools were never removed by
+  WR-PS-154, only guarded — this un-gates them. 663 tests green; ruff + mypy clean (68 files).
+
+## 2026.7.203 — Licence activation self-heal (app-role DML grants ensured on startup)
+
+### Fixed
+- **A licence that verified but wouldn't activate now self-heals.** Since the security split that
+  moved everyday database work onto a least-privilege role, PWM depended on the PaddiSense hub having
+  granted that role permission out-of-band. On a box where that grant never landed (or was lost when
+  the database owner changed), every screen 500'd with "permission denied" — and a licence activation
+  would fail *after* the code was accepted, so the hub's retry was misread as a signature error
+  ("Licence signature verification failed"). PWM now ensures its own database grants at startup
+  (idempotent, non-fatal), so a restart fixes it. The licence activate path also returns a clear
+  "verified but could not be stored" message (HTTP 503) instead of an opaque 500 if the save fails.
+  (WR-PS-201 — port of Store v2026.7.9.)
+
+## 2026.7.202 — Pump run-tracker resolves renamed boards (fixes flow/fuel/service) + Manual button readable
+
+### Fixed
+- **Pump run-tracker now records sessions for renamed boards** — the root of "flow rate + service
+  countdown (+ fuel/runtime) stuck at zero." `_tick_run_tracking` resolved each pump's `pump_status`
+  via `find_device_entity` (STRICT `device_name`-prefix), but HA slugs entity ids from the current
+  friendly name + area (`dev_pmp_01` → `precision_water_management_pump_1_*`), so the strict match
+  returned `None` and **every pump was skipped → `pwm_pump_run_log` never filled → all derived stats
+  read zero.** Now resolves via the friendly-slug-aware cache (`get_device_entity_ids_cached` +
+  `match_device_entity`), the same path `pumps/control.py` already uses. Runtime hours, water/flow,
+  fuel burn and the service countdown accumulate once a pump runs.
+- **Manual button is readable.** The `active-manual` toggle was `--ps-muted` text on the `--ps-label`
+  grey box (grey-on-grey → looked blank/unknown); now `--ps-text`.
+
+## 2026.7.201 — W02 gate cog: per-gate automation config (Channel Auto + Emergency) + toggle-refresh fix
+
+### Added
+- **Gate cog (W02) now carries the gate's automation triggers**, not just calibration. Per gate:
+  **Channel Auto** — a *Section sensor* (the section below the gate, read by the next section's
+  sensor) + **Min (open)** / **Max (close)** depths → written to `data.automation.downstream`
+  (`open_depth_cm`/`close_depth_cm`, gated by the gate's Auto/Manual toggle); and **Emergency** —
+  an *Emergency sensor* (the gate's own upstream side) + trip depth → `data.automation`
+  `upstream_sensor`/`emergency_depth_cm`/`emergency_action=open` (always on, even in Manual). Both
+  sensors are pickable (one sensor may drive two gates). Saves via `data_merge` spreading the
+  existing `automation` so other rules (offtake / pump_watch / automation_2) survive.
+
+### Fixed
+- **Gate Auto/Manual toggle no longer re-renders the whole page.** It updated via `loadConfig()`,
+  which rebuilt every card + button and jumped scroll; now it flips just that gate's two buttons
+  and syncs the cache in place.
+- `GET /api/channels` now parses each gate's `data` to an object (was a raw JSON string), matching
+  the single-gate GET, so the W02 cog can read the automation model.
+
+## 2026.7.200 — Farm-infra reads any pump/gate/channel variant + W05 Refresh button
+
+### Fixed
+- **Farm-infra pull was whitelist-filtered to exact `feature_type` keys** (`_PUMP_TYPES = ("pump",)`),
+  silently dropping Farm's split pump variants (`pump-diesel` / `pump-electric`) from the pull — a PWM
+  pump bound to one read as **dangling** and the Farm link dropdown was empty. New `farm_asset_type()`
+  normalises the key and matches the FAMILY (pump / gate / channel), so PWM reads whatever variant Farm
+  sends (Peter 2026-07-30: "PWM must read anything coming from Farm"). Wired at all three sites: the pull
+  filter, feature bucketing, and bind validation. Test: `test_farm_asset_type_reads_all_variants`.
+
+### Added
+- **W05 (config_pumps) Farm-asset window — Refresh button.** Forces an immediate Farm pull
+  (`POST /api/farm-infra/refresh`) so a just-drawn Farm asset appears without waiting for the ~5-min cache.
+
+## 2026.7.199 — mypy release-gate fix (water_balance None guard)
+
+### Fixed
+- `automation/water_balance.py::_node_level`: explicit `None` guard on the entity `state`
+  before `float()` — the pre-release audit's mypy gate blocked v2026.7.198's grower cut on
+  `arg-type` (`Any | None`). Runtime behaviour unchanged (the old code caught `TypeError`);
+  the type contract is now explicit. No other changes.
+
+## 2026.7.198 — owner-login rotation self-heal (WR-PS-192/074 structural fix, port of Weather bd8d124)
+
+### Fixed
+- **Incident 2026-07-27 (Weather was the victim; PWM carries the same class):** a flipped
+  `*_owner` login uses a STATIC stored options password; a DB-role seed re-mint changes the
+  Postgres role underneath it and the addon strands on its next restart (DB init failed →
+  licence gate fail-closed → licence screen).
+- Structural fix in `core/db/_pool.py`: for `*_owner` logins the password is now DERIVED
+  from the `/share` box key first (the fleet's derivation truth, Core v2026.7.44), with the
+  stored options password as fallback; loud WARNING when the stored copy is stale. The
+  admin/owner pool also gained the same auth-failure rebuild-and-retry self-heal the app
+  pool has had since 2026-07-09 (PWM's own incident). `db_user: postgres` (pre-flip) boxes
+  are unaffected — stored password only, never derived.
+- Regression tests: owner candidate ladder + admin-pool self-heal (old
+  `test_admin_pool_never_selfheals` INVERTED — its assertion encoded the incident's faulty
+  assumption) + end-to-end stale-stored-password recovery on the real test cluster.
 
 ## 2026.7.197 — Hone PLAT-08: dependencies hash-locked, image installs --require-hashes
 

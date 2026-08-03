@@ -32,7 +32,7 @@ jobs:
     timeout-minutes: 15
 
     # Postgres for pytest — GSM's selftest + a handful of integration
-    # tests touch the DB. Schema is bootstrapped by gsm.db.init_db()
+    # tests touch the DB. Schema is bootstrapped by gsm.core.db.init_db()
     # on first connection (idempotent), so the test job just needs the
     # cluster reachable.
     services:
@@ -122,7 +122,7 @@ jobs:
       #      at module-import time. CI runners have no /share and aren't root,
       #      so the import crashed. v.284 lazy-inited; this step also pre-seeds
       #      the dir so any future module-level read/exists check works.
-      #   2. gsm.db.init_db() is wired to FastAPI startup events, which the
+      #   2. gsm.core.db.init_db() is wired to FastAPI startup events, which the
       #      bare TestClient(app) fixture doesn't trigger. v.285 added a
       #      session-scoped conftest fixture; this step pre-seeds the schema
       #      explicitly as belt-and-braces so even a future test that boots
@@ -154,7 +154,7 @@ jobs:
         env:
           PYTHONPATH: .
         run: |
-          python -c "from gsm.db import init_db; init_db(); print('schema bootstrapped')"
+          python -c "from gsm.core.db import init_db; init_db(); print('schema bootstrapped')"
 
       - name: Gate 5 — Pytest (Rule 87, HARD)
         working-directory: source/gsm-server

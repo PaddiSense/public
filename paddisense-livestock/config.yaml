@@ -1,10 +1,10 @@
 # GENERATED from the source config.yaml by release.sh Step 7 (WR-PS-115).
 # DO NOT hand-edit — any edit is overwritten at the next release.
-# source: PaddiSense/Livestock@e8f037c6d5572b148a542db71587417d56d0cf2c
+# source: PaddiSense/Livestock@3f5dba7d59bc039c880a6caa32ff4e1bf2db6ce4
 # Catalog-only deltas are declared in contracts/catalog-overrides.yaml;
 # contracts/check-catalog-drift.py verifies catalog == source on every release + in CI.
 name: PaddiSense Livestock
-version: 2026.7.14
+version: 2026.8.8
 slug: paddisense-livestock
 description: PaddiSense Livestock -- stock tracking, mob management, movements
 logo: true
@@ -32,6 +32,7 @@ options:
   db_user: postgres
   db_password: homeassistant
   admin_key: ''
+  farm_spatial_url: ''
 schema:
   db_host: str
   db_port: port
@@ -39,4 +40,5 @@ schema:
   db_user: str
   db_password: password
   admin_key: password?
+  farm_spatial_url: str?
 image: ghcr.io/paddisense/{arch}-paddisense-livestock

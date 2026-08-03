@@ -1,9 +1,184 @@
 # Changelog
 
-## 2026.7.9
 
-### Reliability
-- The add-on now reconnects to its database automatically after system updates or maintenance. Previously, a restart at the wrong moment could leave the add-on showing its licence screen until it was manually repaired — that can no longer happen.
+## 2026.8.9 — WR-PS-419: accept an operator's own deactivate from this box's console
+
+### Fixed
+- Core's console "remove licence" button carries no Admin signature — it is not a remote revoke —
+  so this addon refused it `unsigned_rejected` and the grower could not remove a licence from their
+  own box. Now a caller presenting a valid **box-key internal-auth token** (WR-PS-204) is accepted
+  as a local operator act: cryptographic proof of "Core, here", not `/23` position.
+- **Admin's remote revoke is unchanged** and still requires the Ed25519 signature; only the local
+  path is opened. Tests: `tests/test_local_operator_deactivate.py` (4) — no token is not local
+  authorisation, a valid token is, the route actually consults the check, and signature
+  verification is still on the route so the narrow path cannot become a general bypass.
+
+## 2026.8.8 — Grower boxes trust ONLY the prod Admin signing key (per-lane keyring)
+
+### Security
+- The vendored Admin keyring carried **two** keys since 2026-08-01: `admin-2026a` (prod) and
+  `admin-dev-2026a` (the DEV Admin instance). Signature verification resolves the licence's own
+  `key_id`, not `active` — so shipping both would make the **development** Admin a trusted licence
+  authority on every grower box. Peter ruled it out (2026-08-03) before the first release that
+  would have carried it; no released version has ever contained the dev key.
+- `data/admin_signing_pubkey.json` is now the **prod-only** keyring, re-vendored byte-identical
+  from canonical. Dev boxes re-add the dev key out-of-band via `PS_ADMIN_PUBKEY_FILE` (a mechanism
+  `licence_verify` already supports) pointing at `/share/paddisense/admin_signing_pubkey.dev.json`
+  — a file growers never have, so `run.sh`'s conditional export is a no-op on a grower box.
+
+## 2026.8.7 — WR-PS-201 §9-A: a failed licence save hands back the reserved nonce
+
+### Fixed
+- `verify_artifact` RESERVES the signed artifact's one-time nonce the instant the signature checks
+  out — *before* anything is persisted. When the save then failed (classically `safety_app` missing its
+  DML grant on a fresh or owner-flipped box), the reservation stood, so Core's retry of the
+  IDENTICAL artifact was judged a **replay** and the grower was shown
+  **"Licence signature verification failed"** for what was a database fault. That false diagnosis is
+  what sent two grower boxes down the wrong path on 2026-07-30.
+- Re-vendored the canonical `core/licence_verify.py` (byte-identical, `cmp -s` clean) to pick up
+  `release_nonce()`, and wired it at the licence-save site: on a save that is genuinely dead —
+  *after* the in-line grant self-heal and retry — the nonce is released so the retry is judged on
+  its merits. On SUCCESS the reservation stands, preserving the single-use guarantee.
+
+### Tests
+- `tests/test_licence_nonce_release.py` — release frees a reserved nonce; the instruction-shaped
+  `target` subject key works as well as `licence_id`; and an unsigned/partial payload is a safe
+  no-op that must NOT over-release.
+
+## 2026.8.6 — WR-PS-152 F-D3: re-vendor the canonical log redactor (`enc:v2:` masking restored)
+
+### Fixed
+- The vendored log redactor had drifted to the **v1-only** `enc:` pattern, so an `enc:v2:` or bare
+  `enc:` encrypted-secret token appearing in a log line or stored error string was **NOT masked**
+  (Rules 88/164). Re-vendored byte-identical from canonical `documentation/shared/log_redactor.py`
+  (`cmp -s` clean), restoring the optional-version-segment pattern from WR-PS-152 F-D3.
+- The drift survived because `check-vendored-sync.py` could not resolve this addon's vendored path
+  (the manifest carried no `dest_by_addon` row for this package name), so the ADR-020 gate skipped
+  the file — and the addon's own test asserted `enc:v1:` only. Both closed: manifest row added, and
+  `tests/test_log_redactor.py` gains `enc_token_v2` + `enc_token_bare` cases (Rule 106 regression —
+  proven to FAIL against the drifted pattern before the fix).
+
+## 2026.8.5 — WR-PS-603: licence activation self-heals the safety_app grant IN-LINE (fresh-box fix)
+
+### Fixed
+- On a fresh box the least-priv `safety_app` role can be missing its DML grants (Core's out-of-band
+  provisioning never landed, or was lost on an owner-flip), so the licence save hits `permission
+  denied` AFTER the signed one-time nonce is consumed — Core's retry then reads as a replay →
+  `invalid_signature` → the misleading "signature verification failed" (Store grower incident
+  2026-07-30; PROD Safety first-seed 500 2026-08-02).
+- The startup grant self-heal only fixes the NEXT restart. The licence save path now **self-heals the
+  grant IN-LINE and retries the save once** (never the verify — the nonce is already consumed) so a
+  first-ever activation succeeds without a manual restart. Fan-out of the Store v2026.8.5 fix.
+- Test: `test_licence_save_selfheals_grant_then_retries` (fail → grant → retry → saved).
+
+## 2026.8.4 — WR-PS-152 §9-A receiver hardening (box-binding + no-bare-TOFU flag)
+
+### Security (additive — no behaviour change on a legit own-box path)
+- **F-A1 box-binding** (`_verify_instruction_signature`): a validly-signed deactivate/revoke whose
+  subject (`licence_id`/`target`) != this box's stored identity (`licence`/`grower_id`) is rejected 400,
+  closing cross-box replay of a real Admin-signed revoke minted for another grower. Enforced only when
+  signed + subject-bearing + enrolled.
+- **F-A2 no-bare-TOFU flag** (`core/module_gate.py::_no_bare_tofu`, env `SAFETY_NO_BARE_TOFU`, default OFF):
+  refuses a bare first-pin (`reject_hard`) once the fleet re-issues `bound_fp`; transitional TOFU kept OFF.
+- Tests +3 (real-signed cross-grower→400, own→proceeds; flag on→reject_hard, off→TOFU-pins).
+
+Fan-out of Farm's WR-PS-152 F-A1/F-A2 to the shared §9-A receiver.
+
+## 2026.8.3 — ADR-020: canonical `core/ingress.py` upgraded (cached, fail-closed)
+
+### Changed
+- Re-vendored `core/ingress.py` (canonical) — `is_ingress` now uses the fleet-standard
+  cached, fail-closed infra-peer resolution (ADR-020 Option A, Core's model) instead of a
+  per-request DNS lookup. No behaviour change beyond the perf fix + loopback trust.
+
+
+
+## 2026.8.2 — ADR-020 convergence (canonical `core/ingress.py`)
+
+### Changed
+- Vendored `core/ingress.py` (canonical `is_ingress` resolved-proxy pin + `INGRESS_SESSION`/
+  `INTERNAL_SESSION`) from `documentation/contracts/ingress.py`; `core/auth.py` imports it instead
+  of a local copy. Green through `check-fleet-structure` + `check-vendored-sync`. No behaviour
+  change — the ingress logic is byte-identical, now canonical-sourced.
+
+
+## 2026.8.1 — Box-key internal-auth token + resolved-proxy ingress pin (fleet root-cause fix)
+
+### Security
+- Pinned `core/auth.py::is_ingress` to the **exact resolved IP** of an HA ingress
+  proxy (`supervisor`/`homeassistant`/`hassio`) instead of trusting the broad
+  `172.30.32.0/23` subnet — under it any sibling addon on the hassio bridge could
+  forge `X-Ingress-Path` and obtain this addon's admin ingress session (Rule 167/172/187).
+- New `core/internal_auth.py` (vendored fleet-wide from
+  `documentation/contracts/internal_auth.py`): a symmetric bearer token derived from
+  the shared box master key via HMAC. The paddock proxies (`api/paddock_detect.py`, `api/paddocks_proxy.py` → Farm/Core `/api/spatial/paddocks`) attach `internal_headers()` so they keep working after Farm pinned its ingress. Replaces the subnet trust the
+  sibling proxy relied on with cryptographic box-key possession.
+
+## 2026.7.12 — Trust the DEV Admin signing key (dev-box enrolment)
+
+### Changed
+- Re-vendored `paddisense_safety/data/admin_signing_pubkey.json` from canonical `documentation/contracts/admin_signing_pubkey.json` — adds `admin-dev-2026a` beside prod `admin-2026a` so this DEV box verifies DEV-Admin-signed licences (verification is per-key_id, so additive; prod key unchanged). Fleet keyring propagation (Core did the same, v2026.7.58). ⚠ ships the dev key to PROD at the next grower release — per-lane keyring decision owed to Peter+A before a prod cut.
+
+## 2026.7.11 — app-role grant self-heal (WR-PS-201, port of Store v2026.7.9)
+
+### Fixed
+- **Safety now ensures its OWN `safety_app` DML grants at startup** instead of depending
+  solely on Core's out-of-band provisioning. `core/db/_pool.py::grant_app_privileges()`
+  runs from the admin pool (`GRANT USAGE ON SCHEMA public` + `SELECT,INSERT,UPDATE,DELETE
+  ON ALL TABLES` + `USAGE,SELECT ON ALL SEQUENCES` to `safety_app`), idempotent and
+  non-fatal, called from `main.py` startup between `ensure_database` and `init_app_pool`.
+  On a box where Core's grant never landed — or was lost when the DB owner flipped to
+  `safety_owner` (postgres-created tables aren't covered by `ALTER DEFAULT PRIVILEGES FOR
+  ROLE safety_owner`) — the least-priv `safety_app` role had no privileges, so every
+  request-path query 500'd `permission denied`. Self-heals on every restart.
+- **Licence activate returns a legible 503, not an unhandled 500, on a DB save failure.**
+  Reference incident (Store, 2 grower boxes, 2026-07-30): the signed nonce is consumed by
+  `verify_artifact` BEFORE the DB write, so a `_save_licence` crash burned the nonce and
+  Core's retry read as `invalid_signature` — a misleading "signature verification failed"
+  that was really a missing GRANT. `api/licence.py::activate_licence` now wraps
+  `_save_licence` (`_save_licence_or_503`). A restart also clears the burned in-memory
+  nonce so activation succeeds on the next push.
+- New regression tests: `tests/test_pool_selfheal.py::test_grant_app_privileges_self_heals_after_revoke`
+  (revoke → prove `safety_app` locked out → grant restores) and
+  `tests/test_licence_signed.py::TestActivateSaveFailure` (503-not-500).
+
+## 2026.7.10 — fleet timezone fix (local calendar, not DB-server UTC)
+
+### Fixed
+- **Dates and day-boundary logic now follow the box's LOCAL time, not the shared
+  TimescaleDB server's UTC.** The DB session runs in UTC while the farm is
+  `Australia/Sydney`, so `CURRENT_DATE` / `NOW()` / `date_trunc` / `TIMESTAMPTZ::date`
+  sliced the day ~10-11h early. `core/db/_pool.py` now pins the Postgres session
+  timezone (`_session_tz()` → `_tz_options()`, sourced from `TZ` env → `/etc/timezone`
+  → AU fallback) on every DSN the admin and app pools build.
+- **Daily safety-notification throttle:** the once-per-day location-permission
+  reminder key in `api/monitor.py` used `datetime.now(UTC)`, so the throttle reset
+  mid-morning instead of at local midnight — now uses the container-local zone.
+- **TIMESTAMPTZ storage is unchanged; only interpretation becomes local.** Existing
+  records are unaffected. New regression tests (`tests/test_session_timezone.py`)
+  assert the session TimeZone is local (not UTC) and `CURRENT_DATE` matches the
+  local calendar day.
+
+## 2026.7.9 — owner-login rotation self-heal (WR-PS-192/074 structural fix, port of Weather bd8d124)
+
+### Fixed
+- **Incident 2026-07-27 (Weather was the victim; Safety carries the same class):** a flipped
+  `*_owner` login uses a STATIC stored options password; a DB-role seed re-mint changes the
+  Postgres role underneath it and the addon strands on its next restart (DB init failed →
+  licence gate fail-closed → licence screen).
+- Structural fix in `core/db/_pool.py`: for `*_owner` logins the password is now DERIVED
+  from the `/share` box key first (the fleet's derivation truth, Core v2026.7.44), with the
+  stored options password as fallback; loud WARNING when the stored copy is stale. The
+  admin/owner pool also gained the same auth-failure rebuild-and-retry self-heal the app
+  pool has had since 2026-07-09. `db_user: postgres` (pre-flip) boxes are unaffected —
+  stored password only, never derived.
+- Regression tests: owner candidate ladder + admin-pool self-heal + end-to-end
+  stale-stored-password recovery, proven-fail against the pre-fix code.
+
+### Changed
+- Theme tokens re-synced to steward canonical (Rule 17 gate-mandated re-cp,
+  palette consolidation — same re-cp Weather took at its v2026.7.7; no
+  addon-specific CSS lives in the tokens copy).
 
 ## 2026.7.8 — WR-PS-183: redactor re-vendored (all six GitHub token classes)
 

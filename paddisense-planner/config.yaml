@@ -1,0 +1,42 @@
+# GENERATED from the source config.yaml by release.sh Step 7 (WR-PS-115).
+# DO NOT hand-edit — any edit is overwritten at the next release.
+# source: PaddiSense/planning@eaea228012d4644e3c36dc10298cc2b42d5da1ff
+# Catalog-only deltas are declared in contracts/catalog-overrides.yaml;
+# contracts/check-catalog-drift.py verifies catalog == source on every release + in CI.
+name: PaddiSense Planner
+version: 2026.8.8
+slug: paddisense-planner
+description: PaddiSense Planner — crop rotation, water budgets, input planning
+logo: true
+icon: true
+url: https://github.com/PaddiSense/planning
+arch:
+- amd64
+- aarch64
+startup: application
+init: false
+ingress: true
+ingress_port: 8107
+panel_icon: mdi:currency-usd
+panel_title: Planner
+homeassistant_api: true
+hassio_api: true
+map:
+- addon_config:rw
+- media:rw
+- share:rw
+options:
+  db_host: 77b2833f-timescaledb
+  db_port: 5432
+  db_name: paddisense_planner
+  db_user: postgres
+  db_password: homeassistant
+  admin_key: ''
+schema:
+  db_host: str
+  db_port: port
+  db_name: str
+  db_user: str
+  db_password: password
+  admin_key: str?
+image: ghcr.io/paddisense/{arch}-paddisense-planner

@@ -136,13 +136,30 @@ jobs:
           IMG: ${{ env.IMAGE_BASE }}/${{ matrix.arch }}-paddisense-core@${{ steps.build.outputs.digest }}
         run: |
           set -euo pipefail
-          cosign sign "$IMG"
-          cosign attest --predicate sbom.cdx.json --type cyclonedx "$IMG"
-          cosign verify "$IMG" \
+          # WR-PS-420: Rekor (Sigstore's transparency log) intermittently 404s on
+          # GET /api/v1/log/entries/{entryUUID} right after a signature is submitted —
+          # eventual consistency, not a signing fault. It failed two consecutive releases
+          # on 2026-08-03, on a DIFFERENT arch each time. Retry only the cosign calls that
+          # touch Rekor. Fail-closed is preserved: when attempts are exhausted the failure
+          # stands, the step exits non-zero and NO image is published (R197).
+          retry() {
+            local n=1 max=5 delay=15
+            until "$@"; do
+              if [ "$n" -ge "$max" ]; then
+                echo "::error::cosign failed after $max attempts: $*"
+                return 1
+              fi
+              echo "::warning::attempt $n/$max failed (likely Rekor eventual-consistency); retry in ${delay}s"
+              n=$((n + 1)); sleep "$delay"; delay=$((delay * 2))
+            done
+          }
+          retry cosign sign "$IMG"
+          retry cosign attest --predicate sbom.cdx.json --type cyclonedx "$IMG"
+          retry cosign verify "$IMG" \
             --certificate-identity-regexp '^https://github\.com/PaddiSense/public/\.github/workflows/build-.+\.yml@refs/heads/main$' \
             --certificate-oidc-issuer 'https://token.actions.githubusercontent.com' \
             >/dev/null
-          cosign verify-attestation "$IMG" --type cyclonedx \
+          retry cosign verify-attestation "$IMG" --type cyclonedx \
             --certificate-identity-regexp '^https://github\.com/PaddiSense/public/\.github/workflows/build-.+\.yml@refs/heads/main$' \
             --certificate-oidc-issuer 'https://token.actions.githubusercontent.com' \
             >/dev/null

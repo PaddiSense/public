@@ -1,9 +1,203 @@
 # Changelog
 
-## 2026.7.18
 
-### Reliability
-- The add-on now reconnects to its database automatically after system updates or maintenance. Previously, a restart at the wrong moment could leave the add-on showing its licence screen until it was manually repaired — that can no longer happen.
+## 2026.8.8 — WR-PS-419: accept an operator's own deactivate from this box's console
+
+### Fixed
+- Core's console "remove licence" button carries no Admin signature — it is not a remote revoke —
+  so this addon refused it `unsigned_rejected` and the grower could not remove a licence from their
+  own box. Now a caller presenting a valid **box-key internal-auth token** (WR-PS-204) is accepted
+  as a local operator act: cryptographic proof of "Core, here", not `/23` position.
+- **Admin's remote revoke is unchanged** and still requires the Ed25519 signature; only the local
+  path is opened. Tests: `tests/test_local_operator_deactivate.py` (4) — no token is not local
+  authorisation, a valid token is, the route actually consults the check, and signature
+  verification is still on the route so the narrow path cannot become a general bypass.
+
+## 2026.8.7 — Grower boxes trust ONLY the prod Admin signing key (per-lane keyring)
+
+### Security
+- The vendored Admin keyring carried **two** keys since 2026-08-01: `admin-2026a` (prod) and
+  `admin-dev-2026a` (the DEV Admin instance). Signature verification resolves the licence's own
+  `key_id`, not `active` — so shipping both would make the **development** Admin a trusted licence
+  authority on every grower box. Peter ruled it out (2026-08-03) before the first release that
+  would have carried it; no released version has ever contained the dev key.
+- `data/admin_signing_pubkey.json` is now the **prod-only** keyring, re-vendored byte-identical
+  from canonical. Dev boxes re-add the dev key out-of-band via `PS_ADMIN_PUBKEY_FILE` (a mechanism
+  `licence_verify` already supports) pointing at `/share/paddisense/admin_signing_pubkey.dev.json`
+  — a file growers never have, so `run.sh`'s conditional export is a no-op on a grower box.
+
+## 2026.8.6 — WR-PS-201 §9-A: a failed licence save hands back the reserved nonce
+
+### Fixed
+- `verify_artifact` RESERVES the signed artifact's one-time nonce the instant the signature checks
+  out — *before* anything is persisted. When the save then failed (classically `sugar_app` missing its
+  DML grant on a fresh or owner-flipped box), the reservation stood, so Core's retry of the
+  IDENTICAL artifact was judged a **replay** and the grower was shown
+  **"Licence signature verification failed"** for what was a database fault. That false diagnosis is
+  what sent two grower boxes down the wrong path on 2026-07-30.
+- Re-vendored the canonical `core/licence_verify.py` (byte-identical, `cmp -s` clean) to pick up
+  `release_nonce()`, and wired it at the licence-save site: on a save that is genuinely dead —
+  *after* the in-line grant self-heal and retry — the nonce is released so the retry is judged on
+  its merits. On SUCCESS the reservation stands, preserving the single-use guarantee.
+
+### Tests
+- `tests/test_licence_nonce_release.py` — release frees a reserved nonce; the instruction-shaped
+  `target` subject key works as well as `licence_id`; and an unsigned/partial payload is a safe
+  no-op that must NOT over-release.
+
+## 2026.8.5 — WR-PS-152 F-D3: re-vendor the canonical log redactor (`enc:v2:` masking restored)
+
+### Fixed
+- The vendored log redactor had drifted to the **v1-only** `enc:` pattern, so an `enc:v2:` or bare
+  `enc:` encrypted-secret token appearing in a log line or stored error string was **NOT masked**
+  (Rules 88/164). Re-vendored byte-identical from canonical `documentation/shared/log_redactor.py`
+  (`cmp -s` clean), restoring the optional-version-segment pattern from WR-PS-152 F-D3.
+- The drift survived because `check-vendored-sync.py` could not resolve this addon's vendored path
+  (the manifest carried no `dest_by_addon` row for this package name), so the ADR-020 gate skipped
+  the file — and the addon's own test asserted `enc:v1:` only. Both closed: manifest row added, and
+  `tests/test_log_redactor.py` gains `enc_token_v2` + `enc_token_bare` cases (Rule 106 regression —
+  proven to FAIL against the drifted pattern before the fix).
+
+## 2026.8.4 — WR-PS-603: licence activation self-heals the sugar_app grant IN-LINE (fresh-box fix)
+
+### Fixed
+- On a fresh box the least-priv `sugar_app` role can be missing its DML grants (Core's out-of-band
+  provisioning never landed, or was lost on an owner-flip), so the licence save hits `permission
+  denied` AFTER the signed one-time nonce is consumed — Core's retry then reads as a replay →
+  `invalid_signature` → the misleading "signature verification failed" (Store grower incident
+  2026-07-30; PROD Safety first-seed 500 2026-08-02).
+- The startup grant self-heal only fixes the NEXT restart. The licence save path now **self-heals the
+  grant IN-LINE and retries the save once** (never the verify — the nonce is already consumed) so a
+  first-ever activation succeeds without a manual restart. Fan-out of the Store v2026.8.5 fix.
+- Test: `test_licence_save_selfheals_grant_then_retries` (fail → grant → retry → saved).
+
+## 2026.8.3 — WR-PS-152 §9-A receiver hardening (box-binding + no-bare-TOFU flag)
+
+### Security (additive — no behaviour change on a legit own-box path)
+- **F-A1 box-binding** (`_verify_instruction_signature`): a validly-signed deactivate/revoke whose
+  subject (`licence_id`/`target`) != this box's stored identity (`licence`/`grower_id`) is rejected 400,
+  closing cross-box replay of a real Admin-signed revoke minted for another grower. Enforced only when
+  signed + subject-bearing + enrolled.
+- **F-A2 no-bare-TOFU flag** (`core/module_gate.py::_no_bare_tofu`, env `SS_NO_BARE_TOFU`, default OFF):
+  refuses a bare first-pin (`reject_hard`) once the fleet re-issues `bound_fp`; transitional TOFU kept OFF.
+- Tests +3 (real-signed cross-grower→400, own→proceeds; flag on→reject_hard, off→TOFU-pins).
+
+Fan-out of Farm's WR-PS-152 F-A1/F-A2 to the shared §9-A receiver.
+
+## 2026.8.2 — ADR-020 convergence (canonical core/ingress.py + internal_auth)
+
+### Changed
+- Vendored `core/ingress.py` + `core/internal_auth.py` (canonical); `core/auth.py` imports the
+  canonical `is_ingress` (cached, fail-closed) instead of a local copy, and gains the box
+  internal-auth token path. Added `**Version:**` to `docs/AUDIT.md`. Green through both ADR-020
+  gates. UI carries a tracked ADR-020 debt (lift to pages/{desktop,mobile} + api/, add mobile UI).
+  No behaviour change to the ingress trust logic.
+
+
+
+## 2026.8.1 — Pin ingress trust to the resolved proxy peer (Rule 167/172/187)
+
+### Security
+- Pinned `core/auth.py::is_ingress` to the **exact resolved IP** of an HA ingress
+  proxy (`supervisor`/`homeassistant`/`hassio`) instead of trusting the broad
+  `172.30.32.0/23` subnet. Under the subnet trust, any sibling addon on the hassio
+  bridge could forge the `X-Ingress-Path` header and obtain this addon's admin
+  ingress session. Matches the PWM/Farm reference fix; part of the fleet-wide sweep.
+  This addon exposes no sibling-consumed proxy, so the change is a pure security
+  tightening (no internal-token channel needed here).
+
+## 2026.7.21 — Trust the DEV Admin signing key (dev-box enrolment)
+
+### Changed
+- Re-vendored `sugarsense/data/admin_signing_pubkey.json` from canonical `documentation/contracts/admin_signing_pubkey.json` — adds `admin-dev-2026a` beside prod `admin-2026a` so this DEV box verifies DEV-Admin-signed licences (verification is per-key_id, so additive; prod key unchanged). Fleet keyring propagation (Core did the same, v2026.7.58). ⚠ ships the dev key to PROD at the next grower release — per-lane keyring decision owed to Peter+A before a prod cut.
+
+## 2026.7.20 — self-heals DB permissions + fixes empty supervisor token
+
+### Fixed
+- **Self-heals its own database permissions on startup (WR-PS-201).** Since the
+  request path runs as a least-privilege `sugar_app` database role, it depends on a
+  grant that Core provisions out-of-band. On a box where that grant never landed — or
+  was lost when the database owner flipped — every page could fail with a
+  `permission denied` error, and (worse) a licence activation would surface a
+  misleading *"signature verification failed"* when the real cause was the missing
+  grant. SugarSense now ensures its own `sugar_app` DML grants at startup
+  (`core/db/_pool.py::grant_app_privileges` — `GRANT SELECT, INSERT, UPDATE, DELETE`
+  on all tables + `USAGE, SELECT` on all sequences + `USAGE` on the schema, from the
+  admin pool, idempotent and non-fatal), called from startup between
+  `ensure_database()` and `init_app_pool()`. Self-heals on every restart.
+- **Licence activation now returns a legible error instead of a crash.** The Admin
+  signature's single-use nonce is consumed before the licence is written to the
+  database, so a database write failure after that point left the box stuck. The save
+  is now wrapped (`core/licence.py::activate_licence`): a database failure returns a
+  clear **503 "verified but could not be stored — retry after restart"** rather than an
+  unhandled 500 misread as a signature error.
+- **HA notifications / features that need the Supervisor token now work (WR-PS-406).**
+  `core/helpers.py::_read_supervisor_token()` read the s6 token file first, but that
+  file is often empty in this addon image → the token came back blank and every Home
+  Assistant call sent a bare `Bearer ` header that HA rejected (HA persistent
+  notifications came up silent). It now prefers the `SUPERVISOR_TOKEN` environment
+  variable HA always injects, falling back to the s6 file only if the env var is empty.
+
+### Tests
+- `test_supervisor_token.py` (3 — env wins, file fallback, None outside Supervisor)
+- `test_pool_selfheal.py::test_grant_app_privileges_self_heals_after_revoke`
+  (revoke → app role locked out → grant restores, idempotent)
+- `test_licence_signed.py::TestActivateSaveFailure` (503-not-500 on a save failure)
+
+Port of ASM v2026.7.36 / Store v2026.7.9 (WR-PS-201) + ASM v2026.7.32 (WR-PS-406).
+
+## 2026.7.19 — fleet timezone fix (DB session pinned to local zone)
+
+### Fixed
+- **Dates now follow the box's LOCAL time, not UTC.** The shared TimescaleDB session ran
+  in **UTC** while the farm/HA is Australia/Sydney (UTC+10/+11), so every SQL
+  `CURRENT_DATE` / `date_trunc(...)` / `TIMESTAMPTZ::date` sliced the day on the UTC
+  boundary (~10-11h early = mid-morning local). Any daily count keyed off the calendar day
+  — e.g. an ASM-style prestart-compliance count (`WHERE timestamp::date = CURRENT_DATE`) —
+  landed on the wrong Zulu date for that morning window.
+- Fix in `core/db/_pool.py`: the Postgres **session timezone** is now pinned to the box's
+  local zone via a libpq `options='-c timezone=<zone>'` fragment appended to BOTH DSN
+  builders (`_admin_dsn_with` + `_get_app_dsn`), sourced by new `_session_tz()`
+  (TZ env → `/etc/timezone` → `Australia/Sydney` fallback). `CURRENT_DATE` / `date_trunc`
+  / `::date` now resolve on the LOCAL calendar; `NOW()` / `DEFAULT NOW()` render with the
+  local offset.
+- **TIMESTAMPTZ storage is unchanged** — each column still stores a UTC instant, so
+  **existing records are unaffected** (no data migration); only the session's
+  interpretation of "the date" becomes local.
+- Tests: `test_session_timezone.py` (session tz is local not UTC; CURRENT_DATE == local
+  date). Reference pattern is the ASM fleet timezone fix.
+
+### Changed
+- Theme tokens re-copied byte-identical from the canonical master (Rule 17 gate flagged
+  drift — the fleet `ps-config-tiles` promotion had not been re-synced here; no
+  SugarSense-side edits, straight `cp` of the steward's master).
+
+## 2026.7.18 — owner-login rotation self-heal (WR-PS-192/074 structural fix, port of Weather bd8d124)
+
+### Fixed
+- **Incident 2026-07-27 (Weather was the victim; SugarSense carried the same latent
+  defect):** a flipped `sugar_owner` login holds a STATIC stored options password; a
+  DB-role seed re-mint changes the Postgres role underneath it and the addon strands on
+  its next restart (DB init fails → licence gate fail-closed → licence screen).
+- Structural fix in `core/db/_pool.py`: for `*_owner` logins the password is now DERIVED
+  from the `/share` box key first (the fleet's derivation truth, Core v2026.7.44), with the
+  stored options password as fallback; loud WARNING when the stored copy is stale. The
+  admin/owner pool also gained the same auth-failure rebuild-and-retry self-heal the app
+  pool has had since 2026-07-09. `db_user: postgres` (pre-flip) boxes are unaffected —
+  stored password only, never derived.
+- Regression tests: owner candidate ladder + admin-pool self-heal + end-to-end
+  stale-stored-password recovery (`sugar_selfheal_test_owner` throwaway role),
+  proven-fail against the pre-fix code.
+- Test bootstrap hardened (same incident class, found live): the shared test cluster's
+  `sugar_app` role had been rotated underneath the suite and `conftest.py` only
+  created-if-absent — the whole suite failed auth on a clean checkout. Bootstrap now
+  re-aligns the TEST role to the derived password when it can no longer authenticate
+  (test-only; production role passwords are minted by Core, never here).
+
+### Changed
+- Theme tokens re-copied byte-identical from the canonical master (Rule 17 gate flagged
+  drift — the fleet palette-consolidation had not been re-synced here; no SugarSense-side
+  edits, straight `cp` of the steward's master).
 
 ## 2026.7.17 — WR-PS-183: redactor re-vendored (all six GitHub token classes)
 

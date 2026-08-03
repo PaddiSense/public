@@ -1,5 +1,210 @@
 # Changelog
 
+
+## 2026.8.7 — Fix: a concurrently-deleted user 500'd the HA-link endpoint (release-gate find)
+
+### Fixed
+- `PUT /api/users/{id}/ha-link` read the user back after writing and passed the result straight to
+  `_user_summary()`. `get_user_by_id()` returns `dict | None`, so if the row was deleted between the
+  write and the read-back the response raised inside the handler — a 500 on a request that had
+  already succeeded. Now returns a clean **404**.
+- Caught by `pre-release-audit.sh`'s mypy gate, which **blocked the grower release twice** rather
+  than shipping it: `Argument 1 to "_user_summary" has incompatible type "dict[Any, Any] | None"`.
+  The gate did exactly its job — a deterministic failure repeated identically, which is how it was
+  told apart from the transient Rekor flakes seen earlier the same day.
+
+## 2026.8.6 — WR-PS-419: accept an operator's own deactivate from this box's console
+
+### Fixed
+- Core's console "remove licence" button carries no Admin signature — it is not a remote revoke —
+  so this addon refused it `unsigned_rejected` and the grower could not remove a licence from their
+  own box. Now a caller presenting a valid **box-key internal-auth token** (WR-PS-204) is accepted
+  as a local operator act: cryptographic proof of "Core, here", not `/23` position.
+- **Admin's remote revoke is unchanged** and still requires the Ed25519 signature; only the local
+  path is opened. Tests: `tests/test_local_operator_deactivate.py` (4) — no token is not local
+  authorisation, a valid token is, the route actually consults the check, and signature
+  verification is still on the route so the narrow path cannot become a general bypass.
+
+## 2026.8.5 — Log redaction adopted (this addon had NONE) + prod-only Admin keyring
+
+### Security
+- **This addon shipped with no log redaction of any kind.** The canonical `RedactingFormatter`
+  (SEC-17 / KEY-01 / DATA-01; Rules 88 / 164 / 166) that the rest of the fleet has carried since
+  WR-PS-179 was never adopted here, so secrets (cloudhook URLs, PATs, bearer/DSN/`enc:` tokens,
+  labelled secrets) and PII (email, phone) reached the log verbatim — including uvicorn's own
+  access/error lines and any exception traceback. Vendored byte-identical from
+  `documentation/shared/log_redactor.py` and **wired at the entry point**, with
+  `log_config=None` so uvicorn's loggers propagate through the formatter instead of bypassing it.
+  Vendoring without wiring would have been a control that never fires.
+- **Prod-only Admin keyring.** The vendored `data/admin_signing_pubkey.json` carried
+  `admin-dev-2026a` beside prod `admin-2026a` since 2026-08-01. Verification resolves the
+  artifact's own `key_id`, not `active`, so shipping it would make the **development** Admin a
+  trusted licence authority on grower boxes. Pruned and re-vendored (Peter ruled 2026-08-03); no
+  released version ever carried it. Dev boxes re-add it via `PS_ADMIN_PUBKEY_FILE` →
+  `/share/paddisense/admin_signing_pubkey.dev.json`, gated in `run.sh` on that file existing, so
+  the export is inert on a grower box.
+
+### Tests
+- `tests/test_log_redactor.py` — the fleet-standard contract: every secret/PII class is masked in
+  both the message and the traceback, redaction is idempotent, and operational signal (versions,
+  ports, key fingerprints, `password_hash`) survives.
+
+## 2026.8.4 — WR-PS-603: licence activation self-heals the asm_app grant IN-LINE (fresh-box fix)
+
+### Fixed
+- On a fresh box the least-priv `asm_app` role can be missing its DML grants (Core's out-of-band
+  provisioning never landed, or was lost on an owner-flip), so the licence save hits `permission
+  denied` AFTER the signed one-time nonce is consumed — Core's retry then reads as a replay →
+  `invalid_signature` → the misleading "signature verification failed" (Store grower incident
+  2026-07-30; PROD Safety first-seed 500 2026-08-02).
+- The startup grant self-heal only fixes the NEXT restart. The licence save path now **self-heals the
+  grant IN-LINE and retries the save once** (never the verify — the nonce is already consumed) so a
+  first-ever activation succeeds without a manual restart. Fan-out of the Store v2026.8.5 fix.
+- Test: `test_licence_save_selfheals_grant_then_retries` (fail → grant → retry → saved).
+
+## 2026.8.3 — WR-PS-152 §9-A receiver hardening (box-binding + no-bare-TOFU flag)
+
+### Security (additive — no behaviour change on a legit own-box path)
+- **F-A1 box-binding** (`_verify_instruction_signature`): a validly-signed deactivate/revoke whose
+  subject (`licence_id`/`target`) != this box's stored identity (`licence`/`grower_id`) is rejected 400,
+  closing cross-box replay of a real Admin-signed revoke minted for another grower. Enforced only when
+  signed + subject-bearing + enrolled.
+- **F-A2 no-bare-TOFU flag** (`core/module_gate.py::_no_bare_tofu`, env `ASM_NO_BARE_TOFU`, default OFF):
+  refuses a bare first-pin (`reject_hard`) once the fleet re-issues `bound_fp`; transitional TOFU kept OFF.
+- Tests +3 (real-signed cross-grower→400, own→proceeds; flag on→reject_hard, off→TOFU-pins).
+
+Fan-out of Farm's WR-PS-152 F-A1/F-A2 to the shared §9-A receiver.
+
+## 2026.8.2 — ADR-020 canonical addon structure convergence
+
+### Changed (structure + docs only — no behaviour/port/DB/contract change)
+- Moved the flat `auth.py`, `constants.py`, and `db/` into `asmpro/core/` to match the
+  fleet canonical shape (ADR-020 §2.1). Every pkg-root and test import site rewired to `.core.*`.
+- Vendored `core/ingress.py` and `core/internal_auth.py` byte-identical from
+  `documentation/contracts/` (ADR-020 §2.3, `check-vendored-sync.py`-gated).
+- `core/auth.py` now imports the canonical `is_ingress` (resolved-proxy-pinned) and drops its
+  local shadow copy + the `PYTEST_CURRENT_TEST` bypass. The ingress trust boundary is now the one
+  fleet gate — identical pin behaviour to v2026.8.1, just canonical.
+- `db/_migrate.py` schema/seed/base-seed file paths re-depthed (`.parent.parent` →
+  `.parent.parent.parent`) for the deeper `core/db/` location.
+- Test conftest ingress fixtures present a resolved-infra peer (`_SUPERVISOR_PEER`) instead of the
+  removed pytest bypass.
+
+Both ADR-020 gates green (`check-fleet-structure.py` + `check-vendored-sync.py`); full suite green.
+UI dirs remain a tracked ADR-020 debt (interim modular layout → lift to `pages/{desktop,mobile}` + `api/`).
+
+
+## 2026.8.1 — Pin ingress trust to the resolved proxy peer (Rule 167/172/187)
+
+### Security
+- Pinned `core/auth.py::is_ingress` to the **exact resolved IP** of an HA ingress
+  proxy (`supervisor`/`homeassistant`/`hassio`) instead of trusting the broad
+  `172.30.32.0/23` subnet. Under the subnet trust, any sibling addon on the hassio
+  bridge could forge the `X-Ingress-Path` header and obtain this addon's admin
+  ingress session. Matches the PWM/Farm reference fix; part of the fleet-wide sweep.
+  This addon exposes no sibling-consumed proxy, so the change is a pure security
+  tightening (no internal-token channel needed here).
+
+## 2026.7.46 — Trust the DEV Admin signing key (dev-box enrolment)
+
+### Changed
+- Re-vendored `asmpro/data/admin_signing_pubkey.json` from canonical `documentation/contracts/admin_signing_pubkey.json` — adds `admin-dev-2026a` beside prod `admin-2026a` so this DEV box verifies DEV-Admin-signed licences (verification is per-key_id, so additive; prod key unchanged). Fleet keyring propagation (Core did the same, v2026.7.58). ⚠ ships the dev key to PROD at the next grower release — per-lane keyring decision owed to Peter+A before a prod cut.
+
+## 2026.7.45 — Dates now follow your local time, not UTC
+
+### Fixed
+- Prestart cadence, the "today's prestarts" count, and the reports all now work off your
+  **local calendar day** instead of UTC. Previously the "day" rolled over at mid-morning
+  (UTC midnight), so a prestart done first thing could be asked for again later the same day,
+  and today's counts/report ranges could land on the wrong day. Existing records are
+  unaffected — only how the day boundary is calculated changed.
+
+## 2026.7.44 — Link a staff member's Home Assistant login to their role
+
+### Added
+- On the People page, each person now has an **HA Account** picker. Link a staff member's
+  Home Assistant login and their sidebar session gets their real ASM role automatically — they
+  never have to log in to the add-on separately. Links are reassign-safe (one HA login maps to
+  one person) and can be cleared.
+- Anyone viewing through the HA sidebar without a linked account sees a friendly read-only
+  banner explaining how to get their role (log in, or ask an admin to link them).
+
+## 2026.7.43 — Switch-on mechanism for templates + fresh-box seeding
+
+### Added
+- The switch that makes templates drive the live prestart form is now in place but stays
+  **off until deliberately armed** — so the new editor and asset picker can be trialled
+  first, with the classic checklists still running the show. Once armed, the changeover is
+  a one-time, reversible flip.
+- Fresh installs can now receive a curated set of templates and library items as part of the
+  base seed (empty until items are ticked Base and snapshotted on the authoring box).
+
+## 2026.7.42 — Assign a prestart template to an asset
+
+### Added
+- Add/Edit asset forms (desktop + mobile) gain a **Prestart Template** picker. Leave it on
+  "Category default" and the asset uses its category's template; pick a specific one to run a
+  different checklist on that single machine. Takes effect on the live prestart once templates
+  are switched on.
+
+## 2026.7.41 — Build & manage prestart templates and a shared item library
+
+### Added
+- A new **Templates & Item Library** editor under Config → Prestart Checklists. Build a
+  central library of checklist items (typed once, reused everywhere), then assemble named
+  templates from them with their own cadence and drag-free up/down ordering. Renaming a
+  library item updates every template that uses it. Deleting an item that's still in use is
+  blocked with a clear "used by…" message. (The classic Per-Category Checklists editor stays
+  in place and still drives the live form until templates are switched on.)
+
+## 2026.7.40 — Reusable prestart templates now drive the live checklist (behind a flag)
+
+### Changed
+- The prestart checklist a machine shows, and how often its prestart is due, can now come
+  from a **named, reusable template** instead of being hard-bound to the asset's category.
+  This is switched on behind a flag that stays **off** for now — nothing changes for growers
+  yet — but with it on, the same "Engine Oil Safe" check typed once is shared across every
+  template that uses it, and each template carries its own cadence (daily/weekly/…).
+
+### Fixed
+- Closed a long-standing mismatch where the live prestart form and the checklist editor could
+  read from two different places; both now resolve through one source when templates are on.
+
+## 2026.7.39 — Groundwork for reusable prestart templates + tidier sidebar
+
+### Fixed
+- **QR Code button on the asset detail page (desktop)** did nothing when clicked — the QR panel
+  is hidden by a CSS class, but the show/hide logic toggled an inline style that the class overrode,
+  so the panel never appeared. It now opens reliably. (Mobile was unaffected.)
+
+### Changed
+- **Removed the "System" item from the sidebar** (and the mobile hub) — it's an internal
+  diagnostics page a grower never needs; still reachable directly at `/system/` if required.
+
+### Under the hood (no visible change yet)
+- First groundwork for **reusable prestart templates**: a central library of checklist items, named
+  templates, and per-template cadence — so an item like "Engine Oil Safe" is defined once and reused
+  across many templates instead of retyped per machine type. This release only adds the data model and
+  migrates your existing checklists into it behind a disabled flag; nothing changes in the app until a
+  later release turns it on. (See `docs/PLAN_prestart_templates.md`.)
+
+## 2026.7.38 — Sidebar logins now respect each person's role (opt-in, break-glass safe)
+
+Until now, anyone opening ASM from the Home Assistant sidebar was treated as a full administrator,
+so the role you assign a person on the People page had no effect for sidebar users. Now:
+
+- **A person's role is remembered and enforced.** The first time someone logs in with their ASM
+  username and password through the sidebar, ASM links that login to their Home Assistant identity.
+  From then on they come straight in at their real role — no logging in each time.
+- **Break-glass, so you can't lock yourself out.** Until the first administrator has linked their
+  account, the sidebar stays full-admin (so you can always get in to set things up). After that, a
+  person who hasn't linked yet gets **read-only** access until they log in once to link.
+- **Kill-switch.** Set the addon option/env `ASM_INGRESS_ROLE_ENFORCE=0` to revert to the old
+  everyone-is-admin behaviour at any time.
+
+No change to direct username/password logins. (Next: an admin button on the People page to link a
+person's Home Assistant account for them, so staff don't each need to log in once.)
+
 ## 2026.7.37 — Asset & parts UI: cadence restored, attribute dropdowns, 3-up part cards
 
 ### Fixed

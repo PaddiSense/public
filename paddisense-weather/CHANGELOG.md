@@ -1,5 +1,128 @@
 # Changelog
 
+
+## 2026.8.7 — WR-PS-419: accept an operator's own deactivate from this box's console
+
+### Fixed
+- Core's console "remove licence" button carries no Admin signature — it is not a remote revoke —
+  so this addon refused it `unsigned_rejected` and the grower could not remove a licence from their
+  own box. Now a caller presenting a valid **box-key internal-auth token** (WR-PS-204) is accepted
+  as a local operator act: cryptographic proof of "Core, here", not `/23` position.
+- **Admin's remote revoke is unchanged** and still requires the Ed25519 signature; only the local
+  path is opened. Tests: `tests/test_local_operator_deactivate.py` (4) — no token is not local
+  authorisation, a valid token is, the route actually consults the check, and signature
+  verification is still on the route so the narrow path cannot become a general bypass.
+
+## 2026.8.6 — Log redaction adopted (this addon had NONE) + prod-only Admin keyring
+
+### Security
+- **This addon shipped with no log redaction of any kind.** The canonical `RedactingFormatter`
+  (SEC-17 / KEY-01 / DATA-01; Rules 88 / 164 / 166) that the rest of the fleet has carried since
+  WR-PS-179 was never adopted here, so secrets (cloudhook URLs, PATs, bearer/DSN/`enc:` tokens,
+  labelled secrets) and PII (email, phone) reached the log verbatim — including uvicorn's own
+  access/error lines and any exception traceback. Vendored byte-identical from
+  `documentation/shared/log_redactor.py` and **wired at the entry point**, with
+  `log_config=None` so uvicorn's loggers propagate through the formatter instead of bypassing it.
+  Vendoring without wiring would have been a control that never fires.
+- **Prod-only Admin keyring.** The vendored `data/admin_signing_pubkey.json` carried
+  `admin-dev-2026a` beside prod `admin-2026a` since 2026-08-01. Verification resolves the
+  artifact's own `key_id`, not `active`, so shipping it would make the **development** Admin a
+  trusted licence authority on grower boxes. Pruned and re-vendored (Peter ruled 2026-08-03); no
+  released version ever carried it. Dev boxes re-add it via `PS_ADMIN_PUBKEY_FILE` →
+  `/share/paddisense/admin_signing_pubkey.dev.json`, gated in `run.sh` on that file existing, so
+  the export is inert on a grower box.
+
+### Tests
+- `tests/test_log_redactor.py` — the fleet-standard contract: every secret/PII class is masked in
+  both the message and the traceback, redaction is idempotent, and operational signal (versions,
+  ports, key fingerprints, `password_hash`) survives.
+
+## 2026.8.5 — WR-PS-603: licence activation self-heals the weather_app grant IN-LINE (fresh-box fix)
+
+### Fixed
+- On a fresh box the least-priv `weather_app` role can be missing its DML grants (Core's out-of-band
+  provisioning never landed, or was lost on an owner-flip), so the licence save hits `permission
+  denied` AFTER the signed one-time nonce is consumed — Core's retry then reads as a replay →
+  `invalid_signature` → the misleading "signature verification failed" (Store grower incident
+  2026-07-30; PROD Safety first-seed 500 2026-08-02).
+- The startup grant self-heal only fixes the NEXT restart. The licence save path now **self-heals the
+  grant IN-LINE and retries the save once** (never the verify — the nonce is already consumed) so a
+  first-ever activation succeeds without a manual restart. Fan-out of the Store v2026.8.5 fix.
+- Test: `test_licence_save_selfheals_grant_then_retries` (fail → grant → retry → saved).
+
+## 2026.8.4 — WR-PS-152 §9-A receiver hardening (box-binding + no-bare-TOFU flag)
+
+### Security (additive — no behaviour change on a legit own-box path)
+- **F-A1 box-binding** (`_verify_instruction_signature`): a validly-signed deactivate/revoke whose
+  subject (`licence_id`/`target`) != this box's stored identity (`licence`/`grower_id`) is rejected 400,
+  closing cross-box replay of a real Admin-signed revoke minted for another grower. Enforced only when
+  signed + subject-bearing + enrolled.
+- **F-A2 no-bare-TOFU flag** (`core/module_gate.py::_no_bare_tofu`, env `WX_NO_BARE_TOFU`, default OFF):
+  refuses a bare first-pin (`reject_hard`) once the fleet re-issues `bound_fp`; transitional TOFU kept OFF.
+- Tests +3 (real-signed cross-grower→400, own→proceeds; flag on→reject_hard, off→TOFU-pins).
+
+Fan-out of Farm's WR-PS-152 F-A1/F-A2 to the shared §9-A receiver.
+
+## 2026.8.3 — ADR-020: canonical `core/ingress.py` upgraded (cached, fail-closed)
+
+### Changed
+- Re-vendored `core/ingress.py` (canonical) — `is_ingress` now uses the fleet-standard
+  cached, fail-closed infra-peer resolution (ADR-020 Option A, Core's model) instead of a
+  per-request DNS lookup. No behaviour change beyond the perf fix + loopback trust.
+
+
+
+## 2026.8.2 — ADR-020 convergence (canonical `core/ingress.py`)
+
+### Changed
+- Vendored `core/ingress.py` (canonical `is_ingress` resolved-proxy pin + `INGRESS_SESSION`/
+  `INTERNAL_SESSION`) from `documentation/contracts/ingress.py`; `core/auth.py` imports it instead
+  of a local copy. Green through `check-fleet-structure` + `check-vendored-sync`. No behaviour
+  change — the ingress logic is byte-identical, now canonical-sourced. Renamed the addon-dir `CLAUDE.md` → `ARCHITECTURE.md` (one CLAUDE.md at repo root). Vendored `core/internal_auth.py`.
+
+
+## 2026.8.1 — Pin ingress trust to the resolved proxy peer (Rule 167/172/187)
+
+### Security
+- Pinned `core/auth.py::is_ingress` to the **exact resolved IP** of an HA ingress
+  proxy (`supervisor`/`homeassistant`/`hassio`) instead of trusting the broad
+  `172.30.32.0/23` subnet. Under the subnet trust, any sibling addon on the hassio
+  bridge could forge the `X-Ingress-Path` header and obtain this addon's admin
+  ingress session. Matches the PWM/Farm reference fix; part of the fleet-wide sweep.
+  This addon exposes no sibling-consumed proxy, so the change is a pure security
+  tightening (no internal-token channel needed here).
+
+## 2026.7.15 — Trust the DEV Admin signing key (dev-box enrolment)
+
+### Changed
+- Re-vendored `paddisense_weather/data/admin_signing_pubkey.json` from canonical `documentation/contracts/admin_signing_pubkey.json` — adds `admin-dev-2026a` beside prod `admin-2026a` so this DEV box verifies DEV-Admin-signed licences (verification is per-key_id, so additive; prod key unchanged). Fleet keyring propagation (Core did the same, v2026.7.58). ⚠ ships the dev key to PROD at the next grower release — per-lane keyring decision owed to Peter+A before a prod cut.
+
+## 2026.7.14 — self-heals its own database permissions on startup
+
+Weather now makes sure its own least-privilege database role has the permissions it
+needs every time it starts, instead of relying entirely on PaddiSense Core having set
+them up out-of-band. On a small number of boxes those permissions never landed (or were
+lost when the database owner changed), which left the addon unable to read or write its
+own data.
+
+This also fixes a rare, misleading **"Licence signature verification failed"** message
+that was really a database-permission gap, not a licence problem: the licence was
+verified fine, but saving it failed. Activation now reports a clear database error (and
+succeeds on the next attempt after a restart) rather than looking like a signature
+failure. Idempotent and safe — nothing to re-enter, no data migration.
+
+## 2026.7.13 — dates now follow your local time, not UTC (fleet timezone fix)
+
+The shared database session was running in UTC while your farm runs on local time
+(Australia/Sydney). Because of that, anything the addon worked out "by the day" — a
+day's readings, ET0 dates, backup naming and daily rollups — could roll over to the
+next day ~10-11 hours early (at UTC midnight = mid-morning local). Now the database
+session is pinned to the box's local zone, so today means today on your calendar.
+
+Your existing records are **unaffected** — timestamps are still stored as the exact
+moment they happened; only the interpretation of "which day" becomes local. No data
+migration, nothing to re-enter.
+
 ## 2026.7.12 — support the GW2000 piezo rain gauge (Peter)
 
 Ecowitt GW2000-class gateways expose a **piezo** (haptic) rain sensor whose entities carry

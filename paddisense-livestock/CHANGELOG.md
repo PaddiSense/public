@@ -1,7 +1,121 @@
 # Changelog
 
 
-## 2026.8.8 — WR-PS-419: accept an operator's own deactivate from this box's console
+## 2026.8.13 — the commissioning marker fails CLOSED with no evidence
+
+### Changed
+- **An add-on must be activated before it opens.** The commissioning marker previously failed
+  OPEN on a read error, which gave the first-activation gate away on a box that had never held
+  a licence. It now fails CLOSED when there is no evidence of commissioning (Peter,
+  2026-08-04): activate to open, and once open a revoke never takes it away.
+- A running, already-commissioned box is unaffected — `_box_commissioned_cached` returns the
+  cached True before ever reading the database — so the WR-PS-421 protection is intact.
+- Failing closed costs nothing real: with an unreadable database the add-on cannot serve
+  anything anyway, because every page needs it.
+
+### Tests
+- `test_an_unreadable_marker_fails_OPEN` **inverted** to `..._fails_CLOSED` rather than
+  deleted, so the old behaviour cannot creep back unnoticed.
+
+
+## 2026.8.12 — Security: cryptography CVEs + PLAT-08 hash-pinned build
+
+### Security
+- **`cryptography` 48.0.1 → 50.0.0** — CVE-2026-69247 / 69248 / 69249. On every addon this is
+  the Ed25519 implementation behind `core/licence_verify.py`, i.e. the licence trust plane.
+  **49.0.0 does not clear it** — it fixes 69248 and 69249 and leaves 69247 (WR-PS-426).
+- **PLAT-08 — the image now installs `requirements.lock` with `--require-hashes`.** It fails
+  closed: a package whose archive does not match its recorded hash, or any dependency missing
+  from the lock, aborts the build. The Hone register carried PLAT-08 as a closed HIGH while
+  only 3 of 11 addons actually satisfied it.
+- Pinning revealed an **existing** exposure rather than creating one: the unpinned build was
+  already resolving vulnerable transitive packages, and the release gate could not see them
+  because it audits `requirements.txt` while these are transitive.
+
+### Changed
+- `requirements.lock` regenerated hash-pinned. Where transitives were flagged, upgraded with
+  targeted `--upgrade-package` rather than a blanket refresh, so the package-set diff stays
+  contained to the security fix — same package count, only the flagged packages moved.
+
+### Evidence
+- `pip-audit -r requirements.lock` → exit 0 (the file the image installs).
+- Full suite green against the **installed** upgraded packages, not the versions replaced —
+  `urllib3` 1.x → 2.x is a major bump and a clean audit proves nothing about behaviour.
+
+
+## 2026.8.11 — WR-PS-216: re-vendor the log redactor (it was leaking secrets in clear)
+
+### Fixed
+- **The vendored `log_redactor.py` had drifted BEHIND canonical (WR-PS-616), in both directions.**
+  - **Under-redaction (the security half):** every **owner-prefixed** secret label —
+    `ps_api_key:`, `gsm_shared_secret:`, `<addon>_admin_key:` — was written to the log **in clear**.
+    The pattern's leading `(?<![A-Za-z0-9_])` boundary refuses to match `api_key` inside
+    `ps_api_key`, because the preceding character is `_`. It was never one key; it was every
+    prefixed form, and this fleet names secrets that way as a matter of course.
+  - **Over-redaction (the diagnostic half):** token prefixes matched inside ordinary identifiers, so
+    `_ensure_sentinel_grower_basic` logged as `_ensure_<redacted>`. In practice the more damaging
+    one — it silently mangles the tracebacks people read during an outage.
+- Re-vendored `cmp -s`-identical with canonical.
+
+### Added
+- `tests/test_log_redactor.py` +3 — both failure directions plus a byte-identity assertion against
+  canonical. All three proven failing against the real drifted file. The existing 5 tests covered
+  **neither** direction, which is precisely why a green suite hid a leaking redactor (Rule 192).
+
+### Note
+- Fleet-wide condition, not a per-addon slip: **10 of 11 add-ons** carried the same stale copy
+  (WR-PS-216). Released versions predate the canonical fix, so growers were exposed too.
+
+
+## 2026.8.10 — SEC-04 enforce ON: an unsigned licence change is now refused
+
+### Changed
+- **`_sig_enforce()` defaults ON.** An unsigned activate or deactivate is rejected 400. This
+  addon was one of the last two still defaulting OFF, so a /23 sibling could forge a licence or
+  wipe one (THREAT_MODEL G2). Peter approved the flip 2026-08-03; it was held until the
+  operator-deactivate fix (WR-PS-210) was live, because flipping first would have removed the
+  last working "remove licence" buttons on the box.
+- `LIVESTOCK_SIGNED_LICENCE_ENFORCE=0` is the emergency kill-switch. Grower boxes have no env plumbing, so the code default
+  IS the fleet flip.
+- Core's console button is unaffected — it authorises with the box-key internal-auth token
+  (WR-PS-204/210), which is cryptographic proof of "Core, here", not subnet position.
+
+### Fixed
+- **The kill-switch never worked.** The flag was named `STR_SIGNED_LICENCE_ENFORCE`, a
+  copy-paste from Store, so setting the documented `LIVESTOCK_` name controlled nothing at
+  all. Renamed; a kill-switch nobody can pull is not a kill-switch.
+
+### Added
+- Explicit kill-switch coverage: every newly-refusing path has a paired test proving `=0`
+  restores the old behaviour, so the escape hatch is proven rather than documented.
+
+
+## 2026.8.9 — WR-PS-421: an unlicensed box is not a LOCKED box
+
+### Changed
+- **`licence_gate` now fires only for a box that has never been commissioned.** Peter's ruling
+  (2026-08-03): *"the only thing that stops is comms with GSM and ADMIN. machine data etc all keep
+  working."* Core v2026.8.9 removed the fan-out that *sent* a revoke as a deactivate; this removes
+  the receiving half, so the lockout cannot happen by any route.
+- Previously ANY absence of a licence denied every page and API. "Absence" covered far more than a
+  revoke: expiry, an operator removing the licence to rotate it, or a plain database hiccup —
+  `_is_licensed()` fails closed. Demonstrated live 2026-08-03, every add-on showing the lock
+  screen over a working farm. A commercial decision could stop irrigation and safety monitoring.
+- The licence page remains correct **first-run onboarding** for a box that has never been
+  licensed, so the commercial gate at first use is unchanged.
+
+### Added
+- `_note_commissioned()` — records a durable write-once marker in the addon's config table while
+  the box is licensed. Marking from the HEALTHY state is what makes this retroactive: every box in
+  the field is licensed right now and carries no marker.
+- `_box_commissioned_cached()` — reads it, and deliberately fails **OPEN**, the opposite of
+  `_is_licensed()`: a database wobble must never be the reason a grower loses their own box.
+- `tests/test_revoke_never_locks_the_box.py` (6) — asserts the gate actually calls both helpers, so
+  a helper the gate never invokes cannot pass for a fix. Five proven failing against the real
+  pre-fix module.
+
+
+## 2026.8.8 — WR-PS-210: accept an operator's own deactivate from this box's console
 
 ### Fixed
 - Core's console "remove licence" button carries no Admin signature — it is not a remote revoke —

@@ -3,14 +3,30 @@
 > Plain-English release notes. The full technical changelog lives in the source repo
 > (`CHANGELOG.md`); this is the version that ships in the catalog.
 
+## 2026.8.35
+
+**A farm can now confirm every paddock it sent actually arrived.**
+
+When a farm box sends its paddock boundaries, GSM's reply now states how many it received. Until
+now the reply listed only what changed, so a farm had no way to tell "47 sent, 45 arrived" from
+"47 sent, 47 arrived, 45 unchanged" — and a partial sync could look like a quiet success.
+
+> **Correction to the 2026.8.34 note.** That release told you to reload the GSM Proxy integration
+> from its ⋮ menu. That does not work — Home Assistant keeps running the previous copy of the
+> integration's code until it is **restarted**. The correct step, after any update that mentions
+> the GSM Proxy: **update the add-on first, then restart Home Assistant.** Restarting before the
+> update just loads the old copy again.
+
 ## 2026.8.34
 
 **Boundary syncs from farm boxes work again**, and reviewing them no longer drags in the
 whole farm.
 
-> **One step after updating:** reload the **GSM Proxy** integration — Settings → Devices &
-> Services → GSM Proxy → ⋮ → Reload. The fix below lives in that integration, and Home
-> Assistant keeps running the old copy until it is reloaded once.
+> **One step after updating: restart Home Assistant.** Part of the fix below lives in the GSM
+> Proxy integration, and Home Assistant keeps running the previous copy of it until it is
+> restarted. **Update the add-on first, then restart** — restarting before the update just
+> loads the old copy again. Reloading the integration from its ⋮ menu is *not* enough: that
+> reloads its settings, not its code.
 
 ### Paddock boundaries sent from a farm now arrive
 Boundary pushes from a farm box were being refused. GSM's own proxy was reformatting the

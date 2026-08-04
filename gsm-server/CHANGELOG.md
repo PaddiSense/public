@@ -3,6 +3,32 @@
 > Plain-English release notes. The full technical changelog lives in the source repo
 > (`CHANGELOG.md`); this is the version that ships in the catalog.
 
+## 2026.8.34
+
+**Boundary syncs from farm boxes work again**, and reviewing them no longer drags in the
+whole farm.
+
+> **One step after updating:** reload the **GSM Proxy** integration — Settings → Devices &
+> Services → GSM Proxy → ⋮ → Reload. The fix below lives in that integration, and Home
+> Assistant keeps running the old copy until it is reloaded once.
+
+### Paddock boundaries sent from a farm now arrive
+Boundary pushes from a farm box were being refused. GSM's own proxy was reformatting the
+data on its way through, which broke the security signature that proves the data came from
+that farm — so GSM correctly rejected it, and nothing said why. The data is now passed
+through untouched and lands in the review queue as expected.
+
+### Accepting a few changes stays a few changes
+Accepting 5 changed paddocks on a 97-paddock farm used to queue the other 92 for review as
+well. A sync is now judged by how much of the farm it covers rather than how many paddocks
+it names, so a small change stays small. A genuine whole-farm sync still asks about any
+paddocks that were left out of it.
+
+### A refused sync now says what happened
+A rejected push previously left nothing behind but a failure code. The activity log now
+records the reason and what GSM actually received, so a problem can be traced to the system
+that caused it instead of guessed at.
+
 ## 2026.8.25
 
 **A large update — the first since 2026.7.60.** It adds two new ways to get data in and

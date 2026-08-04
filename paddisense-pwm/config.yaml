@@ -1,10 +1,10 @@
 # GENERATED from the source config.yaml by release.sh Step 7 (WR-PS-115).
 # DO NOT hand-edit — any edit is overwritten at the next release.
-# source: PaddiSense/PWM@6e4817605982c059adc390c8a92444658ee3f2e8
+# source: PaddiSense/PWM@b5b5b71a61c036be3ce3152bfd61f892f02b43d2
 # Catalog-only deltas are declared in contracts/catalog-overrides.yaml;
 # contracts/check-catalog-drift.py verifies catalog == source on every release + in CI.
 name: PaddiSense PWM
-version: 2026.8.9
+version: 2026.8.14
 slug: paddisense-pwm
 description: PaddiSense PWM — Precision Water Management for rice irrigation
 logo: true

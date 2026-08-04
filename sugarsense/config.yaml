@@ -1,10 +1,10 @@
 # GENERATED from the source config.yaml by release.sh Step 7 (WR-PS-115).
 # DO NOT hand-edit — any edit is overwritten at the next release.
-# source: PaddiSense/SugarSense@b7060d6786a7924e800316225d8748c1b0baf40b
+# source: PaddiSense/SugarSense@d5d6bad2b0018dccb2ab5209544042063627827f
 # Catalog-only deltas are declared in contracts/catalog-overrides.yaml;
 # contracts/check-catalog-drift.py verifies catalog == source on every release + in CI.
 name: PaddiSense Sugar
-version: 2026.8.8
+version: 2026.8.13
 slug: sugarsense
 description: PaddiSense Sugar — sugar cane harvest planning and farm management
 logo: true

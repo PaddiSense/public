@@ -1,7 +1,253 @@
 # Changelog
 
+## 2026.8.18 — WR-PS-226: a bodyless request signs sha256(b""), not the empty string
 
-## 2026.8.8 — WR-PS-419: accept an operator's own deactivate from this box's console
+### Fixed
+- **Every GSM pull returned `401 signature_mismatch` while the push succeeded — for two days.**
+  `_sign_request` rendered an absent body as `""`, so the signed material ended in a bare dot
+  (`{grower}.{ts}.{nonce}.`); GSM hashed the empty body it received. Same secret, same nonce, same
+  timestamp, different signature. Nothing about the split was visible from either side: the push
+  carries a body and agreed, so the enrolment looked good, the secret looked good, and only the
+  bodyless GET failed — which reads as a credentials problem and sent us hunting one.
+
+  G settled it from GSM's audit rows: `GET /api/v1/boundaries · ps-08450a8e4519fe3c · 401 ·
+  deny_reason signature_mismatch · recv_body_len 0 · recv_nonce 7ed2e07d8bda47cf…`. Neither end was
+  wrong on its own — **the convention had never been written down**, so each half picked a
+  reasonable reading of "no body". Now pinned in **ADR-021 §2.0**: an absent body signs
+  `sha256(b"")`. Farm moves alone and GSM does not, so the body-bearing push keeps working
+  throughout — this changes nothing about a request that has a body.
+
+- **The same convention existed twice in this package.** `gsm/export.py::_sign_request_headers` held
+  its own copy, still in the empty-string form. Every caller there passes a real body today, so it
+  was unreachable — changed anyway, because two copies of a signing rule that disagree is precisely
+  how the pull broke while the push worked. `test_both_signing_helpers_use_one_convention` now
+  fails if either drifts back.
+
+### Added
+- **The pull logs what it signed** — nonce and `body_sha256`, matching what WR-PS-223 added to
+  sync-back. G asked for the digest behind a specific nonce on the pull path and it was not
+  recorded, so the answer had to be reconstructed by hand.
+- **A non-2xx from GSM names the likely cause** — 401/403 → credentials, 5xx → upstream restarting,
+  404 → wrong endpoint. WR-PS-222 made every failure say "re-connect with a fresh code", and during
+  G's GSM rebuild a plain **502** told Peter his connection code was stale. It was not.
+
+
+## 2026.8.17 — WR-PS-224: five map/BM01 defects Peter found in one pass
+
+### Fixed
+- **MP02 "Edit object" showed no vertices on bays.** Paddocks and the bay/crop overlays shared
+  Leaflet's default pane, so z-order was just add-order — and `loadPaddocks()` re-runs on
+  `cancelEdit()` and after every geometry op, re-adding paddocks **on top**. A click over a bay then
+  hit the paddock, `activeObj` stayed `{kind:"paddocks"}`, and `startEditObj` refused. Peter:
+  *"it's almost like it's still clicking on the paddock"* — it was. Paddocks now render in their own
+  pane at `zIndex 380`; `bringToFront()` would only have held until the next redraw.
+- **No Delete on the object panel.** The panel had Edit and never Delete, so a bay could not be
+  removed — e.g. a duplicate from copy-to-bay. `delete_bay`'s own docstring records the gap
+  (*"no delete path and there was no route to call"*): the API was written for this button and the
+  button never landed. Same `isLocalSource()` gate as Edit, plus a confirm.
+- **BM01 showed no owner for a hand-created paddock.** The tree resolves growers→farms→paddocks and
+  filed it correctly; BM01 read owner only from the machine dataset. The client already read
+  `grower_name` — the server never emitted it. Now resolved via `farms.grower_id` in
+  `_paddock_row_to_feature`, so both surfaces answer the same question.
+- **A paddock could not be filed under a farm by hand.** `farm_id` is a relation, not a config
+  attribute, so the attribute form could never show it, and *Assign Farms* backfills **from machine
+  data** — a hand-drawn paddock has nothing to backfill from. `farm_id` is now settable and the
+  paddock panel has a Farm picker.
+- **"Assign Farms" reported `Assigned 0` and read as broken.** It now says *why*: none of the
+  unassigned paddocks appear in the machine data, and points at the per-paddock Farm picker.
+
+### Added
+- `DELETE /api/spatial/land-features/{id}` — land features had create but no delete. Added rather
+  than shipping a Delete button that 404s for one of the four object kinds.
+- `farm_id` on the tree's field node, so the picker preselects the current farm.
+
+
+## 2026.8.16 — WR-PS-223: log what was actually signed, so a 401 is diagnosable
+
+### Added
+- `sync-back` now logs `nonce`, `body_sha256`, `body_len` and `features` for every attempt. G asked
+  what the sha256 and byte length were for a specific nonce and **neither was recorded anywhere** —
+  so a signature mismatch could only be inferred, or "answered" by reconstructing values after the
+  fact, which proves nothing.
+- No secret and no payload content is logged: the nonce, the digest, and the length.
+
+### Why this matters beyond today
+- The digest is over the **inner** payload (`separators=(",",":")`), while the bytes on the socket
+  are the **proxy envelope** that wraps it (`{"path","method","headers","body"}`). A receiver that
+  hashes what it received can never match, on any attempt, with any connection code — which is
+  exactly the 401 pattern seen on this box. That distinction was invisible from either side; now
+  the sending half is on the record.
+
+
+## 2026.8.15 — WR-PS-222: a GSM-rejected sync reported SUCCESS
+
+### Fixed
+- **`sync-back` returned `ok: True` no matter what GSM answered.** GSM's HTTP status was captured
+  into `stats`, logged, and then ignored, so a **401** — a stale or wrong enrolment secret — showed
+  the operator a success toast. Found live on Peter's first real push:
+  `47 sent, 0 created, 0 updated, status=401`, logged at INFO while the UI said it worked.
+- A non-2xx from GSM now returns a failure that names the status and says what to do: *"GSM rejected
+  the sync (401). The GSM connection is not authenticating — re-connect with a fresh connection
+  code."* Logged at ERROR, not INFO.
+
+### Note
+- Third control in one day found reporting success while doing nothing (after the connection-code
+  message and the reserved-`LogRecord` crash). A sync that silently does nothing is worse than one
+  that fails loudly — the operator has no reason to look.
+
+
+## 2026.8.14 — WR-PS-220: GSM sync-back died in its own log call
+
+### Fixed
+- **The GSM push reached GSM and then reported failure.** `_sync_back_to_gsm` logged
+  `extra={... "created": ...}`, and `created` is a **reserved `LogRecord` attribute** (the record
+  timestamp) — `logging` raises `KeyError` rather than shadowing it. The crash is *after*
+  `_send_sync_back_payload` returns, so the payload had already been delivered; only the reporting
+  failed. Found live on the first real push (2026-08-04).
+- Second site fixed by sweeping all 16 reserved names: `import_hub/routes.py:2808`, which would
+  have blown up an import-commit response the same way.
+
+### Note
+- The Rule 88 commit gate greps a **single line** and this `extra={}` spans two, so it was never
+  checked. Every multi-line `extra={}` in the fleet is currently unchecked — raised for G on
+  WR-PS-220 with a suggested multiline-aware fix and a §5.5 fixture.
+
+
+## 2026.8.13 — WR-PS-619: the GSM connection could not be made by ANY route
+
+### Fixed
+- **Nine mutating fetches on the licence page never echoed the CSRF token**, and Farm's middleware
+  is a signed double-submit that fails closed — so the cookie alone was never enough. Among them
+  were **`/api/pull` and `/api/sync-back`: the GSM sync buttons themselves.** A-Claude reported
+  `enroll-gsm`; the guard test written for it found the other four.
+- **Core's relay (WR-PS-215) was also rejected 403.** The box internal-auth token travels in
+  `X-PS-Internal-Auth`, not `Authorization: Bearer`, so `_csrf_skip_bearer` never fired. Both routes
+  to GSM enrolment were dead for different reasons.
+- CSRF is now skipped for a **verified** box token — chosen over adding the paths to
+  `_CSRF_EXEMPT_PREFIXES`, because an exemption opens a route to anything that can reach it whereas
+  this admits only a caller that PROVES it holds the box master key. No browser can mint one.
+
+### Changed
+- **The commissioning marker now fails CLOSED with no evidence** (Peter, 2026-08-04). An add-on
+  must be activated by its own Admin-issued licence before it opens; once open, a revoke must never
+  take it away. A running commissioned box is unaffected — the cached value returns first — and
+  failing closed costs nothing real, since an add-on cannot serve anything with an unreadable
+  database anyway.
+
+### Added
+- `tests/test_csrf_internal_token.py` (6) — asserts the CLASS (every mutating fetch on the page),
+  not the two instances that were reported, which is why it caught the sync buttons.
+
+
+## 2026.8.12 — Security: cryptography CVEs + PLAT-08 hash-pinned build
+
+### Security
+- **`cryptography` 48.0.1 → 50.0.0** — CVE-2026-69247 / 69248 / 69249. On every addon this is
+  the Ed25519 implementation behind `core/licence_verify.py`, i.e. the licence trust plane.
+  **49.0.0 does not clear it** — it fixes 69248 and 69249 and leaves 69247 (WR-PS-426).
+- **PLAT-08 — the image now installs `requirements.lock` with `--require-hashes`.** It fails
+  closed: a package whose archive does not match its recorded hash, or any dependency missing
+  from the lock, aborts the build. The Hone register carried PLAT-08 as a closed HIGH while
+  only 3 of 11 addons actually satisfied it.
+- Pinning revealed an **existing** exposure rather than creating one: the unpinned build was
+  already resolving vulnerable transitive packages, and the release gate could not see them
+  because it audits `requirements.txt` while these are transitive.
+
+### Changed
+- `requirements.lock` regenerated hash-pinned. Where transitives were flagged, upgraded with
+  targeted `--upgrade-package` rather than a blanket refresh, so the package-set diff stays
+  contained to the security fix — same package count, only the flagged packages moved.
+
+### Evidence
+- `pip-audit -r requirements.lock` → exit 0 (the file the image installs).
+- Full suite green against the **installed** upgraded packages, not the versions replaced —
+  `urllib3` 1.x → 2.x is a major bump and a clean audit proves nothing about behaviour.
+
+
+## 2026.8.11 — WR-PS-215: accept the GSM enrolment Core relays from this box's console
+
+### Fixed
+- **The GSM enrolment never reached Farm.** It was entered on Core's licence page (the "GSM
+  Boundary Exchange" line is relocated by JS into the Farm card — the fleet's established layout)
+  and saved into `paddicore.provider_credentials`, while every piece of code that performs boundary
+  and KB sync is Farm's and reads `paddisense_farm.provider_credentials`. Two stores, two databases,
+  nothing bridging them. Verified live 2026-08-04: Farm reported `gsm: {"connected": false}` while
+  holding 46 historical GSM paddocks, and its KB poller was logging "failed to fetch manifest".
+- `enroll_gsm` and `disconnect_gsm` now also accept a valid **box-key internal-auth token**
+  (WR-PS-204) in place of the manager role — cryptographic proof of "Core, here" rather than a
+  position on the 172.30.32.0/23, the same primitive and reasoning as the console "remove licence"
+  relay (WR-PS-210). Both routes move together: opening only one would leave a connection that
+  could be made from the console but not removed from it.
+- The manager role gate is untouched for every other caller — this adds one authorised path, it
+  does not replace the gate.
+
+### Added
+- `tests/test_gsm_enrol_core_relay.py` (5), including a **forged bearer refused** and a
+  genuine-token positive control, so the two negative tests cannot pass on a broken verifier.
+
+
+## 2026.8.10 — WR-PS-214: say what the connection code IS, not what it lacks
+
+### Fixed
+- **Pasting a licence code into the GSM field gave a message that blamed the code.** Admin issues
+  two different `GSM:`-prefixed codes and they are indistinguishable by eye: one carries `licence`,
+  the other `webhook_url` + `secret`. The errors named what was ABSENT — *"GSM code requires
+  webhook_url and secret"* — which reads as *the code is malformed*. Peter hit this on 2026-08-03
+  while rotating licences and went looking for a fault in Admin's minting; the code was valid and
+  simply belonged in the card above.
+- Both enrol routes now name what the code IS and which card to use. A code that is genuinely
+  neither says so and points at the issuer, rather than sending the operator to the other field.
+
+### Fixed (second, found by the commit gate)
+- **The vendored log redactor had drifted BEHIND canonical in both directions (WR-PS-616).** The
+  ADR-020 gate could only see it once `vendored_manifest.json` gained Farm's `dest_by_addon` row —
+  Farm's dest is `core/log_redact.py`, not the default `log_redactor.py`, so the gate had been
+  unable to resolve the path and was comparing nothing at all.
+  - **Under-redaction:** `farm_shared_secret:`, `gsm_admin_key:`, `ps_api_key:` passed through **in
+    clear**. The leading `(?<![A-Za-z0-9_])` boundary refuses to match `shared_secret` inside
+    `farm_shared_secret`, because the preceding character is `_`. It was never one key — it was
+    every owner-prefixed form.
+  - **Over-redaction:** the token-prefix patterns matched inside ordinary identifiers, so
+    `_ensure_sentinel_grower_basic` logged as `_ensure_<redacted>`. In practice the more damaging
+    direction: it mangles the tracebacks people read during an outage and leaves no trace.
+  - Re-vendored `cmp -s`-identical; `tests/test_log_redactor.py` +3, all proven failing against the
+    real drifted file.
+
+### Added
+- `_classify_code()` / `_wrong_field_error()` in `gsm/routes.py`. The rejection logs the code's
+  KEY NAMES — never a value, since one of them is an HMAC secret — so a future occurrence is
+  diagnosable from the addon log instead of depending on the operator still having the code.
+- `tests/test_connection_code_wrong_field.py` (12), including a test that the HMAC secret is never
+  echoed into the message: it is shown in a browser toast and pasted into chat when someone reports
+  a problem, which is exactly how this one was reported.
+
+
+## 2026.8.9 — WR-PS-421: an unlicensed box is not a LOCKED box
+
+### Changed
+- **`licence_gate` now fires only for a box that has never been commissioned.** Peter's ruling
+  (2026-08-03): *"the only thing that stops is comms with GSM and ADMIN. machine data etc all keep
+  working."* Core v2026.8.9 removed the fan-out that *sent* a revoke as a deactivate; this removes
+  the receiving half, so the lockout cannot happen by any route.
+- Previously ANY absence of a licence denied every page and API. "Absence" covered far more than a
+  revoke: expiry, an operator removing the licence to rotate it, or a plain database hiccup —
+  `_is_licensed()` fails closed. Demonstrated live 2026-08-03, every add-on showing the lock
+  screen over a working farm. A commercial decision could stop irrigation and safety monitoring.
+- The licence page remains correct **first-run onboarding** for a box that has never been
+  licensed, so the commercial gate at first use is unchanged.
+
+### Added
+- `_note_commissioned()` — records a durable write-once marker in the addon's config table while
+  the box is licensed. Marking from the HEALTHY state is what makes this retroactive: every box in
+  the field is licensed right now and carries no marker.
+- `_box_commissioned_cached()` — reads it, and deliberately fails **OPEN**, the opposite of
+  `_is_licensed()`: a database wobble must never be the reason a grower loses their own box.
+- `tests/test_revoke_never_locks_the_box.py` (6) — asserts the gate actually calls both helpers, so
+  a helper the gate never invokes cannot pass for a fix. Five proven failing against the real
+  pre-fix module.
+
+
+## 2026.8.8 — WR-PS-210: accept an operator's own deactivate from this box's console
 
 ### Fixed
 - Core's console "remove licence" button carries no Admin signature — it is not a remote revoke —

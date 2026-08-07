@@ -3,6 +3,16 @@
 > Plain-English release notes. The full technical changelog lives in the source repo
 > (`CHANGELOG.md`); this is the version that ships in the catalog.
 
+## 2026.8.53
+
+**Security hardening — no action needed.** Two internal access paths were tightened: the
+cloudhook receiver can no longer be tricked into reaching an internal page it should not, and the
+Real Time Rice data routes now accept requests only through Home Assistant, not from other add-ons
+on the box. Nothing changes in day-to-day use.
+
+**Also new since your last update:** the GIS map's Explorer panel (search farms and paddocks, and
+narrow the map by sub-region) and per-paddock NDVI imagery now render from the cached snapshots.
+
 ## 2026.8.35
 
 **A farm can now confirm every paddock it sent actually arrived.**

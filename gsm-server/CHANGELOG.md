@@ -3,6 +3,14 @@
 > Plain-English release notes. The full technical changelog lives in the source repo
 > (`CHANGELOG.md`); this is the version that ships in the catalog.
 
+## 2026.8.55
+
+**Faster diagnosis when the database isn't set up right — no action needed.** GSM now raises
+a clear alert the moment it can't manage the other add-ons' database access (for example, if
+the database superuser password is blank or wrong), instead of letting an add-on quietly fail
+to start. If a sibling add-on ever won't come up, the alert now tells you why in one line. GSM
+also refuses to connect on a factory-default database password rather than doing so silently.
+
 ## 2026.8.53
 
 **Security hardening — no action needed.** Two internal access paths were tightened: the

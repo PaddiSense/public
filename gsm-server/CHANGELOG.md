@@ -3,6 +3,18 @@
 > Plain-English release notes. The full technical changelog lives in the source repo
 > (`CHANGELOG.md`); this is the version that ships in the catalog.
 
+## 2026.8.57
+
+**Security fix — revoking access now takes effect everywhere, immediately. No action needed.**
+When a licence was revoked, GSM correctly stopped the revoked site on one of its two sign-in
+routes but not the other, so a site that still held its original credentials could re-register
+itself and resume sending data. Revocation is now checked on every route — registration,
+event and boundary — so a revoked site stays shut out until it is deliberately re-licensed.
+Legitimate first-time registration is unaffected.
+
+Also included: an internal safeguard that proves GSM's start-up self-test leaves no test data
+behind on a live database.
+
 ## 2026.8.55
 
 **Faster diagnosis when the database isn't set up right — no action needed.** GSM now raises

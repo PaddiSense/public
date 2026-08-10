@@ -1,10 +1,10 @@
 # GENERATED from the source config.yaml by release.sh Step 7 (WR-PS-115).
 # DO NOT hand-edit — any edit is overwritten at the next release.
-# source: PaddiSense/Farm@62d0564bb59c29bc2365b59f7e1c47609ab681d2
+# source: PaddiSense/Farm@1a31e54683229f1aece664366dd4e7f5284d4216
 # Catalog-only deltas are declared in contracts/catalog-overrides.yaml;
 # contracts/check-catalog-drift.py verifies catalog == source on every release + in CI.
 name: PaddiSense Farm
-version: 2026.8.20
+version: 2026.8.24
 slug: paddisense-farm
 description: PaddiSense Farm — paddock, crop and event management for rice farming
 logo: true
@@ -31,8 +31,8 @@ options:
   db_host: 77b2833f-timescaledb
   db_port: 5432
   db_name: paddisense_farm
-  db_user: postgres
-  db_password: homeassistant
+  db_user: farm_owner
+  db_password: ''
   seed_author_mode: false
 schema:
   db_host: str

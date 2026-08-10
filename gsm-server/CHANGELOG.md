@@ -3,6 +3,14 @@
 > Plain-English release notes. The full technical changelog lives in the source repo
 > (`CHANGELOG.md`); this is the version that ships in the catalog.
 
+## 2026.8.81
+
+**Sign-in page tidied, and password reset now emails you — plus a batch of behind-the-scenes fixes. No action needed for most sites.**
+
+- The GSM sign-in page had misaligned username and password boxes; they now line up cleanly (and the same fix carries across the reset and change-password pages).
+- "Forgot password?" now sends the reset code by email, and if email hasn't been set up on your box the page tells you so plainly instead of silently doing nothing. The Resend email key and alert recipients can now be set on the add-on Configuration page, so you can prepare them before you ever need a reset.
+- Internal reliability: the operator-alert checks no longer raise a false alarm on the box's own start-up self-checks, the start-up self-test is now self-contained, and the "do you have a recent backup?" check no longer mistakes a small (but real) backup of a light database for a missing one.
+
 ## 2026.8.57
 
 **Security fix — revoking access now takes effect everywhere, immediately. No action needed.**

@@ -1,10 +1,10 @@
 # GENERATED from the source config.yaml by release.sh Step 7 (WR-PS-115).
 # DO NOT hand-edit — any edit is overwritten at the next release.
-# source: PaddiSense/GrowerServicesManager@e65dd2e13b147eed5699c57bcca72f44e4f943ce
+# source: PaddiSense/GrowerServicesManager@e7de8d004813a6e5f0af45e46b6160e9271965aa
 # Catalog-only deltas are declared in contracts/catalog-overrides.yaml;
 # contracts/check-catalog-drift.py verifies catalog == source on every release + in CI.
 name: Grower Services Manager
-version: 2026.8.57
+version: 2026.8.81
 slug: gsm-server
 description: PaddiSense Grower Services Manager — CRM, data sharing, knowledge bank
 url: https://github.com/PaddiSense/GrowerServicesManager
@@ -30,24 +30,12 @@ options:
   db_name: gsm
   db_user: gsm_app
   db_password: ''
-  db_req_user: ''
-  db_req_password: ''
   server_id: gsm-prod
   admin_connection_code: ''
-  admin_heartbeat_url: ''
-  admin_shared_secret: ''
-  admin_licence_code: ''
   admin_api_key_for_admin: ''
   signed_licence_enforce: true
-  owner_recovery_key: ''
   backup_passphrase: ''
-  cdse_client_id: ''
-  cdse_client_secret: ''
-  github_token: ''
-  ghcr_pull_token: ''
-  retention_purge_enabled: false
-  postgres_superuser_password: ''
-  postgres_superuser_password_old: ''
+  admin_heartbeat_url: ''
 schema:
   db_host: str
   db_port: port
@@ -67,6 +55,8 @@ schema:
   backup_passphrase: password?
   cdse_client_id: str?
   cdse_client_secret: password?
+  resend_api_key: password?
+  alert_recipients: str?
   github_token: password?
   ghcr_pull_token: password?
   retention_purge_enabled: bool?

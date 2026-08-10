@@ -1,10 +1,10 @@
 # GENERATED from the source config.yaml by release.sh Step 7 (WR-PS-115).
 # DO NOT hand-edit — any edit is overwritten at the next release.
-# source: PaddiSense/ASM-Pro@2050cf87f51179cebdfdda5b2dfc8cdedd9a66d8
+# source: PaddiSense/ASM-Pro@f42c3600474b425fd749627a2f42d8d5ddbf58b5
 # Catalog-only deltas are declared in contracts/catalog-overrides.yaml;
 # contracts/check-catalog-drift.py verifies catalog == source on every release + in CI.
 name: PaddiSense Assets
-version: 2026.8.12
+version: 2026.8.15
 slug: asm-pro
 description: PaddiSense Assets — asset management, maintenance tracking, and parts
   inventory
@@ -31,8 +31,8 @@ options:
   db_host: 77b2833f-timescaledb
   db_port: 5432
   db_name: asmpro
-  db_user: postgres
-  db_password: homeassistant
+  db_user: asm_owner
+  db_password: ''
   admin_key: ''
   seed_author_mode: false
 schema:

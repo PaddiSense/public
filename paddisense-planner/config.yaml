@@ -1,10 +1,10 @@
 # GENERATED from the source config.yaml by release.sh Step 7 (WR-PS-115).
 # DO NOT hand-edit — any edit is overwritten at the next release.
-# source: PaddiSense/planning@25d1c98b1d9aaf1153ef83b55785f1b7fe8b5bfe
+# source: PaddiSense/planning@d80afab442839d54f3aaa6f9efd7b9d7ecd3fb95
 # Catalog-only deltas are declared in contracts/catalog-overrides.yaml;
 # contracts/check-catalog-drift.py verifies catalog == source on every release + in CI.
 name: PaddiSense Planner
-version: 2026.8.13
+version: 2026.8.16
 slug: paddisense-planner
 description: PaddiSense Planner — crop rotation, water budgets, input planning
 logo: true
@@ -29,8 +29,8 @@ options:
   db_host: 77b2833f-timescaledb
   db_port: 5432
   db_name: paddisense_planner
-  db_user: postgres
-  db_password: homeassistant
+  db_user: planner_owner
+  db_password: ''
   admin_key: ''
 schema:
   db_host: str

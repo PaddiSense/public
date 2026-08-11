@@ -3,6 +3,19 @@
 > Plain-English release notes. The full technical changelog lives in the source repo
 > (`CHANGELOG.md`); this is the version that ships in the catalog.
 
+## 2026.8.83
+
+**File imports fixed — uploading boundaries and SAP spreadsheets works again. No action needed.**
+
+- The boundary import (Shapefile/KML/GeoJSON) and the SAP Excel import both rejected every
+  file chosen in the browser with "choose a file" even though you had chosen one. Uploads now
+  go through and stage for preview as designed. (Exports were unaffected.)
+- On some tablets and the Home Assistant app, the file picker refused to let you select a
+  file at all; the pickers now accept the proper file types everywhere.
+- Behind the scenes: automated tests now exercise the real upload path end-to-end so this
+  class of fault can't ship silently again, and internal housekeeping (shared library and
+  theme re-sync) rode along.
+
 ## 2026.8.81
 
 **Sign-in page tidied, and password reset now emails you — plus a batch of behind-the-scenes fixes. No action needed for most sites.**

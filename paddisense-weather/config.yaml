@@ -1,10 +1,10 @@
 # GENERATED from the source config.yaml by release.sh Step 7 (WR-PS-115).
 # DO NOT hand-edit — any edit is overwritten at the next release.
-# source: PaddiSense/Weather@d6f26b886cdff7c60c2c931e96bbdf959900452c
+# source: PaddiSense/Weather@a02d2ffd80708268b5cea9cee77d95ebb4bdf06d
 # Catalog-only deltas are declared in contracts/catalog-overrides.yaml;
 # contracts/check-catalog-drift.py verifies catalog == source on every release + in CI.
 name: PaddiSense Weather
-version: 2026.8.12
+version: 2026.8.17
 slug: paddisense-weather
 description: PaddiSense Weather — weather stations, forecast, burn forecast, spray
   assessment
@@ -30,8 +30,8 @@ options:
   db_host: 77b2833f-timescaledb
   db_port: 5432
   db_name: paddisense_weather
-  db_user: postgres
-  db_password: homeassistant
+  db_user: weather_owner
+  db_password: ''
   admin_key: ''
 schema:
   db_host: str

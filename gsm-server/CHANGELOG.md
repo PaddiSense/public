@@ -3,6 +3,30 @@
 > Plain-English release notes. The full technical changelog lives in the source repo
 > (`CHANGELOG.md`); this is the version that ships in the catalog.
 
+## 2026.8.85
+
+**Boundary import pages get the standard GSM look. No action needed.**
+The boundary import wizard now uses the normal GSM navigation and layout
+(the pages previously rendered bare, with overlapping text on some screens).
+The match step shows only the fields for the mode you've chosen, and the
+dry-run preview lists every value that will be imported for each paddock.
+
+## 2026.8.84
+
+**Boundary imports now read the file's own business & farm columns — and the SAP
+Excel import keeps every column. No action needed.**
+
+- When a boundary file (Shapefile/KML/GeoJSON) carries business and farm details,
+  the import wizard now maps those columns (auto-detected, adjustable) and files
+  each paddock under its OWN business and farm — matching by farm number, the same
+  key the SAP spreadsheet uses, so spreadsheet-then-boundaries imports link up.
+  Unknown businesses/farms are created; nothing is ever guessed between
+  same-named entries; everything is previewed before commit as before.
+- The SAP Excel import previously discarded the Farm Vendor column after preview
+  and had no home for Farm Reg — both are now saved with the farm.
+- Behind the scenes: fresh installs now set up the second (least-privilege)
+  database role automatically.
+
 ## 2026.8.83
 
 **File imports fixed — uploading boundaries and SAP spreadsheets works again. No action needed.**

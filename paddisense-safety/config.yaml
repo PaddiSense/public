@@ -1,10 +1,10 @@
 # GENERATED from the source config.yaml by release.sh Step 7 (WR-PS-115).
 # DO NOT hand-edit — any edit is overwritten at the next release.
-# source: PaddiSense/Safety@d5466e60943e0381a852ce3069812780299f4f10
+# source: PaddiSense/Safety@b19c3a17835e097d1a1d7ccbfe578a9c4b9a0e2b
 # Catalog-only deltas are declared in contracts/catalog-overrides.yaml;
 # contracts/check-catalog-drift.py verifies catalog == source on every release + in CI.
 name: PaddiSense Safety
-version: 2026.8.14
+version: 2026.8.16
 slug: paddisense-safety
 description: PaddiSense Safety — Worker Safety System (WSS) with zone monitoring and
   escalation alerts
@@ -36,8 +36,8 @@ options:
   db_host: 77b2833f-timescaledb
   db_port: 5432
   db_name: paddisense_safety
-  db_user: postgres
-  db_password: homeassistant
+  db_user: safety_owner
+  db_password: ''
   admin_key: ''
   kiosk_key: ''
 schema:

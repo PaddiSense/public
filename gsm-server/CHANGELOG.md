@@ -3,6 +3,40 @@
 > Plain-English release notes. The full technical changelog lives in the source repo
 > (`CHANGELOG.md`); this is the version that ships in the catalog.
 
+## 2026.8.89
+
+**Map tree zoom at every level. No action needed.**
+Clicking a business or a farm in the map tree now zooms straight to its
+land, the same way clicking a paddock always has.
+
+## 2026.8.88
+
+**Imported boundaries protected from MapRice refreshes. No action needed.**
+Boundaries loaded through the import wizard are now explicitly protected, so a
+MapRice re-import can never overwrite them. Also silences the repeated
+self-test alert email this gap was triggering.
+
+## 2026.8.87
+
+**Import safety fix + tidier map. Recommended update.**
+
+- When a boundary file contained several farms with same-named paddocks
+  (like "1" or "3"), one farm's boundaries could overwrite another's during
+  a single import. Boundary matching now stays inside each paddock's own
+  farm, so this can no longer happen.
+- The map's browse tree now lists only farms that actually have mapped
+  boundaries — farms that exist only as records (no geometry yet) no longer
+  flood the tree. They remain visible in the CRM pages as before.
+
+## 2026.8.86
+
+**Boundary import: farm number decides where boundaries go. No action needed.**
+When an imported boundary file names a farm number that GSM already knows,
+the boundaries now attach to that farm and its real owner — even if the
+file's owner column says something else (common in bulk exports where
+everything is labelled with a head-office owner). The preview shows when
+this happened, and anything ambiguous still asks instead of guessing.
+
 ## 2026.8.85
 
 **Boundary import pages get the standard GSM look. No action needed.**

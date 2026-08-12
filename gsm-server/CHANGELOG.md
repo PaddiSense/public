@@ -3,6 +3,17 @@
 > Plain-English release notes. The full technical changelog lives in the source repo
 > (`CHANGELOG.md`); this is the version that ships in the catalog.
 
+## 2026.8.90
+
+**Boundary export page rebuilt. No action needed.**
+The boundary export picker now matches the rest of the app (side navigation
+included) and is much faster to use: a one-click **Select all**, ticking a
+business ticks all its farms, a running "farms · paddocks selected" count, a
+search box to filter big lists, and each farm row shows its farm number,
+region, paddock count and hectares. Exactly the farms you tick are what
+downloads. Every page also now spots when the addon has updated underneath an
+open tab and offers a reload.
+
 ## 2026.8.89
 
 **Map tree zoom at every level. No action needed.**

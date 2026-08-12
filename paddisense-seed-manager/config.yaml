@@ -1,10 +1,10 @@
 # GENERATED from the source config.yaml by release.sh Step 7 (WR-PS-115).
 # DO NOT hand-edit — any edit is overwritten at the next release.
-# source: PaddiSense/SeedManager@20f7b4b6c76d2a11570557dc5a41b05dd804bb03
+# source: PaddiSense/SeedManager@8bda9e993220bf41f0936271639c00e838ab1abd
 # Catalog-only deltas are declared in contracts/catalog-overrides.yaml;
 # contracts/check-catalog-drift.py verifies catalog == source on every release + in CI.
 name: PaddiSense Seed Manager
-version: 2026.8.13
+version: 2026.8.15
 slug: paddisense-seed-manager
 description: PaddiSense Seed Manager — seed inventory, movements, grading, and moisture
   tracking
@@ -31,8 +31,8 @@ options:
   db_host: 77b2833f-timescaledb
   db_port: 5432
   db_name: seedmgr
-  db_user: postgres
-  db_password: homeassistant
+  db_user: seed_owner
+  db_password: ''
   plc_host: ''
   plc_port: 502
   admin_key: ''

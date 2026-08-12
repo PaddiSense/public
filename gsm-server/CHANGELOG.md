@@ -3,6 +3,14 @@
 > Plain-English release notes. The full technical changelog lives in the source repo
 > (`CHANGELOG.md`); this is the version that ships in the catalog.
 
+## 2026.8.91
+
+**Map labels that follow your search. No action needed.**
+Three new switches at the top of the map's Explorer tree — Farm, Paddock and
+Area (ha) — put names and sizes right on the map. They follow whatever you've
+narrowed to: search down to a single farm and only that farm shows its
+labels, instead of the whole map lighting up.
+
 ## 2026.8.90
 
 **Boundary export page rebuilt. No action needed.**

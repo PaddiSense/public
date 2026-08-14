@@ -3,6 +3,16 @@
 > Plain-English release notes. The full technical changelog lives in the source repo
 > (`CHANGELOG.md`); this is the version that ships in the catalog.
 
+## 2026.8.92
+
+**The business list now shows every business. No action needed.**
+Admin's grower pages were cutting the business picker off partway through the
+alphabet once the South American dataset arrived — the list stopped around the
+letter S. The server now returns the full list (all 566 and room to grow).
+Also quietened a false "provisioning" alert that could email repeatedly on
+boxes where PaddiSense Core manages the database roles — those boxes were
+healthy; the alert now recognises that setup and stays silent.
+
 ## 2026.8.91
 
 **Map labels that follow your search. No action needed.**

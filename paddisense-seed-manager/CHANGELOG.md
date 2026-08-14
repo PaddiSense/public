@@ -1,5 +1,12 @@
 # PaddiSense Seed Manager — What's New
 
+## 2026.8.17
+
+**Delete a grading order.** Admins can now delete an order that was set up wrong (for
+example, before Long-Row lots were selectable) and reissue it correctly. Deleting returns
+all withdrawn stock to its source locations and removes the order's records completely.
+Completed orders cannot be deleted.
+
 ## 2026.8.15
 
 **Grade Long Rows separately.** When a variety has Long-Row bags in storage, creating a

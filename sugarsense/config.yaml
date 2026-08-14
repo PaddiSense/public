@@ -1,10 +1,10 @@
 # GENERATED from the source config.yaml by release.sh Step 7 (WR-PS-115).
 # DO NOT hand-edit — any edit is overwritten at the next release.
-# source: PaddiSense/SugarSense@d5d6bad2b0018dccb2ab5209544042063627827f
+# source: PaddiSense/SugarSense@a9694143bf94b730deb59087aac5714454bccf26
 # Catalog-only deltas are declared in contracts/catalog-overrides.yaml;
 # contracts/check-catalog-drift.py verifies catalog == source on every release + in CI.
 name: PaddiSense Sugar
-version: 2026.8.13
+version: 2026.8.15
 slug: sugarsense
 description: PaddiSense Sugar — sugar cane harvest planning and farm management
 logo: true
@@ -30,8 +30,8 @@ options:
   db_host: 77b2833f-timescaledb
   db_port: 5432
   db_name: sugarsense
-  db_user: postgres
-  db_password: homeassistant
+  db_user: sugar_owner
+  db_password: ''
   admin_key: ''
 schema:
   db_host: str

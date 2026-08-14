@@ -3,6 +3,63 @@
 > Plain-English release notes for growers. The full technical changelog lives in the
 > source repo (`CHANGELOG.md`); this is the version that ships in the grower catalog.
 
+## 2026.8.30
+
+**Housekeeping — the security update in 2026.8.28 now always records what it did.** When Core moves
+your stored service credentials onto its new private encryption key, it writes a line to the add-on
+log every time it checks, including when there is nothing left to move. Previously it only wrote a
+line when it changed something, which made "everything is already done" look the same as "it never
+ran".
+
+**What you need to do: nothing.** No change to how anything works — this only makes the update
+easier to confirm from the log.
+
+## 2026.8.29
+
+**Internal fix — a database password change could have disrupted your add-ons.** The routine that
+updates the database password across PaddiSense add-ons was writing the wrong password to add-ons
+that use their own dedicated login. It now only updates the add-ons that actually need it, and says
+clearly in the log which ones it skipped and why.
+
+**What you need to do: nothing.** No add-on is affected on a running system.
+
+## 2026.8.28
+
+**Security fix — the key protecting your stored service credentials is now private to Core.**
+Core encrypts the credentials it holds for connected services (your GSM connection, software
+updates, machine-data providers). The key used for that encryption could previously be worked out
+by other PaddiSense add-ons running on the same box. It is now held privately by Core and shared
+with nothing.
+
+**What you need to do: nothing.** Existing credentials are moved across automatically the first time
+Core starts, and your connections keep working. Nothing about how you sign in or use the system
+changes.
+
+## 2026.8.27
+
+**The built-in emergency "owner" account now gets a random password instead of a standard one.**
+Every new box used to create this backup account with the same well-known password until you changed
+your database credential. It now gets a unique, randomly generated password on each box.
+
+**What you need to do:** nothing on an existing box — your accounts are untouched. On a *new* box,
+the emergency account's password is printed once in the Core add-on log at first start. If you ever
+need it, that is where it lives. Your normal administrator account is unaffected and remains the way
+you sign in.
+
+## 2026.8.26
+
+**Turning off a user account now signs them out straight away.** Previously, deactivating someone —
+or lowering their access level — updated their account but left them signed in on any device they
+were already using, for up to 12 hours. They are now signed out immediately, and a reduced access
+level takes effect at once. Turning an account back on, or just editing someone's display name,
+does not sign anyone out.
+
+## 2026.8.25
+
+**Clearer support diagnostics — no change to your box.** When PaddiSense support asks this box to
+rotate a security credential it isn't able to change, the box now reports back that it declined and
+why, instead of staying silent. Nothing about how your box runs is affected.
+
 ## 2026.8.24
 
 **Signing in now uses your Home Assistant username.** If someone was added to your farm and then

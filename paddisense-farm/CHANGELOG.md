@@ -1,5 +1,21 @@
 # PaddiSense Farm — What's New
 
+## 2026.8.26
+
+**Licence codes are now signature-checked everywhere.** The GSM enrolment card verifies
+Admin's signature on a pasted licence code, same as the licence page — a tampered or
+hand-made code is refused.
+
+**Map: bays now follow the layer tree exactly.** Bays are drawn only by their layer
+checkboxes; a newly drawn bay ticks itself and zooms into view, and unticking "Bays"
+always clears them from the map.
+
+## 2026.8.25
+
+**The map tree stays where you left it.** Drawing a bay used to unfold the "Bays" branch of
+*every* paddock in the tree, not just the one you were working in. Now only the branches you had
+open stay open.
+
 ## 2026.8.24
 
 **Quality assurance improvements — no user-visible changes.** The full automated test suite now

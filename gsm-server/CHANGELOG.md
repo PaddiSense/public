@@ -3,6 +3,14 @@
 > Plain-English release notes. The full technical changelog lives in the source repo
 > (`CHANGELOG.md`); this is the version that ships in the catalog.
 
+## 2026.8.93
+
+**Licence Remove and Paste on the Deploy page work again. No action needed.**
+Removing or pasting an add-on licence from GSM's Deploy page had started returning
+"Forbidden" against up-to-date add-ons — a side effect of this month's security
+hardening that removed network-position trust. The Deploy page now authenticates
+those actions properly, so both buttons work as before.
+
 ## 2026.8.92
 
 **The business list now shows every business. No action needed.**

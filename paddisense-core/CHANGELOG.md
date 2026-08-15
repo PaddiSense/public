@@ -3,6 +3,16 @@
 > Plain-English release notes for growers. The full technical changelog lives in the
 > source repo (`CHANGELOG.md`); this is the version that ships in the grower catalog.
 
+## 2026.8.37
+
+**Licence codes now reach your add-ons.** Entering a licence for an add-on failed with a permission
+error on every one of them — Core was sending the code to the add-on without proving the request came
+from your own box, so each add-on correctly refused it. Core now proves who it is, and if it ever
+cannot, it says so plainly instead of leaving the add-on looking broken.
+
+**What you need to do:** enter your licence codes from the **Core** licence page. Entering one on an
+add-on's own page will not work — that is deliberate, and it is Core's job to distribute them.
+
 ## 2026.8.36
 
 **Completes the new-box setup fix from 2026.8.35.** On a brand-new box the add-ons still could not

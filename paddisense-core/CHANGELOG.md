@@ -3,6 +3,18 @@
 > Plain-English release notes for growers. The full technical changelog lives in the
 > source repo (`CHANGELOG.md`); this is the version that ships in the grower catalog.
 
+## 2026.8.36
+
+**Completes the new-box setup fix from 2026.8.35.** On a brand-new box the add-ons still could not
+start: each one needs its own database, and each database needs its own login to own it — but the
+login was only created once the database existed, and the database could only be created once the
+login existed. Neither could go first, so a new box ended up with neither and every add-on stayed
+down. The login is now created straight away, and the database follows.
+
+**What you need to do:** on a NEW box, nothing beyond activating your licence — the other add-ons
+should come up on their own within a couple of minutes of Core starting. On a box already running,
+nothing at all.
+
 ## 2026.8.35
 
 **Setting up a new box now completes on its own.** On a brand-new box the other PaddiSense add-ons

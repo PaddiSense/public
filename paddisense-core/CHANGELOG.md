@@ -3,6 +3,54 @@
 > Plain-English release notes for growers. The full technical changelog lives in the
 > source repo (`CHANGELOG.md`); this is the version that ships in the grower catalog.
 
+## 2026.8.34
+
+**Setting up a brand-new box now works.** On a box that had never been set up, there was no way to
+sign in: Core sent every page to the licence screen, activating a licence needed an administrator
+account, and no administrator password was ever shown to you. There was no way through it.
+
+A new box now opens straight onto a **"Claim this box"** screen where you choose the `admin`
+password yourself. Once you set it, that screen closes permanently and you sign in normally to
+activate your licence.
+
+⚠ **This also unblocked installing the other PaddiSense add-ons.** They are pulled using
+credentials that arrive with your Core licence, so on a box where Core could not be licensed, the
+other add-ons would not install either — usually showing only *"An unknown error occurred"*.
+
+**Security note, because it is a fair question:** the claim screen is reachable only from inside
+Home Assistant on your own box — Core has no separate network port — so anyone who could open it
+must already be able to sign in to your Home Assistant. The box also **notifies you the moment it
+is claimed**, so if someone else does it you will know immediately. Once claimed, the screen never
+reopens: not when a licence is removed or expires, and not if user accounts are deleted.
+
+**What you need to do:** on a NEW box, set the admin password when the claim screen appears. On a
+box that is already running, **nothing** — it stays exactly as it is and the claim screen is
+already closed.
+
+## 2026.8.33
+
+Introduced the "Claim this box" setup screen described above. Corrected in 2026.8.34 before either
+version reached the grower catalog — 2026.8.33 would have re-opened the setup screen on boxes that
+were already running, so the two are released together.
+
+## 2026.8.32
+
+**Fix — disconnecting your GSM connection now reports honestly.** Disconnecting told you it had
+worked even when the change had not reached the other add-on. Core now keeps re-sending the current
+state until it is confirmed, so it corrects itself instead of leaving you with a screen that
+disagrees with your farm.
+
+**What you need to do: nothing.**
+
+## 2026.8.31
+
+**Fix — the licence page could show "Licensed" for a product that had been revoked.** Where a box
+held both a licence and a later revoke for the same product, the page could show the wrong one.
+Revocations now take precedence, so what you read matches your actual licence state.
+
+**What you need to do: nothing.** Your machine control, your data and your pages are unaffected by
+a revoke — as always, a revoke only stops updates and syncing with PaddiSense.
+
 ## 2026.8.30
 
 **Housekeeping — the security update in 2026.8.28 now always records what it did.** When Core moves

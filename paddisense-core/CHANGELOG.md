@@ -3,6 +3,26 @@
 > Plain-English release notes for growers. The full technical changelog lives in the
 > source repo (`CHANGELOG.md`); this is the version that ships in the grower catalog.
 
+## 2026.8.35
+
+**Setting up a new box now completes on its own.** On a brand-new box the other PaddiSense add-ons
+would install but then refuse to start — usually showing only *"An unknown error occurred"*, or
+stopping seconds after launch. Each add-on needs its own database and its own database login, and on
+a fresh box neither existed yet, so every add-on sat waiting for something that nothing was creating.
+Core now creates each add-on's database, hands it the login it needs, and starts it.
+
+**You can now run your own farm from the moment you install it.** Activating your licence and adding
+users had come to require a *PaddiSense* administrator rather than the farm's own owner — so on a new
+box the owner could not license the box and could not add anybody, including themselves. The Farm
+Owner is the administrator of their own farm again, and can do both.
+
+The separate `admin` account stays reserved as PaddiSense's way to help you back in if you are ever
+locked out. It cannot be deleted or taken over — that is the one thing a Farm Owner cannot do, and it
+exists so you always have a way back in.
+
+**What you need to do:** on a NEW box, nothing beyond activating your licence — the other add-ons
+should come up by themselves within a couple of minutes. On a box already running, nothing at all.
+
 ## 2026.8.34
 
 **Setting up a brand-new box now works.** On a box that had never been set up, there was no way to
@@ -29,9 +49,12 @@ already closed.
 
 ## 2026.8.33
 
-Introduced the "Claim this box" setup screen described above. Corrected in 2026.8.34 before either
-version reached the grower catalog — 2026.8.33 would have re-opened the setup screen on boxes that
-were already running, so the two are released together.
+**Not released on its own — included in 2026.8.34.** This version introduced the "Claim this box"
+setup screen, but would also have re-opened that screen on boxes already up and running. That was
+caught and corrected in 2026.8.34 before either version reached you, so the two ship together.
+
+**What you need to do: nothing.** It is listed only so the jump from 2026.8.30 to 2026.8.34 has no
+unexplained gaps.
 
 ## 2026.8.32
 

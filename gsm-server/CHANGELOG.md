@@ -3,6 +3,15 @@
 > Plain-English release notes. The full technical changelog lives in the source repo
 > (`CHANGELOG.md`); this is the version that ships in the catalog.
 
+## 2026.8.106
+
+**Sending paddock boundaries to GSM now works from every connected box. No action needed.**
+Boxes could receive boundaries from GSM but not send their own back — the attempt was
+refused with a permissions error that looked like a connection problem. Sending was
+governed by a per-licence setting that was fixed to "receive only" when the licence was
+issued and could not be changed. That setting has been retired: any connected box may now
+both send and receive. Re-connecting or re-issuing a licence is not required.
+
 ## 2026.8.93
 
 **Licence Remove and Paste on the Deploy page work again. No action needed.**

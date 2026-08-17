@@ -1,5 +1,33 @@
 # PaddiSense Seed Manager — What's New
 
+## 2026.8.21
+
+**Fixes a brand-new install that would not start.** On a freshly installed add-on — not an existing
+one — start-up stopped because it could not see a database password, even though it was able to
+work one out for itself from this box's own key. It now checks whether the password can be derived
+before insisting on being handed one. **Existing installs were never affected**; if yours is
+already running, nothing changes.
+
+## 2026.8.20
+
+**Security: the factory database password is gone from the last place it remained** — the
+database restore path used when recovering from a backup. Every other place was cleared
+previously; this was the one site the earlier sweep missed. The add-on now fails safely rather
+than falling back to a known default. No action needed on your part.
+
+## 2026.8.19
+
+**Every page now tells you if the box is not connected to PaddiSense.** A small, dismissable
+note. It never blocks you or locks any page — it is there so a box that has quietly dropped its
+connection does not look perfectly normal.
+
+**Security: the factory database password is gone from the add-on's start-up and connection
+settings.** No action needed on your part.
+
+## 2026.8.18
+
+**Faster start-up.** Removed duplicate code checks from add-on start — they already run in the build pipeline.
+
 ## 2026.8.17
 
 **Delete a grading order.** Admins can now delete an order that was set up wrong (for

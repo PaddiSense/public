@@ -1,10 +1,10 @@
 # GENERATED from the source config.yaml by release.sh Step 7 (WR-PS-115).
 # DO NOT hand-edit — any edit is overwritten at the next release.
-# source: PaddiSense/SeedManager@3e3085a5a19521a6104bde35b82bcd63ad7d5c23
+# source: PaddiSense/SeedManager@691bd579f495cef4392ae4313b1af367ef2c1449
 # Catalog-only deltas are declared in contracts/catalog-overrides.yaml;
 # contracts/check-catalog-drift.py verifies catalog == source on every release + in CI.
 name: PaddiSense Seed Manager
-version: 2026.8.17
+version: 2026.8.21
 slug: paddisense-seed-manager
 description: PaddiSense Seed Manager — seed inventory, movements, grading, and moisture
   tracking

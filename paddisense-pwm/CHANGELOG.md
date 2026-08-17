@@ -1,6 +1,20 @@
 # PaddiSense PWM — What's New
 
 
+## 2026.8.75
+
+- **Security: the factory database password is gone from the shipped defaults.** PWM now starts
+  with a blank database credential and fails safely if one has not been set, rather than falling
+  back to a known default. The start-up warning that tells you a box is still on the factory
+  credential is unaffected and still works. No action needed on your part.
+
+## 2026.8.74
+
+- **Gate names on the Upstream Offtake card were squashed to one letter per line.** That card is
+  the only list that shows an Open/Closed/Any picker next to each gate, so it was the only place
+  the name got crowded out — it now keeps its width and reads normally. Display only; no
+  automation behaviour has changed.
+
 ## 2026.8.71
 
 - **Your phone was describing an automation rule that no longer applies.** The Upstream Offtake card

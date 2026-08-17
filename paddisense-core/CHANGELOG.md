@@ -3,6 +3,19 @@
 > Plain-English release notes for growers. The full technical changelog lives in the
 > source repo (`CHANGELOG.md`); this is the version that ships in the grower catalog.
 
+## 2026.8.43
+
+**Security: add-ons that read each other's data now do so through a locked-down, read-only
+account.** The Planner reads paddocks from Farm and product information from Store. Until now it
+connected using an account that was technically allowed to change that data, even though it never
+did — the protection was "we don't write" rather than "we can't write". Those reads now use a
+dedicated account with no ability to modify anything. Nothing you do changes; this removes a way
+a future bug could have damaged your records.
+
+**Internal reliability and security fixes.** Several checks that were supposed to guard licence
+handling and add-on-to-add-on requests were found to be passing without actually testing the
+thing they described, and have been corrected. No action needed on your part.
+
 ## 2026.8.37
 
 **Licence codes now reach your add-ons.** Entering a licence for an add-on failed with a permission

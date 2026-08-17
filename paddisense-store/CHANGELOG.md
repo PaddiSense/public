@@ -1,5 +1,12 @@
 # PaddiSense Store — What's New
 
+## 2026.8.18
+
+**Fixes a brand-new install that would not start.** On a freshly installed add-on — not an existing
+one — start-up stopped because it could not see a database password, even though it could work one
+out from this box's own key. It now checks whether the password can be derived before insisting on
+being handed one. **Existing installs were never affected.**
+
 ## 2026.8.17
 
 **New installs get a randomly generated admin password instead of a known default.** On a

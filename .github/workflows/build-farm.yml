@@ -35,15 +35,15 @@ jobs:
       - name: Install pinned tools + deps
         run: |
           python -m pip install --upgrade pip
-          pip install -r source/paddisense-gis/requirements.txt
+          pip install -r source/paddisense-farm/requirements.txt
           pip install ruff mypy bandit types-requests types-PyYAML
       - name: Ruff lint (pinned)
-        run: ruff check source/paddisense-gis/paddisense_farm
+        run: ruff check source/paddisense-farm/paddisense_farm
       - name: Mypy type check (pinned — local == CI)
-        working-directory: source/paddisense-gis
+        working-directory: source/paddisense-farm
         run: mypy paddisense_farm --ignore-missing-imports
       - name: Bandit security scan
-        run: bandit -r source/paddisense-gis/paddisense_farm -ll -q || true
+        run: bandit -r source/paddisense-farm/paddisense_farm -ll -q || true
 
   build:
     needs: quality-gate
@@ -79,7 +79,7 @@ jobs:
           elif [ -n "${{ github.event.client_payload.version }}" ]; then
             echo "version=${{ github.event.client_payload.version }}" >> "$GITHUB_OUTPUT"
           else
-            VERSION=$(grep '^version:' source/paddisense-gis/config.yaml | sed 's/version: *"\(.*\)"/\1/')
+            VERSION=$(grep '^version:' source/paddisense-farm/config.yaml | sed 's/version: *"\(.*\)"/\1/')
             echo "version=$VERSION" >> "$GITHUB_OUTPUT"
           fi
 
@@ -100,8 +100,8 @@ jobs:
         id: build            # R197: exposes steps.build.outputs.digest
         uses: docker/build-push-action@v6
         with:
-          context: source/paddisense-gis
-          file: source/paddisense-gis/Dockerfile
+          context: source/paddisense-farm
+          file: source/paddisense-farm/Dockerfile
           platforms: ${{ matrix.platform }}
           push: true
           tags: |
@@ -121,7 +121,7 @@ jobs:
         # symmetric across arches (trade-off: misses base-image OS packages).
         uses: anchore/sbom-action@v0
         with:
-          path: source/paddisense-gis
+          path: source/paddisense-farm
           format: cyclonedx-json
           output-file: sbom.cdx.json
 

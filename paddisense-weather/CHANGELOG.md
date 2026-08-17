@@ -1,5 +1,16 @@
 # PaddiSense Weather — What's New
 
+## 2026.8.22
+
+**A brand-new box could not start Weather. Fixed.**
+
+If you installed Weather on a **new** box, it would not start — it was waiting for a database
+password that the add-on is supposed to work out for itself. Existing boxes were never affected:
+yours has been running normally throughout, and nothing about your data or settings changes.
+
+This only mattered on a first install, which is exactly what makes it worth fixing now.
+
+
 ## 2026.8.21
 
 **The Seasonal Outlook has been removed.**

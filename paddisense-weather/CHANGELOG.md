@@ -1,5 +1,20 @@
 # PaddiSense Weather — What's New
 
+## 2026.8.21
+
+**The Seasonal Outlook has been removed.**
+
+We told you in the last update that it was working. It wasn't. The section
+appeared, but every temperature and rainfall figure in it showed as "--" —
+the part that fetched the outlook and the part that displayed it never
+agreed on how to label the numbers, so nothing real ever reached the screen.
+
+Rather than leave a section that looks like information but isn't, we have
+taken it out. The 7-day and extended forecasts are unchanged, and so is
+everything on My Stations.
+
+Nothing else about the page has changed.
+
 ## 2026.8.17
 
 **The Weather page is now two pages.** It had grown crowded, with your own

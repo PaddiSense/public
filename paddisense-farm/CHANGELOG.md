@@ -1,5 +1,27 @@
 # PaddiSense Farm — What's New
 
+## 2026.8.35
+
+**Paddocks with the same name now sync to the right farm.** If you run more than one farm and
+each has a paddock called (say) "4", a boundary sync from PaddiSense could attach the wrong
+farm's paddock — or quietly create a duplicate — and still report the sync as successful. Each
+paddock now matches only within its own farm, and a paddock the system cannot confidently place
+is left alone and reported rather than guessed at. **If you have synced before, please check any
+paddocks whose names repeat across farms** — existing links made by the old behaviour are not
+changed automatically, because only you can say which one is correct.
+
+**Sync problems now tell you what actually went wrong.** A refused connection used to always
+suggest fetching a fresh connection code. That is the fix for some problems and useless for
+others — if your business is not linked yet, a new code changes nothing. The message now names
+the real cause and only sends you for a new code when a new code is the answer.
+
+**Every page tells you if the box is not connected to PaddiSense.** A small, dismissable note,
+so a box that has quietly dropped its connection no longer looks perfectly normal.
+
+## 2026.8.27
+
+**Internal tidy-up.** No visible changes.
+
 ## 2026.8.26
 
 **Licence codes are now signature-checked everywhere.** The GSM enrolment card verifies

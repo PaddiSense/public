@@ -1,5 +1,14 @@
 # PaddiSense Planner — What's New
 
+## 2026.8.21
+
+**A brand-new box could not start Planner. Fixed.**
+
+Installing Planner on a **new** box left it unable to start — it was waiting to be given a database
+password that it is supposed to work out for itself. Existing boxes were never affected: yours has
+been running normally, and nothing about your plans, water licences or prices changes.
+
+
 ## 2026.8.20
 
 **Security: reading your paddocks and product list is now strictly read-only.** Planner pulls

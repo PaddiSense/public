@@ -1,5 +1,13 @@
 # PaddiSense Livestock — What's New
 
+## 2026.8.18
+
+**Fixes a brand-new install that would not start.** On a freshly installed add-on — not an
+existing one — start-up refused to continue because it could not see a database password, even
+though it was able to work one out for itself from this box's own key. The check now asks whether
+the password can be derived before insisting on being handed one. **Existing installs were never
+affected**; if yours is already running, nothing changes for you.
+
 ## 2026.8.17
 
 **New installs get a randomly generated admin password instead of a known default.** On a

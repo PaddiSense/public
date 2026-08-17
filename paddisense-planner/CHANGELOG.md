@@ -1,5 +1,18 @@
 # PaddiSense Planner — What's New
 
+## 2026.8.20
+
+**Security: reading your paddocks and product list is now strictly read-only.** Planner pulls
+paddock information from Farm and product information from Store. It was doing that through an
+account that was technically able to change those records, even though it only ever read them —
+the safeguard was "we don't write" rather than "we can't write". Those reads now use a dedicated
+account with no ability to modify anything. Nothing changes in how Planner works; this removes a
+way a future bug could have altered your Farm or Store records.
+
+## 2026.8.17
+
+**Faster start-up.** Removed duplicate code checks from add-on start — they already run in the build pipeline.
+
 ## 2026.8.16
 
 **Security update — recommended for all growers.** The add-on now connects to its database with

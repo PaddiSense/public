@@ -1,10 +1,10 @@
 # GENERATED from the source config.yaml by release.sh Step 7 (WR-PS-115).
 # DO NOT hand-edit — any edit is overwritten at the next release.
-# source: PaddiSense/Store@6859e6ee40ead2f649582d11624d4838750862d6
+# source: PaddiSense/Store@0f1147078dc12aec16bff048d146020da9222b65
 # Catalog-only deltas are declared in contracts/catalog-overrides.yaml;
 # contracts/check-catalog-drift.py verifies catalog == source on every release + in CI.
 name: PaddiSense Store
-version: 2026.8.14
+version: 2026.8.17
 slug: paddisense-store
 description: PaddiSense Store — product registry, chemical inventory, stock management
 logo: true

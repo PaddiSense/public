@@ -1,5 +1,15 @@
 # PaddiSense Assets — What's New
 
+## 2026.9.2
+
+- **Security: notification-group targets are now checked.** Only Home Assistant phone
+  notification services can be saved as a group target; anything else is refused when saved and
+  ignored when sending. Existing groups keep working; a target that is not a notification service
+  is skipped and shown as refused in the test-notification result.
+- **Security: very large sign-in or form submissions are now refused before they are read.**
+  No change for normal use.
+- Includes everything under 2026.9.1 below.
+
 ## 2026.9.1
 
 - **Security: uploading an oversized photo or QR image is now refused as it arrives, instead of

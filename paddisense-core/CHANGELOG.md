@@ -3,6 +3,14 @@
 > Plain-English release notes for growers. The full technical changelog lives in the
 > source repo (`CHANGELOG.md`); this is the version that ships in the grower catalog.
 
+## 2026.9.1
+
+**Security: the browser protections now apply to every response, including "please log in".**
+The pages you use already carried the standard browser security headers; the short "not logged in"
+and "redirect to login" replies did not. They now do. Nothing changes in how you use Core.
+
+**Fortnightly security audit completed** (13 September) with no other findings.
+
 ## 2026.8.43
 
 **Security: add-ons that read each other's data now do so through a locked-down, read-only

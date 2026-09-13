@@ -1,10 +1,10 @@
 # GENERATED from the source config.yaml by release.sh Step 7 (WR-PS-115).
 # DO NOT hand-edit — any edit is overwritten at the next release.
-# source: PaddiSense/Core@45efaa83f11d205f09865ed9453e500eeb688184
+# source: PaddiSense/Core@6bbcfcb69a3c48f94ecaf0f244b5aef124f7dc75
 # Catalog-only deltas are declared in contracts/catalog-overrides.yaml;
 # contracts/check-catalog-drift.py verifies catalog == source on every release + in CI.
 name: PaddiSense Core
-version: 2026.8.43
+version: 2026.9.1
 slug: paddisense-core
 description: PaddiSense Core — system gateway, licence management, addon health monitoring
 logo: true

@@ -1,5 +1,23 @@
 # PaddiSense Safety — What's New
 
+## 2026.9.1
+
+- **Security: saving device preferences now requires you to be signed in.** That page previously
+  accepted the request without a session. Nothing changes for normal use.
+- **Security: the browser-protection headers now also arrive on sign-in redirects and refused
+  requests**, not only on pages you are signed into. No change for normal use.
+- **Security: a worker's notification target can now only be a phone notification service.**
+  Previously a Safety manager could type any Home Assistant service name (or a path) into that
+  field, and the add-on would call it with its own credentials. Now only `notify.…` services are
+  accepted and sent. If a worker's notifications stop after this update, re-select the phone
+  from the list on their user record.
+- Includes the 2026.8.19 fresh-install fix below, which had not yet reached the store.
+
+## 2026.8.19
+
+- Fixed: a brand-new installation could fail to start with a configuration error, even when
+  correctly set up. Existing installations were unaffected.
+
 ## 2026.8.18
 
 **New installs: your first admin password is now recoverable.** On a brand-new install the add-on

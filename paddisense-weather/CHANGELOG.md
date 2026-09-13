@@ -1,5 +1,74 @@
 # PaddiSense Weather — What's New
 
+## 2026.9.7
+
+**Internal type-checking fixes only. This is the version that brings you the 2026.9.2 → 2026.9.6 security hardening below; nothing you use day to day moves.**
+
+## 2026.9.6
+
+**Security hardening, rolled up from 2026.9.2 → 2026.9.6. Nothing you use day to day moves.**
+
+- Login is protected against password-guessing from a single source, not just against one
+  username at a time.
+- Changing a burn-safety rule, your station settings or your Ecowitt cloud keys now requires a
+  user with the right level of access. Viewing is unchanged.
+- The settings page no longer sends your Ecowitt cloud keys or licence details to the browser.
+- If Home Assistant restarts while Weather is asking it for your farm's location, Weather now
+  waits instead of recording a wrong location and wrong forecasts.
+- Every response from Weather, including the login redirect, now carries the browser security
+  headers that protect against framing and content-sniffing.
+
+## 2026.8.25
+
+**Internal test corrections only — nothing on your box changes.**
+
+The previous update changed how the add-on reports a failure to reach your paddock
+boundaries, and three of our own tests were still checking for the old behaviour. We
+corrected the tests. There is no change to Weather itself in this version.
+
+
+## 2026.8.24
+
+**Paddock outlines were missing from the radar map, and the page did not tell you
+anything was wrong.**
+
+The radar asks another add-on on your box for your paddock boundaries. That request had
+been failing — but the page could not tell the difference between *"this farm has no
+paddocks"* and *"nobody answered"*, so it simply drew an empty map and said nothing.
+
+Two things are fixed. Weather now finds the other add-on reliably, instead of relying on
+an internal address that changes whenever an add-on is re-installed. And when it genuinely
+cannot reach it, the page now reports that as an error rather than showing you a blank map.
+
+If your paddock outlines have been missing from the radar, this is why, and this update
+should bring them back.
+
+
+## 2026.8.23
+
+**Weather could reveal a person's live location to someone who had not signed in.
+Please update.**
+
+The radar has a "My Location" button, and the address behind it was deliberately reachable
+without signing in — it has to be, so the button works inside the Home Assistant app, where
+the browser will not share your position.
+
+The mistake was in what it did when nobody was signed in. Instead of refusing, it looked
+through every person and device your Home Assistant knows about, picked the first one with
+a position, and returned that person's live GPS coordinates **along with their name**. On a
+farm that could be a worker or a family member.
+
+It now refuses that request unless you are signed in. If you are signed in, nothing changes
+— you still get your own position exactly as before.
+
+**How exposed were you?** This was reachable from your own box and local network, not from
+the open internet by default. We are telling you plainly because it involved a named
+person's location, which we treat as your private information regardless of how narrow the
+opening was.
+
+**What you should do:** update Weather to this version or later.
+
+
 ## 2026.8.22
 
 **A brand-new box could not start Weather. Fixed.**

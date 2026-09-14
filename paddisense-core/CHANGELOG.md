@@ -3,6 +3,14 @@
 > Plain-English release notes for growers. The full technical changelog lives in the
 > source repo (`CHANGELOG.md`); this is the version that ships in the grower catalog.
 
+## 2026.9.3
+
+**Housekeeping release. Nothing you use changes.**
+
+This brings Core's records level with the version already on your box. For completeness, 2026.9.2 also
+included one safety fix its notes left out: if Core's database settings are missing, it now refuses to start
+and says so clearly, instead of starting half-configured.
+
 ## 2026.9.2
 
 **Maintenance roll-up since 2026.9.1. Nothing you use day to day moves unless a line above says so.**

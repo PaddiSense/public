@@ -1,5 +1,40 @@
 # PaddiSense Livestock — What's New
 
+## 2026.9.3
+
+**Your licence details are now stored encrypted.** The web address Livestock uses to check in, and the
+licence itself, used to sit in the database as readable text. They are now encrypted, and a licence saved
+before this update keeps working. This release also tightens a paddock-sync setting so it can only point at
+your other PaddiSense add-ons, and adds checks that let a database update be safely undone. Nothing changes
+in how you use Livestock.
+
+This release also includes 2026.9.2 and 2026.9.1, below, which had not reached growers yet.
+
+## 2026.9.2
+
+**Livestock is harder to overload.** A security review found a few places where a flood of junk
+requests could make the add-on slowly use more and more memory until it was restarted. Those are now
+capped, very large uploads are turned away before any work is done on them, and list pages refuse
+nonsensical sizes. Nothing changes in how you use Livestock.
+
+This release also includes 2026.9.1, below, which had not reached growers yet.
+
+## 2026.9.1
+
+**Security: the browser protections now apply to every response, including "please log in".**
+The pages you use already carried the standard browser security headers; the short "not logged in"
+and "redirect to login" replies did not. They now do. Nothing changes in how you use Livestock.
+
+## 2026.8.19
+
+**When the add-on cannot reach your paddock data, it now says so instead of reporting an empty
+farm.** If Farm (or Core) could not be reached at all — the add-on stopped, or the box off the
+network — your paddock list said **"No paddocks found"**. That reads as *your farm has no
+paddocks*, when what actually happened is that nothing could be asked. It now tells you it cannot
+reach Farm (or Core), so you are pointed at the real problem. A source that genuinely has no
+paddocks still says "No paddocks found", exactly as before. **No paddock data was ever lost or
+overwritten by this** — your paddock list is only updated when one is actually received.
+
 ## 2026.8.18
 
 **Fixes a brand-new install that would not start.** On a freshly installed add-on — not an

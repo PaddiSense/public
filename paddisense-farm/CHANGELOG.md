@@ -1,5 +1,69 @@
 # PaddiSense Farm — What's New
 
+## 2026.9.6
+
+**Security fix.** A setting page used for troubleshooting knowledge packs could be made to read Farm's own
+configuration files. It is now limited to administrators and can only read knowledge pack content.
+
+**Safer updates.** Every database change Farm makes can now be undone or is clearly marked as one-way, and
+this is tested. Nothing changes in how you use Farm.
+
+## 2026.9.5
+
+**See everything that has happened on a paddock.** On the Farm Map, tap a paddock and choose **View
+events**. Every event on that paddock shows as a card, newest first, with a search box at the top. Tap a
+card to see the full record: products and rates, the sprayer and its setup, the weather at the start,
+middle and end of a spray, who recorded it, and any notes. Events recorded on a bay, a crop zone, or just
+drawn on the map over the paddock are included too.
+
+**Delete items from any Config list.** Products, Applicators, Crops and Seasons now have a Delete button
+on each row, like Farms. If something is still in use (for example a season with events), Farm tells you
+what is using it instead of deleting it.
+
+## 2026.9.4
+
+**Weather is captured on your spray and field records again.** Recording an event could save it with no
+weather readings, without telling you. Farm now connects to the Weather add-on properly, so the readings
+are filled in as before.
+
+**Config lists: the Edit buttons work, and you can delete a farm.** On the Config page the Edit buttons on
+the Farms, Crops, Seasons, Products and Applicators lists did nothing. They now open the item. Each farm
+also has a Delete button. A farm that still has paddocks, events, bays or infrastructure will not be
+deleted, and Farm tells you what is still attached to it.
+
+**Record Events map (desktop): the street map loads again.** The street background on the desktop
+Record Events page could show "403 Access blocked" squares instead of a map, because it came from a
+free public map service that can refuse requests. It now uses the same map provider as the Farm Map,
+which was not affected. Nothing to do on your side.
+
+## 2026.9.3
+
+**Security: the browser protections now apply to every response, including "please log in".**
+The pages you use already carried the standard browser security headers; the short "not logged in"
+and "redirect to login" replies did not. They now do. Nothing changes in how you use Farm.
+
+## 2026.9.2
+
+**Your business name and each farm's identity now come through the PaddiSense sync.** Paddocks synced
+from PaddiSense used to arrive with no grower shown ("Grower: –") and farms were told apart by name
+only, so two farms with the same name could be treated as one. Each synced farm now carries your
+business as its grower and is identified by its PaddiSense farm record, not just its name — and your
+existing farms pick that up on the next sync, nothing to redo. A paddock name is unique within a farm
+only; the same name on two farms is two paddocks, as it should be.
+
+## 2026.8.36
+
+**Files you import are now included in your backups, and survive reinstalling the add-on.**
+Boundary files, machine and task data, and soil tests you had imported were being kept somewhere
+your box's backup could not reach. Nothing deleted them, so they were there day to day — but a
+backup did not contain them, a restore could not bring them back, and removing and reinstalling
+Farm wiped every file you had ever imported. They are now stored alongside your other backed-up
+data, where all three of those work properly.
+
+**Your existing files move themselves.** The first time Farm starts on this version it relocates
+anything already imported, and it will not overwrite a newer copy. **You do not need to re-import
+anything**, and there is nothing to set up.
+
 ## 2026.8.35
 
 **Paddocks with the same name now sync to the right farm.** If you run more than one farm and

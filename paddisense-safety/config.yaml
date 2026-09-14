@@ -1,10 +1,10 @@
 # GENERATED from the source config.yaml by release.sh Step 7 (WR-PS-115).
 # DO NOT hand-edit — any edit is overwritten at the next release.
-# source: PaddiSense/Safety@71c9f33bc3a924d4facbe4ff3f3b4e7b1151c4b2
+# source: PaddiSense/Safety@cb995f3ffb9f3715c9c60f40c85b477c90429427
 # Catalog-only deltas are declared in contracts/catalog-overrides.yaml;
 # contracts/check-catalog-drift.py verifies catalog == source on every release + in CI.
 name: PaddiSense Safety
-version: 2026.9.1
+version: 2026.9.3
 slug: paddisense-safety
 description: PaddiSense Safety — Worker Safety System (WSS) with zone monitoring and
   escalation alerts

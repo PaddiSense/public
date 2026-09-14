@@ -1,5 +1,19 @@
 # PaddiSense Safety — What's New
 
+## 2026.9.3
+
+**Security fixes for the Safety map and paddock sync.** A zone or paddock name could carry hidden code that ran
+when you hovered over it on the map; names are now always shown as plain text. Safety also looked for your Farm
+add-on too loosely and could have sent its access key to a look-alike add-on; it now only talks to the real Farm
+and Core add-ons. Your licence details are now stored encrypted. Nothing changes in how you use Safety.
+
+This release also includes 2026.9.2, below, which had not reached growers yet.
+
+## 2026.9.2
+
+**Maintenance roll-up since 2026.9.1. Nothing you use day to day moves unless a line above says so.**
+
+
 ## 2026.9.1
 
 - **Security: saving device preferences now requires you to be signed in.** That page previously

@@ -3,6 +3,11 @@
 > Plain-English release notes for growers. The full technical changelog lives in the
 > source repo (`CHANGELOG.md`); this is the version that ships in the grower catalog.
 
+## 2026.9.2
+
+**Maintenance roll-up since 2026.9.1. Nothing you use day to day moves unless a line above says so.**
+
+
 ## 2026.9.1
 
 **Security: the browser protections now apply to every response, including "please log in".**

@@ -1,5 +1,18 @@
 # PaddiSense Store — What's New
 
+## 2026.9.2
+
+**Security: your licence details are now stored encrypted.** The add-on keeps a copy of your PaddiSense
+licence, including a private connection address, in its database. Both are now encrypted on disk with a key
+unique to your box. Your existing licence keeps working with nothing to re-enter, and nothing changes in how
+you use Store.
+
+## 2026.9.1
+
+**Security: the browser protections now apply to every response, including "please log in".**
+The pages you use already carried the standard browser security headers; the short "not logged in"
+and "redirect to login" replies did not. They now do. Nothing changes in how you use Store.
+
 ## 2026.8.18
 
 **Fixes a brand-new install that would not start.** On a freshly installed add-on — not an existing

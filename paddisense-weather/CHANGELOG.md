@@ -1,5 +1,10 @@
 # PaddiSense Weather — What's New
 
+## 2026.9.8
+
+**Maintenance roll-up since 2026.9.7. Nothing you use day to day moves unless a line above says so.**
+
+
 ## 2026.9.7
 
 **Internal type-checking fixes only. This is the version that brings you the 2026.9.2 → 2026.9.6 security hardening below; nothing you use day to day moves.**

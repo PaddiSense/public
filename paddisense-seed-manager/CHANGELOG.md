@@ -1,5 +1,109 @@
 # PaddiSense Seed Manager — What's New
 
+## 2026.9.6
+
+**No visible change.** A tidy-up in the stock movement form so an automated release check can read its script.
+
+## 2026.9.5
+
+**Behind-the-scenes fixes — nothing changes in how you use Seed Manager.**
+
+- The database export file is now named with today's local date (it could show yesterday's date early in the morning).
+- Dates and times follow your box's time zone reliably.
+- Security housekeeping: tighter handling of access keys and faster, safer log handling.
+
+## 2026.9.4
+
+**Behind-the-scenes security hardening — nothing changes in how you use Seed Manager.**
+
+The protective browser settings Seed Manager already sends with its pages now also go out with its "please sign in"
+and "request refused" responses.
+
+## 2026.9.3
+
+**Behind-the-scenes security hardening — nothing changes in how you use Seed Manager.**
+
+Your licence details are now stored encrypted on your box, and your existing licence keeps working. Seed Manager also
+refuses malformed settings that could have pointed its moisture-sensor reads or add-on store registration somewhere
+they should not go.
+
+## 2026.9.2
+
+**Security fix: names and notes typed into Seed Manager can no longer run as code on someone else's screen.**
+
+Text that people enter — truck notes, variety and generation names, seed sources, bin and silo codes, sensor names —
+was placed onto some pages in a way that let a specially crafted entry act as a script when another person opened
+that page. Every one of those places now shows the text exactly as typed and nothing more. Nothing you have entered
+has changed.
+
+## 2026.9.1
+
+**The shed kiosk now records WHO did the work — and only a chosen operator can record it.**
+
+The kiosk screen in the shed is meant to be walk-up: no login, just tap your name and enter your
+PIN. That part has not changed. But until now the kiosk would accept work from anyone who could
+reach the address, without a name attached — those entries were recorded as "kiosk" with nothing
+in the audit trail. It was also possible to be recorded as someone else without ever knowing
+their PIN.
+
+From this version: reading the kiosk is still open to anyone at the tablet, recording work needs
+an operator chosen on the screen, and every kiosk entry carries that operator's name in the audit
+log. Repeated wrong PINs now pause briefly instead of allowing unlimited guesses. Signing out of
+the kiosk properly ends the session.
+
+Also fixed: restoring a backup treated the table names inside the uploaded file as instructions
+rather than as names.
+
+## 2026.8.27
+
+**Fixes an error when creating a grading order.** The previous version could refuse valid long row
+orders and then show "Failed to create grading order" instead of the reason. Creating orders works
+normally again, and the long row weight check still refuses a source heavier than that long row
+actually holds.
+
+## 2026.8.26
+
+**Long row grading orders no longer report grain from other long rows as loss.** When a bin holds
+several long rows, a grading order for one of them now takes only that long row's bags. Previously it
+took the bin's whole weight, so completing the order recorded everything else in the bin as lost —
+even when all the grain was accounted for.
+
+The weight shown for each source location is now that long row's share of that location, and an order
+cannot draw more than the long row actually holds there.
+
+## 2026.8.25
+
+**The Operator name now fills in when you open Seed Manager from Home Assistant.** In the previous
+version it only filled in for people who signed in with a Seed Manager account, so for most users the
+field stayed empty. It now uses your Home Assistant name, and you can still type over it.
+
+## 2026.8.24
+
+**The Operator name is filled in for you.** When you create a grading order, the Operator field now
+starts with your own name, and you can still type over it. If you are working through the Home
+Assistant side panel rather than signing in with your own account, the field stays blank so a real
+name gets recorded.
+
+## 2026.8.23
+
+**Long row grading orders now show weights in kilograms.** The grading order screen used to report
+everything in tonnes, so a 13.35 kg bag lot appeared as 0.01t and a small loss as 0.00t. Long row
+orders now show kilograms to two decimal places throughout that screen.
+
+Ordinary grading orders are unchanged and still show tonnes.
+
+## 2026.8.22
+
+**Long row grading now accepts part-kilogram weights.** Long rows are bagged in small lots, so their
+weights can now be entered and shown to two decimal places — 13.35 kg rather than 13 kg. On the shed
+kiosk, the grading gross and tare buttons step in finer amounts (10, 1, 0.1 and 0.01 kg) when you are
+working a long row order.
+
+Ordinary grading orders are unchanged: they keep whole-kilogram entry and the larger kiosk buttons.
+
+**Also fixed:** editing a graded output could quietly round its weight down to the nearest kilogram
+when you saved another change on the same row. It now keeps the weight you recorded.
+
 ## 2026.8.21
 
 **Fixes a brand-new install that would not start.** On a freshly installed add-on — not an existing

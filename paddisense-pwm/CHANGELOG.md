@@ -1,6 +1,29 @@
 # PaddiSense PWM — What's New
 
 
+## 2026.9.3
+
+**Pump schedules set weeks ahead start at the right time.** A pump start scheduled for a date after the daylight-saving
+change (for example set in September for a start in December) was armed an hour off. It now uses the clock that will
+be in force on the day.
+
+**Security fix.** A background logging component was hardened so an unusual web request cannot slow PWM down.
+
+## 2026.9.2
+
+**Housekeeping and hardening — nothing changes on your screens.**
+
+Database upgrades can now be reversed cleanly where that is possible, and the ones that genuinely
+cannot be undone are written down as such, so a future upgrade problem is easier to back out of.
+Separately, the link PWM uses to fetch paddock boundaries from Farm is now checked more strictly
+before it is used, so it cannot be pointed anywhere it should not go.
+
+## 2026.9.1
+
+**Security: the browser protections now apply to every response, including "please log in".**
+The pages you use already carried the standard browser security headers; the short "not logged in"
+and "redirect to login" replies did not. They now do. Nothing changes in how you use PWM.
+
 ## 2026.8.75
 
 - **Security: the factory database password is gone from the shipped defaults.** PWM now starts

@@ -3,6 +3,18 @@
 > Plain-English release notes for growers. The full technical changelog lives in the
 > source repo (`CHANGELOG.md`); this is the version that ships in the grower catalog.
 
+## 2026.9.4
+
+**Security release. Nothing you use day to day changes.**
+
+- A fortnightly security review of Core found seven weaknesses, and all are fixed: a brand-new box can now be set up
+  only from your own Home Assistant, sign-in attempts are limited per account however the name is typed, and several
+  background tasks were hardened so an unusual or oversized input cannot slow or stall your box.
+- Restoring a backup now refuses a file that would expand past 500 MB, with a clear message, instead of risking the
+  box's memory. Normal backups are far smaller and restore exactly as before.
+- Dates are now your local date. Backup files taken early in the morning were being filed under the previous day.
+- The **Disconnect** buttons for your licence and GSM connection now only say "done" when it actually worked.
+
 ## 2026.9.3
 
 **Housekeeping release. Nothing you use changes.**

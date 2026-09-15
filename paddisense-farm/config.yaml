@@ -1,10 +1,10 @@
 # GENERATED from the source config.yaml by release.sh Step 7 (WR-PS-115).
 # DO NOT hand-edit — any edit is overwritten at the next release.
-# source: PaddiSense/GIS@6925f359618ca5226bc269e6ec96e425da43ba89
+# source: PaddiSense/Farm@75a2ba3fa2c02c7803c941fe6813c7194b6ef898
 # Catalog-only deltas are declared in contracts/catalog-overrides.yaml;
 # contracts/check-catalog-drift.py verifies catalog == source on every release + in CI.
 name: PaddiSense Farm
-version: 2026.9.6
+version: 2026.9.7
 slug: paddisense-farm
 description: PaddiSense Farm — paddock, crop and event management for rice farming
 logo: true

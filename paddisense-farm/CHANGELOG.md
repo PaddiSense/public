@@ -1,5 +1,13 @@
 # PaddiSense Farm — What's New
 
+## 2026.9.7
+
+**Times now show your local time.** Weather readings captured with a spray or event, and event start and end times, were
+being saved in UTC (so a 1:40 pm spray showed as 3:40). They are now saved on your own clock. The daily machine-data sync,
+the knowledge-pack refresh, backup file names and export file names also follow your local time now.
+
+**Security fix.** A background logging component was hardened so an unusual web request cannot slow the add-on down.
+
 ## 2026.9.6
 
 **Security fix.** A setting page used for troubleshooting knowledge packs could be made to read Farm's own

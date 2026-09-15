@@ -3,6 +3,13 @@
 > Plain-English release notes for growers. The full technical changelog lives in the
 > source repo (`CHANGELOG.md`); this is the version that ships in the grower catalog.
 
+## 2026.9.5
+
+**Setting up a new box no longer locks the PaddiSense Administrator out.** The fallback login and the PaddiSense
+Administrator are now set together, in one card at the top of User Access, before a Farm Owner can be added. Before this,
+the fallback password could not actually be saved from the Home Assistant sidebar, and if a Farm Owner was set first
+there was no way to add a PaddiSense Administrator without a recovery code.
+
 ## 2026.9.4
 
 **Security release. Nothing you use day to day changes.**

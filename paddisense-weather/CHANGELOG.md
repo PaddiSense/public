@@ -1,5 +1,20 @@
 # PaddiSense Weather — What's New
 
+## 2026.9.11
+
+- **Your farm's location is no longer readable without signing in.** A leftover from a page removed in July let the farm's map coordinates be read without a login. It now needs the same sign-in as everything else. Nothing changes on your screens.
+- Includes everything listed under 2026.9.10.
+
+## 2026.9.10
+
+- **Evapotranspiration now shows under the right day.** The ET boxes on the forecast and my-stations pages were showing each day's value one day early — "Today" was really yesterday. Fixed on desktop and mobile.
+- **Spray outlook day names are right all afternoon.** From about 2pm the 5-day outlook labelled each day as the next one.
+- **Rain totals and backups follow your local date.** The year-to-date rain total no longer counts the whole previous year on the morning of 1 January, and the nightly backup runs at 2am your time all year round.
+
+## 2026.9.9
+
+- **Housekeeping, no visible change.** Weather polling now stops cleanly when the add-on restarts, and a very long web address can no longer slow the add-on's logging.
+
 ## 2026.9.8
 
 **Maintenance roll-up since 2026.9.7. Nothing you use day to day moves unless a line above says so.**

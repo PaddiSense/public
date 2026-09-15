@@ -1,5 +1,17 @@
 # PaddiSense Farm — What's New
 
+## 2026.9.8
+
+**When something doesn't save, Farm now tells you.** Around forty buttons — recording events, creating products and
+applicators, deleting or confirming events, GSM sharing, imports, disconnecting providers, the settings Update and
+Restart buttons — used to show "saved", "deleted" or "done" even when the save had been refused. They now show the
+reason instead.
+
+**Imports can no longer apply the wrong shape.** When importing a file with several products, a failed save could make
+the next import use the previous product's field shape. The import now stops and tells you.
+
+**Tidy-up on the farm map.** An unused menu button on phones that never did anything has been removed.
+
 ## 2026.9.7
 
 **Times now show your local time.** Weather readings captured with a spray or event, and event start and end times, were

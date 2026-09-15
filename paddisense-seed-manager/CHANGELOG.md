@@ -1,5 +1,26 @@
 # PaddiSense Seed Manager — What's New
 
+## 2026.9.9
+
+**Delete works on the kiosk.** Whoever is signed in as the kiosk operator can now delete a docket or a bag weighed in
+the last 24 hours — no PIN. The stock is put back and the delete is recorded under that operator. Older dockets are
+still deleted from the office.
+
+## 2026.9.8
+
+**Behind-the-scenes code checks tightened.** Nothing changes in how you use Seed Manager.
+
+## 2026.9.7
+
+**The kiosk no longer pretends a delete worked.** Deleting a docket or a bag on the shed kiosk has needed the kiosk PIN
+since April, but the kiosk never asked for it, so the delete was refused while the screen acted as if it had worked.
+The kiosk now tells you the delete needs the PIN, and nothing disappears from the screen that is still saved.
+
+**A bag that didn't save keeps its weight.** If saving a bag was refused, the weight used to reset to zero. It now stays
+on screen with a message saying why, so you can fix it and save again.
+
+**Racks, silos and bag lots tell you when a change didn't save**, instead of looking like it worked.
+
 ## 2026.9.6
 
 **No visible change.** A tidy-up in the stock movement form so an automated release check can read its script.

@@ -1,6 +1,67 @@
 # PaddiSense PWM — What's New
 
 
+## 2026.9.11
+
+**Buttons at the bottom of pop-up windows now fit a narrow browser too.** Cancel / Place on Map /
+Save used to be squeezed onto one line; they now flow onto a second line when there is not room.
+The rest of the pages were checked at the same time and needed no change.
+
+## 2026.9.10
+
+**Channel Setup now fits a half-width browser window.** The row of buttons along the top (+ Channel,
++ Gate, Map and the rest) used to be crushed onto one line when the window was not full size, with
+labels breaking mid-word. They now keep their proper size and flow onto a second line. The Bench Sim,
+Devices and Water Chain pages got the same treatment.
+
+## 2026.9.9
+
+**The Paddocks page now tells you when a link points at something you deleted.** If a gate or bay was
+ticked as feeding something, and that something was later removed, the link quietly did nothing. The
+"Not connected yet" panel now also lists these under *Pointing at something that is gone*, so you can
+re-tick the right one instead of wondering why the Water Chain has a piece missing.
+
+## 2026.9.8
+
+**"This gate feeds" now already knows about your bays.** When you set a bay's supply gate on the Paddocks page, that
+gate's "This gate feeds" list shows the bay ticked and greyed, marked *from this bay's supply gate* — you do not answer
+it twice. Tick a box yourself only for something extra the gate feeds.
+
+**Fixed: a bay you ticked there never appeared on the Water Chain.** Bays ticked under "This gate feeds" were stored in
+a form the chain could not match, so the line was never drawn and the bay kept showing as unconnected. Those ticks now
+draw properly — nothing to re-enter.
+
+## 2026.9.7
+
+**The Pumps page was blank — fixed.** A change in 2026.9.4 (moving Channels onto its own page) broke the Pumps page's
+styling so the page rendered empty. Pumps are back, with their Auto/Manual and Low-Supply buttons styled as before.
+
+## 2026.9.6
+
+**The tick boxes in Upstream Offtake look right again** — small tick boxes sitting neatly beside the gate name and its
+Open/Closed/Any choice, instead of big pale squares.
+
+## 2026.9.5
+
+**You can now say where a bay's water comes from.** Open a bay on the paddock setup page and pick its supply gate from
+the new "Water comes from" list. That is what draws the water chain — pump, channel, gate, bay.
+
+**A board with two actuators shows both.** If the second actuator had no name, its rules were hidden and it could not be
+picked as the channel's own offtake. It now appears either way.
+
+**The Upstream Offtake list is easier to read** — the Open/Closed/Any choices line up in one column.
+
+**The map page is called Paddocks in the menu**, matching the home screen.
+
+## 2026.9.4
+
+**Channels now has its own button and page.** The home screen has three buttons — Paddocks, Pumps and Channels. Channel
+gates used to be hidden at the bottom of the Pumps page. Nothing about how they work has changed; they have their own
+page now. Channel setup stays where it was.
+
+**Pump board settings that don't reach the board now say so.** If a setting could not be sent to a pump board, the
+screen used to say it had synced. It now tells you which settings did not arrive.
+
 ## 2026.9.3
 
 **Pump schedules set weeks ahead start at the right time.** A pump start scheduled for a date after the daylight-saving

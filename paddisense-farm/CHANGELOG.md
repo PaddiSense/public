@@ -1,5 +1,29 @@
 # PaddiSense Farm — What's New
 
+## 2026.9.12
+
+**Deleting a farm now shows you what is in it first.** Config → Farms → Delete lists every paddock on the farm, including hidden
+ones that do not appear in the map tree, with their bays and events. To remove the farm and all of it, type the farm's name to
+confirm. A farm with nothing in it deletes as before.
+
+## 2026.9.11
+
+**Map field panel tidied.** The Farm selector under "Edit attributes" now has its own space and label.
+
+## 2026.9.10
+
+**Bays now follow the ground when a paddock moves.** If a paddock's boundary changes (a rename or correction in
+your machine system, a boundary update or import), the bays inside it now go with the paddock that actually
+covers them, and a bay named after its paddock is renamed to match. Before, the map moved the paddock but the
+bays stayed under the old name, and "→ Bay" drew the new bay in the old place. Any paddocks already affected are
+fixed automatically the first time this version starts.
+**Boundary Manager buttons no longer fail with "Staged field not found" after a sync.**
+
+## 2026.9.9
+**Typing on a phone no longer zooms the screen.** A few fields in the event recording wizard and Import Hub were slightly too
+small, so phones zoomed in when you tapped them. They are now full size.
+**Housekeeping.** A small internal security log that only ever grew is now tidied automatically.
+
 ## 2026.9.8
 
 **When something doesn't save, Farm now tells you.** Around forty buttons — recording events, creating products and

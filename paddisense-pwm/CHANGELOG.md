@@ -1,6 +1,59 @@
 # PaddiSense PWM — What's New
 
 
+## 2026.9.16
+
+**You can see at a glance which pumps are running.** A running pump's card is now green all over,
+and a pump whose board is offline is red — instead of a thin coloured stripe down one edge that was
+hard to spot. Pumps that are simply off keep the plain grey card.
+
+## 2026.9.15
+
+**The Home button is back on the Pumps page on your phone.** A styling fault from the Channels split
+was swallowing the top bar on that one page.
+
+**Delete a bay in Farm and it now goes from PWM too** — PWM mirrors Farm. Redrawing a bay is still
+safe: PWM recognises the replacement and keeps that bay's board, gates and automation.
+**Safety net:** if Farm ever reports no bays at all, or a large share of your bays vanish at once,
+PWM refuses to delete them and lists them for you instead — it will not wipe your setup on the
+strength of one odd answer from Farm.
+
+## 2026.9.14
+
+**Fixed a false warning on Paddock Setup.** Bays sitting under a paddock you have not enabled were
+being listed under "Pointing at something that is gone". They were never gone — they simply are not
+drawn on the water chain until the paddock is enabled. Only genuinely missing links are listed now.
+
+**Pump and Channel cards are easier to tell apart** — a lighter card surface and a clearer edge, so
+they no longer read as black on black.
+
+## 2026.9.13
+
+**One Sync brings everything across from Farm.** Paddocks and bays you draw in Farm now arrive in
+PWM by themselves — no more importing them one at a time. Redraw a bay in Farm and PWM follows it,
+keeping that bay's board, gates, sensors and automation. Get something wrong? Fix it in Farm and
+sync; PWM mirrors what Farm has.
+
+**Paddocks arrive switched OFF, and you turn them on.** Enabling a paddock is what puts its bays
+under automation, so new paddocks appear on the map but are not running anything until you enable
+them. **Enabled paddocks are now outlined in blue**, so you can see at a glance which ground PWM is
+actually working.
+
+**Sync from Farm has moved to the top of the Paddock Setup panel**, instead of being below the
+whole paddock list.
+
+## 2026.9.12
+
+**Redrawing a bay in Farm no longer costs you its setup.** If you delete a bay in Farm and draw it
+again, PWM now offers to **re-bind** the existing bay to the new shape — its board, gates, sensors,
+levels and automation all stay exactly as they were. Previously the import just said "already
+exists" and the only way through was deleting the bay and setting it all up again.
+
+**Bays that Farm moved to another paddock now say so.** Farm re-homes a bay to the paddock its
+ground actually sits in. PWM deliberately does not move it for you, so Paddock Setup now lists those
+bays and tells you where Farm has them — instead of leaving you with a bay under what looks like the
+wrong paddock and no explanation.
+
 ## 2026.9.11
 
 **Buttons at the bottom of pop-up windows now fit a narrow browser too.** Cancel / Place on Map /

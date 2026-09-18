@@ -1,6 +1,106 @@
 # PaddiSense PWM — What's New
 
 
+## 2026.9.27
+
+**The big number between − and + is now the actual depth**, with your offset already applied — the
+pit level you are trying to match. Before, it showed the offset amount, which told you nothing about
+the water. The offset itself, and the sensor voltage or any fault, sit on a small line underneath.
+Pressing − or + moves the depth straight away.
+
+Each sensor also gets its own heading, so nothing wraps onto two lines on a phone.
+
+## 2026.9.26
+
+**Pumps with one depth sensor now show one offset.** A second set of offset controls was showing on
+boards that only have one sensor.
+
+**The +/- buttons on a phone are bigger and further apart** — they were too small to press just one.
+
+**You can now enter a run you did by hand.** If a pump was run in manual, add the hours and the
+water pumped and both totals catch up. It is added as an extra entry rather than overwriting the
+figures, so nothing you already recorded is lost.
+
+## 2026.9.25
+
+**The Sensor Offsets rows line up properly now** — sensor 1 and sensor 2 on neat rows, nothing
+wrapping or squashed, with the offset and the resulting depth side by side.
+
+**The Depth Calibration section has been removed.** It had no tile and was showing on the settings
+screen all the time. Where calibration is done is explained under Sensor Offsets instead.
+
+## 2026.9.24
+
+**Pump Setup on your phone now uses tiles as well.** Instead of scrolling through every section, you
+get Live Status, Pump Details, Live Settings, Demand Control, Service Items, Notes and Bench Tests
+as tiles, and you tap the one you want.
+
+## 2026.9.23
+
+**The sensor offset row now says what each number is.** The value between − and + is the **offset**
+you are applying (now shown in cm), and beside it **"reads"** is the depth with that offset applied.
+There is a short note under the card explaining it.
+
+**The Depth Calibration tile has been removed** — it only ever said "calibration is done on Device
+Setup". That sentence now sits under Sensor Offsets, where you would be looking when you need it.
+
+## 2026.9.22
+
+**Pump Setup pages are laid out properly now.** The map on Pump Details drew as a white box with a
+small map in one corner — it is measured correctly when you open the tile. And settings like the
+sensor offset no longer stretch a single number across the whole screen; boxes are sized to what
+goes in them.
+
+## 2026.9.21
+
+**Pump Setup tiles now open a proper full-width page.** Tapping a tile used to reveal the section
+squeezed into half the screen with an empty column beside it. Each section now opens as its own
+card across the full width, with the forms laid out to suit it.
+
+## 2026.9.20
+
+**The Pump Setup tiles now actually work.** They appeared, but every form was still shown beneath
+them. Tapping a tile now opens just that one section.
+
+**The pump card no longer contradicts itself.** With a broken sensor the top of the card said "LOOP
+FAULT" while the Device section still listed a depth of -10.0 cm for the same sensor. Both now say
+the sensor is faulty.
+
+## 2026.9.19
+
+**Pump Setup is much simpler to find your way around.** Instead of every setting on one long page,
+you now get tiles — Pump Details, Live Settings, Depth Calibration, Auto-Stop Monitoring, Service
+Items, Notes — and you tap the one you want. "← All settings" takes you back. Nothing has been
+removed; it is just one thing at a time now.
+
+**The pump card tells you which sensor needs attention.** It used to say just "Check Sensor", which
+meant the downstream demand sensor even when the problem was the pump's own supply sensor. It now
+says **Check Supply Sensor** or **Check Demand Sensor**.
+
+## 2026.9.18
+
+**The pump card now shows Current Depth.** One line on each pump — the live supply depth with your
+offset applied — so you can check it without opening Setup. On a phone it sits just above Auto
+Demand. If a pump has two depth sensors it shows the lower one, because that is the reading the
+Low-Supply protection uses. If the sensor's wiring is broken it says so instead of showing a depth.
+
+## 2026.9.17
+
+**Depth sensors: you can now see whether the sensor is actually working.** Pump Setup shows the raw
+sensor voltage beside the offset controls, and if the sensor is unplugged or its wiring is broken
+the page says **"LOOP FAULT — check sensor wiring"** instead of showing a misleading depth. A
+disconnected sensor used to read −10 cm, which looked like very shallow water and could not be
+corrected with any offset.
+
+**Boards with a hyphen in their name now show their readings.** Pumps on boards named like
+`pmp-01` showed an offset of 0 and a live depth of "—" for every sensor; that is fixed.
+
+**The pump card shows the current depth again**, and Pump Setup now says the depth is measured from
+your own zero, with the offset applied.
+
+🔧 **Your boards need re-flashing** to publish the new sensor-fault signal. Until a board is
+updated, PWM says so rather than pretending the sensor is fine.
+
 ## 2026.9.16
 
 **You can see at a glance which pumps are running.** A running pump's card is now green all over,

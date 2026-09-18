@@ -1,5 +1,21 @@
 # PaddiSense Farm — What's New
 
+## 2026.9.16
+
+**No change on grower boxes.** The developer-only daily copy job on the PaddiSense dev box now reports a failure when it has nothing it can send, instead of reporting success. Nothing on a grower's box runs this job.
+
+## 2026.9.15
+
+**No change on grower boxes.** A developer-only background job on the PaddiSense dev box (a daily copy of the dev databases) had stopped working after a security clean-up in August; it works again. Nothing on a grower's box runs this job.
+
+## 2026.9.14
+
+**Farm now keeps a history of paddock, bay and crop-zone boundary changes.** Nothing changes on screen yet; this release starts recording so that later versions can show a paddock as it was on any date.
+
+## 2026.9.13
+
+**The same blue Home button on every page.** The map, the Boundary Manager, the event wizard and the mobile recorder now use the same Home button as the rest of Farm.
+
 ## 2026.9.12
 
 **Deleting a farm now shows you what is in it first.** Config → Farms → Delete lists every paddock on the farm, including hidden

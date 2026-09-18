@@ -1,6 +1,45 @@
 # PaddiSense PWM — What's New
 
 
+## 2026.9.31
+
+**Fixes the update that splits a dual-actuator board into two gates.** In 2026.9.30 that step could
+not run, so boards with two actuators were left as they were. Update to this version and the split
+happens as described below.
+
+## 2026.9.30
+
+**A board with two actuators now gives you two gates.** When you pick a board for a gate you also
+pick which actuator it drives — named after the actuator itself, like "Main Channel" or "Spur" — and
+that gate then configures only that actuator. The other actuator can be its own gate on a different
+channel, which is what a spur usually is.
+
+**Existing dual-actuator boards are split for you** on update: the second actuator becomes its own
+gate, with its rules, on the same channel. **Move it to the channel it really belongs to** — PWM
+cannot know that, so it does not guess.
+
+**New "Pumps & Channels" tab on the map page** showing the current depth for every sensor on a pump
+or channel gate, in one list.
+
+## 2026.9.29
+
+**Bays now follow Farm automatically.** If you move a bay to another paddock in Farm — or Farm
+re-homes it after you redraw a boundary — PWM moves it too on the next sync. You no longer get a
+list of bays "kept under" the old paddock asking you to move them by hand, and bays will stop
+appearing to be missing from a paddock they belong to.
+
+The bay keeps everything PWM owns: its board, gates, sensors, levels and automation all travel with
+it. If its new paddock is not enabled, its automation simply does not run until you enable that
+paddock.
+
+## 2026.9.28
+
+**Fixed: the + and − buttons said "no depth-1 entity on this device".** On boards whose sensor is
+named (for example "Supply Depth") the adjust buttons could not find the sensor they were showing.
+
+**Fixed: Current Depth showed "—" on the Pumps page** for the same boards, while Pump Setup showed
+the reading correctly. Both now look the sensor up the same way.
+
 ## 2026.9.27
 
 **The big number between − and + is now the actual depth**, with your offset already applied — the

@@ -1,5 +1,30 @@
 # PaddiSense Assets — What's New
 
+## 2026.9.7
+
+**Behind-the-scenes code checks tightened.** Nothing changes in how you use Assets.
+
+## 2026.9.6
+
+**Fault photos on a prestart tell you if they didn't attach.** If a photo could not be added to the fault a prestart
+raised, it used to disappear without a word. You are now told how many photos did not attach.
+
+**Deleting, assigning, ignoring or scheduling tells you when it didn't save**, instead of saying it worked.
+
+## 2026.9.5
+
+- **Ignored issues now show who ignored them, why and when.** Previously that information was not being saved.
+
+## 2026.9.4
+
+- **Dates fixed.** A new service record now defaults to today's date even early in the morning, and "ignored" issues show the correct time.
+
+## 2026.9.3
+
+**Your licence details are now stored encrypted, and new installs set up the prestart template library correctly on
+the first start.** Previously a brand-new install needed a restart before template changes could be saved. Nothing
+changes in how you use Assets.
+
 ## 2026.9.2
 
 - **Security: notification-group targets are now checked.** Only Home Assistant phone

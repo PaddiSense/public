@@ -1,5 +1,21 @@
 # PaddiSense Safety — What's New
 
+## 2026.9.6
+
+**Behind-the-scenes code checks tightened.** Nothing changes in how you use Safety.
+
+## 2026.9.5
+
+**Check-in, check-out and pause always tell you if they didn't work.** If a worker's check-in, check-out, pause or
+resume was refused (for example an expired sign-in), the screen used to say it was done anyway. It now says the change
+was not saved and why, and shows the worker's real status.
+
+## 2026.9.4
+
+**Settings are checked before they are saved.** A badly formed settings change could previously be saved and stop
+the Safety status page from loading. Safety now rejects it with a clear message and keeps your existing settings.
+Nothing changes in how you use Safety.
+
 ## 2026.9.3
 
 **Security fixes for the Safety map and paddock sync.** A zone or paddock name could carry hidden code that ran

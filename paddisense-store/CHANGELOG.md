@@ -1,5 +1,15 @@
 # PaddiSense Store — What's New
 
+## 2026.9.4
+**Security housekeeping.** The part of Store that hides passwords and keys from its logs has been updated to
+the latest fleet version. Nothing changes in how you use Store.
+
+## 2026.9.3
+
+**Mistyped entries are rejected with a clear message.** If a quantity or similar value in a delivery or stock
+movement could not be read, Store could show a generic failure. It now says which value needs fixing, and nothing
+is recorded until it is.
+
 ## 2026.9.2
 
 **Security: your licence details are now stored encrypted.** The add-on keeps a copy of your PaddiSense

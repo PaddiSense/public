@@ -1,6 +1,26 @@
 # PaddiSense PWM — What's New
 
 
+## 2026.9.40
+
+**The Inputs list reads properly.** Sensor names no longer repeat the board's name
+("Pump 1 Pump 1 Pit Depth"), readings are rounded to the precision the board actually
+publishes instead of fourteen decimal places, and analogue and digital inputs are in their
+own cards.
+
+## 2026.9.39
+
+**Panels inside a card are now clearly separated.** Sections nested inside a card were
+almost the same white as the card itself, so everything ran together. They now sit on a
+visibly deeper background with a stronger edge, across every page.
+
+## 2026.9.38
+
+**Sensors & Calibration is readable again.** The sensor list showed Home Assistant's
+internal names, which ran over the readings beside them — it now shows the sensor's own
+name. The section is also split into three cards (live readings, the sensor's channel and
+range, and two-point calibration) instead of one long white panel.
+
 ## 2026.9.37
 
 **Check mirror.** A new button on Paddock Setup compares what PaddiSense holds against what

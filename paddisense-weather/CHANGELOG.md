@@ -1,5 +1,9 @@
 # PaddiSense Weather — What's New
 
+## 2026.9.12
+**Burn rules tell you when a change didn't save.** Deleting a burn rule, or switching one on or off, now tells you if
+the change was refused instead of looking like it worked.
+
 ## 2026.9.11
 
 - **Your farm's location is no longer readable without signing in.** A leftover from a page removed in July let the farm's map coordinates be read without a login. It now needs the same sign-in as everything else. Nothing changes on your screens.

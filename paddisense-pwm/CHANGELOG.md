@@ -1,6 +1,62 @@
 # PaddiSense PWM — What's New
 
 
+## 2026.9.37
+
+**Check mirror.** A new button on Paddock Setup compares what PaddiSense holds against what
+Farm actually has, and tells you plainly whether they match. It lists anything Farm has that
+PaddiSense never received, anything PaddiSense is holding that Farm has dropped, and any
+records with no link to Farm at all. It only reads — nothing is changed or deleted.
+
+## 2026.9.36
+
+**Groundwork so colours stay consistent.** Every colour in the app now comes from one
+place, so a change to the theme reaches every page, button and label instead of leaving
+patches behind. Also fixes the map, where a channel's outline and its fill could show
+different colours for the same mode.
+
+## 2026.9.35
+
+**The new look, finished properly.** Text that was the wrong colour for its background —
+in places the same colour, so it simply was not there — has been corrected across every
+page: pump and channel cards, the countdown timer, gate depth, map labels and popups, the
+setup tiles, and every button. Several buttons had been rendering with no background at
+all. Start and Stop on a pump are now full contrast.
+
+## 2026.9.34
+
+**Paddock Setup now shows what PaddiSense actually holds.** Paddocks mirrored from Farm
+were listed as "Unlinked" even though they were linked, and a paddock whose name differed
+between Farm and PaddiSense could be added a second time by accident. The list is now in
+three clear groups, and enabling a paddock says plainly that it starts its automation.
+
+## 2026.9.33
+
+**Completes the new look.** 2026.9.32 changed the colours but left some text the wrong
+colour for its background — a few panels showed white text on white. Every panel now sets
+the right text colour for what it sits on.
+
+**Depth calibration: set the sensor's range, or type a voltage.** Pick 1 m or 5 m and press
+Apply range, and you no longer need ESPHome. You can also type a known voltage instead of
+waiting two minutes for a sample.
+
+## 2026.9.32
+
+**A new look, built to be read outdoors.** Pages are now blue with white cards instead of
+dark grey on near-black. The old scheme was almost invisible in sunlight.
+
+**Depth sensors: tell PaddiSense the sensor's range.** A 1 m and a 5 m sensor are wired
+identically, so PaddiSense could not tell them apart and assumed 1 m — a 5 m sensor read a
+fifth of the real depth. Set the range when you set up the board.
+
+**Depth readings update as often as you ask.** The interval now means what it says: set
+30 seconds and you get a new number every 30 seconds. You can also set how much smoothing
+is applied, and the page tells you how quickly a real change will show.
+
+**Fixed: a board showing nothing.** Some boards showed no firmware version, no WiFi signal,
+an empty sensor list and "offline" while working perfectly. They now report correctly, and
+2-point calibration can be started again.
+
 ## 2026.9.31
 
 **Fixes the update that splits a dual-actuator board into two gates.** In 2026.9.30 that step could

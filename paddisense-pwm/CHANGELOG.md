@@ -1,6 +1,24 @@
 # PaddiSense PWM — What's New
 
 
+## 2026.9.75
+
+- **Fixed: panels that should be hidden were showing on several pages** — most visibly a "Sensor
+  depths" box stuck at the top of the map page. The rule that hides them was missing on those pages
+  and is now defined once for the whole add-on.
+
+**<plain-English note for growers — replace>**
+
+## 2026.9.74
+
+- **Fixed: a stray block of settings (including a Level Sensor picker) appeared at the top of pages.**
+  Pop-up dialogs were only being made invisible rather than actually removed from the page, so their
+  contents could show through. They are now properly hidden until you open them.
+- Fixed a gate-edit dialog on the Paddocks page that appeared as a loose list of fields instead of a
+  pop-up.
+
+**<plain-English note for growers — replace>**
+
 ## 2026.9.73
 
 - **Fixed: opening or closing one gate moved BOTH actuators on a two-actuator board.** The

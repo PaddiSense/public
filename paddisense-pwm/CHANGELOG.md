@@ -1,6 +1,28 @@
 # PaddiSense PWM — What's New
 
 
+## 2026.9.77
+
+- **PWM now mirrors Farm exactly.** Any paddock or bay that Farm does not have is removed from
+  PWM on the next sync, including its bays and their device settings. Deleting a paddock in Farm
+  now fully removes it here instead of leaving records behind.
+- Every bay removed this way is written to the log with the board it was connected to, so you can
+  see exactly what was removed.
+- Nothing is deleted if Farm cannot be reached, or if Farm returns an empty or unexpectedly short
+  list.
+
+**<plain-English note for growers — replace>**
+
+## 2026.9.76
+
+- **Paddocks deleted in Farm are now removed from PWM automatically.** Previously they stayed
+  behind and could appear twice on the Paddock Control page. The sync only removes a paddock that
+  has no bays left in it — one that still holds bays is reported for you to look at, never deleted,
+  because removing it would take its bays, boards and automation with it.
+- If Farm cannot be reached, or returns an unexpectedly short list, nothing is deleted.
+
+**<plain-English note for growers — replace>**
+
 ## 2026.9.75
 
 - **Fixed: panels that should be hidden were showing on several pages** — most visibly a "Sensor

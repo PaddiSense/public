@@ -1,6 +1,307 @@
 # PaddiSense PWM — What's New
 
 
+## 2026.9.73
+
+- **Fixed: opening or closing one gate moved BOTH actuators on a two-actuator board.** The
+  controls sent the command to every actuator on the board instead of the one the gate is assigned
+  to. Each gate now moves only its own actuator, and each gate card shows only its own valve.
+- If you have a board whose two actuators should always move together, set it up as two gates.
+
+**<plain-English note for growers — replace>**
+
+## 2026.9.72
+
+- **Fixed: opening one gate could move the other gate on the same board.** A gate assigned to a
+  board's second actuator was reading its own valve but commanding the first one. Both gates on a
+  two-actuator board now command the actuator they are assigned to.
+
+**<plain-English note for growers — replace>**
+
+## 2026.9.71
+
+- **Fixed: the second gate on a board could not be saved.** It was being treated as though it had
+  the board's depth sensor, so the system kept asking for overflow protection it did not need.
+- **A refused save now tells you.** If a gate cannot be saved because overflow protection is
+  missing, you get a clear "NOT SAVED" message and are taken straight to that setting — instead of
+  the save quietly doing nothing.
+
+**<plain-English note for growers — replace>**
+
+## 2026.9.70
+
+- **Fixed: two gates on the same board could end up driving the same actuator.** Commanding one
+  gate would move the other. If your board has two actuators, the actuator picker now appears
+  correctly on the Channels page and your choice is saved.
+- If a gate was set up before its board gained a second actuator, saving it now picks up the
+  board's real actuator count. On an affected board, save the second gate first.
+
+**<plain-English note for growers — replace>**
+
+## 2026.9.69
+
+- **Bench only:** channel overflow protection now reads the bench simulator's water level, so the
+  channel-emergency sequence can be rehearsed on the test rig where no depth transmitter is fitted.
+  On a farm nothing changes — the gate reads its real sensor exactly as before.
+
+**<plain-English note for growers — replace>**
+
+## 2026.9.68
+
+- **Fixed: a pump could refuse to start in Manual.** If the channel was above the pump's demand
+  level, Start was refused with an "Emergency level" message even though the demand level only
+  applies in Auto. The demand level now affects starting and stopping the same way — in Auto only.
+- The pump card says **"At Demand Level"** instead of "EMERGENCY", and only when the pump is in
+  Auto. The channel's own emergency level is a different setting and still applies in every mode.
+- **Channels page:** overflow actions are now one compact row each, and you can choose the gate you
+  are editing as the target, not just other gates.
+
+**<plain-English note for growers — replace>**
+
+## 2026.9.67
+
+- **Channel overflow protection now works in Manual too.** If a channel reaches its
+  emergency depth it opens the gate and runs its actions — stopping a pump, closing a
+  feeding gate — even if the channel or the pump is switched to Manual. A channel about
+  to spill is not an operating preference.
+- Everything else still needs Auto: auto demand, and the rules that open and close gates
+  for offtake, pump watch and downstream.
+- **The action picker now sits inside Overflow protection** on the Channels page, with
+  the sensor and trip depth, instead of in a section of its own.
+- **Fixed:** editing a gate on a phone could silently erase overflow actions set up on a
+  computer.
+
+**<plain-English note for growers — replace>**
+
+## 2026.9.66
+
+- **Auto Demand's depth level now only applies in Auto.** It is the level at which the channel is
+  full enough to stop pumping — part of Auto Demand, not a separate safety. The page wording changed
+  from "emergency" to "demand" to match.
+- **Channel overflow protection can now act on what is filling the channel.** As well as opening the
+  gate to relieve water, it can stop a pump, close another gate, or send an extra alert. Choose them
+  on the Channels page under Overflow actions.
+- **The Channels gate setup page is now tiles** — pick one thing to set up at a time instead of one
+  long form.
+- **Fixed:** a pump could be stopped for "zero demand" when the system could not actually read its
+  watched gates (for example after a gate was deleted, or while its board was offline). It now leaves
+  the pump alone and records why.
+
+**<plain-English note for growers — replace>**
+
+## 2026.9.65
+
+**A pump whose level sensor cannot be read now says so.**
+
+If a depth sensor's wiring is broken, the board detects it — but PWM was still reporting the
+pump as protected, because a broken 4-20 mA loop publishes a number rather than nothing.
+That is now treated as a fault, so the pump never appears protected when it is not.
+
+Pit Demand now only appears on pumps a channel gate is actually watching, and it no longer
+changes appearance when Auto Demand is switched on — the two are independent.
+
+## 2026.9.64
+
+**Bench only — flush clocks on the water-flow diagram.**
+
+The rig's Live Water Flow page now shows each bay's flush timer on the bay itself, plus the
+paddock's phase, arming window and close-delay countdown. Clicking a bay or gate opens its
+controls beside it instead of in the corner of the screen.
+
+## 2026.9.63
+
+**Fixes the device list disappearing on the Devices page.**
+
+A formatting mistake in the previous version stopped the Devices page loading its list of
+boards. Corrected.
+
+## 2026.9.62
+
+**Depth sensor calibration now actually works.**
+
+Calibrating a depth sensor was saving nothing while reporting success, so a board would
+read exactly the same after being re-flashed. It now writes the calibration correctly, to
+the right sensor channel, and refuses with a clear message if it cannot. The sensor picker
+lists only the channels your board really has, by name. "Apply range" no longer overwrites
+a measured zero point.
+
+## 2026.9.61
+
+**Internal test fixes found before release.**
+
+The release checks caught a box on the map page whose text colour was unset, which could
+have made it unreadable. Fixed, along with several checks that had gone out of date with
+the new colour scheme.
+
+## 2026.9.60
+
+**The Home button reads properly again, and so does everything like it.**
+
+The Home button had ended up with black writing on a blue background. It is white on blue
+again. Eleven other buttons and badges had the same kind of problem and are fixed with it —
+coloured backgrounds take white writing, grey ones take black.
+
+## 2026.9.59
+
+**Pumps & Channels now works on a phone.**
+
+The depth list for pumps and channel gates was only ever on the desktop layout — on a
+phone there was no way to see those readings at all. It is now a tab on the map page, with
+the same six-hour history when you tap a reading.
+
+## 2026.9.58
+
+**Tap a depth reading to see the last six hours.**
+
+On Pumps & Channels, the depth boxes are now clickable and show a six-hour chart with the
+lowest, highest and current reading. Channel gates that measure depth now appear in that
+list — some were being measured but not shown. Boards are named by their friendly name
+instead of their ESPHome name, and the paddock labels have been removed from the main map.
+
+## 2026.9.57
+
+**Setting up a board is now five clear steps instead of one long form.**
+
+Opening a device gives you five tiles — Details, Actuators, Sensors, Relays and Actions —
+and each one opens as its own full-width page with room to work, the same way Pump Setup
+already works. Nothing about what a board stores has changed; it is only easier to find.
+
+## 2026.9.56
+
+**Every Save button looks the same now — blue.**
+
+Save buttons had drifted into six different styles, so the same action looked different
+depending on which page you were on. They are all the one blue button now, and changing it
+in future is a single change rather than eleven.
+
+## 2026.9.55
+
+**The last of the hard-to-read buttons.**
+
+Eighteen more buttons and badges had dark writing on a strong colour — including the
+paddock mode button, the open-gate marker on the map and the pump ON button. Every
+coloured control in the app has now been checked and reads clearly.
+
+## 2026.9.54
+
+**Coloured buttons are readable again, and boards can be flashed.**
+
+Around a hundred buttons and badges across the app had black writing on a strong blue,
+red, amber or green background, which is hard to read on a screen in daylight. They now
+use white writing. Grey buttons keep their black writing, which was already clear. The
+paddock, bay and board names on the Paddock Setup map were blurry and are now sharp.
+
+Also fixed: no board could be re-flashed. A firmware setting added recently had no default
+value, so every board already set up stopped building with an error about "dp_window".
+Existing boards kept running, which is why they still showed as online.
+
+## 2026.9.53
+
+**One button for Auto/Manual, and a bigger depth reading.**
+
+A channel gate's Auto and Manual buttons are now a single button that shows which mode
+you are in — green for Auto, grey for Manual — and swaps when you tap it, the same way
+the paddock mode button works. The current depth figure on the map is larger on desktop,
+matching the size already used on phones.
+
+## 2026.9.52
+
+**Buttons that were hard to read, or unreadable, are fixed.**
+
+The plus/minus buttons for water depth now match the ones for hours — solid red and green
+everywhere instead of washed out on some pages. The auto-demand OFF button was showing
+black writing on a black box and could not be read at all; it is grey now. The low-supply
+override button is green while protection is on and red while it is overridden, instead of
+two shades of brown. "Check Supply Sensor" is now a bright yellow warning badge so it can
+no longer be mistaken for a settings button. Small grey labels inside the pump card are
+black.
+
+## 2026.9.51
+
+**Gate colours now read as how much water is flowing.**
+
+Shut is deep red, holding is a light blue, fully open is a strong blue — so a partly-open
+gate looks like partial flow rather than a warning. The three are distinct in brightness as
+well as colour, so they read in bright sun.
+
+## 2026.9.50
+
+**Pump page buttons are readable, and the relay shows the right colour.**
+
+Start, stop, timer and refuel buttons had dark text on strong colours and were hard to
+read. The +/- buttons were so pale they looked blank. The relay button showed ON in grey
+and OFF in red — it is now grey for off and green for on. Pump shows red when off, blue
+when running.
+
+## 2026.9.49
+
+**You can now see when a gate is part-way.**
+
+A gate holding between open and shut used to look the same as fully open. It now has its own
+amber colour, distinct from the blue of open and the red of shut — and the three tell apart
+in bright sun, not just by colour. Text across the screens is also sharper.
+
+## 2026.9.48
+
+**Gates you can read at a glance, and consistent text everywhere.**
+
+Open gates are light blue, shut gates are dark red — they now differ in brightness as well
+as colour, so you can tell them apart in bright sun or at a distance. Menu and map headings
+use one consistent style. No change to how anything operates.
+
+## 2026.9.47
+
+**Pop-up message text is readable again.**
+
+Notification pop-ups briefly had pale text on a pale background. Now black on grey.
+
+## 2026.9.46
+
+**Readability fixes across the screens.**
+
+The side menu text was pale on a pale background and is now black. Paddock names on the map
+had a dark glow that made them look smudged — they now have a clean white outline. Menu tabs
+match the rest of the text. Type renders sharper. No change to how anything operates.
+
+## 2026.9.45
+
+**A new, higher-contrast look — built to be read outdoors.**
+
+Light grey screens with black text, so the display stays legible in sunlight. Colour now
+means one thing each: blue is water moving, green is good (online, automation on), red is a
+problem, grey is off. Nothing about how your pumps, gates or schedules behave has changed.
+
+## 2026.9.44
+
+**A security update to a component PaddiSense uses internally.**
+
+No change to how the system behaves in the paddock — your pumps, gates, channels and
+schedules all work exactly as before. This release updates a networking library to a
+version that closes three published security advisories. Nothing you do changes; it is
+worth installing.
+
+## 2026.9.43
+
+**Housekeeping.** Removed 41 leftover styles that no part of the app used any more. No visible
+change — this makes future appearance changes reach everywhere they should.
+
+## 2026.9.42
+
+**Every paddock and bay from Farm now shows on the map**, whether or not its automation is
+switched on. Enabling a paddock arms its automation — it was also deciding what you could
+see, so a paddock could list four bays and draw none.
+
+**Check mirror now works.** The button did nothing at all.
+
+**Buttons are readable.** Start, Pause and several others were white text on a colour too
+light to carry it.
+
+## 2026.9.41
+
+**A deeper background, and page titles you can read.** The page background is a darker
+blue, so white cards stand off it more clearly. Some page headings were dark text sitting
+straight on that blue — they are white now.
+
 ## 2026.9.40
 
 **The Inputs list reads properly.** Sensor names no longer repeat the board's name

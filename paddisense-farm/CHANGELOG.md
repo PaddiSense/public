@@ -1,5 +1,57 @@
 # PaddiSense Farm — What's New
 
+## 2026.9.28
+
+- Security update to a bundled library (no visible change).
+
+## 2026.9.27
+
+- On the Farm Map, tap an event in a paddock's carousel to see its full record — the same detail as the event you submitted.
+
+## 2026.9.26
+
+- Fixed: on the phone Farm Map, tapping a paddock now opens its detail sheet (it was closing itself instantly).
+- The Farm Map top bar now toggles what you see: Paddocks, Bays, Crops and Imagery.
+
+## 2026.9.25
+
+- **Farm Map on your phone.** Tap a paddock and swipe through what happened there: every recorded event and every satellite image, newest first. Tap an image to see it full screen.
+
+## 2026.9.24
+
+- **Event review on your phone is now built for the phone.** One card per event, tap for details and weather, confirm or dismiss with a thumb. Bulk actions and GSM review stay on the iPad and desktop.
+- **iPad gets the full desktop pages.**
+- The Import Hub moves to iPad and desktop. Your phone home screen now shows Farm Map, Events, Real Time Rice and Config.
+
+## 2026.9.23
+
+- **Machine import dates match your day.** A task that a machine file stamps in UTC is now recorded on the day it happened here, not the day it was in Greenwich.
+- The developer screenshot box has been removed from the home page.
+
+## 2026.9.22
+
+- **Buttons stay readable in a narrow browser window.** Action bars and dialog buttons now flow onto a second line instead of being squeezed.
+
+## 2026.9.21
+
+- **Blue primary buttons with white text.** Save and confirm buttons follow the shared theme's new primary colour, with readable white text everywhere.
+
+## 2026.9.20
+
+- **Shared button styles.** No visible change on its own.
+
+## 2026.9.19
+
+- **Theme dial.** Every colour now derives from fourteen base values in the shared theme. No visible change on its own.
+
+## 2026.9.18
+
+- **Delete and danger buttons are red with white text again, and pop-up messages use dark text on grey.** No behaviour changes.
+
+## 2026.9.17
+
+- **New PaddiSense palette: light grey pages, black text, blue highlights — and every surface is checked for readability.** Selected tabs and buttons show as white with a blue edge, buttons are grey, warnings and errors keep their colours as text and borders. Every card states its own text colour. No behaviour changes.
+
 ## 2026.9.16
 
 **No change on grower boxes.** The developer-only daily copy job on the PaddiSense dev box now reports a failure when it has nothing it can send, instead of reporting success. Nothing on a grower's box runs this job.

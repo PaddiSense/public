@@ -1,6 +1,57 @@
 # PaddiSense PWM — What's New
 
 
+## 2026.9.82
+
+- **Fixed: a board with two actuators could only be tested and calibrated on the first one.**
+  Device Setup now shows a full set of controls — Open, Stop, Close and the calibration jogs —
+  for *each* actuator the board is set up for, each labelled with that actuator's own name.
+- **Fixed: a depth sensor with a broken loop disappeared from the calibration list.** The sensor
+  you most need to recalibrate is usually the one that has stopped reading, and it was the one you
+  could not pick. Every depth channel the board is configured for is now listed, and one that is
+  not reporting says so instead of quietly vanishing.
+- **Fixed: on a phone, a pump with two depth sensors only showed one offset control.** The phone
+  now matches the desktop — one offset row per depth channel, labelled with that sensor's name and
+  range.
+- **Fixed: adjusting a depth offset on the desktop reported "Error" even though it worked.** The
+  offset was saved correctly, but the page showed a failure and the numbers did not move until you
+  reloaded.
+
+## 2026.9.81
+
+- **Fixed: a board with two depth sensors only showed one offset control.** The offset rows now
+  come from the board's own configuration — one row per depth channel it is set up for, each
+  labelled with that sensor's name and range, so you can tune each sensor separately.
+- Adjusting an offset now targets the sensor by its channel rather than by a "1m"/"5m" label, which
+  on a board with a real 1 m and a real 5 m sensor could adjust the wrong one.
+
+**<plain-English note for growers — replace>**
+
+## 2026.9.80
+
+- **Fixed: a gate with two ganged actuators only moved one of them.** If a board is set up with a
+  single (ganged) manual switch, its two actuators are linked — opening or closing the gate from
+  PWM now drives both, matching what the physical switch already did, and the gate shows a single
+  state. Boards set up with two independent switches are unchanged: each gate drives its own.
+
+**<plain-English note for growers — replace>**
+
+## 2026.9.79
+
+- **New depth sensors now smooth over 9 readings instead of 15**, with a reading every 60
+  seconds — so a change in water level shows up in about 5 minutes instead of 8. Boards already
+  set up keep their current setting until you regenerate and re-flash them.
+
+**<plain-English note for growers — replace>**
+
+## 2026.9.78
+
+- **Editing a board on the Devices page no longer throws you back to the top of the list.** Saving
+  keeps the board open so you can carry on editing it, and when you do close, you land back on
+  that board's row rather than at the top.
+
+**<plain-English note for growers — replace>**
+
 ## 2026.9.77
 
 - **PWM now mirrors Farm exactly.** Any paddock or bay that Farm does not have is removed from

@@ -1,5 +1,18 @@
 # PaddiSense Weather — What's New
 
+## 2026.9.15
+
+- The page-number badge is readable again instead of showing as a black block, the spray-conditions reason text now wraps inside its box instead of running off the screen, and buttons and input boxes on phones are larger so they are easier to tap and no longer zoom the page when tapped.
+
+## 2026.9.14
+
+**Security update.** A third-party networking library bundled with Weather was updated to close
+three published vulnerabilities. Nothing you do changes; the update is inside the add-on.
+
+## 2026.9.13
+
+**Easier to read, and the range buttons fit a narrow window.** Buttons and cards now use the new PaddiSense light theme properly, and the 1 hr / 3 hrs / 6 hrs / 24 hrs buttons wrap instead of squashing when the window is narrow.
+
 ## 2026.9.12
 **Burn rules tell you when a change didn't save.** Deleting a burn rule, or switching one on or off, now tells you if
 the change was refused instead of looking like it worked.

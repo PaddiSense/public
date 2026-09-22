@@ -3,6 +3,175 @@
 > Plain-English release notes. The full technical changelog lives in the source repo
 > (`CHANGELOG.md`); this is the version that ships in the catalog.
 
+## 2026.9.36
+
+**Build fix only.** A test could not run on the build server; no change to the app. Carries everything from 2026.9.33 to 2026.9.35.
+
+## 2026.9.35
+
+**Startup self-check updated** for the renamed farm fields. No visible change.
+
+## 2026.9.34
+
+**Internal naming tidy-up.** The farm lists sent to Admin now name the owner's SAP number unambiguously. No visible change.
+
+## 2026.9.33
+
+**Farm records now use SunRice's own terms.** Each farm is identified by its Farm Ref (the number that never changes), shows its short Farm Number and Farm Vendor, and if a farm changes hands the previous owner is kept in its history instead of being overwritten. The SAP import shows any change of owner before you commit it.
+
+## 2026.9.32
+**Every farm in a business now syncs.** A business whose name was spelt two ways in the source could end up split in two, with some farms left out of the sync. Farms are now matched on the business number, and the affected farms are moved back where they belong.
+
+## 2026.9.31
+
+- Product rows on the tablet event screen now wrap onto a second line instead of squashing when the window is narrow.
+
+## 2026.9.30
+
+- Security update to a networking library used by the server. No change to how anything works.
+
+## 2026.9.29
+
+- Every action that changes data is now recorded in the audit log, including Real Time Rice imports and bug reports, which were previously missed. Primary (blue) buttons have white text again after the shared theme update.
+
+## 2026.9.28
+
+- Internal code-quality milestone: every function in the server now carries type annotations, and the checker enforces it. No visible change.
+
+## 2026.9.27
+
+- Internal code-quality work across the server. No visible change.
+
+## 2026.9.26
+
+- Internal code-quality work on the admin pages and database helpers. No visible change.
+
+## 2026.9.25
+
+- Internal code-quality work across the server modules. No visible change.
+
+## 2026.9.24
+
+- Internal code-quality work on the admin, portal, map and analysis modules. No visible change.
+
+## 2026.9.23
+
+- Internal code-quality work on the self-test module. No visible change.
+
+## 2026.9.22
+
+- **Shared button styles.** Buttons across the app now come from one shared definition. No visible change on its own.
+
+## 2026.9.21
+
+- **Theme dial.** The shared theme now derives every colour from fourteen base values, so a change to the greys, the text inks or what blue, green, red, pink and amber mean flows through every page. No visible change on its own.
+
+## 2026.9.20
+
+- **Map layers, charts and pop-ups now follow the shared theme too.** Paddock outlines, event markers, crop and campaign colours, and the water and RTR charts take their colours from the one theme file at display time.
+
+## 2026.9.19
+
+- **Theme refinements:** delete and danger buttons are red with white text again, map labels are readable over imagery, and pop-up messages use dark text on their grey background. All colours still come from the one shared theme.
+
+## 2026.9.18
+
+- **Every page colour now follows the shared theme.** Sign-in hints, status pills, event dots and banners, and the import page's cancel button all take their colours from the one theme file, so a theme change reaches all of them.
+
+## 2026.9.17
+
+- **New PaddiSense palette: light grey pages, black text, blue highlights.** Every page follows it, and every surface/text pairing is now checked for readability automatically. Selected tabs and buttons show as white with a blue edge; buttons are grey; warnings and errors keep their colours as text and borders.
+
+## 2026.9.16
+
+- **Readability fixes across the map, hub, events and near-me pages.** Page text on the dark background is now white everywhere it should be, and every card states its own text colour, so nothing renders white-on-white or dark-on-dark after a theme change.
+
+## 2026.9.15
+
+- **Map page (GIS) colours now follow the shared PaddiSense theme.** Toolbars, menus, banners and buttons on the map page take their colours from one place, so a theme change reaches them. No behaviour changes.
+
+## 2026.9.14
+
+- **Security: the map's "Print" export now requires you to be signed in to the map.** Previously the PDF generator could be called without a session. Nothing else changes for users.
+
+## 2026.9.13
+
+- **Fixed: the "Link grower" row on a business page now fits a narrow browser window.** Its two drop-downs and the Link button flow onto a second line instead of being squeezed together when the window is not full width.
+
+## 2026.9.12
+
+- **Scheduled jobs now run on the box's local time.** The nightly backup, security scan and data cleanup are timed by the box's local clock instead of UTC, so they fire at the intended local hour year-round — previously they drifted an hour over daylight saving, and the "3 am" cleanup actually ran at 1 pm. Backups are also named for the local date.
+
+## 2026.9.11
+
+- **Fixed: map paddock and campaign actions no longer look successful when they fail.** Creating a sampling campaign, saving a new paddock, or deleting a paddock now shows an error if the server rejects it, instead of silently appearing to have worked.
+
+## 2026.9.10
+
+- **Fixed: forms no longer default to yesterday's date first thing in the morning.** Creating a map event, marking a sample collected, or logging a paddock event before about 10 am pre-filled the previous day's date. The default now follows the box's local calendar.
+
+## 2026.9.9
+
+- **Housekeeping, no visible change.** When the add-on stops or restarts, its background jobs (nightly backup, security scan, status reports) now finish cleanly before the database connection closes.
+
+## 2026.9.8
+
+- **Housekeeping, no visible change.** On development boxes the add-on now registers its update sources with the read-only access key only, never the full-access one, so rotating the full-access key can't break add-on updates.
+
+## 2026.9.7
+
+- **Housekeeping, no visible change.** Tidier error message when a webhook URL is rejected, and a documented list of the credentials this add-on holds so staff know what needs rotating.
+
+## 2026.9.6
+
+- **Paddock sync ledger on each business.** CRM → a business → Growers now lists that grower box's recent boundary syncs: how many paddocks were sent, which were held back and why (no boundary drawn, farm not on the licence, farm belongs to another business), and which paddocks arrived or disappeared since the previous sync.
+
+## 2026.9.5
+
+- **New Audit log screen (admins).** Admin → Audit log shows every request GSM received — who sent it, what it was, and whether it was accepted or refused, with the reason for a refusal. Filter by sender, path, status or date. Useful for checking whether a grower's sync arrived.
+
+## 2026.9.4
+
+- **Map: adding a farm now needs its business.** If a farm is created on the map without choosing the business it belongs to, you now get a clear "missing field" message instead of an error. Farms are still normally created in CRM.
+- Behind the scenes: log masking now also hides longer secret names, and the build is checked against the same tool versions the release uses.
+
+## 2026.9.3
+- **Regional permits now apply to every map action.** Staff whose login is limited to particular
+  regions could previously open, edit, accept or reject some records outside those regions by
+  addressing them directly. Every map endpoint now checks the region first; out-of-region
+  requests are refused. Staff with unrestricted access are unaffected.
+
+## 2026.9.2
+- **Event photos are now kept somewhere an uninstall cannot delete.** Photos attached to events
+  were stored inside the add-on's private data area, which is wiped if the add-on is ever
+  removed and is not part of any backup. They now live in the Home Assistant config area, which
+  survives reinstalls and is included in Home Assistant backups. Any photos already uploaded are
+  moved across automatically the first time the add-on starts, and the built-in self-test now
+  checks every photo is still where its record says it is.
+
+## 2026.8.110
+- **Fixed a health check that had been reporting a false failure.** The add-on's built-in
+  self-test checks that every knowledge-base pack still has its file on disk. That check had a
+  fault and could never run, so the self-test showed one failure on every start-up regardless of
+  whether anything was actually wrong. The check now works, and if a pack ever does go missing it
+  names which one.
+
+## 2026.8.109
+- Internal improvements — no user-visible changes.
+
+## 2026.8.108
+- Internal improvements — no user-visible changes.
+
+## 2026.8.107
+
+**A maintenance script bundled with the add-on no longer falls back to a well-known default
+database password. No action needed.**
+`pii-sweep.sh` is a diagnostic script that ships inside the add-on and is run by hand. If no
+database password was configured, it used to quietly fall back to the factory default — a value
+that is public knowledge — and connect with full administrator rights. It now stops with a clear
+message naming the missing setting instead of connecting at all. Normal day-to-day use of GSM is
+unaffected; this hardens a maintenance tool, not the running service.
+
 ## 2026.8.106
 
 **Sending paddock boundaries to GSM now works from every connected box. No action needed.**

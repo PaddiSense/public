@@ -1,5 +1,54 @@
 # PaddiSense Farm — What's New
 
+## 2026.9.36
+
+**A paddock is no longer filed against a guessed farm.** When a paddock had no farm yet, the box
+matched it by name alone — and paddock names repeat across farms, so it could be attached to the
+wrong one. It now only matches when the name points at a single farm, and otherwise leaves the
+paddock for you to place.
+
+## 2026.9.35
+
+**Paddocks you send to GSM land on the right farm.** The box used to send only the farm's name, and
+names repeat across farms, so a paddock could be filed against the wrong one. It now sends the
+farm's GSM identifier as well.
+
+## 2026.9.34
+
+**Connecting a second GSM code no longer takes your box away from its grower.** Pasting a
+connection code that belongs to a different grower used to replace your existing connection
+silently. It is now refused, and the message names both, so you can disconnect deliberately if that
+is what you meant. Re-connecting the same grower with a new code still works as before.
+
+## 2026.9.33
+
+**Each farm keeps its own region.** A sync with GSM used to put a single region on every farm that
+did not have one yet, so farms in another district could be labelled wrongly. Each farm now takes
+the region that came with it, and a region you have already set is never changed.
+
+## 2026.9.32
+
+**Your own farms are no longer removed by a GSM sync.** If you created a farm yourself and had not
+drawn its paddocks yet, a sync with GSM could delete it. Only farms that came from GSM are tidied up
+now; anything you made stays.
+
+## 2026.9.31
+
+**RTR history is filed under the right day.** Refreshing the RTR data recorded its history entry
+using UTC rather than your own date, so a refresh done early in the morning was filed under
+yesterday — and on New Year's Day, under last year. It now uses the same date as the paddock rows
+in the same refresh.
+
+## 2026.9.30
+
+**Your saved screen preferences are now private to you.** Map layers, panel choices and similar
+settings were stored against the device only, so another signed-in person using the same device id
+could see or replace yours. They are now kept per person.
+
+## 2026.9.29
+
+- Internal cleanup: removed an unused leftover helper. No visible change.
+
 ## 2026.9.28
 
 - Security update to a bundled library (no visible change).

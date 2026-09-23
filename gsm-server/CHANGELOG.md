@@ -3,6 +3,30 @@
 > Plain-English release notes. The full technical changelog lives in the source repo
 > (`CHANGELOG.md`); this is the version that ships in the catalog.
 
+## 2026.9.42
+
+**Farm reference repair.** The repair can now merge a farm that appears under two SAP numbers of the same grower, keeping both as owners. Carries everything in 2026.9.41.
+
+## 2026.9.41
+
+**Farm references with leading zeros.** A farm entered as `34319` and the same farm imported as `0034319` were two farms — one owned by you with no paddocks, one parked with all the boundaries. References are now always stored as 7 digits, a repair merges the existing twins, and the start-up check reports any that remain. **Sync ledger.** The paddock sync ledger on the business page now names every farm and paddock that was sent, when (local time), in which direction, and which farms of the business have no boundaries to send — and says plainly when two paddocks with the same name were both sent.
+
+## 2026.9.40
+
+**Self-check fix.** The new start-up check that a box's two business records agree no longer flags a box whose licence has simply been revoked. Carries everything from 2026.9.39.
+
+## 2026.9.39
+
+**Farm and paddock sync is now one set of rules for a grower with more than one business.** Which business a box belongs to is answered the same way whether the box is pulling boundaries or pushing them, and a box that is bound to two businesses is stopped with a message rather than guessed. The farms a box may sync are the farms its owner actively owns — a farm you co-own now syncs — and a licence with no farm list means that one business only. A pushed farm is matched by its id, and by name only when the name is unambiguous; a paddock name that appears on several farms is no longer matched to one at random. Every push is now recorded on the business page beside the pull record, so "which paddocks did the box send, and which were not placed" has an answer. Carries everything from 2026.9.38.
+
+## 2026.9.38
+
+**Farm records now use SunRice's own field names on every screen.** Wherever you add or edit a farm — the CRM, the map's edit panel, the boundary import — the fields are Farm Number, Farm Ref (7 digits, the farm's identity) and Farm Vendor (6 digits), and each is checked before it is saved. Previously two of these fields were labelled the wrong way round and could silently overwrite a farm's identity. A business without a SAP number must now be declared as such when it is created; a paddock edit or an import can no longer create a business by mistake.
+
+## 2026.9.37
+
+**Start-up no longer fails when two farm records share a Farm Ref.** A database holding duplicate farm records (left by an old import) stopped the app from starting at all. It now starts, the self-check shows how many duplicates there are, and a repair tool merges them. Carries everything from 2026.9.36.
+
 ## 2026.9.36
 
 **Build fix only.** A test could not run on the build server; no change to the app. Carries everything from 2026.9.33 to 2026.9.35.

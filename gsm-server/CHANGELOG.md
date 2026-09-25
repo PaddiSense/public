@@ -3,6 +3,10 @@
 > Plain-English release notes. The full technical changelog lives in the source repo
 > (`CHANGELOG.md`); this is the version that ships in the catalog.
 
+## 2026.9.55
+
+**Farm lists in Admin say more.** Each farm now shows its region, how many paddocks it holds, and whether the business is the senior owner or a co-owner.
+
 ## 2026.9.54
 
 **No visible change.** A build-check fix so this version can ship; it carries everything in 2026.9.53.

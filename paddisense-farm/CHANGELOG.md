@@ -1,5 +1,29 @@
 # PaddiSense Farm — What's New
 
+## 2026.9.38
+
+**The event wizard now offers the same products as your Store.** Adding products to an event on a
+computer showed a different, much shorter list than the one on your phone — it was reading a local
+list left over from setup rather than your Store catalogue. Both now read Store, so a product you
+add in Store appears everywhere, with its application rate unit (L/ha, kg/ha).
+
+If you create a product from inside the wizard it is still saved to this box only, and now says so
+— add it in Store for it to appear for everyone.
+
+## 2026.9.37
+
+**Spray weather now follows the spray.** Recording a spray captured three weather readings that
+were often the same one, taken at the wrong time of day — and on a spray you entered the next day
+or later, always the same one. The box now looks up the weather for the actual start, middle and
+end of your spray, from a station that measures temperature, wind and humidity, preferring your
+own local station.
+
+If no reading was taken near a part of the spray, that part is left blank and says why, instead of
+filling in the nearest reading it could find — your record only shows conditions that were really
+measured. A chemical event now asks how long the spray took, since the weather is captured across
+it. Wind direction is shown as a compass point on the event summary card, and if a station has got
+stuck reporting the same number, the capture says so.
+
 ## 2026.9.36
 
 **A paddock is no longer filed against a guessed farm.** When a paddock had no farm yet, the box

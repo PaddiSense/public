@@ -3,6 +3,54 @@
 > Plain-English release notes. The full technical changelog lives in the source repo
 > (`CHANGELOG.md`); this is the version that ships in the catalog.
 
+## 2026.9.54
+
+**No visible change.** A build-check fix so this version can ship; it carries everything in 2026.9.53.
+
+## 2026.9.53
+
+**Finding a business is easier.** The business search in Admin now matches any word of the name in any order, and a SAP business number or part of one.
+
+## 2026.9.52
+
+**The restore proof works.** It restores the newest backup into a scratch database with the rights that needs, and when something does fail it reports the real cause.
+
+## 2026.9.51
+
+**The rebuild page opens straight away.** It used to take a minute to gather its figures, longer than the Home Assistant panel waits, so the button appeared to do nothing.
+
+## 2026.9.50
+
+**Every paddock lands on a farm with an owner.** A farm shared by several growers in the SAP file is now one farm with each grower as an owner and the SAP-named senior in charge, instead of a string of ownership changes. A paddock whose farm is not yet in SAP is kept under a declared SunRice holding entry, with its farm reference and boundaries, and moves to its grower the moment a later SAP file names it. Re-importing the same paddock file no longer reports every paddock as removed.
+
+## 2026.9.49
+
+**Cleaner farm data, truer maps.** Businesses and farms now come only from SAP; the paddock map export supplies boundaries only and can no longer invent a business or a farm. Paddock outlines are served at the detail your zoom can show, so shapes no longer look distorted when you zoom in, and multi-part paddocks draw whole on the phone map.
+
+## 2026.9.48
+
+**Admin link diagnostics.** The Home Assistant proxy now lets Admin's link check through; restart Home Assistant once on the GSM box after this update.
+
+## 2026.9.47
+
+**Admin link diagnostics, both sides.** Admin can now ask GSM for its own view of the link (version, clock, key fingerprint, recent refusals).
+
+## 2026.9.46
+
+**Admin link diagnostics.** When Admin's call to GSM is refused, GSM now records why and shows it on its dashboard, so an operator can fix the cause instead of guessing.
+
+## 2026.9.45
+
+**One paddock, one record.** GSM no longer creates a second copy of a paddock that already exists on the same farm under the same name on the same ground, whichever way it arrives (Field-Ops import, a file, the map, or a push from your box). Where two different paddocks on a farm share a name, your box is told, so it links by identity and never by name.
+
+## 2026.9.44
+
+**Housekeeping.** Fixes from the first run: every duplicated farm reference is now listed for a ruling, and the check no longer reports a failure it cannot act on.
+
+## 2026.9.43
+
+**Housekeeping.** GSM now runs its own clean-ups at start-up and daily, records every run, and shows them on a Housekeeping page where anything that needs a human decision is ruled with a button. Carries everything in 2026.9.42.
+
 ## 2026.9.42
 
 **Farm reference repair.** The repair can now merge a farm that appears under two SAP numbers of the same grower, keeping both as owners. Carries everything in 2026.9.41.

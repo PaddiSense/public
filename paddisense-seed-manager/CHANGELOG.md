@@ -1,5 +1,29 @@
 # PaddiSense Seed Manager — What's New
 
+
+## 2026.9.13
+
+**New PaddiSense colours on every screen.** Seed Manager now uses the light grey PaddiSense look
+everywhere — the office screens, the shed kiosk, and the login and licence pages — with dark text on
+light cards and white writing on coloured buttons. Buttons you can't press yet now look greyed out.
+The printed grading report still prints black on white.
+
+## 2026.9.12
+
+- **🔴 Security: updated a networking library that had two published vulnerabilities.** Most
+  PaddiSense add-ons had already been updated; Seed Manager had been missed. No action is
+  needed on your part.
+
+## 2026.9.11
+
+**Kiosk exit PIN.** If no exit PIN had ever been set, the settings page showed `1234` in the box — so
+saving it would have made `1234` your real PIN. The box is now empty until you choose one, and the
+page tells you kiosk mode cannot be exited until you do.
+
+## 2026.9.10
+
+**Easier to read, and printing works again.** Buttons and cards now use the new PaddiSense light theme properly, and a printed detail page is dark text on a light page again instead of solid black.
+
 ## 2026.9.9
 
 **Delete works on the kiosk.** Whoever is signed in as the kiosk operator can now delete a docket or a bag weighed in

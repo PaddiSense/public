@@ -1,0 +1,65 @@
+# GHCR retention after each successful private add-on build (stage 2). A SEPARATE workflow, not a job in the
+# build: release.sh fails a release unless the BUILD run concludes `success`, so retention must never be able to
+# change that. release.sh selects its build run by event `repository_dispatch`; this run's event is
+# `workflow_run`, so it can never be mistaken for a build. Safe at build time: the catalog is re-pinned AFTER
+# the build, so the new version is newer than the pin and is kept, with the pin and the 2 before it.
+name: GHCR retention after build
+
+on:
+  workflow_run:
+    workflows:
+      - Build ASM Pro
+      - Build GSM Server
+      - Build PaddiSense Farm
+      - Build PaddiSense Livestock
+      - Build PaddiSense PWM
+      - Build PaddiSense Safety
+      - Build Seed Manager
+      - Build PaddiSense Store
+      - Build PaddiSense Weather
+      - Build SugarSense
+    types: [completed]
+
+permissions:
+  contents: read
+  packages: write
+
+concurrency:
+  group: ghcr-retention-${{ github.event.workflow_run.name }}
+  cancel-in-progress: false
+
+jobs:
+  retention:
+    if: github.event.workflow_run.conclusion == 'success'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Which add-on was built
+        id: map
+        run: |
+          case "${{ github.event.workflow_run.name }}" in
+            "Build ASM Pro")              echo "addon=asm-pro"                 >> "$GITHUB_OUTPUT"; echo "arches=amd64 aarch64" >> "$GITHUB_OUTPUT" ;;
+            "Build GSM Server")           echo "addon=gsm-server"              >> "$GITHUB_OUTPUT"; echo "arches=amd64"         >> "$GITHUB_OUTPUT" ;;
+            "Build PaddiSense Farm")      echo "addon=paddisense-farm"         >> "$GITHUB_OUTPUT"; echo "arches=amd64 aarch64" >> "$GITHUB_OUTPUT" ;;
+            "Build PaddiSense Livestock") echo "addon=paddisense-livestock"    >> "$GITHUB_OUTPUT"; echo "arches=amd64 aarch64" >> "$GITHUB_OUTPUT" ;;
+            "Build PaddiSense PWM")       echo "addon=paddisense-pwm"          >> "$GITHUB_OUTPUT"; echo "arches=amd64 aarch64" >> "$GITHUB_OUTPUT" ;;
+            "Build PaddiSense Safety")    echo "addon=paddisense-safety"       >> "$GITHUB_OUTPUT"; echo "arches=amd64 aarch64" >> "$GITHUB_OUTPUT" ;;
+            "Build Seed Manager")         echo "addon=paddisense-seed-manager" >> "$GITHUB_OUTPUT"; echo "arches=amd64 aarch64" >> "$GITHUB_OUTPUT" ;;
+            "Build PaddiSense Store")     echo "addon=paddisense-store"        >> "$GITHUB_OUTPUT"; echo "arches=amd64 aarch64" >> "$GITHUB_OUTPUT" ;;
+            "Build PaddiSense Weather")   echo "addon=paddisense-weather"      >> "$GITHUB_OUTPUT"; echo "arches=amd64 aarch64" >> "$GITHUB_OUTPUT" ;;
+            "Build SugarSense")           echo "addon=sugarsense"              >> "$GITHUB_OUTPUT"; echo "arches=amd64 aarch64" >> "$GITHUB_OUTPUT" ;;
+            *) echo "::error::no retention mapping for '${{ github.event.workflow_run.name }}'"; exit 1 ;;
+          esac
+      - name: Selftest (stored cases — refuse to run a planner that cannot fail)
+        run: python3 .github/scripts/ghcr_retention.py --selftest
+      - name: Apply retention
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -o pipefail
+          rc=0
+          for arch in ${{ steps.map.outputs.arches }}; do
+            python3 .github/scripts/ghcr_retention.py --package "$arch-${{ steps.map.outputs.addon }}" \
+              --catalog "${{ steps.map.outputs.addon }}" --apply | tee -a "$GITHUB_STEP_SUMMARY" || rc=1
+          done
+          exit $rc

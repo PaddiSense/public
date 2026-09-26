@@ -1,6 +1,478 @@
 # PaddiSense PWM — What's New
 
 
+## 2026.9.128
+
+**Behind-the-scenes update: shared styling brought up to date, and a board-checking tool now says so when it has no boards to check.** Nothing changes on your screens.
+
+## 2026.9.127
+
+**Boards can be named per box, and two broken pages are fixed.**
+
+- **New `box_prefix` setting** on the add-on's Configuration page. Set it to something short
+  like `sw7` and new boards are created as `sw7-rb-01` instead of `rb-01`. That stops boards on
+  different servers sharing a network name. **Leave it blank and nothing changes** — existing
+  boards are never renamed, and never need re-flashing because of this.
+- **Channel Operating page** was stuck on "Loading…" and never showed your channels. Fixed.
+- **Device Setup on a phone** showed "FETCH ERROR" and no devices. Fixed — and it was never a
+  fetch problem; the page was failing while drawing the list.
+- **Pump Setup** no longer shows the Bench Testing and Notes panels.
+- On the water chain, gates that sit side by side now branch in parallel instead of being drawn
+  one after another, and a gate can point at the pump it drains into.
+## 2026.9.126
+
+**Gates now point at the pump they drain into, and the Water Chain page owns its own gaps.**
+
+- On Paddock Setup, a single gate's **"water goes to" / "water comes from"** list no longer
+  offers "Drainage Channel". Instead it offers **your pumps**. A gate that empties into a
+  recycle pit names the pump that lifts water out of it — the pit's depth is already shown on
+  that pump's card, because the pump's own sensor is sitting in it.
+- On Channel Setup, **"This Gate Feeds"** can now name a **pump** as well as gates and bays.
+- The **"Not connected yet"** panel has moved off Paddock Setup and onto the **Water Chain**
+  page, next to the picture it completes. On a phone it stays where it was.
+
+If you had a gate set to "Drainage Channel", it will ask you to pick the pump instead.
+## 2026.9.125
+
+**Fixes to the new Water Chain, from first use.**
+
+- **The chart's panel now grows to fit the whole chart** instead of being a fixed-height box
+  you had to scroll inside.
+- **Your drainage channel appears again**, and the bay drain that empties into it now shows its
+  arrow. Both were being hidden by a filter that asked which control board each item was on —
+  a question a channel of water cannot answer.
+- **Channel gates are no longer hidden** on the Bench Simulation page just because their board
+  is not part of the rig. Both pages now show the same pumps and channels; only the bays
+  differ, and the bench page shows just the paddock the rig is bound to.
+- **A duplicated arrow is no longer drawn as a recycle loop.** Only a genuine loop — a lift
+  pump returning water upstream — is drawn as one, dotted.
+- **A pump is no longer shown being fed by the channel it fills.**
+## 2026.9.124
+
+**The Water Chain now reads top to bottom, and it shows what was missing.**
+
+The chart has been reworked so water flows **down** the page, with side branches stepping out
+sideways — instead of being laid out by what kind of thing each card was.
+
+What you will see that you could not before:
+
+- **Bay gates have their own cards.** A bay's supply and drain gates were never on this chart;
+  now they are. A shared gate between two bays appears once, as the one structure it is.
+- **Your pumps are connected.** A pump's delivery and its source were already configured, but
+  the chart was looking at the wrong field, so pumps sat on their own with no arrows.
+- **Channels and bays are now the arrows**, labelled with their name, rather than cards of
+  their own. The chart's cards are now only the things you can actually open, close or start.
+- **Where several flows meet** — drains emptying into a drainage channel, two gates feeding one
+  spur — you get a labelled bar rather than a misleading single arrow.
+- **A recycle loop is drawn as a loop**, dotted, up the side of the chart.
+- **A bay's water level now sits on its drain gate's card**, named, and says so when that bay's
+  automation is switched off.
+## 2026.9.123
+
+**The pump draw and delivery boxes added in the previous build have been removed.**
+
+Where a pump takes water from and where it sends it will be defined through Channel Setup
+instead, so those boxes have been taken off Pump Setup rather than leaving two places that
+could disagree. Nothing you had configured elsewhere is affected.
+## 2026.9.121
+
+**A pump now says "I can't read the sensor" instead of "the sensor is fine".**
+
+Your pump watches a water level and stops itself when the channel is full enough. The board
+it runs on can also report that a depth probe has failed — a broken 4-20 mA loop still sends
+a believable-looking number, so that report is the only way to know the reading is junk.
+
+If that report couldn't be found — most often because the sensor had been renamed in Home
+Assistant — PWM treated the silence as good news and carried on using the number. The pump's
+level protection looked armed while it was reading a dead probe.
+
+It now looks the sensor up properly instead of guessing its name, and when it genuinely
+cannot tell, it says so in the log and flags the level as unreadable.
+
+**Nothing stops your pump because of this.** It is a warning, not a shutdown — the pump is
+never halted on a guess.
+## 2026.9.120
+
+**You can now record where a single gate's water comes from, or goes to.**
+
+On the paddock setup map, opening a single gate now offers one extra choice. A supply gate asks
+**where the water comes from**; a drain gate asks **where the water goes to**, and offers a
+**Drainage Channel** option as well as your channel sections.
+
+Dual gates are unchanged — they already describe both sides. Recording this does not change how
+anything is controlled today; it is the setup the water flow diagram will read.
+
+## 2026.9.119
+
+**The gate settings popup has its background back.**
+
+On the paddock setup map, clicking **Edit** on a gate in the right-hand list opened a settings box
+with no panel behind it — the fields sat directly on the dimmed screen, which made them hard to
+read and easy to mis-tap. The panel is back. Phone was unaffected.
+
+## 2026.9.118
+
+**A sensor reading PWM cannot date is no longer assumed to be current.**
+
+PWM ignores readings that have gone quiet, so a dead sensor cannot be mistaken for a live one. Two
+gaps in that check are now closed: it now asks when the device last *reported* (rather than when its
+value last *changed*, which stands still while a reading holds steady), and a reading with a corrupt
+timestamp is now treated as out of date instead of current.
+
+## 2026.9.117
+
+**Pump daily totals now roll over at local midnight, not at 10 am.**
+
+PWM works out "today" from the box's local time. The add-on image was missing the timezone
+database, so that lookup quietly fell back to UTC instead of failing — which in eastern Australia
+means the pump day changed over at about 10 am, and the morning's pumping was counted against
+yesterday.
+
+The timezone database is now installed, and a test keeps it that way.
+
+## 2026.9.116
+
+**Renaming a board can no longer switch off a pump safety without telling you.**
+
+Pump-watch and overflow rules remember which depth sensor they watch. They remembered it by the
+sensor's Home Assistant name — so renaming the board left the rule pointing at nothing. It did not
+show an error; it simply stopped acting, quietly.
+
+Those rules now remember the board and channel instead, and re-find the sensor whenever it moves.
+If the sensor genuinely cannot be found, the rule keeps what it had and logs it, rather than
+quietly treating the gate as having no sensor.
+
+## 2026.9.115
+
+**A board used as a bay's water-level sensor no longer shows as "unassigned".**
+
+A board does one job. If a board was set up as a bay's level sensor and nothing else, the device
+picker still listed it as free — so it could be handed to a second job by mistake. It now correctly
+shows as assigned.
+
+## 2026.9.114
+
+**Depth readings that showed "not reporting" on boards that were reporting fine.**
+
+Your device cards look up each depth channel by asking Home Assistant which sensor belongs to that
+board. PWM was asking with an internal short name instead of the sensor's real name, so the lookup
+found nothing — and a channel it could not look up was drawn as **not reporting**, even while the
+board was sending readings normally.
+
+Checked against this system's own boards: **all 9 depth channels** were affected, and all 9 now
+resolve and show their live value. This applies on phone and desktop alike.
+
+## 2026.9.113
+
+**A self-check that could not see one of your boards now says so, instead of reporting all clear.**
+
+PWM has a built-in audit that walks every board and checks that each gate, sensor and relay it
+declares is the one it is actually talking to. Run on this system today it found **no
+mis-matches** on any board it could reach.
+
+But it could not reach one board — a leftover from a device set up on 14 September that was never
+flashed — and it was still finishing with an "all clear". A board the system cannot identify is the
+one most likely to be wrong, so that is now reported as **not checked** rather than passing.
+
+Nothing about your gates, pumps or sensors changed.
+
+## 2026.9.112
+
+**A pump reading that has gone quiet is no longer treated as a reading.**
+
+If a pump board stops reporting, the system used to keep trusting the last thing it said — on this
+box, two pump boards were being read as "stopped" from a reading **33 hours old**, and every safety
+that depends on knowing whether a pump is running trusted it.
+
+Now a reading that is older than the board's reporting window counts as "cannot tell", and the
+safeties treat that as *possibly running* and act, with a loud note in the trace. Stopping a pump
+that is already stopped costs nothing; not stopping one that is running is what this prevents.
+
+## 2026.9.111
+
+On the test bench, the water-balance checker now reads the same simulated levels the
+controllers act on. It was reading the real boards instead, so it could disagree with the
+irrigation logic about where the water was. No change on a farm.
+
+## 2026.9.110
+
+**"No flow" now always tells you why.**
+
+Two cases where the simulator moved no water and said nothing: a gate on a board's *second*
+ram that it could not identify, and a valve reading `unavailable` — which looked exactly
+like a gate you had closed.
+
+Both still stop the water, which is the safe choice. Both now name the valve and the
+reason, and clear themselves as soon as the valve reads properly again. An ordinary closed
+gate is still not reported — that is just a farm at rest.
+
+## 2026.9.109
+
+**The bench simulator now follows your farm.**
+
+It used to keep its own fixed idea of the farm — one pump, two channels, exactly two bays
+— and simulate that no matter what you had actually set up. Boards it had no slot for
+moved no water at all, and a paddock with one bay, or five, was refused outright.
+
+Now it reads your declared farm: every pump, channel, gate and bay, however many there
+are, and each gate on whichever ram it is wired to.
+
+A few things it will now tell you instead of sitting still:
+
+* **"No water can move"** — if the chain between your bays has not been declared yet, it
+  says so and names what needs declaring, rather than running and moving nothing.
+* **Assumed sizes** are labelled. A bay is sized from its surveyed area in Farm; channels
+  and pumps from length, width and depth you can enter. Anything falling back to a default
+  is marked, because the size sets how fast a level moves.
+* **Overflowing** vessels are reported.
+
+## 2026.9.108
+
+Groundwork so the bench simulator follows your farm instead of keeping its own copy of it.
+Nothing changes in how the system behaves yet — the switchover is the next update.
+
+## 2026.9.107
+
+**The water chain now agrees with your gates.**
+
+Two faults are fixed, both of which could make the system look like nothing was
+happening when it was — or the reverse.
+
+* **Gates on a board's second ram are now read correctly.** Where one board drives two
+  gates, the second gate's flow was being judged by looking at the first gate's valve.
+  That gate would report "no flow expected" for ever, and a genuine blockage on it could
+  never raise an alert.
+* **The chain diagram no longer shows water moving through a closed gate.** The arrows
+  animated whenever the channel or bay above held water, without checking whether the gate
+  between them was open. Flow now needs water above *and* an open gate.
+
+If a gate's position cannot be read at all, its line is now drawn in a distinct style
+rather than looking the same as a closed gate — "I can't see this valve" and "this valve
+is shut" are different things, and only one of them needs you.
+
+## 2026.9.106
+
+- **Fixed: renaming a board no longer silently breaks its depth threshold.** PWM used to
+  remember a sensor by its Home Assistant name, so renaming the board left the gate watching
+  nothing — without any error. It now remembers the board and channel, and re-checks itself,
+  so a rename repairs automatically.
+- **Improved: the sensor list now shows your PaddiSense boards by default**, with a
+  "Show other HA sensors" tick box if you need something else. Your existing settings were
+  migrated for you — nothing to re-pick.
+
+## 2026.9.105
+
+- **🔴 Fixed: a pump's demand level could be judged against the wrong depth.** If a channel
+  gate's stored depth offset was unreadable, PWM quietly ignored it and carried on as though
+  the level was fine. It now reports "Check Sensor" instead — the pump is never stopped on a
+  guess, but you are told the level cannot be trusted.
+- **Fixed: the board identity report now says WHY it could not read a board** — no setup
+  header, an unreadable file, or a damaged header — instead of calling all three
+  "undeclared".
+
+## 2026.9.104
+
+- **Internal: removed an old way of finding a board's sensors** that could not survive the
+  board being renamed. Nothing had used it for months; removing it stops it coming back.
+- **Bench simulation now says when it identified a board by name** rather than by its
+  registered hardware, so a mismatch is visible instead of silently driving the wrong board.
+
+## 2026.9.103
+
+- **Fixed: the Paddock Control map on a phone now shows its page label (W01.M).** Every other
+  page showed one; this page did not, which made it the hardest page to report a problem on.
+
+## 2026.9.102
+
+- **Added: a bay now tells you which turn it is on during a flush.** A bay waiting for the
+  one above it to finish says "WAITING FOR MY TURN", and changes to "MY TURN TO FILL UP" the
+  moment it is its turn. Previously a waiting bay looked the same as a bay doing nothing.
+
+## 2026.9.101
+
+- **Improved: "where does this bay's water come from" now offers the bay above it.** The
+  first bay in a paddock is fed from a channel, so it only lists channel gates; any later bay
+  can also be fed by another bay in the same paddock. Choosing one sets up the shared gate
+  between them for you — one gate that drains the bay above and supplies this one.
+- If that bay has no drain gate yet, PWM now tells you instead of appearing to save.
+
+## 2026.9.100
+
+- **Fixed: the Channel Setup page on a phone ran to the screen edges** — it had no margins,
+  so text sat hard against the sides.
+- **Fixed: confirmation messages on the bench simulation page** appeared in the middle of the
+  page instead of floating at the bottom, and never disappeared.
+- **Fixed: form labels on the phone's automation page** ran into their input boxes.
+- **Fixed: a long bay name overflowed its box** on the Water Chain diagram.
+
+## 2026.9.99
+
+- **Added: the last setup jobs that were desktop-only now work on a phone.** You can force a
+  re-sync of the bays drawn in Farm, release a bay Farm no longer has, tell the water chain
+  what feeds a channel or pump it cannot trace, and set the water-balance alarm.
+- Every setup action available on a computer is now available on a phone.
+
+## 2026.9.98
+
+- **Fixed: the Remove button on a bay's device asked twice.** It was wired up twice, so every
+  removal ran two confirmations and two removals. It now runs once, on the device and slot you
+  actually chose.
+
+## 2026.9.97
+
+- **🔴 Fixed: removing a board from a bay on your phone removed it from EVERY bay it served.**
+  The message said "remove from this bay", but the board was cleared from every bay it was
+  assigned to, and its map position was lost. Where one gate serves two bays — a drain for one
+  and the supply for the next — taking it off one bay silently disconnected the other. Removal
+  now affects only the bay you are looking at, and says so.
+
+## 2026.9.96
+
+- **Added: you can place a new gate from your phone.** The bay screen's Gates section now has
+  an "Add gate" button. The gate is placed at the centre of the bay and opens straight into its
+  setup so you can choose the board and actuator while you are standing at it; you can move the
+  pin on the map page later.
+
+## 2026.9.95
+
+- **Added: you can now edit a gate from your phone.** The bay screen lists the gates on that
+  bay, and tapping one lets you change its name, which board and actuator drives it, and which
+  bays it connects — or remove it. Previously a gate set up in the field could not be changed
+  or removed from a phone at all.
+- **Fixed: the gate editor is now sized for use outdoors** — larger buttons and inputs, and no
+  more zooming when you tap a field.
+
+## 2026.9.94
+
+- **Fixed: a board you have set up but not yet flashed now says "not flashed"** instead of
+  "offline". Previously a board awaiting its first flash looked exactly like one that had
+  failed in the field, which sent people out to check hardware that was never written.
+- **Fixed: the board identity report now states which boards it checked.** It could report
+  "no problems" while a board it had been unable to examine at all sat in the same report.
+
+## 2026.9.93
+
+- **Fixed: the add-on log filled with internal network chatter**, which pushed out the startup
+  information support needs when something goes wrong. The log now keeps far more history.
+- **Added: PWM reports how many of your boards it has matched to their hardware ID** when it
+  starts, so a board still being identified by name is visible rather than assumed.
+
+## 2026.9.92
+
+- **Fixed: the bench simulator could move water through the wrong gate.** On a board driving two
+  gates it always read the first one, so a bay could appear to fill before its turn.
+- **Fixed: the flow diagram showed the wrong depth and the wrong gate position** on boards with two
+  depth channels or two gates — it always showed the first of each.
+- **New on phones: the flush close delay and trigger bay.** You can now set which bay's completion
+  starts the clock, and how long after that the paddock inlet closes.
+- **Fixed: the add-on log filled with a repeating bench message**, which pushed out the startup
+  information you need when something goes wrong.
+
+## 2026.9.91
+
+- **Fixed: the +/- buttons on a phone were tall, narrow slivers**, and the row could run off the
+  side of the screen. They are now square and wrap properly.
+- **Fixed: Channel Setup on a phone hid your channels behind the tab bar** when you scrolled.
+- **Fixed: on a phone you could not choose which gate a two-gate board drives** — so a gate set up
+  from a phone quietly used the wrong one. You can now pick it, on both channel gates and bay gates.
+- **Fixed: calibrating from a phone accepted a disconnected sensor.** A desktop already refused it.
+  The phone now refuses it too, and says so.
+- **Fixed: a board with three or more depth channels showed and adjusted the WRONG channel.**
+- **Fixed: re-saving a board's setup could reset its calibration to factory values**, and could
+  change what the board does when it loses WiFi.
+- **New on phones:** restore a board's settings after replacing it, read back what a board is
+  actually running, set what it does when WiFi drops, and set a gate's emergency open depth.
+
+## 2026.9.90
+
+- **Fixed: your pump's dry-run protection was not actually checking anything.** It looked for the
+  depth sensor by an old internal name that no current board uses, found nothing, and allowed the
+  start. It now reads the depth channels your board actually declares — and if it cannot read them,
+  it says so instead of staying quiet.
+- **Fixed: a pump PWM could not read was treated as "stopped", so the automatic stops never fired.**
+  If PWM cannot tell whether a pump is running, the safety stops now act anyway. Stopping a pump
+  that is already stopped does nothing; failing to stop one that is running does not.
+- **Fixed: a gate PWM could not read reported itself as CLOSED.** That let sequences that require a
+  closed gate carry on. An unreadable gate is now reported as unknown.
+- **Fixed: the pump cleaning cycle could record that it ran when it had not.** If the cleaning relay
+  cannot be found, the cycle is skipped and nothing is written to the log.
+
+## 2026.9.89
+
+- **Fixed: a gate watching a board with two depth channels could not say which one it was
+  watching.** It now follows the channel you picked, by position on the board rather than by the
+  sensor's name — so renaming a board or a channel can no longer point a gate at the wrong water.
+
+## 2026.9.88
+
+- **Fixed: an actuator PWM cannot find on the board is now an obviously dead button**, labelled
+  "cannot resolve on the board", instead of a button that looked normal and could act on the wrong
+  ram. If you see one, the board needs checking or re-flashing.
+- **Fixed: the calibration list in Device Setup matched your actuators by name**, so renaming one
+  before flashing could line it up against the wrong ram. It now follows the actuator's position on
+  the board, so a rename is safe at any time.
+
+## 2026.9.87
+
+- **Fixed: depth sensors showed "not reporting" on the calibration screen while the board was
+  working perfectly.** PWM was looking up each depth channel by its name, and that only worked when
+  the channel's name happened to start with the board's name. Channels named anything else could
+  not be found, so they looked dead when they were not — and could not be calibrated. PWM now asks
+  Home Assistant directly which sensor belongs to which channel, so the name no longer matters. If
+  PWM genuinely cannot find a channel it now says **"cannot resolve"**, which is different from a
+  sensor that is simply not reading.
+- **Fixed: the mobile depth calibration screen always offered two sensors**, even on a board with
+  one, and labelled them "1m" and "5m" whatever their real range. It now shows exactly the channels
+  your board is set up with, under the names you gave them, with their real range.
+
+## 2026.9.86
+
+- **Fixed: the mobile Channel Setup page did nothing at all.** It showed its header and tabs but no
+  channels, and its buttons did not respond — saving a channel or a gate from that page silently had
+  no effect. The page now works.
+- **Fixed: the mobile Paddock Setup page showed a second back button and title** under the menu bar,
+  duplicating the ones already there. They now appear only inside a bay, where Back returns you to
+  the paddock list.
+- **Fixed: every device offered "Relay 3" and "Relay 4" test buttons, even where those relays
+  already drive a gate.** Those buttons could never work. A relay that is spare is still offered,
+  and a relay you have named now appears under its own name.
+
+
+## 2026.9.85
+
+- **Fixed: calibrating a gate's travel time could show the OLD value and still say "Calibration
+  complete".** The board had accepted the new time correctly — the page was reading it back before
+  the board had published it, so the screen showed the previous number until you reloaded. The
+  wizard now waits for the board to report, and if the travel time does not change it says so
+  plainly instead of reporting success.
+
+## 2026.9.84
+
+- **Fixed: on a board with two independent gates, the second gate's card could briefly show the
+  first gate's valve** when its own valve could not be found by name. It now only ever shows its own.
+
+## 2026.9.83
+
+- **The board's switch type now decides how its gates appear everywhere.** A board with two
+  actuators set to *Ganged* (one switch pair) is one gate — one Open/Stop/Close button that moves
+  both rams together. Set to *Independent* (a switch pair each) it is two gates, each with its own
+  named buttons. Device Setup, the Devices page, the gate editor and the water diagram all follow
+  that one setting. "None" is no longer offered — every actuator has its manual switches.
+- **A bay gate can now be the second actuator on a board.** When a board drives two independent
+  gates, the gate form asks which actuator this gate is, by the actuator's own name.
+- **Fixed: automation rules set up for a board's second gate were saved but never ran.** They do now.
+- **Fixed: two gates could be pointed at the same actuator by editing one of them.** That is now
+  refused, with the name of the gate already using it.
+- **Sensor offsets are now one setting, kept on the board, adjusted where you operate it.** Bay:
+  the bay's settings. Channel: the gate's cog. Pump: a new ⚙ *Sensor offset* in the pump card's
+  More Details. It is the same control in all three, changes apply instantly with no reflash, and
+  the board keeps the value through a power cut. Default 0 cm, limit ±100 cm. Offsets you had set
+  before are moved onto the board automatically so your readings do not change.
+- **Fixed: pressing ± on an offset could replace the board's offset with a tiny number.** The
+  page sometimes showed 0.0 when it had simply not read the board's value, and adjusted from that.
+  It now shows "—" and refuses until the real value is read.
+
+
 ## 2026.9.82
 
 - **Fixed: a board with two actuators could only be tested and calibrated on the first one.**

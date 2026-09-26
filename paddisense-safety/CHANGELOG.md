@@ -1,5 +1,27 @@
 # PaddiSense Safety — What's New
 
+## 2026.9.10
+
+**New PaddiSense colours, and easier to read at a glance.** Safety now uses the new light grey
+PaddiSense look on every screen. Worker tiles and map pins show white writing on their red, orange,
+green and blue, and workers who are off site or away now show as a light grey tile instead of black.
+The wall display (kiosk) shows its status colours correctly again.
+
+## 2026.9.9
+
+**Security update.** A third-party networking library bundled with Safety was updated to close two
+published vulnerabilities. Nothing you do changes; the update is inside the add-on.
+
+## 2026.9.8
+
+**Easier to use in a small window.** Rows of buttons and fields — the admin PIN, working hours,
+worker settings and the group actions — now flow onto a second line instead of being squashed when
+the browser window is made narrow.
+
+## 2026.9.7
+
+**Easier to read.** Buttons, the workday selector and cards now use the new PaddiSense light theme properly — white text on coloured buttons, dark text on every card.
+
 ## 2026.9.6
 
 **Behind-the-scenes code checks tightened.** Nothing changes in how you use Safety.

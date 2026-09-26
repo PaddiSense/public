@@ -3,6 +3,32 @@
 > Plain-English release notes for growers. The full technical changelog lives in the
 > source repo (`CHANGELOG.md`); this is the version that ships in the grower catalog.
 
+## 2026.9.10
+
+**The menu tiles on your phone are now square and a little taller, so they're easier to hit.**
+
+## 2026.9.9
+
+- Security: a third-party networking library bundled with Core was updated to a version that fixes
+  two published vulnerabilities. Nothing you do changes; the update is inside the add-on.
+
+## 2026.9.8
+
+- Internal safety: an undo step for a past database change was removed because running it could have
+  deleted one user's saved screen preferences. No visible change.
+
+## 2026.9.7
+
+**Your box now reports whether an add-on is set to update itself.** PaddiSense add-ons are meant to
+update only when your operator presses the button. If Home Assistant's own "auto update" switch is
+turned on for an add-on, that add-on can install a new version on its own, without the press. Your
+box now tells the management console which add-ons have that switch on, so it can be spotted and
+turned off. Nothing about how updates install has changed.
+
+## 2026.9.6
+
+**Easier to read.** The highlighted menu link and every card now use the new PaddiSense light theme properly, so text stays clear in bright light.
+
 ## 2026.9.5
 
 **Setting up a new box no longer locks the PaddiSense Administrator out.** The fallback login and the PaddiSense

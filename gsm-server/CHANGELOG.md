@@ -3,6 +3,12 @@
 > Plain-English release notes. The full technical changelog lives in the source repo
 > (`CHANGELOG.md`); this is the version that ships in the catalog.
 
+## 2026.9.56
+
+**Connecting to Admin is one paste.** The connection code Admin gives you now carries everything, including the Admin
+API key and this server's id, and this server tells Admin how to reach it back. Nothing is typed on either end but the
+code. After updating, restart Home Assistant once on this box so the updated proxy loads.
+
 ## 2026.9.55
 
 **Farm lists in Admin say more.** Each farm now shows its region, how many paddocks it holds, and whether the business is the senior owner or a co-owner.

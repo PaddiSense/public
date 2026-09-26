@@ -1,0 +1,67 @@
+# GHCR retention. Deletes old private grower-image versions. Keeps, per package: the catalog-pinned
+# version, the 2 before it, every newer (not yet rolled out) version, `latest`, any other non-cosign tag, every
+# manifest those reference, and their cosign tags. DRY RUN unless `apply` is ticked. Plan → run summary.
+# An apply must name ONE package unless `apply_all` is also ticked: the first apply proves on one small package
+# that this token may delete (a dry run attempts no DELETE, so it cannot).
+name: GHCR retention
+
+on:
+  workflow_dispatch:
+    inputs:
+      apply:
+        description: "Delete (unticked = dry run: print the plan only)"
+        type: boolean
+        default: false
+      package:
+        description: "Only this package, e.g. amd64-sugarsense (empty = all)"
+        type: string
+        default: ""
+      apply_all:
+        description: "Allow an apply with no package named (only after one package has been applied and checked)"
+        type: boolean
+        default: false
+
+permissions:
+  contents: read
+  packages: write
+
+jobs:
+  retention:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      max-parallel: 4
+      matrix:
+        arch: [amd64, aarch64]
+        addon:
+          - asm-pro
+          - gsm-server
+          - paddisense-farm
+          - paddisense-livestock
+          - paddisense-pwm
+          - paddisense-safety
+          - paddisense-seed-manager
+          - paddisense-store
+          - paddisense-weather
+          - sugarsense
+    steps:
+      - uses: actions/checkout@v4
+        if: inputs.package == '' || inputs.package == format('{0}-{1}', matrix.arch, matrix.addon)
+      - name: Refuse an apply that names no package
+        if: inputs.apply && inputs.package == '' && !inputs.apply_all
+        run: |
+          echo "::error::apply needs ONE package named (e.g. amd64-sugarsense), or apply_all ticked after one has been verified"
+          exit 1
+      - name: Selftest (stored cases — refuse to run a planner that cannot fail)
+        if: inputs.package == '' || inputs.package == format('{0}-{1}', matrix.arch, matrix.addon)
+        run: python3 .github/scripts/ghcr_retention.py --selftest
+      - name: Plan${{ inputs.apply && ' + delete' || ' (dry run)' }}
+        if: inputs.package == '' || inputs.package == format('{0}-{1}', matrix.arch, matrix.addon)
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -o pipefail
+          python3 .github/scripts/ghcr_retention.py \
+            --package "${{ matrix.arch }}-${{ matrix.addon }}" \
+            --catalog "${{ matrix.addon }}" \
+            ${{ inputs.apply && '--apply' || '' }} | tee -a "$GITHUB_STEP_SUMMARY"

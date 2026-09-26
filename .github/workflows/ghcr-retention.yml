@@ -44,6 +44,9 @@ jobs:
           - paddisense-store
           - paddisense-weather
           - sugarsense
+        exclude:
+          - arch: aarch64          # GSM is built for amd64 only (build-gsm.yml)
+            addon: gsm-server
     steps:
       - uses: actions/checkout@v4
         if: inputs.package == '' || inputs.package == format('{0}-{1}', matrix.arch, matrix.addon)

@@ -101,6 +101,10 @@ jobs:
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
 
+      - name: Cache month (monthly rotation — a fresh apt/pip layer at least once a month)
+        id: cachemonth
+        run: echo "m=$(date -u +%Y-%m)" >> "$GITHUB_OUTPUT"
+
       - name: Build and push
         id: build            # R197: exposes steps.build.outputs.digest
         uses: docker/build-push-action@v6
@@ -112,8 +116,8 @@ jobs:
           tags: |
             ${{ env.IMAGE_BASE }}/${{ matrix.arch }}-paddisense-core:${{ steps.version.outputs.version }}
             ${{ env.IMAGE_BASE }}/${{ matrix.arch }}-paddisense-core:latest
-          cache-from: type=gha
-          cache-to: type=gha,mode=max
+          cache-from: type=gha,scope=paddisense-core-${{ matrix.arch }}-${{ steps.cachemonth.outputs.m }}
+          cache-to: type=gha,scope=paddisense-core-${{ matrix.arch }}-${{ steps.cachemonth.outputs.m }},mode=max
 
       # ── R197 image provenance — canonical block (documentation/contracts/R197_PROVENANCE.md;
       #    validated WR-AS-020 / ASM-Pro #77). cosign verify exit = the gate (Rule 192).

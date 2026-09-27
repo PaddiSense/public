@@ -3,6 +3,19 @@
 > Plain-English release notes. The full technical changelog lives in the source repo
 > (`CHANGELOG.md`); this is the version that ships in the catalog.
 
+## 2026.9.58
+
+**No visible change.** A self-test row that had been wrongly red since 2026.9.55 now reads green; it carries everything in 2026.9.57.
+
+## 2026.9.57
+
+**SAP imports that span seasons now read the newest season.** When the SAP file lists a farm for several crop years,
+the latest year decides who owns it and in what shares; older years show as "superseded" in the preview and change
+nothing. **Farms MapRice knows but SAP does not yet** can now be held under a business you declare in the CRM
+(Owners → the business → "holds MapRice farms with no SAP row yet"), and the MapRice preview lists every farm it keeps
+out, with the reason. **Connecting to Admin is only the code now:** the four old single fields are gone from the
+Configuration page; paste the connection code from this box's card in Admin and nothing else.
+
 ## 2026.9.56
 
 **Connecting to Admin is one paste.** The connection code Admin gives you now carries everything, including the Admin

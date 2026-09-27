@@ -3,6 +3,12 @@
 > Plain-English release notes. The full technical changelog lives in the source repo
 > (`CHANGELOG.md`); this is the version that ships in the catalog.
 
+## 2026.9.59
+
+**One awkward farm no longer stops a SAP import.** A farm whose shares don't add up now imports anyway, each owner with
+the share SAP lists, and is named so you can check it. A farm SAP describes two different ways is skipped and named; the
+rest of the file goes in. The preview also lists every row that needs a look, not just the first 200.
+
 ## 2026.9.58
 
 **No visible change.** A self-test row that had been wrongly red since 2026.9.55 now reads green; it carries everything in 2026.9.57.

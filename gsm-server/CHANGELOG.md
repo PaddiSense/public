@@ -3,6 +3,18 @@
 > Plain-English release notes. The full technical changelog lives in the source repo
 > (`CHANGELOG.md`); this is the version that ships in the catalog.
 
+## 2026.9.63
+
+**Farms that share a number no longer carry each other's paddocks.** Housekeeping removes leftover copies of paddocks
+that belong to another farm, and a MapRice import now moves any paddock sitting on the wrong farm to the one SunRice's
+export names. The import preview shows how many will move before you confirm.
+
+## 2026.9.62
+
+**The map's tree now shows which record is which.** Businesses show their SAP number and farms their Farm Ref, so two
+farms that share a number are no longer identical in the list. Housekeeping lists any farm record holding paddocks
+from farms far apart, so they can be sorted.
+
 ## 2026.9.61
 
 **A person's farms now come from their businesses.** Assign someone to a business and every farm it holds shows on their

@@ -1,5 +1,23 @@
 # PaddiSense Assets — What's New
 
+## 2026.9.11
+
+**Behind-the-scenes update.** Nothing changes in how you use ASM Pro. This update also brings you the improvements listed below since your last update.
+
+## 2026.9.10
+
+**Security update.** A third-party networking library bundled with ASM-Pro was updated to close
+three published vulnerabilities. An internal packaging fix also restores a test tool that had been
+missing from the build since July. Nothing you do changes.
+
+## 2026.9.9
+
+**Activating a licence works.** On some browsers the Activate Licence button did nothing when pressed. It now works.
+
+## 2026.9.8
+
+**Easier to read, and button rows fit a narrow window.** Buttons, highlights and cards now use the new PaddiSense light theme properly, and rows of buttons wrap instead of squashing when the window is narrow.
+
 ## 2026.9.7
 
 **Behind-the-scenes code checks tightened.** Nothing changes in how you use Assets.

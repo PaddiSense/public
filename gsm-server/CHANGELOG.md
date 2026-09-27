@@ -3,6 +3,12 @@
 > Plain-English release notes. The full technical changelog lives in the source repo
 > (`CHANGELOG.md`); this is the version that ships in the catalog.
 
+## 2026.9.61
+
+**A person's farms now come from their businesses.** Assign someone to a business and every farm it holds shows on their
+page; if SAP moves a farm to another business, it leaves their list by itself. This is for staff viewing only — it does
+not change what anyone can see in the grower portal.
+
 ## 2026.9.60
 
 **Picking a paddock in the map's tree now shows which one.** It is highlighted on the map and its details open. The map

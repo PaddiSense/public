@@ -1,6 +1,102 @@
 # PaddiSense PWM — What's New
 
 
+## 2026.9.142
+
+**Automations page:** every Flush and Pond setting is here now, including each bay's minimum, maximum and flush hold.
+**Paddock map:** the supply board's channel depth can be moved, renamed and tapped for its last 6 hours.
+**Behind the scenes:** a bay can no longer be marked as flushing while it is in Pond or Off, and the water balance no longer
+raises false "no flow" alarms on a channel that is draining through an open gate.
+
+## 2026.9.141
+
+**Pond:** Pond now opens and closes the bay doors as designed. Before this it set its clocks and then did nothing.
+**Turning a bay Off** no longer moves any door; they stay where they are. Each paddock can choose otherwise under
+Automations → the paddock panel → *When switched Off*.
+**Flush:** a bay that has finished goes Off by itself while the next bay carries on, and its timer shows 0 and DONE.
+Stopping a flush by turning the bays Off means the next flush starts from the beginning.
+**Automations page:** each paddock now has its flush settings, a live countdown of what it is waiting for, and a Stop
+& reset button.
+**Paddock map:** a small countdown circle under each flushing bay, and the supply board's channel depth.
+**Pumps:** the last stop says why. On a phone, the pump card is tidier and Auto Demand is one button.
+**Channels page:** remembers which channel you had open.
+
+## 2026.9.140
+
+**Flush:** if you stop a flush part-way by turning the bays Off, the next flush starts from the beginning. Before this,
+it could carry on from where the old one stopped, and the paddock inlet might not open.
+
+## 2026.9.139
+
+**Flush:** each bay now holds water for its full flush time. Before this, the hold finished early (a 30-minute hold
+drained after about 8 minutes).
+**Paddock map:** bay gate buttons now show OPENING / CLOSING and then OPEN or CLOSED, instead of staying on the old state.
+
+## 2026.9.138
+
+**Pump Setup:** saving no longer hides the other tiles until you reload, and it no longer asks you to confirm a safety setting
+you did not change.
+
+## 2026.9.137
+
+**Pump Setup:** no more false "Settings changed — flash required" on pumps built in Device Setup. Saving a pump no longer loses
+settings the page did not show.
+
+## 2026.9.136
+
+**Water Chain:** when a box already has an arrow coming in at the top, the next arrow comes in at a side, whichever is shortest.
+
+## 2026.9.135
+
+**Water Chain:** pumps are green, channels and water are blue, bays are pink and gates are yellow, so two of a kind side by
+side are easy to spot. A bay reads its depth from its drain board; you do not pick a sensor for it.
+
+## 2026.9.134
+
+**Water Chain:** you can rename the water boxes you add. The page also warns when two boxes measure the same water.
+
+## 2026.9.133
+
+**Easier setup pages.**
+- **Paddock Setup:** open a paddock to see its gates, each once, saying what it does ("Water in to B-01",
+  "Drains B-01 into B-02") and whether its board is there. Tap a gate to choose its board. A bay now has
+  "Depth read by", so you can see which board measures it.
+- **Paddock Control:** the paddock names are solid buttons, and the one you are on is dark.
+- **Channels:** each gate sits in its own box, with Auto/Manual and Open/Close on one row and the depth
+  in a clear box.
+
+## 2026.9.132
+
+Behind-the-scenes update to the test bench. Nothing changes on a farm's screens.
+
+## 2026.9.131
+
+**Water Chain arrows now run between the boxes, never across them.** Also:
+- The bay list only shows paddocks that are switched on.
+- A pump drawn with its own pit box now reads that pit.
+- Closing a bay's own inlet gate stops water reaching that bay, even when the gate is not drawn.
+- The page is better at spotting where your chain differs from how your automation is set up.
+
+## 2026.9.130
+
+**On the Water Chain, a depth sensor can stand for a channel, a bay or a pit.** Pick the sensor, then
+say what it measures. Each channel or bay box shows which sensor reads it, and you can change it. If
+your pick differs from the one your automation uses, the page tells you and changes nothing.
+
+## 2026.9.129
+
+**The Water Chain is now yours to draw, and it and the Automation page are open to everyone.**
+
+- **Water Chain** is a grid five boxes wide. Put each pump, gate, channel, bay or pit in the box where
+  you want it drawn, then say where each one's water goes. The arrows follow what you say. Nothing
+  is guessed.
+- **Import from current setup** fills an empty grid from what your gates and pumps already say.
+  Then you move boxes wherever they sit on your farm.
+- The chain **only watches**. It never moves a gate or starts a pump. If it disagrees with how your
+  automation is set up, it tells you and changes nothing.
+- **Automation** (the rules overview) is now available on every box.
+- **An iPad now gets the full desktop pages**, including in the Home Assistant app.
+
 ## 2026.9.128
 
 **Behind-the-scenes update: shared styling brought up to date, and a board-checking tool now says so when it has no boards to check.** Nothing changes on your screens.

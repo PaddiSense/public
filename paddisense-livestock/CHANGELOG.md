@@ -1,5 +1,31 @@
 # PaddiSense Livestock — What's New
 
+## 2026.9.9
+
+**Behind-the-scenes update.** Nothing changes in how you use Livestock. This update also brings you the improvements listed below since your last update.
+
+## 2026.9.8
+
+**Security update.** A third-party networking library bundled with Livestock was updated to close
+two published vulnerabilities. Nothing you do changes; the update is inside the add-on.
+
+## 2026.9.7
+
+**Easier to read.** Buttons, tabs and cards now use the new PaddiSense light theme properly — white text on coloured buttons, dark text on every card.
+
+## 2026.9.6
+**Behind-the-scenes code checks tightened.** Nothing changes in how you use Livestock.
+
+## 2026.9.5
+**New breeding groups tell you if their animals weren't added.** If the group was created but its tagged animals
+could not be added to it, the page used to say "Created" anyway. It now tells you, so you can add them from the group.
+
+## 2026.9.4
+
+**Mistyped entries are rejected with a clear message.** If a head count or similar number was sent in a form
+Livestock could not read, it could show a generic error instead of saying what was wrong. It now tells you which
+field needs a whole number, and nothing is saved until it is fixed.
+
 ## 2026.9.3
 
 **Your licence details are now stored encrypted.** The web address Livestock uses to check in, and the

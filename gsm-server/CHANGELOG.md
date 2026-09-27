@@ -3,6 +3,12 @@
 > Plain-English release notes. The full technical changelog lives in the source repo
 > (`CHANGELOG.md`); this is the version that ships in the catalog.
 
+## 2026.9.60
+
+**Picking a paddock in the map's tree now shows which one.** It is highlighted on the map and its details open. The map
+also does less work while you zoom: the Crops layer no longer downloads everything a second time, and labels draw only
+for what is on screen.
+
 ## 2026.9.59
 
 **One awkward farm no longer stops a SAP import.** A farm whose shares don't add up now imports anyway, each owner with

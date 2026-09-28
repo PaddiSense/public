@@ -1,6 +1,10 @@
 # PaddiSense PWM — What's New
 
 
+## 2026.9.143
+
+**The "Sync from Farm" button on the Paddock Setup page works again** — it had stopped responding on desktop.
+
 ## 2026.9.142
 
 **Automations page:** every Flush and Pond setting is here now, including each bay's minimum, maximum and flush hold.

@@ -3,6 +3,10 @@
 > Plain-English release notes. The full technical changelog lives in the source repo
 > (`CHANGELOG.md`); this is the version that ships in the catalog.
 
+## 2026.9.67
+
+**Folded sections inside an open card keep their border** — no more cards with a missing bottom edge.
+
 ## 2026.9.66
 
 **GSM now pairs with Admin by itself after a Home Assistant restart** — it waits for Home Assistant Cloud to connect instead of giving up.

@@ -3,6 +3,10 @@
 > Plain-English release notes. The full technical changelog lives in the source repo
 > (`CHANGELOG.md`); this is the version that ships in the catalog.
 
+## 2026.9.66
+
+**GSM now pairs with Admin by itself after a Home Assistant restart** — it waits for Home Assistant Cloud to connect instead of giving up.
+
 ## 2026.9.65
 
 **Admin can now see which of GSM's self-checks is failing**, not just how many, and GSM starts faster after an update.

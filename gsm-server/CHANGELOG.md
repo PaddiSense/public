@@ -3,6 +3,14 @@
 > Plain-English release notes. The full technical changelog lives in the source repo
 > (`CHANGELOG.md`); this is the version that ships in the catalog.
 
+## 2026.9.65
+
+**Admin can now see which of GSM's self-checks is failing**, not just how many, and GSM starts faster after an update.
+
+## 2026.9.64
+
+**Farm can file paddocks from GSM again.** GSM now installs the map extension Farm's database needs, so accepting a GSM paddock on Farm's paddock-match page works, and Farm's bays and map-feature tables are created at its next restart.
+
 ## 2026.9.63
 
 **Farms that share a number no longer carry each other's paddocks.** Housekeeping removes leftover copies of paddocks

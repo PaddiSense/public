@@ -3,6 +3,10 @@
 > Plain-English release notes for growers. The full technical changelog lives in the
 > source repo (`CHANGELOG.md`); this is the version that ships in the grower catalog.
 
+## 2026.9.11
+
+**Farm maps work again on boxes that were set up before mid-2026.** On some farms the Farm add-on could not build its map tables, so accepting a paddock, bays and paddock history failed. Core now installs the mapping component Farm needs. After updating Core, restart Core and then Farm.
+
 ## 2026.9.10
 
 **The menu tiles on your phone are now square and a little taller, so they're easier to hit.**

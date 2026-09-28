@@ -1,10 +1,10 @@
 # GENERATED from the source config.yaml by release.sh Step 7 (WR-PS-115).
 # DO NOT hand-edit — any edit is overwritten at the next release.
-# source: PaddiSense/Core@b26637be5520b394cb9da6edea938f1c944f0aca
+# source: PaddiSense/Core@52db929277475e627695e09849cdd65dbd86e88c
 # Catalog-only deltas are declared in contracts/catalog-overrides.yaml;
 # contracts/check-catalog-drift.py verifies catalog == source on every release + in CI.
 name: PaddiSense Core
-version: 2026.9.11
+version: 2026.9.12
 slug: paddisense-core
 description: PaddiSense Core — system gateway, licence management, addon health monitoring
 logo: true
@@ -35,6 +35,7 @@ options:
   db_password: homeassistant
   postgres_superuser_password: ''
   postgres_superuser_password_old: ''
+  auto_update_core: true
 schema:
   db_host: str
   db_port: port
@@ -43,4 +44,5 @@ schema:
   db_password: password
   postgres_superuser_password: password?
   postgres_superuser_password_old: password?
+  auto_update_core: bool
 image: ghcr.io/paddisense/{arch}-paddisense-core

@@ -3,6 +3,10 @@
 > Plain-English release notes for growers. The full technical changelog lives in the
 > source repo (`CHANGELOG.md`); this is the version that ships in the grower catalog.
 
+## 2026.9.12
+
+**Core now updates itself.** From this version on, new versions of PaddiSense Core install automatically — nobody has to install them by hand on each box. To hold a box back, turn off `auto_update_core` in Core's configuration.
+
 ## 2026.9.11
 
 **Farm maps work again on boxes that were set up before mid-2026.** On some farms the Farm add-on could not build its map tables, so accepting a paddock, bays and paddock history failed. Core now installs the mapping component Farm needs. After updating Core, restart Core and then Farm.

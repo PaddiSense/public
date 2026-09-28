@@ -1,5 +1,9 @@
 # PaddiSense Farm — What's New
 
+## 2026.9.40
+
+**GSM paddocks now line up with your own paddocks by where they are on the ground.** When GSM calls your business or farms by different names than you use in Case, Machine Boundaries used to list the GSM paddocks as new. It now matches them to your existing paddocks by their boundaries, and will not create a second copy of a paddock you already have.
+
 ## 2026.9.39
 
 **Farm now says clearly when its map database is incomplete.** If the database is missing the map extension Farm needs, the self-test shows it in red and says how to fix it, instead of pages failing with a server error.

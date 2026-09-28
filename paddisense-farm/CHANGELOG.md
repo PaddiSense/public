@@ -1,5 +1,9 @@
 # PaddiSense Farm — What's New
 
+## 2026.9.39
+
+**Farm now says clearly when its map database is incomplete.** If the database is missing the map extension Farm needs, the self-test shows it in red and says how to fix it, instead of pages failing with a server error.
+
 ## 2026.9.38
 
 **The event wizard now offers the same products as your Store.** Adding products to an event on a

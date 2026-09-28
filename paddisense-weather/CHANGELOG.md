@@ -1,5 +1,25 @@
 # PaddiSense Weather — What's New
 
+## 2026.9.18
+
+- My Stations loads much faster, especially on a slow internet connection: it no longer
+  waits for the online rain history before showing your stations. The Ecowitt settings
+  now correctly show "Configured" when your keys are saved.
+
+## 2026.9.17
+
+- The current-conditions banner and the 7-day forecast boxes are easier to read. The banner
+  text is now white on the blue, and each forecast box uses solid black or white text
+  (whichever stands out best on that colour) instead of white text with a shadow around it.
+  The numbers and labels are also a little larger.
+
+## 2026.9.16
+
+- Two internal fixes, neither of which changes anything you do. Weather no longer sends its
+  full-access code-repository key to the Home Assistant add-on store — only the read-only one
+  is ever used. And when a weather station's sensors are set up under names Weather does not
+  expect, it now says so in the log instead of quietly showing the station as offline.
+
 ## 2026.9.15
 
 - The page-number badge is readable again instead of showing as a black block, the spray-conditions reason text now wraps inside its box instead of running off the screen, and buttons and input boxes on phones are larger so they are easier to tap and no longer zoom the page when tapped.

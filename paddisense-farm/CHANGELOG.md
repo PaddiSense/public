@@ -1,5 +1,13 @@
 # PaddiSense Farm — What's New
 
+## 2026.9.41
+
+**Your paddocks now stay matched to GSM by where they are, not what they are called.** When you pull from GSM, each GSM
+paddock is matched to yours by its boundary, even when GSM uses different business, farm or paddock names, and the match is
+remembered so it holds on the next sync. A paddock GSM holds twice now lines up once, with the extra GSM name shown beside
+yours. Renaming a field in Case, merging or splitting paddocks, or removing a paddock from Core no longer breaks or moves the
+match, and a sync never re-creates a paddock you have removed. GSM records that are only a part of one of your paddocks (such as SunRice's bay-level records) are listed under that paddock instead of as new paddocks, and any staged GSM row that should not be there can now be deleted from Machine Boundaries.
+
 ## 2026.9.40
 
 **GSM paddocks now line up with your own paddocks by where they are on the ground.** When GSM calls your business or farms by different names than you use in Case, Machine Boundaries used to list the GSM paddocks as new. It now matches them to your existing paddocks by their boundaries, and will not create a second copy of a paddock you already have.

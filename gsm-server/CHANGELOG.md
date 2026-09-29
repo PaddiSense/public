@@ -3,6 +3,10 @@
 > Plain-English release notes. The full technical changelog lives in the source repo
 > (`CHANGELOG.md`); this is the version that ships in the catalog.
 
+## 2026.9.68
+
+**Applying a grower's paddock from boundary review now only ever changes that grower's own paddocks.** Before, Apply and Sync all could rename or remove an overlapping paddock belonging to someone else. Sync all now also leaves any paddock that overlaps more than one of the grower's paddocks for you to check and apply by hand. Housekeeping gains a check for a farm that lists the same owner twice; it shows each case and changes nothing until you choose Merge.
+
 ## 2026.9.67
 
 **Folded sections inside an open card keep their border** — no more cards with a missing bottom edge.

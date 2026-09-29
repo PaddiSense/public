@@ -1,6 +1,25 @@
 # PaddiSense PWM — What's New
 
 
+## 2026.9.145
+
+**Channel Setup on a phone** now works like Pump Setup: pick a channel, pick a gate, then one tile per setting — and a phone can
+now set what happens when a channel overflows (stop a pump, close a gate, send an alert) and see the board's No-WiFi behaviour.
+**Pump card:** water can be taken off the season total as well as added. **Paddock Setup:** gates are listed in the order the
+water reaches them. The home page shows the version number.
+
+## 2026.9.144
+
+**Pump protection:** the Low-Supply check now uses exactly the setting on the Pump Setup page — 0 really is off, and the
+board's Override is respected. The pump card says ON, OFF or OVERRIDDEN in words.
+**Pump card:** add water to the season total directly, see the live pit level while adjusting the sensor offset, and the
+shutdown and schedule settings are two separate cards. Pump cards on phones no longer sit inside each other.
+**Gates:** renaming a gate no longer shows a false "not saved" error, and gates that share a position show #1 / #2.
+**Map:** pumps and gates are one clear circle with the depth inside (blue on, grey off); depth numbers are easier to read;
+the supply channel badge matches the bay badges and stays with its paddock.
+**Setup pages:** open straight onto their tiles; bays come only from Farm; the channel gate settings say where each depth
+comes from and warn when emergency opening is off. The Diagnostics page works again. Pop-up windows no longer let the page behind them scroll.
+
 ## 2026.9.143
 
 **The "Sync from Farm" button on the Paddock Setup page works again** — it had stopped responding on desktop.

@@ -3,6 +3,26 @@
 > Plain-English release notes. The full technical changelog lives in the source repo
 > (`CHANGELOG.md`); this is the version that ships in the catalog.
 
+## 2026.9.73
+
+- Internal: a security check on the Sibling Addons page's GSM connection box now sees its admin check. No visible change.
+
+## 2026.9.72
+
+- A boundary export downloaded early in the morning is now named for today's date, not yesterday's.
+
+## 2026.9.71
+
+**Paddocks stay matched between PaddiSense Farm and GSM.** When Farm sends a paddock GSM already knows, GSM now updates that same paddock and uses the grower's name for it, instead of creating a second copy; only a paddock whose shape has changed waits for staff review. When GSM merges or removes a paddock, Farm is told where it went. Bays that MapRice recorded as separate paddocks can be tidied into bays of their paddock by staff. On the Sibling Addons page, PaddiSense Farm's card now has a place to paste its GSM connection code. GSM now keeps every change to a paddock, and each season in the map explorer shows the paddocks as they were at the end of that season, so retired paddocks no longer appear in the current season.
+
+## 2026.9.70
+
+**Bays are now stored with their shape and shown under their paddock.** In the map explorer, tick Bays under a paddock to draw its bays on the map above it. Bays drawn in PaddiSense Farm now reach GSM exactly as drawn, and every change to a bay is kept in its history.
+
+## 2026.9.69
+
+**The map explorer now starts with the season.** Under each business, pick a season to see its farms and paddocks and that season's events, grouped by type. The tree is larger and easier to read, with bigger arrows, and a checkbox on each season colours the paddocks by crop.
+
 ## 2026.9.68
 
 **Applying a grower's paddock from boundary review now only ever changes that grower's own paddocks.** Before, Apply and Sync all could rename or remove an overlapping paddock belonging to someone else. Sync all now also leaves any paddock that overlaps more than one of the grower's paddocks for you to check and apply by hand. Housekeeping gains a check for a farm that lists the same owner twice; it shows each case and changes nothing until you choose Merge.

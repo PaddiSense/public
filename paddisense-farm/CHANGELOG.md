@@ -1,5 +1,17 @@
 # PaddiSense Farm — What's New
 
+## 2026.9.44
+
+**Your paddocks stay matched to GSM when GSM tidies its records.** If GSM merges or removes a paddock you are linked to, Farm now follows it to the right record on your next pull instead of losing the match. If a paddock moves to another owner in GSM, Farm hides it but keeps all its history, and brings the same paddock back if it returns. Farm also flags any paddock whose shape no longer matches its GSM record so it can be checked. On the Match page, Remove now takes a paddock out of Core without deleting it, and Pull GSM tells you why it failed. Crop zones can now be split into several crops within a paddock, with or without a bank between them, and each zone shows in the map tree under its paddock; while drawing, the map shows the line length and area as you go; each group in the tree has an "all on / off" tick. On the map, drag the edge between the tree and the map to make the tree wider or narrower, and event names now show first in the tree.
+
+## 2026.9.43
+
+**Your bays now go to GSM and come back, exactly as drawn.** When you push to GSM, each paddock's bays go with it, and bays GSM holds for your paddocks come back into Farm on the next pull. Each bay is matched by its own identity, never by its name.
+
+## 2026.9.42
+
+**The map tree now starts with the season.** Pick a season under your business and see its farms and paddocks, with that season's crop zones, yield, NDVI and events underneath. The tree is also larger and easier to read, with bigger arrows and a coloured square beside each layer that matches its colour on the map.
+
 ## 2026.9.41
 
 **Your paddocks now stay matched to GSM by where they are, not what they are called.** When you pull from GSM, each GSM

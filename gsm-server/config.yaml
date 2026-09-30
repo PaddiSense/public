@@ -1,10 +1,10 @@
 # GENERATED from the source config.yaml by release.sh Step 7 (WR-PS-115).
 # DO NOT hand-edit — any edit is overwritten at the next release.
-# source: PaddiSense/GrowerServicesManager@083936de3eb03902804e14781f2db73d00fc8abd
+# source: PaddiSense/GrowerServicesManager@6d0097237990f0dab5c68e2d0d56703caeaaba22
 # Catalog-only deltas are declared in contracts/catalog-overrides.yaml;
 # contracts/check-catalog-drift.py verifies catalog == source on every release + in CI.
 name: Grower Services Manager
-version: 2026.9.76
+version: 2026.9.78
 slug: gsm-server
 description: PaddiSense Grower Services Manager — CRM, data sharing, knowledge bank
 url: https://github.com/PaddiSense/GrowerServicesManager

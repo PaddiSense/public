@@ -3,6 +3,14 @@
 > Plain-English release notes. The full technical changelog lives in the source repo
 > (`CHANGELOG.md`); this is the version that ships in the catalog.
 
+## 2026.9.78
+
+- Internal: GSM checks its own status report against the shared format before PaddiSense Admin reads it. No visible change.
+
+## 2026.9.77
+
+- Internal: a failing self-test about business SAP numbers now names the business and links straight to it.
+
 ## 2026.9.76
 
 - Knowledge Bank updates reach PaddiSense boxes when the box checks for them (the push notification never worked and is removed).

@@ -1,5 +1,9 @@
 # PaddiSense Farm — What's New
 
+## 2026.9.48
+
+- Knowledge Bank packs are only installed when their checksum matches, and nothing outside the box can push content to it.
+
 ## 2026.9.47
 
 - Internal: Farm and GSM now use the same version of the library that checks boundaries. No visible change.

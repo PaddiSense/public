@@ -1,5 +1,10 @@
 # PaddiSense Farm — What's New
 
+## 2026.9.49
+
+- A Farm Owner or PaddiSense Administrator can always open Farm, exactly as PaddiSense Core allows — even if "all modules" was not ticked for them.
+- A malformed access update from Core is ignored and your current access settings stay in place.
+
 ## 2026.9.48
 
 - Knowledge Bank packs are only installed when their checksum matches, and nothing outside the box can push content to it.

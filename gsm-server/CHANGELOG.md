@@ -3,6 +3,17 @@
 > Plain-English release notes. The full technical changelog lives in the source repo
 > (`CHANGELOG.md`); this is the version that ships in the catalog.
 
+## 2026.9.75
+
+- Internal: updated a core library so GSM and PaddiSense Farm check boundaries with the same version. No visible change.
+
+## 2026.9.74
+
+- Boundary sync with PaddiSense Farm is checked against one shared, typed format on both sides; a malformed boundary is refused and named instead of half-read.
+- A grower box can only update bays on its own farms, and the farm review only offers a grower's pushes on farms that grower syncs.
+- Re-adding a farm owner on the same day you removed them no longer errors.
+- The CRM paddock map colours each business again.
+
 ## 2026.9.73
 
 - Internal: a security check on the Sibling Addons page's GSM connection box now sees its admin check. No visible change.

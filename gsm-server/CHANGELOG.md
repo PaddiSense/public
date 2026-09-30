@@ -3,6 +3,11 @@
 > Plain-English release notes. The full technical changelog lives in the source repo
 > (`CHANGELOG.md`); this is the version that ships in the catalog.
 
+## 2026.9.76
+
+- Knowledge Bank updates reach PaddiSense boxes when the box checks for them (the push notification never worked and is removed).
+- Self-test alert emails now name the failing test and how old the result is; running the self-test from the admin page clears the alert once it passes.
+
 ## 2026.9.75
 
 - Internal: updated a core library so GSM and PaddiSense Farm check boundaries with the same version. No visible change.

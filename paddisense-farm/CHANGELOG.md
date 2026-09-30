@@ -1,5 +1,21 @@
 # PaddiSense Farm — What's New
 
+## 2026.9.47
+
+- Internal: Farm and GSM now use the same version of the library that checks boundaries. No visible change.
+
+## 2026.9.46
+
+- If you re-link a paddock to GSM after Farm has suggested retiring it, that out-of-date suggestion is removed and can no longer hide the paddock.
+- Farm checks every boundary it receives from, or sends to, GSM against one shared format. A malformed answer from GSM changes nothing, and a paddock whose shape can't be sent is named on the Boundary Manager.
+- Farm refuses boundaries from a different GSM than the one your paddocks are linked to, so your links can't be scrambled.
+- GSM can no longer change your paddocks without you pressing Pull GSM.
+- After Pull Boundaries on the GSM settings page, the connection status now refreshes.
+
+## 2026.9.45
+
+- Pulling from GSM no longer hides a paddock by itself. If GSM stops holding one of your paddocks, the Boundary Manager lists it and you choose Retire or Keep.
+
 ## 2026.9.44
 
 **Your paddocks stay matched to GSM when GSM tidies its records.** If GSM merges or removes a paddock you are linked to, Farm now follows it to the right record on your next pull instead of losing the match. If a paddock moves to another owner in GSM, Farm hides it but keeps all its history, and brings the same paddock back if it returns. Farm also flags any paddock whose shape no longer matches its GSM record so it can be checked. On the Match page, Remove now takes a paddock out of Core without deleting it, and Pull GSM tells you why it failed. Crop zones can now be split into several crops within a paddock, with or without a bank between them, and each zone shows in the map tree under its paddock; while drawing, the map shows the line length and area as you go; each group in the tree has an "all on / off" tick. On the map, drag the edge between the tree and the map to make the tree wider or narrower, and event names now show first in the tree.

@@ -3,6 +3,34 @@
 > Plain-English release notes. The full technical changelog lives in the source repo
 > (`CHANGELOG.md`); this is the version that ships in the catalog.
 
+## 2026.10.7
+
+- Internal test fix; no change you will see.
+
+## 2026.10.6
+
+- Security update to a networking library; no change you will see.
+
+## 2026.10.5
+
+- Internal: the security-alert intake now protects itself against a flood from a single box. No visible change.
+
+## 2026.10.4
+
+- Internal: security alerts from PaddiSense Farm are now received and recorded for the PaddiSense operator. No visible change.
+
+## 2026.10.3
+
+- Internal hardening; no change you will see.
+
+## 2026.10.2
+
+- The Water page loads its charts and history again.
+
+## 2026.10.1
+
+- Fixed: dates GSM works out on the server ("today", the day a record was closed) now follow your local calendar. Before 10 am they could land on the previous day.
+
 ## 2026.9.78
 
 - Internal: GSM checks its own status report against the shared format before PaddiSense Admin reads it. No visible change.

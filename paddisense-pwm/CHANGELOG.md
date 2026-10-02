@@ -1,6 +1,216 @@
 # PaddiSense PWM — What's New
 
 
+## 2026.10.5
+
+**Only your live bays are watered** — a bay you have hidden or merged away in Farm is no longer picked up by PWM.
+
+## 2026.10.4
+
+**Switching off is immediate and final** — any gate command that was already on its way when you pressed Off is dropped.
+
+**A bay above its maximum gets no more water** — its supply gate closes while the drain opens.
+
+**Pond timing is cleaner**: a bay is either above or below its minimum, and only the time it stays there counts.
+
+**Faster safety response** — overflow protection acts on every channel at once.
+
+**Easier to read and use**: Pond has its own teal colour; gate buttons show an estimated % while moving; "When switched
+Off" is in each paddock's settings; on the Devices page, Test & calibrate is inside each board, the list lines up, and
+the phone can capture a sensor's dry zero.
+
+## 2026.10.3
+
+**Pond fills from the bottom up.** When Pond starts, water runs to the bottom bay; each bay, once it has held above its
+minimum for 15 minutes, closes its own supply so the bay above fills next. When every bay is covered, normal Pond takes
+over.
+
+**Steadier Pond.** A bay must hold above minimum for 15 minutes to count as filled, below minimum for 30 minutes before
+it calls for water, and above maximum for 2 minutes before the drain opens (a level more than 5 cm over maximum opens
+it straight away).
+
+**Switching Pond or Flush off stops everything** — gates still moving stop where they are, and the automation sends
+no further commands.
+
+**New alerts** for a bay that drops fast with its gates shut (possible breach or leak), rises with its gates shut, or
+rises without the bay above it falling.
+
+**Flush and Pond timers count down live** in the paddock settings panel. On the Devices page you can type an actuator's
+travel time directly.
+
+## 2026.10.2
+
+**Diagnostics & Logs is in the side menu.** It shows every command PWM sent and every automation change, with the
+reason. Gate positions shown there now always match the gate itself, within a minute.
+
+## 2026.10.1
+
+**Pond fills the paddock from the bottom first.** When Pond is switched on, the bottom drain closes and the gates
+between bays open, so water runs through to the bottom bay and fills upward. Once every bay has reached its minimum,
+normal Pond takes over and the 12-hour check starts. A bay at its maximum always drains. If the first fill has not
+finished after 12 hours you get one alert naming the bays still short.
+
+**Switching Pond off stops it straight away** — no further gate moves.
+
+**A gate stopped part-way is no longer treated as open**, so Pond will finish opening it.
+
+## 2026.9.173
+
+**Pond: a bay whose level cannot be read no longer upsets the rest of the paddock.** Only the gates touching that bay
+are left as they are; every other gate is decided as normal.
+
+## 2026.9.172
+
+From the bench walk:
+- **Gates are only reported as moved once the gate's board confirms it.** A gate on a board that has lost power or WiFi
+  now shows "not confirmed" straight away instead of "closing". Its button reads **OFFLINE** while the board is
+  disconnected, and **HOLD** when a gate stops part-way.
+- **Automation Failure** alert when a paddock's inlet board does not respond during a flush.
+- **Pond:** the paddock inlet closes when the supply channel is below the top bay (no backflow); a bay that is below
+  its minimum when Pond starts opens its supply straight away after the arm window.
+- The Flush / Pond arm window is now **1 minute** (was 2).
+- Turning off a paddock's individual bay control makes every bay follow the paddock's mode.
+- A **Diagnostics** tile on the home page: every command PWM sent and every automation change, with the reason.
+- Closed gates are shown in a clear red.
+
+## 2026.9.171
+
+Overflow alerts are short: **OVERFLOW — MC-01 Above Safe Level**, then **MC-01 Above Safe Level > 10 mins** (every
+10 minutes while it stays high) and **MC-01 Back Below Safe Level**.
+
+## 2026.9.170
+
+**Overflow keeps telling you while it is still high.** If a channel stays above its emergency level, PWM now sends a
+reminder every 10 minutes saying the relief is not bringing it down, and one message when it drops back below.
+
+## 2026.9.169
+
+A pump in an unknown state shows the amber "check it" colour instead of the running colour.
+
+## 2026.9.168
+
+After a stop the pump board did not confirm, the pump stays **UNKNOWN — STOP** (press it again to retry) until the
+board itself reports in, instead of going back to showing RUNNING from an old reading.
+
+## 2026.9.167
+
+**The pump card says when PWM cannot be sure.** After a start or stop the pump board did not confirm, the card reads
+**UNKNOWN STATE — CONFIRM DEVICE** until the board reports again. An idle pump on a connected board is no longer
+treated as unknown just because it has been quiet.
+
+## 2026.9.166
+
+**Safety fix — a pump stop the board did not confirm is no longer shown as sent.** The button now reads
+**Not stopped — No response from Pump 1 — it may still be running**.
+
+## 2026.9.165
+
+Behind the scenes: unused code removed.
+
+## 2026.9.164
+
+A pump that does not answer a start now says so in plain words on its button: **Not started — No response from Pump 1**.
+
+## 2026.9.163
+
+**A pump start that was refused now reads clearly on its button.** The reason wraps inside the button in normal text
+instead of running off the card. A start you stop within 30 seconds no longer gets checked as if it had failed.
+
+## 2026.9.162
+
+**Safety fix — a pump start or stop is only reported once the pump board confirms it.** If a board has just lost power
+or WiFi, Home Assistant can take a couple of minutes to notice, and until now a start in that window said "Command sent"
+while nothing happened. PWM now waits a few seconds for the board itself to report the pump on (or off); if it does not,
+you are told straight away that nothing started — and a stop the board did not confirm is flagged as "may still be
+running" instead of being shown as stopped.
+
+## 2026.9.161
+
+**Diagnostics now shows what PWM did and why.** W11 Diagnostics lists every command PWM sent to a board (and whether the
+board accepted it) and every change in what the automation is doing, newest first, with the reason.
+
+## 2026.9.160
+
+Behind the scenes: error messages shown on screen are now only the ones written for you; anything unexpected is logged
+for support instead of being shown.
+
+## 2026.9.159
+
+Behind the scenes: PWM now keeps a record of every change in automatic pump demand and every valve movement a board
+reports, so "why did that happen?" has an answer with the time and the reason.
+
+## 2026.9.158
+
+**Safety fix — Pond on a whole paddock.** Switching a whole paddock to Pond now gives the same 2-minute window to change
+your mind as switching one bay, and a paddock going back into Pond starts its timers fresh instead of acting straight away
+on old readings from its last run.
+
+## 2026.9.157
+
+**One overflow alert, not one every 30 seconds.** While a channel stays above its emergency level, PWM keeps its relief gate
+open and its actions in force, but now sends the overflow alert once when it happens instead of repeating it.
+
+## 2026.9.156
+
+**Pump start that did not happen now says so straight away.** If a pump's board does not accept a start (for example it is
+offline), PWM now tells you immediately that nothing was started, instead of reporting success and alerting you 30 seconds
+later. PWM also keeps track of a pump started or stopped at its own switch.
+
+## 2026.9.155
+
+**Flush tells the truth about the inlet.** If the paddock inlet does not open (the board is offline or refuses), Flush now
+waits and tries again instead of announcing "Flush started". If the supply channel level cannot be read, the waiting
+message now says so instead of saying the water is not high enough yet.
+
+## 2026.9.154
+
+Behind the scenes: every setting PWM saves is now checked before it is stored, and a setting that is not valid is refused
+with the name of the field that is wrong, instead of being saved and causing trouble later.
+
+## 2026.9.153
+
+**Safety fix — overflow protection.** If you chose a channel gate's emergency depth sensor on the **Channels** page, overflow
+protection could not see that sensor and would not have opened the gate. PWM now repairs that setting by itself within a
+few minutes of updating, and a gate whose overflow sensor cannot be read is now shown as a fault instead of looking fine.
+Also fixed: choosing a gate's depth sensor on the Channels page could erase that gate's automation settings.
+
+## 2026.9.152
+
+**The automation now runs on its own.** Water control no longer shares its time with the screens you open, so a slow page
+can never delay a pump or gate decision.
+
+## 2026.9.151
+
+**Every command is written down.** PWM now keeps a permanent record of every instruction it sends to a pump, gate or valve —
+who or what asked, why, what the water levels were, and whether the board accepted it — so "why did my pump stop?" always
+has an answer.
+
+## 2026.9.150
+
+Behind the scenes: PWM now tells PaddiSense support whether its automation is actually running and whether your gates and
+pumps accepted their last command, so a stalled farm is noticed in minutes rather than when someone looks.
+
+## 2026.9.149
+
+**Syncing from Farm is now up to you.** PWM no longer pulls changes from Farm on its own — press **Sync now** on Paddock
+Setup, which tells you how many Farm changes are waiting. If Farm removes a paddock you have switched on (or a bay in it),
+PWM keeps it running and lists it for you to **Confirm remove** — and won't remove it while it is flushing or ponding.
+
+## 2026.9.148
+
+**Automation on a phone:** tapping a gate opens its settings again (it had stopped showing anything). Gate position and
+overflow protection are set there; a board's actuators are set on the Devices page.
+
+## 2026.9.147
+
+**Devices page:** a board's gate controls now find their valves through Home Assistant's own device list, the same way the
+depth readings already do, so a renamed board no longer shows controls that cannot reach it.
+
+## 2026.9.146
+
+**Updates wait for the water.** An update will no longer restart PWM while a gate is moving, a pump is running or a flush is
+in progress — it installs once that finishes. Ponding does not hold an update back, and neither does a board that is offline.
+
 ## 2026.9.145
 
 **Channel Setup on a phone** now works like Pump Setup: pick a channel, pick a gate, then one tile per setting — and a phone can

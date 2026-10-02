@@ -1,10 +1,10 @@
 # GENERATED from the source config.yaml by release.sh Step 7 (WR-PS-115).
 # DO NOT hand-edit — any edit is overwritten at the next release.
-# source: PaddiSense/Weather@9b859c1704f572c63361bf6a71d58eab0206e1c2
+# source: PaddiSense/Weather@2513f715dfdd64b0c4c6b5262f3f7726a334f47f
 # Catalog-only deltas are declared in contracts/catalog-overrides.yaml;
 # contracts/check-catalog-drift.py verifies catalog == source on every release + in CI.
 name: PaddiSense Weather
-version: 2026.9.18
+version: 2026.10.1
 slug: paddisense-weather
 description: PaddiSense Weather — weather stations, forecast, burn forecast, spray
   assessment

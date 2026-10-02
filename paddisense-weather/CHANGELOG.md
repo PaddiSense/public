@@ -1,5 +1,9 @@
 # PaddiSense Weather — What's New
 
+## 2026.10.1
+
+- Colours updated to match the rest of PaddiSense.
+
 ## 2026.9.18
 
 - My Stations loads much faster, especially on a slow internet connection: it no longer

@@ -3,6 +3,83 @@
 > Plain-English release notes for growers. The full technical changelog lives in the
 > source repo (`CHANGELOG.md`); this is the version that ships in the grower catalog.
 
+## 2026.10.14
+
+Logs now hide one more kind of secret (GSM connection codes).
+
+## 2026.10.13
+
+Housekeeping only — no change you will see.
+
+## 2026.10.12
+
+A brief network hiccup reaching PaddiSense Admin is now logged as a network problem, not a security alert.
+
+## 2026.10.11
+
+Your phone now opens on a PaddiSense start page with a tile for each of your apps (set up once — if you change it, it stays changed). Each app's home screen has a MAIN button that takes you back to it.
+
+## 2026.10.10
+
+Buttons and tiles are a consistent, easier-to-tap size on phones.
+
+## 2026.10.9
+
+The System Info panel now shows the real database status, version and uptime (it wrongly said "DB DOWN" before).
+
+## 2026.10.8
+
+Security: the heartbeat to PaddiSense now also signs the box's identity key. Buttons and filters fit phones better.
+
+## 2026.10.7
+
+Buttons are bigger on phones and tablets so they are easier to press.
+
+## 2026.10.6
+
+**Security**: the licence page shows only the end of your licence code.
+
+## 2026.10.5
+
+**Security fixes**: a Farm Owner can no longer change a PaddiSense Administrator's access; Core only shares its internal
+key with PaddiSense add-ons; changing someone's role signs them out so the new role applies straight away.
+
+## 2026.10.4
+
+**Safer user setup**: if a new user's access can't be saved (for example, the console password is too short), nothing is
+saved — you no longer end up with a half-made user.
+
+## 2026.10.3
+
+**Tighter security**: Core only ever uses the read-only access key to reach PaddiSense's add-on store.
+
+## 2026.10.2
+
+On an iPad or an Android tablet you now get the full desktop pages instead of the phone layout. Phones are unchanged.
+
+## 2026.10.1
+
+**Security update:** a network library (urllib3) updated to fix newly published vulnerabilities. No change to how Core works.
+
+## 2026.9.16
+
+Behind the scenes: when a backup passphrase is set, Core now confirms in its log that the backup key was saved
+safely, so you can check your off-box backups can be recovered.
+
+## 2026.9.15
+
+**Updates only when pressed.** PaddiSense add-ons now install updates only when they are sent to your box — Home Assistant's own
+"auto update" switch is kept off for them, so nothing updates itself in the middle of your season.
+
+## 2026.9.14
+
+No change for growers — this version only affects PaddiSense's own test farm.
+
+## 2026.9.13
+
+**Updates wait for the water.** When an update arrives for Precision Water Management, Core now checks first whether a gate is
+moving, a pump is running or a flush is in progress, and holds the update until it has finished.
+
 ## 2026.9.12
 
 **Core now updates itself.** From this version on, new versions of PaddiSense Core install automatically — nobody has to install them by hand on each box. To hold a box back, turn off `auto_update_core` in Core's configuration.

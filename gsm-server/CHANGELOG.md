@@ -3,6 +3,201 @@
 > Plain-English release notes. The full technical changelog lives in the source repo
 > (`CHANGELOG.md`); this is the version that ships in the catalog.
 
+## 2026.10.52
+
+- Removed leftover references to SugarSense, which is no longer part of PaddiSense.
+
+## 2026.10.51
+
+- Security: one shared check now decides whether a grower may see a farm or paddock, with tests proving one grower can't see another's.
+
+## 2026.10.50
+
+- Security: an old, unused data address that answered without a login has been removed.
+
+## 2026.10.49
+
+- On a phone, GSM's home screen has the same top bar as every other page. Its MAIN button goes straight back to the PaddiSense
+  start page, with no reload. Other pages say Home when they go back to the home screen and Back when they go up one level.
+
+## 2026.10.48
+
+- What's Near Me no longer flashes "Loading": it opens where you last were, shows your saved paddocks straight away and
+  refreshes quietly.
+- A blue dot shows where you are and follows you; "find my location" centres on it. If the phone cannot give a
+  location, the map says why.
+
+## 2026.10.47
+
+- Record Event on the phone is now the same step-by-step wizard Farm uses: what happened, when, details, notes, review.
+- The event form on the office map fits a phone screen.
+
+## 2026.10.46
+
+- Phones and tablets: a field hub (Near Me, Record Event, Events, Growers, Sampling) showing the current season.
+- Record Event on the phone uses the same form as the office map, with photos from the camera.
+- No signal? Records and sample results are kept on the phone and sent automatically when the signal returns; a badge
+  shows how many are waiting. Near Me shows your region's paddock outlines without signal.
+- Events on the phone open on the current season, with Mine and Machine filters. Growers can be searched, called or
+  emailed with one tap, and opened on the map.
+
+## 2026.10.45
+
+- Seasons can be hidden from the map tree (Admin → Seasons, "Hide in tree"); their events stay.
+- The home page is three rows of same-size square tiles: today's events and stats, quick links, then Real Time Rice.
+
+## 2026.10.44
+
+- Seasons now keep themselves current: each crop year runs 1 May – 30 April (CY27 = 1 May 2026 – 30 April 2027), the same as Farm, and this year's events show in the map tree.
+
+## 2026.10.43
+
+- No change to what growers see.
+
+## 2026.10.42
+
+- No change to what growers see (shared form update).
+
+## 2026.10.41
+
+- Security hardening between Admin and GSM (no change to what growers see).
+
+## 2026.10.40
+
+- Staff access hardening (no change to what growers see).
+
+## 2026.10.39
+
+- Bigger buttons on touch screens; a very large upload can no longer slow GSM down for everyone.
+
+## 2026.10.38
+
+- Security hardening for event photos and event uploads.
+
+## 2026.10.37
+
+- Security hardening: GSM's internal performance figures no longer record identifiers.
+
+## 2026.10.36
+
+- Security: another grower can no longer take over your box's connection to GSM.
+
+## 2026.10.35
+
+- Your records only ever go onto farms your box is allowed to sync.
+
+## 2026.10.34
+
+- Merging paddocks on the GSM map keeps the merged-away paddocks' records in history instead of deleting them.
+
+## 2026.10.33
+
+- Your farm records now only ever go onto your own paddocks; a record whose paddock could not be found stays unassigned rather than landing on a neighbour's.
+
+## 2026.10.32
+
+- The product list now also learns products named in older recorded events (a start-up step that had been failing silently).
+
+## 2026.10.31
+
+Behind-the-scenes only: the fleet's automatic page check can now read GSM's health and performance figures. No grower, business or contact data is reachable that way, and nothing on screen changes.
+
+## 2026.10.30
+
+- Recording an event: a list with only one choice now starts with it selected.
+
+## 2026.10.29
+
+- The paddock panel on the staff map is now shared with Farm, so both maps show it the same way.
+
+## 2026.10.28
+
+- Health check: the public status reply now carries only what the fleet reads.
+
+## 2026.10.27
+
+- Paddocks: two names on the same ground are now one paddock (e.g. "K12" and "Keoghs 12"); a boundary file is matched to paddocks by where they are, never by what the file calls them.
+
+## 2026.10.26
+
+- Map: Record event opens a full form in the left panel — every event type with its own fields (products and rates, crop and variety, stage …), on a paddock, a bay or a crop zone; click more on the map to add them. Photos can still be attached.
+
+## 2026.10.25
+
+- Products: every product named in a recorded event joins the product list once, however it was spelled; each spelling is kept. The products page shows the APVMA number and withholding period, and can merge two entries that are the same product.
+
+## 2026.10.24
+
+- MapRice import: a paddock retired after a Farm merge stays retired — a re-import no longer redraws it.
+
+## 2026.10.23
+
+- Events: every page now records the full detail of an event (products, rates, stage) — not just the grower's own sync. The portal's crop-stage and irrigation buttons save again.
+- A fertiliser mix keeps every product, and a crop-stage event keeps its stage.
+
+## 2026.10.22
+
+- Map tree: opening a farm uses the whole panel, with a breadcrumb to step back.
+
+## 2026.10.21
+
+- Health check: two false alarms on the self-test page are gone (housekeeping checked while it was still running; a paddock merge now keeps the old paddock in history, as intended).
+
+## 2026.10.20
+
+- Map: bays now show as a white dashed outline, easy to tell apart from the paddock's colour.
+
+## 2026.10.19
+
+- Map tree: a farm opened under the current season lists its paddocks again; the search boxes and filters stay on screen while the tree scrolls.
+
+## 2026.10.18
+
+- Map: clicking a paddock opens the tree on the left to that paddock's farm.
+
+## 2026.10.17
+
+- A paddock re-sent from Farm with a new name or for a different GSM record is always reviewed again.
+
+## 2026.10.16
+
+- Accepting a grower's push can no longer remove one of their other paddocks that it overlaps.
+
+## 2026.10.15
+
+- One set of bays per paddock: when your farm's own bays reach GSM, they replace the MapRice bays on the same ground (MapRice's ids are kept with yours).
+
+## 2026.10.14
+
+- GSM recognises your paddock by where it is, not what it is called: the same ground under a new name updates the paddock (and its name).
+
+## 2026.10.13
+
+- Sending one paddock to GSM no longer clears the other paddocks waiting for GSM review.
+- Paddocks GSM replaces now stay in its history instead of being deleted.
+
+## 2026.10.12
+
+- When a grower merges paddocks in Farm and sends the result, GSM's farm review now lists the GSM paddocks the merge replaces.
+  Accepting it updates the merged paddock and retires the old ones; they stay in the season history.
+
+## 2026.10.11
+
+- Boundary review: the normal paddock colours are switched off while you review a farm, so the review colours (clash, new, changed, missing) stand out. They come back when you close the review.
+
+## 2026.10.10
+
+- Boundary review: clicking a paddock clash now shows both paddocks on the map — red is the one that would be retired, green the one that stays — and the button says exactly what it retires.
+- Business page: ticking "Holds unmatched farms" now saves, or tells you why it can't (a business with a SAP number can't hold them).
+
+## 2026.10.9
+
+- Choosing "All regions" on the map now zooms to Australia. South America and Other paddocks are still shown, they just no longer pull the view out to the whole world.
+
+## 2026.10.8
+
+- Self-test page: shows which time zone the database is using, so date problems are visible without a terminal.
+
 ## 2026.10.7
 
 - Internal test fix; no change you will see.

@@ -1,5 +1,34 @@
 # PaddiSense Livestock — What's New
 
+## 2026.10.6
+
+**MAIN button.** The Livestock home screen has a MAIN button at the top left that takes you to your PaddiSense start
+page. CSV Import now has its own tile on your phone, and the tiles are bigger.
+
+## 2026.10.5
+
+**Logging an event on a mob now saves properly.** Joining, shearing, pregnancy scanning and weighing entered through
+Mobs → Log event are now recorded against the mob. Before this fix a preg scan or a weighing was not saved at all, and a
+joining or shearing was saved without its mob. If a save is refused, the page now tells you why.
+
+## 2026.10.4
+
+On an iPad or an Android tablet you now get the full desktop pages instead of the phone layout. Phones are unchanged.
+
+## 2026.10.3
+
+**Farm paddocks now appear in Livestock on every box** — Livestock finds the Farm add-on wherever it is installed.
+
+**Security update:** a network library (urllib3) updated to fix newly published vulnerabilities. No change to how Livestock works.
+
+## 2026.10.2
+
+- Changing a breeding group's untagged head count now changes its paddock's count too, when the group is in one paddock. If it is in several, you are told to record the change from the paddock it happened in.
+
+## 2026.10.1
+
+- You can record a **Death** or a **Cull** from a group's Event button on the Mobs page — the head comes off the group and the paddock it is in.
+
 ## 2026.9.9
 
 **Behind-the-scenes update.** Nothing changes in how you use Livestock. This update also brings you the improvements listed below since your last update.

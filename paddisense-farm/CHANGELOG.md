@@ -1,5 +1,231 @@
 # PaddiSense Farm — What's New
 
+## 2026.10.49
+
+- On a phone, Farm's home screen has the same top bar as every other page. Its MAIN button takes you straight back to the PaddiSense start page, with no reload.
+- Home screen tiles are taller and line up in even rows.
+
+## 2026.10.48
+
+- The event form on the map fits a phone screen: every event type is readable, with bigger buttons and fields.
+- Behind the scenes, the phone Record Event wizard is now shared with GSM's field app; it works exactly as before.
+
+## 2026.10.47
+
+- Events sent to GSM now carry an id that is unique across every farm, so one farm's event can never be mistaken for another's.
+
+## 2026.10.46
+
+- A CNH machine job now opens in the same event form you use to record an event — the same fields for each type (for a cultivation, the method such as Disc; for a chemical, every product with its rate, water rate and applicator), filled in from the machine where it can. Chemicals and nutrients you record on the map now keep their product and rate on the event itself.
+
+## 2026.10.45
+
+- Each CNH job's paddock now shows only the days the machine worked that paddock.
+
+## 2026.10.44
+
+- Staged CNH jobs now show the days they were worked and the machine. An imported machine job is an ordinary Farm event you can edit — the machine's own data stays untouched.
+
+## 2026.10.43
+
+- Reviewed CNH machine jobs can now be imported. Each becomes a normal Farm event on its paddock — in the right season in the tree, with its worked area, your product and rate, and it goes to GSM like any event you record. If you cleaned the shape first, the cleaned shape is what is saved.
+
+## 2026.10.42
+
+- CNH jobs are joined back together (Case splits them into 30-minute files) and cut along your paddock boundaries: the review list shows one item per machine, task and paddock. Work outside every paddock is its own item to discard or attach. Files where the implement was never down are set aside as "no work recorded". Importing machine jobs comes with the next update.
+
+## 2026.10.41
+
+- Bays sent from GSM are now saved in Farm — they were being skipped.
+
+## 2026.10.40
+
+- Fetch + stage CNH data also records CNH's own operation list, so split jobs can be joined back together correctly.
+
+## 2026.10.39
+
+- Staged CNH jobs now show where the machine actually worked (its working track and width), not a guessed paddock outline.
+
+## 2026.10.38
+
+- Farm now keeps a permanent record of every CNH file and job it has fetched. Pressing **Fetch + stage CNH data** again never brings back a job you have already staged, imported or dismissed.
+
+## 2026.10.37
+
+- Import hub: **Fetch + stage CNH data** downloads your CNH machine job files since the start of the current season and puts each job in the review queue. Nothing reaches your paddocks until you import it.
+
+## 2026.10.36
+
+- Check job data now works when your CNH login has not had a company picked — it uses your login's company, the same as the field sync.
+
+## 2026.10.35
+
+- Machine data → CNH has a **Check job data** button: it asks CNH which machine jobs and files it holds for your login over the last 12 months, by machine and file type, and reads one sample file. Nothing is saved.
+
+## 2026.10.34
+
+- Opening the machine paddocks page (BM01) no longer freezes the rest of Farm while it works out the matches.
+
+## 2026.10.33
+
+- Drawing a crop zone over one of your own zones replaces it, whatever your role; zones from Case or John Deere are still protected.
+
+## 2026.10.32
+
+- Drawing a crop zone over a zone from Case or John Deere is refused instead of deleting it; removing a whole zone by drawing over it needs a manager.
+
+## 2026.10.31
+
+- An event you dismiss, or one still waiting for your confirmation, is no longer sent to GSM; the "not yet sent" count now matches what will be sent.
+
+## 2026.10.30
+
+- Removing a field in John Deere no longer risks removing a different paddock whose number matches the field's name.
+
+## 2026.10.29
+
+- Recording an event: the Operator is now filled in with the person who is logged in.
+
+## 2026.10.28
+
+- Crop zones never overlap: "Bays → Crop" now splits the crop zone that is there into one zone per bay, and drawing a zone takes its ground from the zone underneath.
+- A split with a 0 m bank now cuts exactly along the line.
+- New crop zones go into the active season, and events you record go into their date's season, so they show under that year in the tree.
+- The selected paddock, bay or crop zone is highlighted in yellow, and crop zones in one paddock have different colours.
+- The chemical list shows only chemicals and the nutrient list only nutrients.
+
+## 2026.10.27
+
+- Map: the panel on the right now matches GSM — tabs for each event type with this season's events, and buttons for Edit boundary, Edit farm, Record event, Edit attributes and Delete. Bays and crop zones use the same panel.
+- Map: clicking a bay or crop zone now selects its paddock in the tree and zooms to it; clicking a farm in the tree zooms to that farm.
+- Seasons: choose which seasons show in the map tree; a crop zone can be moved to another season; new crop zones made from a paddock or its bays go into the current season.
+
+## 2026.10.26
+
+- Farm and owner names now come from your machine data (CNH / John Deere) by the provider's own farm and grower, and are updated on every sync. Paddocks are no longer put on a farm just because it is nearby.
+- Names that come from CNH / John Deere are changed there, not in Farm — Farm says "Edit in CNH". If the provider is disconnected you can edit them; after you reconnect and sync, the Match page lists every name that differs, with a button to take the machine's name.
+- A machine sync that cannot reach CNH / John Deere now says so and changes nothing (it used to report "complete").
+- The map's farm tree refreshes when you come back to it after a sync.
+
+## 2026.10.25
+
+- Health check: the public status reply now carries only what the fleet reads.
+
+## 2026.10.24
+
+- Paddock matching: every screen that links machine fields to paddocks now makes the same decision in the same place. Nothing changes in what you see; a sync, Accept, Accept all and Merge all record where each paddock is up to.
+
+## 2026.10.23
+
+- Map: click a paddock, bay or crop zone and press **Record event** — the full event form opens on the left (all eight event types, crop stage included); click more paddocks, bays or zones on the map to add them. Save brings the tree back.
+- Events list: "view on map" now opens the paddock and the event.
+
+## 2026.10.22
+
+- Sending events to GSM: the bay or crop zone an event was on now goes with it, and so do the crop stage and the method fields that were left behind.
+
+## 2026.10.21
+
+- Map: labels are white on a dark outline and a bit bigger — easy to read on the satellite image.
+- Map: label all paddocks at once (name, or name + hectares) from the tree bar; crop zones can carry labels like bays.
+- Map: **Bays → Crops** makes a crop zone for every bay of a paddock — no re-splitting.
+- Map tree: opening a paddock's bays, crops or events now uses the whole panel, with a breadcrumb to step back.
+
+## 2026.10.20
+
+- Matching page: a paddock GSM doesn't have is only sent when you press **Add to GSM** — nothing is sent without your say-so.
+- Your farm takes the name your machine data gives it (e.g. "Old Coree - 7829") after the next machine sync.
+
+## 2026.10.19
+
+On an Android tablet you now get the full desktop pages instead of the phone layout. iPads and phones are unchanged.
+
+## 2026.10.18
+
+- Matching page, GSM column: **Matched ✓** when GSM holds exactly what Farm holds. Otherwise choose **Replace GSM** (send yours, in one batch
+  with Push to GSM) or **Replace Core** (take GSM's version).
+
+## 2026.10.17
+
+- Sending to GSM when GSM is busy no longer fails with an authentication error — Farm retries properly.
+
+## 2026.10.16
+
+- Consolidate: the Confirm button and the Retire list are always on screen; the list is in name order.
+
+## 2026.10.15
+
+- Case sync is about twice as fast: it no longer downloads your whole Case account twice.
+
+## 2026.10.14
+
+- **Consolidate** never removes a paddock unless you tick it: paddocks your machine data doesn't cover are listed for you to Keep or Retire.
+- A paddock whose machine field has moved to different ground is no longer updated automatically — it waits for you on the Matching page.
+
+## 2026.10.13
+
+- Matching page: **Consolidate** makes Farm's paddocks match your machine data exactly — one paddock per machine field. You see the whole
+  change first (which paddocks are kept, merged or retired, and where their records move) and confirm once.
+
+## 2026.10.12
+
+- Events → GSM: **Test Connection** now really asks GSM, and tells you plainly if GSM did not answer or refused (and why).
+
+## 2026.10.11
+
+- One set of bays per paddock: where you have drawn your own bays, bays pulled from GSM are kept but hidden.
+- A paddock that GSM has turned into a bay of a bigger paddock now joins that paddock in Farm (its records move with it).
+
+## 2026.10.10
+
+- Matching page: **Accept all** applies every Case / John Deere update at once — a name swap (e.g. K12 ↔ K13) lands in one go. After that,
+  each Case sync keeps your paddocks up to date automatically.
+- Each row fits on one line again.
+- Merging paddocks is paused until bays are handled (coming next).
+
+## 2026.10.9
+
+- Matching page: a banner shows whether your paddocks and GSM match 100 % after GSM accepts — and, if not, which paddock differs and why.
+- New paddocks join the farm they sit on, and Case's grower name fills in the farm owner when it was blank.
+
+## 2026.10.8
+
+- Matching page: when one Case field covers several of your paddocks, **Merges** combines them into one paddock with the Case shape and name;
+  the old ones are kept in history. A field that is a new piece of a split paddock shows **Add (split from …)**.
+
+## 2026.10.7
+
+- The matching page lines up your Case / John Deere fields with your paddocks by where they are on the ground, not by name. Each row is one
+  paddock, showing Update, In Core, Add to Core, Merges (several paddocks) or Check (needs you).
+- Updating a paddock from Case takes Case's shape and name and keeps its history.
+- Sync Now shows progress and finishes cleanly instead of looking stuck.
+
+## 2026.10.6
+
+- Merging paddocks now keeps the merged paddock linked to GSM, so GSM updates its record instead of adding a new one.
+- The matching page no longer shows a Delete button on matched paddocks.
+
+## 2026.10.5
+
+- Map: the **Merge** button works. Pick paddocks, name the result and choose which one to keep. The others are hidden, not deleted.
+- Matching page: each matched paddock asks one question, **Send to GSM** or **Keep GSM's**. Push all skips paddocks set to Keep GSM's.
+
+## 2026.10.4
+
+- Security: a library Farm uses for web requests updated to fix three published vulnerabilities. No visible change.
+
+## 2026.10.3
+
+- Internal: Farm's security alerts are now delivered to the PaddiSense operator. No visible change.
+
+## 2026.10.2
+
+- Internal: if PaddiSense cannot accept a security alert from Farm, Farm now records that it was refused. No visible change.
+
+## 2026.10.1
+
+- Internal: Farm's daily security summary and security alerts are now handed off correctly — before, some were silently never sent. No visible change.
+
 ## 2026.9.49
 
 - A Farm Owner or PaddiSense Administrator can always open Farm, exactly as PaddiSense Core allows — even if "all modules" was not ticked for them.

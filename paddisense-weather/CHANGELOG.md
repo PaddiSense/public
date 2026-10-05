@@ -1,5 +1,19 @@
 # PaddiSense Weather — What's New
 
+## 2026.10.4
+
+**Weather keeps polling through a short Home Assistant hiccup.** If the farm's location can't be read for a moment, Weather
+uses the location it last read instead of skipping that update. Rain totals now retry calmly after an outage, not every 5 minutes.
+
+## 2026.10.3
+
+**MAIN button.** The Weather home screen has a MAIN button at the top left that takes you to your PaddiSense start
+page. Admins also get Burn Rules, System Status and Audit Log tiles on the phone, and the tiles are bigger.
+
+## 2026.10.2
+
+On an iPad or an Android tablet you now get the full desktop pages instead of the phone layout. Phones are unchanged.
+
 ## 2026.10.1
 
 - Colours updated to match the rest of PaddiSense.

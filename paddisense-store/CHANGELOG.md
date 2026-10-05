@@ -1,5 +1,14 @@
 # PaddiSense Store — What's New
 
+## 2026.10.2
+
+**MAIN button.** The Store home screen has a MAIN button at the top left that takes you straight to your PaddiSense
+start page, to open your other apps.
+
+## 2026.10.1
+
+On an Android tablet you now get the full desktop pages instead of the phone layout. iPads and phones are unchanged.
+
 ## 2026.9.10
 
 **Using more than the stock on record no longer blocks you.** If you use 100 L but Store only had 60 L on record, the Use

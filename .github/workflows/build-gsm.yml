@@ -238,13 +238,14 @@ jobs:
             ${{ env.IMAGE_BASE }}/${{ matrix.arch }}-gsm-server:latest
           cache-from: type=gha,scope=gsm-server-${{ matrix.arch }}
           cache-to:   type=gha,scope=gsm-server-${{ matrix.arch }},mode=max
-          provenance: false
-          sbom:       false
 
       # ── R197 image provenance — canonical block (documentation/contracts/R197_PROVENANCE.md;
       #    validated WR-AS-020 / ASM-Pro #77). cosign verify exit = the gate (Rule 192).
-      #    Note: docker/build-push-action's own provenance/sbom flags above are unrelated —
-      #    cosign generates its OWN attestation out-of-band, so they stay false.
+      #    build-push-action's own provenance attestation is left at its DEFAULT, as in every other
+      #    build-*.yml: with it the pushed tag is an OCI image INDEX. `provenance: false` (here since
+      #    09f44e8, 2026-06-13) made GSM the only add-on publishing a bare single-image manifest, which
+      #    `_arch-gate` probes as 404 → every GSM cut read "MISSING" (G, 2026-10-06, Peter: "gsm is the
+      #    only addon that does this — find out why and change it"). cosign still attests out-of-band.
       - name: Install cosign + syft
         uses: sigstore/cosign-installer@v3
 

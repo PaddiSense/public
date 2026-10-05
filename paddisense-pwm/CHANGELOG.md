@@ -1,5 +1,207 @@
 # PaddiSense PWM — What's New
 
+## 2026.10.42
+
+Safety: a pump timer now only says a pump stopped when the board confirms it (and warns loudly when it did not); a scheduled start that was missed while the system was offline is reported, not started hours late; overflow protection is always on once set up; every door, gate and switch command reports whether it actually worked.
+
+## 2026.10.41
+
+Everything looks and works the same way on every page: one door button, one pump button (grey when off), AUTO / MANUAL,
+"Save" or "Save to board", one button size. The Home bar stays at the top while you scroll. The Paddocks page shows All plus
+your enabled paddocks. Sensor and water-balance alerts only come when something is running — overflow protection still alerts
+in every mode.
+
+## 2026.10.40
+
+Device Setup shows one tile per thing on the board — Board, Actuators, Sensors, Relays, Pump — with everything for it in one place. Each board card is green when online and up to date, orange when offline, red when it needs flashing. Every +/− button is the same size.
+
+## 2026.10.39
+
+A bay drained only through its second door now shows its drain button.
+
+## 2026.10.38
+
+Phone and computer now show the same thing on every setup page. Each bay lists its own gates (a gate shared by two bays shows
+in both). The drain button is back on the last bay. Auto Demand is one tap-to-toggle button everywhere. On the phone you can
+open, stop or close a channel gate from the map, rename a channel and refresh from ESPHome; on the computer you can keep
+channel notes and see a pump's Live Status.
+
+## 2026.10.37
+
+Pump Setup → Live Settings looks the same on phone and computer, and the ±5 buttons now add up (press +5 three times for 15 cm). The dry-run minimum is set there; Device Setup shows it.
+
+## 2026.10.36
+
+Capture dry zero works on phones and tablets again — it stopped on "Settling…".
+
+## 2026.10.35
+
+Sensor calibration shows a live countdown and tells you when the board is not answering, instead of sitting on "Settling…".
+
+## 2026.10.34
+
+Housekeeping only — no change you will see.
+
+## 2026.10.33
+
+What each person can do in PWM now follows their access in PaddiSense Core — an Operator no longer sees delete and setup
+buttons meant for the farm owner. A channel gate's overflow level is set in one place, Channel Setup (the Channels page shows
+it). The Notifications page is now W12.
+
+## 2026.10.32
+
+A bay's second door can have its own part-open position — hold its button on the paddock map, as for the first door.
+
+## 2026.10.31
+
+Logs now hide one more kind of secret (GSM connection codes).
+
+## 2026.10.30
+
+Notifications, Trace and Licence are one page on phone and desktop — the notification list shows who each group alerts again;
+moving a map badge tells you if it did not save; a relay whose state is unknown can't be pressed.
+
+## 2026.10.29
+
+Adding a gate, a channel or a service item now works on phones and tablets; buttons are one size and colour everywhere;
+buttons that can't work on a board are no longer shown; the channel page keeps your gate order on the phone too.
+
+## 2026.10.28
+
+Tidier and more consistent on phone and desktop: the same controls behave the same everywhere, buttons only appear where
+they can work, a failed sensor shows LOOP FAULT on the channel page too, and you can add a channel from your phone.
+
+## 2026.10.27
+
+Safer and clearer: the pump's low-supply check before a start works again; a bay whose sensor has failed now shows SUSPECT or
+LOOP FAULT instead of a number; the map, the automation page and the automation all agree on each bay's state and band; fewer
+repeated alerts and log lines; the Beep button only appears on boards that have a beeper.
+
+## 2026.10.26
+
+The PWM home screen on your phone has a MAIN button at the top that takes you straight back to the PaddiSense start page.
+
+## 2026.10.25
+
+Buttons and tiles are a consistent, easier-to-tap size on phones.
+
+## 2026.10.24
+
+Safer pump stops, and every page now shows the same state for each board, door and pump. The Wi-Fi-loss setting is one
+setting per board, changed on the gate or pump it controls. Map icons show their colour straight away, buttons are a
+consistent size, and two-door rows are square on a phone.
+
+## 2026.10.23
+
+Setup tiles are all the same size, and a board's capacity (relays and inputs used and free) is now a clear table.
+
+## 2026.10.22
+
+Device Setup: tap a board and every job is one tile away — sensor calibration, raw data, outputs test, board info,
+settings backup and more. Dry zero capture now shows clearly that it is working.
+
+## 2026.10.21
+
+A bay with a second door board can now show that board's water level on the map — turn it on per bay in the map's
+Sensor Config (off by default). The bay's own level still comes from its drain board. A newly flashed board that has
+not been added in Home Assistant now says so ("flashed — add in HA") instead of "not flashed".
+
+## 2026.10.20
+
+Device Setup is now one page on phone and desktop: tap a board to see its live readings and its six setup tiles, then
+one job per tile. Gate calibration on the phone now has the typed travel time too. Diagnostics & Logs now sits below Notifications on the home page.
+
+## 2026.10.19
+
+Buttons and filters fit phones better.
+
+## 2026.10.18
+
+**Tidy-up**: removed two old pump settings that had no screen, and depth offsets are now only set on the board.
+
+## 2026.10.17
+
+**Sensor problems alert, they don't stop watering**: if a depth sensor stops reporting you get an alert, and PWM leaves
+the doors and pumps as they are.
+Buttons are bigger on phones and tablets so they are easier to press.
+
+## 2026.10.16
+
+**Safer sensor reading**: a reading PWM cannot date is now treated as out of date, never as fine.
+
+## 2026.10.15
+
+Behind the scenes: groundwork so every screen shows a door's position the same way the automation reads it.
+
+## 2026.10.14
+
+**Safer sensor watching**: if the depth reading from a bay's drain board stops, you now get a Sensor Offline alert and
+the supply is closed while the bay is filling — before, this went unnoticed on the standard setup. A door that is part
+open now counts as open when PWM checks where the water is going, so you won't get a false BLOW OUT RISK.
+
+## 2026.10.13
+
+**Shorter, clearer alerts**: ABOVE MAX, BACK BELOW MAX, BAY STARVED, FIRST FILL STALLED, BLOW OUT RISK and NO FLOW
+DETECTED — the title says what happened, the message says which bay. **Close supply** now closes only the paddock's
+own supply, not the doors between bays. In Pond a bay's second door stays shut. Two actuators on one gate move together.
+
+## 2026.10.12
+
+**Clearing a door by hand**: when you move a bay door yourself (on the map, the device page or the switch on the board),
+the automation leaves that door and its partner door alone for 10 minutes, then puts them back where they should be.
+**Map rows line up**: the Flush / Pond / Off button is the same width on every row of a paddock.
+
+## 2026.10.11
+
+**Pond response times per bay**: on the map's settings panel, **Sensor Config** (was Sensor Calibration) now lets you
+set for each bay how long the water must stay below min before the supply opens, how long above min before it closes,
+and the starvation time. Raise them if waves or a water bulge cause false triggers. **Two-door bays** show the door
+number above the button name.
+
+## 2026.10.10
+
+**Second doors on the map**: a bay with a second supply or drain door now shows a second button beside the first
+(marked ②), so you can open and close it by hand. On a phone, when a bay row also has its Flush / Pond / Off button,
+the mode shows as F / P / OFF to leave room for the names.
+
+## 2026.10.9
+
+**Water Chain**: a gate or bay you set up while the Water Chain page is open now appears in its "+ place…" list
+as soon as you press Edit — no page reload needed.
+
+## 2026.10.8
+
+**Ganged gates on the map**: tapping a door on a board whose two actuators are ganged now moves both of them, not just
+the first.
+
+## 2026.10.7
+
+**Support logs**: when PWM finds a stored setting it does not recognise, the log now names exactly which one, so support
+can find it quickly. Nothing on your farm changes.
+
+## 2026.10.6
+
+**Bays with two doors**: a bay's second supply or drain door now moves with its first door in Flush, and closes with it
+in Pond. A door that joins two bays is driven by the bay it supplies, so "zig-zag" layouts work without the doors
+fighting.
+
+**Water from another paddock**: a paddock's first bay can be fed from another paddock's drain. That drain only opens
+while the bay it feeds is taking water.
+
+**Easier setup**:
+- "Water comes from" says why a bay cannot be chosen, and shows the bay you wired.
+- A channel can be described before its boards are fitted.
+- A water chain card can have as many arrows as fit.
+
+**Pump auto-stop**: turn it on and off on the Pumps page. Pump Setup chooses what it watches, and the mobile Demand
+Control section has its own Save.
+
+**Fixes**:
+- An offline channel gate can no longer be tapped.
+- The phone's dry-zero capture is tidy and shows when it is busy.
+- Pages no longer turn dark with black text on phones in dark mode.
+- Tablets get the full desktop pages.
+
 
 ## 2026.10.5
 

@@ -1,5 +1,26 @@
 # PaddiSense Farm — What's New
 
+## 2026.10.54
+
+**Editing a bay, crop zone or paddock works again.** On the map, Edit now shows the corner points so you can drag them, then Save.
+A bay made of two separate pieces says so, instead of doing nothing.
+
+## 2026.10.53
+
+- Import Hub: the map preview no longer errors when it can't show existing crop zones; it simply shows none.
+
+## 2026.10.52
+
+- Behind the scenes: Farm writes a short, read-only health summary that PaddiSense's monitoring can read (no farm data leaves the box).
+
+## 2026.10.51
+
+- Removed leftover references to SugarSense, which is no longer part of PaddiSense.
+
+## 2026.10.50
+
+- Behind the scenes: Farm no longer copies database dumps to an off-site repository each night. That job has been retired.
+
 ## 2026.10.49
 
 - On a phone, Farm's home screen has the same top bar as every other page. Its MAIN button takes you straight back to the PaddiSense start page, with no reload.

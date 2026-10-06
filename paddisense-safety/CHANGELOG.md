@@ -1,5 +1,43 @@
 # PaddiSense Safety — What's New
 
+## 2026.10.9
+
+**The phone top bar matches the other PaddiSense apps.** MAIN (or Home) and the page title stay at the top while you scroll, and the
+page number now sits in the bar.
+
+## 2026.10.8
+
+**Pages always show the latest version.** After an update, your browser could keep showing the old Safety screens until you cleared its
+cache. Safety now tells the browser to fetch each page fresh.
+
+## 2026.10.7
+
+Logs now hide one more kind of secret (GSM connection codes).
+
+## 2026.10.6
+
+If a phone stops receiving Safety alerts, Home Assistant now shows a notice saying which phone and why, so it can be fixed.
+
+## 2026.10.5
+
+On your phone, Worker Safety has a MAIN button that takes you back to the PaddiSense start page, and the Notifications and Config pages have a Home button.
+
+## 2026.10.4
+
+Buttons and tiles are a consistent, easier-to-tap size on phones.
+
+## 2026.10.3
+
+Buttons and filters fit phones better.
+
+## 2026.10.2
+
+Buttons are bigger on phones and tablets so they are easier to press.
+
+## 2026.10.1
+
+On an iPad or an Android tablet you now get the full desktop pages instead of the phone layout. Phones are unchanged.
+
 ## 2026.9.10
 
 **New PaddiSense colours, and easier to read at a glance.** Safety now uses the new light grey

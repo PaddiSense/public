@@ -1,5 +1,27 @@
 # PaddiSense PWM — What's New
 
+## 2026.10.47
+
+Security: licence checks are stricter about which signing keys they trust. Includes everything in 2026.10.46.
+
+## 2026.10.46
+
+Paddock setup is built in one place: the gate cards. Each gate says which bays it serves, where its water comes from (now including "Not automated" for a channel PWM does not run) and which bay its sensor reads. The bay card simply shows what the gates set up — its order, where its water comes from and goes, and which board reads its depth. If an older setting on a bay disagreed with its gate, the bay card says so and lets you settle it.
+
+Depth sensors: an empty bay no longer shows LOOP FAULT. A sensor is only flagged when its signal is truly dead, and a depth below zero now reads 0 cm instead of a negative number. Reflash each board in ESPHome to get this.
+
+## 2026.10.45
+
+Each actuator now has a Forward / Reverse direction in Device Setup. If an actuator runs backwards (Open closes it), set it to Reverse, save, and flash the board — no re-wiring. Then run one full Close and check Open and Close with the Test buttons. Also: a door commanded fully open now stops at its set travel time, so a travel set short of the full stroke is never over-run (the manual switches can still go further when you are fault-finding).
+
+## 2026.10.44
+
+Far fewer alerts: a sensor that drops out sends one alert (and one "back online"), not one an hour, and only while that bay is running. Alerts go only to the people in your notification groups — nobody else in Home Assistant — and every kind of alert can be chosen per group. Groups now list people, not phones: all of a person's phones get it, and tapping an alert opens the right PWM page. New System ON/OFF switch on the Notifications page turns off every alert and all automation in one go. PWM will not arm Flush, Pond, gate Auto or Auto Demand while a sensor it needs is not working.
+
+## 2026.10.43
+
+Every +/− adjuster is one tidy line. In Device Setup each sensor has its own card with its settings and its live offset together, and a board with one sensor shows one adjustment.
+
 ## 2026.10.42
 
 Safety: a pump timer now only says a pump stopped when the board confirms it (and warns loudly when it did not); a scheduled start that was missed while the system was offline is reported, not started hours late; overflow protection is always on once set up; every door, gate and switch command reports whether it actually worked.

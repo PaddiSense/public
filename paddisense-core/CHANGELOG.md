@@ -3,6 +3,14 @@
 > Plain-English release notes for growers. The full technical changelog lives in the
 > source repo (`CHANGELOG.md`); this is the version that ships in the grower catalog.
 
+## 2026.10.16
+
+Housekeeping: an unused developer data-copy feature was removed. Your nightly encrypted backup is unchanged.
+
+## 2026.10.15
+
+Security: licence checks are stricter about which signing keys they trust. Nothing changes on your screen.
+
 ## 2026.10.14
 
 Logs now hide one more kind of secret (GSM connection codes).

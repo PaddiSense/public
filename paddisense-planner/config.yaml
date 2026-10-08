@@ -1,10 +1,10 @@
 # GENERATED from the source config.yaml by release.sh Step 7 (WR-PS-115).
 # DO NOT hand-edit — any edit is overwritten at the next release.
-# source: PaddiSense/planning@2386c42bb7ba902db4dcec039b631c210e160434
+# source: PaddiSense/planning@5371e145ecb2d0ae2cf001265c3835c27cf0a31b
 # Catalog-only deltas are declared in contracts/catalog-overrides.yaml;
 # contracts/check-catalog-drift.py verifies catalog == source on every release + in CI.
 name: PaddiSense Planner
-version: 2026.9.5
+version: 2026.10.3
 slug: paddisense-planner
 description: PaddiSense Planner — crop rotation, water budgets, input planning
 logo: true

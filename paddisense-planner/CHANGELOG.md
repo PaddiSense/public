@@ -1,5 +1,39 @@
 # PaddiSense Planner — What's New
 
+
+## 2026.10.3
+
+**MAIN button.** The Planner home screen has a MAIN button at the top left that takes you to your PaddiSense start
+page. Project Assumptions and Actuals now have their own tiles on your phone, and the tiles are bigger.
+
+## 2026.10.2
+
+On an iPad or an Android tablet you now get the full desktop pages instead of the phone layout. Phones are unchanged.
+
+## 2026.10.1
+
+- **New look.** Planner now uses the same light grey PaddiSense theme as your other add-ons, replacing the old dark theme. Nothing
+  about your plans, prices or water records changes.
+- This update also brings you the two fixes below (2026.9.7 and 2026.9.8), which had not reached your box yet.
+
+## 2026.9.8
+
+- **🔴 Security: updated a networking library that had two published vulnerabilities.** The
+  other PaddiSense add-ons had already been updated; Planner had been missed. No action is
+  needed on your part.
+
+## 2026.9.7
+
+- **🔴 Fixed: a crop plan could use the wrong commodity price.** The price lookup matched on a
+  partial name, so a price set containing both "Wheat" and "Durum Wheat" could answer "Wheat"
+  with either price, and a blank crop name could pick any price at all. The lookup now matches
+  the commodity exactly, and where a name genuinely is ambiguous it reports no price instead of
+  guessing — so the paddock shows zero income rather than a confident wrong margin.
+
+## 2026.9.6
+
+**Easier to read, and tabs fit a narrow window.** Buttons, tabs and cards now use the new PaddiSense light theme properly, and rows of tabs and buttons wrap instead of squashing when the window is narrow.
+
 ## 2026.9.5
 
 **Security housekeeping.** The part of Planner that hides passwords and keys from its logs has been updated to the

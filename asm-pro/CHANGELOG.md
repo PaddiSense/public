@@ -1,5 +1,116 @@
 # PaddiSense Assets — What's New
 
+## 2026.10.20
+
+**Tidier Config.** The unused "Prestart Categories" list is gone from the Prestart settings. Nothing read it; Templates is the one place
+prestart checklists are set up. Pages now always use the lists you set in Config and never fall back to a built-in copy.
+
+## 2026.10.19
+
+**Hours and km agree everywhere.** The asset page, the reports and Hours Tracking all show the same latest reading, the newest one from a
+prestart or a service. A corrected reading now replaces a mistyped high one in the reports, and machines that only have prestarts now show
+up in Hours Tracking.
+
+**Prestart history on the phone matches the desktop.** You can filter by asset, passed, failed or open issues. Each record shows engine hours,
+km, notes and photos, with a link to its issue or the service that fixed it.
+
+## 2026.10.18
+
+Assets now publishes a small status summary that the PaddiSense support observer can read (no personal data, no passwords).
+
+## 2026.10.17
+
+The same improvements as 2026.10.16 (a small technical correction so it could be released).
+
+## 2026.10.16
+
+**More fixes from the full check.** Monthly prestarts are asked for once a month. Closing a maintenance request clears its
+phone alert either way you do it. Locations are edited in one place, with a code and a move option. The prestart Next button
+no longer stops you over optional items. Only people who can delete see a Delete button.
+
+## 2026.10.15
+
+**Fixes from a full check of the app.** Parts used on a service are now taken off stock. Supervisors and technicians see the
+full lists in every form. Editing a service or part no longer loses its km, type or category. Issue categories are kept. Every
+phone screen now uses the same forms as a computer.
+
+## 2026.10.14
+
+**Your prestart templates are now used.** The checklists you build in Config → Prestart Checklists are what the prestart
+shows, on the phone and on a computer. If you picked a template for a particular machine, that machine now uses it. There is
+one prestart editor in Config.
+
+## 2026.10.13
+
+**Locations are set up in one place.** Sites, areas and storage bins are now added and edited in Config → Locations.
+Supervisors get a Locations tile on the home screen that opens it directly.
+
+## 2026.10.12
+
+**Cleaner phone menus.** Config and System now open like every other screen, with the Home button at the top and no
+slide-out side menu. Home screen and Config tiles are all the same, bigger size.
+
+## 2026.10.11
+
+**MAIN is instant.** Tapping MAIN now goes straight to your start page, without Home Assistant reloading.
+
+## 2026.10.10
+
+**MAIN button.** The Assets home screen now has a MAIN button at the top left, where other screens have Home. It takes
+you to your PaddiSense start page to open your other apps. (It replaces the tile added in 2026.10.9.)
+
+## 2026.10.9
+
+**A PaddiSense button to get to your other apps.** The Assets home screen has a new PaddiSense tile that takes you
+back to your PaddiSense start page, so you can open Water, Farm or any other app without the Home Assistant menu.
+
+## 2026.10.8
+
+**One page for phone and desktop — the lists.** Assets, Locations, Services, Parts, Maintenance and Reports are now the same
+on your phone as on a computer, with thumb-sized buttons and filters that fit the screen. The Assets list gains a
+Location filter. In a maintenance request, the Update button's label is now visible.
+
+## 2026.10.7
+
+**One page for phone and desktop — assets first.** An asset's page and its Services, Prestarts, Maintenance, Parts, Photos,
+Videos and Report pages are now the same on your phone as on a computer, with thumb-sized buttons. You can now delete a
+photo from the photo viewer, and photo uploads from the phone work again. The dashboard has quick-action tiles everywhere.
+
+## 2026.10.6
+
+**Bigger buttons on phones and tablets.** Every button is now thumb-sized on a touch screen, and button labels no longer wrap onto two lines.
+
+## 2026.10.5
+
+**Trial switch.** On an asset page, tap **Try the new single page** to see the trial layout, and **Back to the current page** to return.
+
+## 2026.10.4
+
+**Trial: one asset page for phone and desktop.** For testing only — open an asset with `?layout=single` added to the
+address to see the new single page. Nothing changes unless you add it.
+
+## 2026.10.3
+
+**Prestart checks can be Required or Optional.** In each prestart template you can now tick which checks must be
+answered. An optional check left blank is recorded as N/A and never fails the prestart.
+
+**Engine hours and km are part of the checklist.** The separate hours box on the first prestart screen is gone — the
+Engine Hours / Odometer checks in the list are used instead, and the asset's page now shows the latest hours and km
+(from a prestart or a service, whichever is newer).
+
+## 2026.10.2
+
+On an iPad or an Android tablet you now get the full desktop pages instead of the phone layout. Phones are unchanged.
+
+## 2026.10.1
+
+**Location privacy fix:** a user who can only see one location no longer sees other locations' costs in the summary
+report's "cost by location" table.
+
+## 2026.9.12
+
+**Behind-the-scenes update.** Nothing changes in how you use ASM Pro.
+
 ## 2026.9.11
 
 **Behind-the-scenes update.** Nothing changes in how you use ASM Pro. This update also brings you the improvements listed below since your last update.

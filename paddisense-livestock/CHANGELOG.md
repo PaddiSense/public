@@ -1,5 +1,10 @@
 # PaddiSense Livestock — What's New
 
+## 2026.10.7
+
+**Pages always show the latest version.** After an update, your browser could keep showing the old Livestock screens, with the old
+colours, until you cleared its cache. Livestock now tells the browser to fetch each page fresh.
+
 ## 2026.10.6
 
 **MAIN button.** The Livestock home screen has a MAIN button at the top left that takes you to your PaddiSense start

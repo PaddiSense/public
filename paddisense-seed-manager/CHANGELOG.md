@@ -1,6 +1,19 @@
 # PaddiSense Seed Manager — What's New
 
 
+## 2026.10.3
+
+**MAIN button and a fuller home screen.** The home screen has a MAIN button at the top left that takes you to your
+PaddiSense start page. Movements, Grading, Storage Report and System now have their own tiles on your phone.
+
+## 2026.10.2
+
+**Security update:** a network library (urllib3) updated to fix newly published vulnerabilities. No change to how Seed Manager works.
+
+## 2026.10.1
+
+- Internal: tidy-up of an old, unused settings section. No visible change.
+
 ## 2026.9.13
 
 **New PaddiSense colours on every screen.** Seed Manager now uses the light grey PaddiSense look

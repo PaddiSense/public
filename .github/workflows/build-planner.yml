@@ -144,9 +144,11 @@ jobs:
             tar -xzf trivy.tgz trivy || na "trivy archive unreadable"
           fi
           # exit 10 = fixable findings at the gated severity; any other non-zero = the scan itself failed
+          # GitHub runs this script with `bash -e`: a bare non-zero exit from trivy would end the step HERE, before the
+          # report-only / NOT ASSESSED handling below (found by the WR-PS-819 C3 control run 37996426235: exit code 10).
+          rc=0
           ./trivy image --quiet --platform "$PLATFORM" --scanners vuln --severity "${PS_IMAGE_SCAN_SEVERITY:-HIGH,CRITICAL}" \
-            --ignore-unfixed --exit-code 10 --format table "$IMG"
-          rc=$?
+            --ignore-unfixed --exit-code 10 --format table "$IMG" || rc=$?
           case "$rc" in
             0)  echo "image CVE scan: no ${PS_IMAGE_SCAN_SEVERITY:-HIGH,CRITICAL} finding with a fix available in $IMG" ;;
             10) if [ "$enforce" = "1" ]; then

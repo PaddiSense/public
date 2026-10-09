@@ -3,6 +3,10 @@
 > Plain-English release notes for growers. The full technical changelog lives in the
 > source repo (`CHANGELOG.md`); this is the version that ships in the grower catalog.
 
+## 2026.10.19
+
+Backups now cover only the apps installed on your box, which stops a false nightly backup-check alarm. SugarSense is no longer offered as a licence option.
+
 ## 2026.10.18
 
 New or late-starting apps now get their tile on the PaddiSense start page within a few minutes, no restart needed. Includes everything in 2026.10.17.

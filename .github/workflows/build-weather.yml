@@ -136,7 +136,7 @@ jobs:
       #    digest, so the amd64 runner scans the aarch64 image without running it.
       #    C1: REPORT-ONLY (PS_IMAGE_SCAN_ENFORCE=0) until this add-on's first report is read and triaged — then "1".
       #    C2: the scanner is a pinned release binary verified by checksum, never a moving action tag.
-      - name: Scan the pushed image for CVEs (trivy image — report-only until triaged)
+      - name: Scan the pushed image for CVEs (trivy image — ENFORCING)
         env:
           IMG: ${{ env.IMAGE_BASE }}/${{ matrix.arch }}-paddisense-weather@${{ steps.build.outputs.digest }}
           PLATFORM: ${{ matrix.platform }}
@@ -144,7 +144,7 @@ jobs:
           TRIVY_SHA256: "c6e65abddb348e25f10549df887045629cf28cc72453cd1c63acb717316b3f3f"
           TRIVY_USERNAME: ${{ github.actor }}
           TRIVY_PASSWORD: ${{ secrets.GITHUB_TOKEN }}
-          PS_IMAGE_SCAN_ENFORCE: "0"
+          PS_IMAGE_SCAN_ENFORCE: "1"   # first report read 2026-10-10 (run 38001928590, both arches: none fixable) — enforcing
           PS_IMAGE_SCAN_SEVERITY: "HIGH,CRITICAL"
         run: |
           set -uo pipefail

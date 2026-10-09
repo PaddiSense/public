@@ -1,5 +1,25 @@
 # PaddiSense PWM — What's New
 
+## 2026.10.52
+
+Door buttons are clearer: both drain doors say "Drain", and the first bay's doors say "B-01 Supply". On a laptop the Paddocks page now scrolls as a whole page, so the map no longer squeezes the buttons into a small box. Safety: a pump will not start (or keep running) while its depth sensor loop is dead — use "Override Low Supply protection" on the pump card to run it anyway. Pump boards need a reflash for this. Includes everything in 2026.10.51.
+
+## 2026.10.51
+
+A depth sensor set below field level (for example in the furrow) now reads below zero again, so you see water coming before it covers the bay. Boards need re-flashing to pick this up. The +/- buttons are the same wide row on every page and phone. Includes everything in 2026.10.50.
+
+## 2026.10.50
+
+If you have more than one farm with a paddock of the same name (say "Blk 2" on two farms), PWM now keeps them as separate paddocks and shows the farm in front of the name everywhere ("7829 · Blk 2"). A paddock that may have been mixed up before asks you on Paddock Setup which farm it belongs to; its bays and gates stay as they are. Single-farm growers see no change. Includes everything in 2026.10.49.
+
+## 2026.10.49
+
+The paddock map no longer shows a working sensor board as "offline": it checks the right board, and shows "--" when it cannot tell instead of guessing. A dry bay's steady 0 cm reading stays live. After you re-zero a depth sensor, the device card now says the board needs flashing, and your new zero is kept when you next save the board. Pop-up forms (like editing a gate) now fit small laptop screens and scroll. Includes everything in 2026.10.48.
+
+## 2026.10.48
+
+Security: each person now gets the PWM rights set for them on the Core Access page, for every action, not only for which buttons they see.
+
 ## 2026.10.47
 
 Security: licence checks are stricter about which signing keys they trust. Includes everything in 2026.10.46.

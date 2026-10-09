@@ -3,6 +3,14 @@
 > Plain-English release notes for growers. The full technical changelog lives in the
 > source repo (`CHANGELOG.md`); this is the version that ships in the grower catalog.
 
+## 2026.10.18
+
+New or late-starting apps now get their tile on the PaddiSense start page within a few minutes, no restart needed. Includes everything in 2026.10.17.
+
+## 2026.10.17
+
+Pressing Restart on the PaddiSense Core page no longer shows an error — it says "Restarting…" and then "Restarted". The PaddiSense start page now adds tiles for newly added apps whenever Core restarts, with bigger icons; existing boxes get the bigger icons on their next Core restart. If you chose a different default dashboard, that choice is kept.
+
 ## 2026.10.16
 
 Housekeeping: an unused developer data-copy feature was removed. Your nightly encrypted backup is unchanged.

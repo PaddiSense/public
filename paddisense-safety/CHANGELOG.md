@@ -1,5 +1,17 @@
 # PaddiSense Safety — What's New
 
+## 2026.10.12
+
+Workers’ phones are no longer pinged for their location overnight or when they are not checked in. Safety alerts are unchanged.
+
+## 2026.10.11
+
+**Access follows Core.** What a person can change here now matches the role you gave them on Core's access page. An Operator can no longer use manager-only actions. A box with no access set up keeps full rights.
+
+## 2026.10.10
+
+**Security.** On your farm, PaddiSense trusts only the licence key it was built with. Another add-on on the same box can no longer add one.
+
 ## 2026.10.9
 
 **The phone top bar matches the other PaddiSense apps.** MAIN (or Home) and the page title stay at the top while you scroll, and the

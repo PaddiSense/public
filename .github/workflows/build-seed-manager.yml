@@ -114,6 +114,48 @@ jobs:
           cache-from: type=gha,scope=paddisense-seed-manager-${{ matrix.arch }}-${{ steps.cachemonth.outputs.m }}
           cache-to: type=gha,scope=paddisense-seed-manager-${{ matrix.arch }}-${{ steps.cachemonth.outputs.m }},mode=max
 
+      # ── WR-PS-819 row 1 (R155) — scan the IMAGE JUST PUSHED, this arch's own digest (Peter ruled option (b) 2026-10-02;
+      #    P prior sign-off 2026-10-10, C1-C3). Nothing scanned the built image before: the SBOM below reads the build
+      #    CONTEXT, so the base image's OS packages were covered by nothing. Trivy reads the registry manifest for the
+      #    digest, so the amd64 runner scans the aarch64 image without running it.
+      #    C1: REPORT-ONLY (PS_IMAGE_SCAN_ENFORCE=0) until this add-on's first report is read and triaged — then "1".
+      #    C2: the scanner is a pinned release binary verified by checksum, never a moving action tag.
+      - name: Scan the pushed image for CVEs (trivy image — report-only until triaged)
+        env:
+          IMG: ${{ env.IMAGE_BASE }}/${{ matrix.arch }}-paddisense-seed-manager@${{ steps.build.outputs.digest }}
+          PLATFORM: ${{ matrix.platform }}
+          TRIVY_VERSION: "0.75.0"
+          TRIVY_SHA256: "c6e65abddb348e25f10549df887045629cf28cc72453cd1c63acb717316b3f3f"
+          TRIVY_USERNAME: ${{ github.actor }}
+          TRIVY_PASSWORD: ${{ secrets.GITHUB_TOKEN }}
+          PS_IMAGE_SCAN_ENFORCE: "0"
+          PS_IMAGE_SCAN_SEVERITY: "HIGH,CRITICAL"
+        run: |
+          set -uo pipefail
+          enforce="${PS_IMAGE_SCAN_ENFORCE:-0}"
+          na() {   # the scan could not run: never a pass — blocks when enforcing, a loud warning while report-only
+            echo "::warning::image CVE scan NOT ASSESSED for $IMG — $1"
+            [ "$enforce" = "1" ] && { echo "::error::image CVE scan could not run and this add-on ENFORCES it"; exit 1; }
+            exit 0
+          }
+          if [ ! -x ./trivy ]; then
+            curl -fsSL --retry 3 -o trivy.tgz "https://github.com/aquasecurity/trivy/releases/download/v${TRIVY_VERSION}/trivy_${TRIVY_VERSION}_Linux-64bit.tar.gz" || na "trivy download failed"
+            echo "${TRIVY_SHA256}  trivy.tgz" | sha256sum -c - || { echo "::error::trivy checksum mismatch — refusing to run an unverified scanner"; exit 1; }
+            tar -xzf trivy.tgz trivy || na "trivy archive unreadable"
+          fi
+          # exit 10 = fixable findings at the gated severity; any other non-zero = the scan itself failed
+          ./trivy image --quiet --platform "$PLATFORM" --scanners vuln --severity "${PS_IMAGE_SCAN_SEVERITY:-HIGH,CRITICAL}" \
+            --ignore-unfixed --exit-code 10 --format table "$IMG"
+          rc=$?
+          case "$rc" in
+            0)  echo "image CVE scan: no ${PS_IMAGE_SCAN_SEVERITY:-HIGH,CRITICAL} finding with a fix available in $IMG" ;;
+            10) if [ "$enforce" = "1" ]; then
+                  echo "::error::image CVE scan: fixable ${PS_IMAGE_SCAN_SEVERITY:-HIGH,CRITICAL} finding(s) in $IMG (table above) — rebuild on a patched base or bump the package"; exit 1
+                fi
+                echo "::warning::image CVE scan (REPORT-ONLY, WR-PS-819 C1): fixable ${PS_IMAGE_SCAN_SEVERITY:-HIGH,CRITICAL} finding(s) in $IMG — table above. Not blocking until triaged." ;;
+            *)  na "trivy exited $rc" ;;
+          esac
+
       # ── R197 image provenance — canonical block (documentation/contracts/R197_PROVENANCE.md;
       #    validated WR-AS-020 / ASM-Pro #77). cosign verify exit = the gate (Rule 192).
       - name: Install cosign + syft

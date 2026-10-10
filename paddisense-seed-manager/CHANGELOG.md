@@ -1,6 +1,17 @@
 # PaddiSense Seed Manager — What's New
 
 
+## 2026.10.5
+
+**Opens reliably from Home Assistant.** A brief network hiccup on the box could stop this add-on opening from the Home Assistant
+sidebar for up to five minutes. It now recovers within seconds.
+
+**Security updates.** The system software underneath this add-on is refreshed with three months of security fixes.
+
+## 2026.10.4
+
+**Security.** On your farm, PaddiSense trusts only the licence key it was built with. Another add-on on the same box can no longer add one.
+
 ## 2026.10.3
 
 **MAIN button and a fuller home screen.** The home screen has a MAIN button at the top left that takes you to your

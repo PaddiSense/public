@@ -1,5 +1,24 @@
 # PaddiSense Planner — What's New
 
+## 2026.10.7
+
+**Opens reliably from Home Assistant.** A brief network hiccup on the box could stop this add-on opening from the Home Assistant
+sidebar for up to five minutes. It now recovers within seconds.
+
+**Security updates.** The system software underneath this add-on is refreshed with three months of security fixes.
+
+## 2026.10.6
+
+**The crop plan you draw in Farm now fills the paddock plan here.** On the Crop Plan page, choose one of Farm's crop plans and press "Populate from Farm crop plan". Each paddock gets one row per crop with the hectares Farm planned — so part of a paddock, or a second crop in the same year, is budgeted on its own area. The wet and dry scenarios can each take a different Farm plan. Crops and hectares on those rows are Farm's: change them in Farm and populate again. The costs you set here are kept. Needs Farm 2026.10.69 or later.
+
+
+## 2026.10.5
+
+**Access follows Core.** What a person can change here now matches the role you gave them on Core's access page. An Operator can no longer use manager-only actions. A box with no access set up keeps full rights.
+
+## 2026.10.4
+
+**Security.** On your farm, PaddiSense trusts only the licence key it was built with. Another add-on on the same box can no longer add one.
 
 ## 2026.10.3
 

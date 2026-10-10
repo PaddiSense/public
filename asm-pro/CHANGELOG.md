@@ -1,5 +1,21 @@
 # PaddiSense Assets — What's New
 
+## 2026.10.23
+
+**Opens reliably from Home Assistant.** A brief network hiccup on the box could stop this add-on opening from the Home Assistant
+sidebar for up to five minutes. It now recovers within seconds.
+
+**Security updates.** The system software underneath this add-on is refreshed with three months of security fixes.
+
+## 2026.10.22
+
+**Config works again.** Since 2026.10.16 nothing on the Config page responded: lists, sites, prestart templates and users could not be opened
+or saved. That is fixed. No other page was affected, and nothing you entered was lost.
+
+## 2026.10.21
+
+**Security.** On your farm, PaddiSense trusts only the licence key it was built with. Another add-on on the same box can no longer add one.
+
 ## 2026.10.20
 
 **Tidier Config.** The unused "Prestart Categories" list is gone from the Prestart settings. Nothing read it; Templates is the one place

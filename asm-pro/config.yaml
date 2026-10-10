@@ -1,10 +1,10 @@
 # GENERATED from the source config.yaml by release.sh Step 7 (WR-PS-115).
 # DO NOT hand-edit — any edit is overwritten at the next release.
-# source: PaddiSense/ASM-Pro@44331d024a22f1ccb00912c09607812978d39a50
+# source: PaddiSense/ASM-Pro@8c4ccec0bd323e6f58d190efd3b43f2e0dff2e84
 # Catalog-only deltas are declared in contracts/catalog-overrides.yaml;
 # contracts/check-catalog-drift.py verifies catalog == source on every release + in CI.
 name: PaddiSense Assets
-version: 2026.10.20
+version: 2026.10.23
 slug: asm-pro
 description: PaddiSense Assets — asset management, maintenance tracking, and parts
   inventory

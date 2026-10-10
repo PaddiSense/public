@@ -1,5 +1,34 @@
 # PaddiSense Store — What's New
 
+## 2026.10.7
+
+**Opens reliably from Home Assistant.** A brief network hiccup on the box could stop this add-on opening from the Home Assistant
+sidebar for up to five minutes. It now recovers within seconds.
+
+**Security updates.** The system software underneath this add-on is refreshed with three months of security fixes.
+
+## 2026.10.6
+
+Behind-the-scenes security update to how licences are checked. Nothing changes on screen.
+
+## 2026.10.5
+
+Behind-the-scenes security update to how licences are checked. Nothing changes on screen.
+
+## 2026.10.4
+
+Behind-the-scenes update: the pinned top bar now comes from the shared PaddiSense theme, so it looks the same in every app.
+
+## 2026.10.3
+
+**The top bar stays put on your phone.** Home and the page name stay at the top of the screen while you scroll.
+
+**Use Stock is simpler.** The All / Cropping / Livestock and category filters are gone; just type the product name. A new
+**Location** box then lists only the places that product is actually stored, with how much is there. If it is only in one
+place, that place is already picked.
+
+**The Store page no longer lists empty products under a location.** Picking a location now shows only what is in stock there.
+
 ## 2026.10.2
 
 **MAIN button.** The Store home screen has a MAIN button at the top left that takes you straight to your PaddiSense

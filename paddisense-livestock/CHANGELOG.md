@@ -1,5 +1,20 @@
 # PaddiSense Livestock — What's New
 
+## 2026.10.10
+
+**Opens reliably from Home Assistant.** A brief network hiccup on the box could stop this add-on opening from the Home Assistant
+sidebar for up to five minutes. It now recovers within seconds.
+
+**Security updates.** The system software underneath this add-on is refreshed with three months of security fixes.
+
+## 2026.10.9
+
+**Access follows Core.** What a person can change here now matches the role you gave them on Core's access page. An Operator can no longer use manager-only actions. A box with no access set up keeps full rights.
+
+## 2026.10.8
+
+**Security.** On your farm, PaddiSense trusts only the licence key it was built with. Another add-on on the same box can no longer add one.
+
 ## 2026.10.7
 
 **Pages always show the latest version.** After an update, your browser could keep showing the old Livestock screens, with the old

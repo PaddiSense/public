@@ -3,6 +3,35 @@
 > Plain-English release notes. The full technical changelog lives in the source repo
 > (`CHANGELOG.md`); this is the version that ships in the catalog.
 
+## 2026.10.59
+
+**Buttons and fields on your phone follow the new PaddiSense look** — larger, easier to tap.
+
+## 2026.10.58
+
+**Applying a grower's paddock no longer retires its neighbours.** A neighbouring paddock that only overlaps the new shape at the edge is now left as it is. Only a paddock the new shape actually replaces is retired, and it stays in history.
+
+## 2026.10.57
+
+**Security update underneath.** The system software this add-on is built on is refreshed with current security fixes. Nothing changes on screen.
+
+## 2026.10.56
+
+**Recording an event on the map is tidier.** A fertiliser no longer asks for water rate, products are picked from the product list, and the boxes sit several to a row.
+
+## 2026.10.55
+
+**Opens reliably from Home Assistant.** A brief network hiccup on the box could stop this add-on opening from the Home Assistant
+sidebar for up to five minutes. It now recovers within seconds.
+
+## 2026.10.54
+
+- Security: tightened which licence signing keys GSM will trust.
+
+## 2026.10.53
+
+- Stopped a false "Self-test run had failures" alert that repeated every 6 hours once paddocks had been redrawn in Farm.
+
 ## 2026.10.52
 
 - Removed leftover references to SugarSense, which is no longer part of PaddiSense.

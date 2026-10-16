@@ -1,5 +1,65 @@
 # PaddiSense Safety — What's New
 
+## 2026.10.20
+
+**A network hiccup inside the box can no longer lock you out.** If the box briefly could not look up Home Assistant's address, the add-on
+stopped trusting it and sent everyone to the login page until the lookup worked again. It now keeps the last address that worked.
+
+## 2026.10.19
+
+**The worker board works without the internet.** The board used to fetch its map tool from an outside website every time it opened;
+if that site could not be reached — the farm's internet down, a phone on Wi-Fi with no data — the board stayed on "Loading…" and
+showed no workers. Now the workers and their states always load first, and PaddiSense carries the map tool itself. If the map
+cannot start, its box says "Map unavailable" and everything else works. (The map's background imagery still needs the internet.)
+
+## 2026.10.18
+
+**The worker board now shows "Connection Lost".** If a worker's phone stops reporting for more than 15 minutes, their tile on the
+board and on the kiosk now says **Connection Lost — Last seen 20m ago**. Until now the desktop board and the kiosk never showed it
+(the alert to your phone was working; the board was not). The phone board shows it too, for the first time.
+
+**A worker PaddiSense cannot locate is never shown as OK.** A checked-in worker whose phone has sent no readable location reads
+**Signal Unknown**; a worker between zones with no position reads **Unknown — Not at known location**.
+
+**Time on site and "minutes left" on a pause** show again on the board and kiosk.
+
+**Notification group buttons** (Edit · Test · Delete) fill their row on a phone instead of standing tall and narrow.
+
+## 2026.10.17
+
+**A security fix in how logs are cleaned.** One specially shaped request could make the add-on stall while it tidied a log line. The
+shared log-cleaning code is now bounded, so it cannot. Nothing changes in how you use the add-on.
+
+## 2026.10.16
+
+**Safety now uses the fleet's one theme.** Buttons, popups and notes look and size the same as in every other PaddiSense add-on. On
+a phone the buttons are the standard 105 px with readable 16 px text (some were tall with tiny 12 px text), and a popup holds the
+page behind it still. The worker status tiles and the I NEED HELP, tracking and pause controls are unchanged.
+
+## 2026.10.15
+
+**Told when a worker's phone goes quiet.** If a worker on shift has tracking turned on and their phone stops sending its location for
+15 minutes, even though Safety asked for it, the primary contact gets one alert: "No location from <worker>". Before, Safety paused
+that worker's safety check without telling anyone.
+
+**Manager Mode follows your access.** The Manager Mode button now appears only for people Core gives Manager or Admin access. The PIN
+is still asked for on a shared phone.
+
+## 2026.10.14
+
+**Alerts follow the person, not the phone.** In Notifications and in Config you can now pick a person from Home Assistant. Safety
+alerts reach every phone that person has, as Home Assistant names it at the time. Renaming a phone or getting a new one no longer
+stops safety alerts. Phones you picked before are moved to their owner automatically, a few minutes after the add-on starts.
+
+**No more failing retries.** An alert is no longer sent again and again to a phone Home Assistant has removed.
+
+## 2026.10.13
+
+**Opens reliably from Home Assistant.** A brief network hiccup on the box could stop this add-on opening from the Home Assistant
+sidebar for up to five minutes. It now recovers within seconds.
+
+**Security updates.** The system software underneath this add-on is refreshed with three months of security fixes.
+
 ## 2026.10.12
 
 Workers’ phones are no longer pinged for their location overnight or when they are not checked in. Safety alerts are unchanged.

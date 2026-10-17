@@ -1,5 +1,31 @@
 # PaddiSense Assets — What's New
 
+## 2026.10.28
+
+**Security update.** The add-on's system packages are now brought up to date when it is built, including a fix for a flaw in an
+image library. Nothing you see changes.
+
+## 2026.10.27
+
+**A network hiccup inside the box can no longer lock you out.** If the box briefly could not look up Home Assistant's address, the add-on
+stopped trusting it and sent everyone to the login page until the lookup worked again. It now keeps the last address that worked.
+
+## 2026.10.26
+
+**A security fix in how logs are cleaned.** One specially shaped request could make the add-on stall while it tidied a log line. The
+shared log-cleaning code is now bounded, so it cannot. Nothing changes in how you use the add-on.
+
+## 2026.10.25
+
+**One look across PaddiSense.** Assets now uses the same buttons, tiles and plus and minus keys as the other PaddiSense apps. Buttons on the
+phone are bigger and easier to hit, and filter boxes no longer make the screen zoom.
+
+## 2026.10.24
+
+**Prestarts always use the current checklist.** If a prestart template was changed in Config, a phone or computer that had already
+started (or part-saved) a prestart for that machine could keep asking the old questions. Every prestart now loads the current
+checklist; answers already given for questions that are still on it are kept.
+
 ## 2026.10.23
 
 **Opens reliably from Home Assistant.** A brief network hiccup on the box could stop this add-on opening from the Home Assistant

@@ -1,5 +1,29 @@
 # PaddiSense Livestock — What's New
 
+## 2026.10.15
+
+**Fewer false warnings in the log.** Livestock's check of your paddocks with Farm no longer sends a header Farm treated as suspicious, so
+Farm stops logging an "untrusted peer" warning each time. Nothing you see changes.
+
+## 2026.10.14
+
+**A network hiccup inside the box can no longer lock you out.** If the box briefly could not look up Home Assistant's address, the add-on
+stopped trusting it and sent everyone to the login page until the lookup worked again. It now keeps the last address that worked.
+
+## 2026.10.13
+
+**A security fix in how logs are cleaned.** One specially shaped request could make the add-on stall while it tidied a log line. The shared
+log-cleaning code is now bounded, so it cannot. Nothing changes in how you use the add-on.
+
+## 2026.10.12
+
+**One look across PaddiSense.** Livestock now uses the same buttons, fields and home screen as the other PaddiSense apps. On a phone the
+buttons are bigger and easier to hit, text fields no longer make the screen zoom when you tap them, and the home screen shows one tile per row.
+
+## 2026.10.11
+
+**Buttons match your access.** A button only the farm owner can use is no longer shown to other users. Nothing changes for the farm owner.
+
 ## 2026.10.10
 
 **Opens reliably from Home Assistant.** A brief network hiccup on the box could stop this add-on opening from the Home Assistant

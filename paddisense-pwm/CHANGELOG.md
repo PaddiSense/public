@@ -1,5 +1,704 @@
 # PaddiSense PWM — What's New
 
+## 2026.10.153
+
+**Channels**
+- Going back from a gate to its channel on a computer works again.
+
+## 2026.10.152
+
+**Paddocks**
+- The Paddocks page on a computer now works exactly like the phone's.
+- A bay that was deleted in Farm shows a warning and a Delete button right on that bay.
+- Paddock names no longer cover bay names on the map.
+
+## 2026.10.151
+
+**Alerts**
+- The short alert wording set on the development box is now the wording every grower gets.
+
+## 2026.10.150
+
+**Development only**
+- The alert wording editor saves again, and says exactly which alert needs fixing if it can't.
+
+## 2026.10.149
+
+**Alerts**
+- You are told if saving Pump Setup switches Auto Demand off, and if a scheduled start was dropped because the System was off.
+- An overflow alert lists everything it did (gates opened or closed, pumps stopped).
+- "Waiting for water" alerts no longer say Flush when it is a Pond.
+
+## 2026.10.148
+
+**Pond**
+- If a supply Pond wants open is closed (by hand, by the board, or because the channel dropped), Pond opens it again — like Flush.
+- You are told when the channel is too low to supply the paddock, or can't be read.
+- A bay over its maximum always drains, even if the bay below can't be read.
+
+## 2026.10.147
+
+**Flush**
+- When a bay is waiting on something, it says what — on the Flush Timers card and the Automation page (e.g. "Time's up — refilling to min").
+- "Waiting" messages now give the real reason (e.g. "top bay unreadable").
+
+## 2026.10.146
+
+**Sensors**
+- A sensor that drifts or bobs no longer stops the automation — you get an alert to check it, and the bay keeps running.
+
+## 2026.10.145
+
+**Pumps and channels**
+- The pump card, Pump Setup and the channel pages on a computer now work exactly like the phone's.
+- The shutdown timer steps by 15 minutes or 3 hours.
+- Schedule Start always has a Clear button.
+
+## 2026.10.144
+
+**Browser**
+- The Automation page on a computer shows what is running the same way as the phone. Flush and Pond settings live in one place: the map → a paddock → Settings.
+
+## 2026.10.143
+
+**Browser**
+- The map page on a computer now works exactly like the phone's.
+
+**Paddock setup**
+- Gate icons show whether a gate is ready for water: blue = connected and has a board, red = not ready. One arrow = single gate, two = dual.
+- Editing a gate shows the bay names in full.
+
+## 2026.10.142
+
+**Notifications**
+- Alerts on your phone are short: what is wrong and where to look (e.g. "BLOW OUT RISK — Check K09 B-02").
+- Each alert can be Critical — it cuts through Focus / Do Not Disturb — or Normal. Set it per alert on the Notifications page.
+
+## 2026.10.141
+
+**Map — paddock Settings**
+- Every +/- control is the same: + buttons on top, the number, − buttons underneath, big buttons for a thumb.
+- Each bay is its own boxed section with its name as a centred heading; Min and Max numbers are boxed.
+- Opening a paddock leaves more room round the edge so no icon is cut off.
+
+## 2026.10.140
+
+**Burst / blow-out watch**
+- Every bay in Flush or Pond is now watched for a bank that may have failed — there is no switch to turn on. Each bay has a "Settle after door closes" time (default 10 min) beside its Pond response times.
+
+**Flush**
+- When a Flush finishes its cycle it now does what "When the Automation Ends" (was "When switched Off") says for the doors. A door it could not close is an alert.
+- Pressing a bay's offset no longer pauses the bay as a "venting fault".
+
+**Map**
+- Bay, channel, gate and pump icons move only after you hold them for 2 seconds. On the All map a tap no longer jumps to a paddock.
+- Paddock Settings: clearer section headings and arrows; the +/- buttons are all one size.
+
+**Phone**
+- The Automation page shows what is running now — each Flush, Pond and gate on Auto, the step it is at, and its last decisions.
+- The pump fuel gauge shows the hours left at the pump's usage.
+
+## 2026.10.139
+
+**Map — paddock Settings**
+- Four sections: Water Depth (open first), Sensor Adjustment, Automation Actions, and Flush Timers while flushing — each bay clearly headed inside.
+
+## 2026.10.138
+
+**Map — paddock Settings**
+- The Channel supply offset can be changed again (it was locked whenever the board's debug logging was off).
+- "End of Flush Action" now holds the trigger bay, the close delay and what the doors do when switched Off.
+- Bay cards are coloured: green done, blue flushing, grey waiting.
+
+## 2026.10.137
+
+**Map — paddock Settings**
+- Each bay is its own card, closed until you tap it, with a one-line summary. The page remembers which ones you left open.
+- A Min or Max you change now stays on screen.
+
+## 2026.10.136
+
+**Flush**
+- "Done — skip" on a bay in a running flush marks it finished so the next bay takes its turn — handy when restarting a flush part-way through.
+- A bay's Min can be set as low as -10 cm, so a bay can count as full earlier.
+
+## 2026.10.135
+
+**Map**
+- A bay always shows its depth. If something needs a look, a small pill under it says what: Check sensor, Unstable, Drifting, Slow fill, Stale, or No reading.
+- A bay filling slowly is no longer treated as a sensor fault.
+
+**Buttons**
+- Door buttons: tap through to the one you want — only that one is sent, a moment after your last tap.
+- Offset + / −: tap as many times as you need — the total is sent once.
+
+## 2026.10.134
+
+**Flush**
+- When a flush is waiting — for a shared inlet, a supply it cannot read, or a bay holding its level — it now says why.
+
+## 2026.10.133
+
+**Burst watch**
+- Changing a bay sensor's offset no longer looks like water leaving the bay.
+
+## 2026.10.132
+
+**Water Chain**
+- Links between bays now come from your gate setup and are watched for burst banks. You only draw the link from the channel into each paddock's first bay.
+- Pick a paddock to see just its bays.
+
+**Pump boards — new firmware (flash the board to get it)**
+- Low Supply now waits until the supply has been low for 3 minutes before stopping a running pump.
+- Low Supply Override is remembered if the board restarts — if you leave it on, it stays on.
+
+**Phone**
+- A pump whose board cannot be read says "Unknown". Pump icons can be dragged on the map.
+
+## 2026.10.131
+
+**Map**
+- The depth history graph has 1 h / 6 h / 24 h buttons, and it is bigger on a phone.
+- Channel gates can be dragged into place on the phone, as bays can.
+
+## 2026.10.130
+
+**Pump boards**
+- Engine run-down only accepts a whole number of seconds (0 to 600). A start refused while the engine runs down says so.
+
+## 2026.10.129
+
+**Pump boards — new firmware (flash the board to get it)**
+- New setting in the pump board's setup: **Engine run-down (s)** — how long the engine takes to stop after Stop. The board will not stop it a second time while it runs down, and will not start it again until that time has passed.
+- A pump that the board stopped (for example on low supply) keeps that reason on its card.
+
+## 2026.10.128
+
+**Paddocks — Sensor Config**
+- A new **Channel supply** card sits above Bay 1. It shows the live level of the sensor on the channel that feeds the paddock; tap + or − until it matches the staff gauge.
+
+## 2026.10.127
+
+**Devices on the phone**
+- Saving twice in a row on a slow connection no longer tells you someone else changed the board.
+
+## 2026.10.126
+
+**Devices on the phone**
+- If a save went through but PWM could not read the file back, the page now says so and asks you to press Save again to check it.
+- A depth sensor with a loop fault is named as a fault on its board's card.
+
+## 2026.10.125
+
+**Board setup — Actuators**
+- With two actuators the page asks "1 Switch or 2 Switch". With one actuator the question is not shown.
+- Each actuator has one choice: Apply to both, Calibrate, or Add time. Only the one you pick is shown.
+- Calibrating: when you release the open switch the page asks "Confirm open position — Yes, save".
+- After you confirm, the card says it is waiting for the board (up to a minute) and then shows the new travel time.
+- "Test Actuator" has just the open and close buttons.
+
+## 2026.10.124
+
+**Devices on the phone**
+- The device list is coloured by status: green is good, red needs help. Each card shows the friendly name, the device name and a connection chip.
+- Open a card and the reason for a red card is the first line.
+- "Save to YAML" is blue when there is something to save and grey when the file is already current.
+- Board, Sensors, Actuators, Live status, Wi-Fi loss, Firmware and Backup each have their own tab.
+- Backup is two buttons: Back up board, and Restore board with its date.
+- Ping and Beep are removed.
+
+**Fixes**
+- A spare relay button and the calibration Drive buttons no longer send their command twice (no more false error after a drive that worked).
+
+## 2026.10.123
+
+**Pumps on the phone**
+- The pump card is simpler. Closed, it shows the pump's name, whether it is running, the supply depth and (diesel) a fuel ring. A red ✕ appears only when the pump needs you; tap it to see why.
+- Open the card for Start / Stop, demand, and buttons for Timers, Fuel, Add / remove water, Relays and Stats.
+
+**Board setup — Sensors**
+- Each sensor's settings line up in one column.
+- Dry capture shows the countdown, the readings and the voltage while it works, and says whether a sensor has been captured and whether that is on the board yet.
+- Two-point calibration is folded away until you tap it.
+
+## 2026.10.122
+
+**Pumps**
+- The new wind-down time is switched off for now. Its box on Pump Setup is greyed out and stays at 0.
+
+## 2026.10.121
+
+**Pump boards — new firmware (flash the board to get it)**
+- A pump board no longer pulses its stop relay when it restarts or is flashed, and it keeps what it knew about the pump.
+- The reason a pump stopped reaches the pump card straight away.
+
+**Gate boards — new firmware**
+- A gate's travel time shows on its card as soon as a calibration finishes.
+
+**Pumps**
+- A pump can be given a wind-down time for an engine that idles down before it stops. The card will show "Stopping…" for that long. Leave it at 0 for now.
+
+## 2026.10.120
+
+**Pump boards — new firmware (flash the board to get it)**
+- A spare relay can be set to switch on while the pump runs — for a flashing safety light. Board setup → Spare relays → "On while the pump runs", with an optional "stay on after stop". It comes on at the start command, before the motor turns.
+- Stop always reaches a pulse pump, and a Stop pressed while the pump is still starting cancels the start.
+- A pump board that restarts while its pump is running remembers that the pump is running (pulse pumps with a status wire, or diesel).
+
+**Map**
+- A gate's circle now uses the same colours as its button: red closed, blue open, light blue hold.
+- A channel depth badge can be dragged without jumping back.
+
+**Sensor lists**
+- A sensor's name now fits the box on a phone.
+
+## 2026.10.119
+
+**Pumps**
+- A scheduled start keeps its schedule and its shutdown timer when the pump takes a little longer than usual to show it is running.
+
+**Boards**
+- A board's card no longer shows a reading from another board's sensor that happens to share its name.
+
+## 2026.10.118
+
+**Pump boards with two depth sensors**
+- You can now say which sensor is the pump's supply (Board setup → the sensor's "Pump supply"). Low-Supply protection and the pump card's Current Depth follow that sensor only. Reflash the board after changing it.
+
+**Sensor calibration**
+- Pressing Save after a dry capture no longer puts the old zero back.
+- A dry capture uses the sensor's own range (1 m or 5 m), whatever the range picker says.
+
+**Boards**
+- A sensor named after another board (for example a pump-board sensor called "Depth MC-01") no longer confuses PWM about which board is which.
+
+## 2026.10.117
+
+- Housekeeping only — nothing you will see.
+
+## 2026.10.116
+
+**Pumps**
+- System OFF stops a pump that is still starting.
+- An overflow or System OFF stop is always sent to a pump with no status wire, even when its board says the pump is already off — and PWM says UNKNOWN until it is sure.
+- Stop is answered sooner, and a slow board is given longer to confirm before PWM calls a pump UNKNOWN.
+
+## 2026.10.115
+
+**Channels**
+- A gate that shows AUTO now always has its rules running.
+
+**Flushing**
+- If you switch a flush's top bay Off on its own while the bays below are still flushing, PWM does it and tells you the inlet is still open and what to do.
+
+## 2026.10.114
+
+**Pumps**
+- If PWM cannot be sure a pump stopped — no status wire, a board that restarted, a stop that had to be retried — it says UNKNOWN and "check the pump" instead of "stopped".
+- A Stop can never reach a switch on a different board.
+- A Stop tapped while the board is still starting the pump is answered once the board has finished, and the page waits for that answer.
+- A pump board that keeps dropping in and out sends one alert, not one each time.
+- A door stuck part-way is told once; a pump PWM could not stop is said again each hour until it is.
+- A shutdown-timer tap that got no answer says so.
+
+## 2026.10.113
+
+**Flushing**
+- If a flush stops making progress, the alert names the bay that is stuck — and it no longer cries wolf on a slow but healthy flush.
+- A door you move by hand shows that it is on hold and for how long.
+- Two paddocks that share a door no longer fight over it.
+- A page that has stopped getting fresh readings says so.
+- In Pond, a bay sitting at its level is no longer mistaken for a stuck sensor.
+
+## 2026.10.112
+
+- Stop always reaches the pump, even on a board where PWM cannot tell the pump's switch from a spare relay with a similar name.
+- "No response" messages on gates now say how long PWM actually waited.
+
+## 2026.10.111
+
+**Pumps**
+- If a Start or Stop gets no answer, the button says so and stays usable — the page no longer goes dead.
+- A pump card shows a tag when its Low Supply protection is switched off.
+- PWM finds each pump's own control switch exactly. If a spare relay on the same board has a name ending in "control", PWM will ask you to rename it rather than risk driving the wrong one.
+- When a pump board restarts, PWM tells you and sets the board's shutdown timer again.
+
+## 2026.10.110
+
+**Channel gates in Auto tell you what they are doing.**
+- If a gate's rule could not move the gate, or could not read what it watches, you get an alert.
+- Every gate's board is watched — you are told if one goes offline, whatever mode the gate is in.
+- When a channel is over its safe level the relief gate opens and stays open until the level is back down, and the pump feeding it is stopped.
+- A gate that was told to move and did not is reported.
+- If you tap a gate that is in Auto, PWM tells you its rule may move it back, and the gate's card shows which rule last moved it.
+
+## 2026.10.109
+
+- PWM tells you if one of its own background checks has stopped running, and if the blow-out watch is switched off.
+- Before you update a pump board, the warning now covers pulse-start pumps too: a board restart can stop the pump.
+
+## 2026.10.108
+
+**Channel gates**
+- A gate can always be switched to Manual.
+- A gate with two rams moves both together, and tells you if one did not answer.
+- If a gate cannot be read it shows "--" instead of its last position.
+
+**Paddocks**
+- While a paddock is flushing or ponding you cannot change its bays, doors or boards — switch it Off first. The numbers you tune during a run still work.
+- Choosing Pond on the map asks "are you sure" once you stop on it for 10 seconds; cycling past it asks nothing.
+
+**Pumps and boards**
+- A pump alert that could not be sent is still sent after PWM restarts.
+- Restoring a board's settings shows what will change first.
+
+## 2026.10.107
+
+**Pumps do what you tell them, and say what they are doing.**
+- Start: the pump card shows "Starting…" while the board beeps and waits, and "Running" only when it is. No more "No response" on a pump that then starts.
+- Stop: a Stop is always sent. If you tap Stop while the pump is still starting, PWM holds it for a few seconds and then stops the pump — the button says "Stopping…".
+- If PWM cannot tell whether a pump it started is still running, the card says UNKNOWN with a STOP button, not Off.
+- The Start question names the pump as its card does.
+
+**Channel gates:** if a gate does not answer in 5 seconds PWM says so and names the gate — it may still move, so watch it.
+
+**Boards:** each device card now shows the firmware the board is running against the firmware on this box.
+
+## 2026.10.106
+
+A small fix to one alert's wording: when a flush has finished every bay and is only waiting on a door, PWM no longer sends a confusing "not progressing" message.
+
+## 2026.10.105
+
+A small fix: if a drain door is slow to open at the end of a flush, you are told once, not twice.
+
+## 2026.10.104
+
+**"Flush complete" means the doors got there.** PWM now says the inlet is closed, and the flush complete, only when it can see the inlet closed and the last
+drains open. If a door does not arrive, you are told which one.
+
+Also fixed on screen: the "Not updating" message no longer covers the Home button and paddock tabs, and "LOOP FAULT" stays inside its badge.
+
+## 2026.10.103
+
+**A flush no longer gets stuck at its first bay.** While a bay sat at its level for its time on water, PWM could mistake the steady level for a stuck sensor and
+stop the flush there. It now knows a steady level is what a holding bay looks like.
+
+Also:
+- Tapping the mode button on a paddock that is flushing now switches it **Off**. To go to Pond, tap twice.
+- A pump whose board is offline still has a STOP button.
+- A door you tap only goes on manual hold if the board took the tap.
+- If you switch the System OFF and a pump stop is not confirmed, the message stays until you tap it.
+
+## 2026.10.102
+
+**Flushing two paddocks at once, and restarts.**
+- Two paddocks can flush at the same time without waiting on each other.
+- After PWM restarts, overflow protection is back within seconds instead of minutes.
+- You are told if a flush stops making progress after its inlet has closed, and if a door does not close when you start a flush.
+- "Start pump?" is only asked when PWM can actually see the pump is stopped.
+
+## 2026.10.101
+
+**A "flush has stalled" alert is no longer lost if it could not be delivered.** It is tried again until it reaches someone.
+
+## 2026.10.100
+
+**PWM tells you more, and guesses less, during a flush.**
+- You get an alert if a pump stops by itself, or PWM loses sight of it, while it should be running.
+- The Notifications page lists any alert that nobody is set to receive, and starting a flush warns you about them.
+- An alert that could not reach anyone is tried again instead of being quietly lost.
+- You are told straight away if a bay door does not take a flush command, if a channel gate board goes offline, or if an overflow sensor cannot be read.
+- Farm Sync will not change a paddock's bays while that paddock is flushing.
+- A gate can only move its own actuator.
+
+## 2026.10.99
+
+**A network hiccup inside the box can no longer lock you out.** If the box briefly could not look up Home Assistant's address, the add-on
+stopped trusting it and sent everyone to the login page until the lookup worked again. It now keeps the last address that worked.
+
+Also: if moving a badge on the map does not save, PWM now tells you and puts the badge back.
+
+## 2026.10.98
+
+**PWM tells you when it cannot see, instead of guessing.**
+- A failed depth sensor now shows as a sensor fault, not as a water level.
+- A pump PWM cannot read shows as UNKNOWN (with a STOP button), not as offline or stopped.
+- Turning the system OFF asks about every pump that is not confirmed stopped.
+- If the page stops getting live readings it says "Not updating" with the time of the last reading.
+- Bay alerts now name the paddock.
+
+## 2026.10.97
+
+**Safer messages before first water.**
+- If a pump is running and its board needs an update, PWM now warns you first: updating the board will stop the pump.
+- The Test button on Notifications now tells you if the test did not reach a phone.
+- Alert titles on your phone now match the names on the Notifications page.
+- "Restore Low Supply protection" can only restore it, and the extra relay buttons always switch the way you tapped.
+
+## 2026.10.96
+
+**A security fix in how logs are cleaned.** One specially shaped request could make the add-on stall while it tidied a log line. The
+shared log-cleaning code is now bounded, so it cannot. Nothing changes in how you use the add-on.
+
+## 2026.10.95
+
+- **Device Setup on a phone: the Save button shows its whole label.** It read "Save to YAML — then reflash" and was cut off; it now
+  says "Save to YAML" (the line under it still says to reflash the board).
+- **A board you have just added is recognised straight away** when you press Discover, and PWM's log now names any board it has not
+  matched yet and why (for example "never flashed").
+
+## 2026.10.94
+
+**PWM now uses the fleet's one theme.** PWM is the reference the fleet theme was built from, so nothing should look different:
+fields, the ± buttons, popups and the phone layout now come from the shared PaddiSense theme instead of PWM's own copies. When a size
+changes in future, it changes once for every add-on.
+
+## 2026.10.93
+
+**Safety fixes from the PWM audit (2026-10-11).**
+- **The pump button can't start a pump it calls UNKNOWN.** When PWM can't tell whether a pump is running, the button says
+  "UNKNOWN — STOP" and a tap now sends Stop. PWM also refuses a start while the pump's state is unknown: "Pump state unknown —
+  check the board before starting".
+- **Scheduled start + shutdown timer now gives a timed run.** Set a start time, then start the shutdown timer: it waits and begins
+  counting when the pump starts ("Shutdown armed — starts with the pump"). Saving a schedule no longer resets your shutdown timer to
+  1 minute.
+- **Flush only says the inlet closed when it did.** If the inlet board doesn't accept the close, you get one alert ("the inlet did
+  NOT close — check it") and PWM keeps trying; FLUSH COMPLETE waits until it's closed.
+- **The Low Supply minimum shown on Pump Setup is the board's own.** If the board can't be read it says "Cannot read" and the ± is
+  off, instead of showing a stored 10 cm. Device Setup says the same.
+- **Auto Demand messages say what it does:** off means the pump won't stop at its demand level; the channel's overflow protection
+  still applies.
+
+## 2026.10.92
+
+**Starting a pump is a double tap, not a code.** Tap Start and answer "Start pump?" Yes or No. Yes turns the button amber — "TAP
+AGAIN TO START" — and the pump starts on your next tap within 10 seconds. No, or waiting 10 seconds, puts it back. No keyboard
+covers the screen any more. Stopping never asks, and neither do the shutdown timer or a scheduled start.
+
+**"Stop timer" stops the timer, not the pump.** The shutdown timer's "Turn Off" is now "Stop timer": the countdown stops and the
+pump keeps running. Only the Start/Stop button stops a pump. (The board keeps its own last-resort shutdown, just under 24 hours.)
+
+**The sensor offset button has a proper colour** instead of looking blank.
+
+**Scheduled start is simpler.** It always runs until you stop it (set a shutdown timer for a fixed time), and a **Clear** button
+removes a start you no longer want.
+
+**The phone pages, polished (your walk 2026-10-10):**
+- Fields and drop-down lists are bigger (70 px); the Flush/Pond, single/individual, Auto Demand and gate Auto/Manual buttons are
+  full height again; notes and hints are larger and easier to read; Back buttons stand out from the page.
+- Popups hold the page still and scroll inside themselves (W12 edit no longer gets stuck), and pulling down no longer refreshes
+  the HA app.
+- **Pumps setup (W05):** Discover and + Pump on one row; the pump map draws properly; Delete Pump is only on Pump Details; the raw
+  "OFF — START" test button is gone — pumps start and stop on the Pumps page only.
+- **Channels setup (W06):** Discover and + Channel on one row, the name asked in a popup; Delete gate only on Gate details; Wi-Fi
+  loss "Hold position" has no minutes box; the Board tile shows the last stop reason and a **Manage device →** link that opens the
+  board's Actuators on Device Setup, with a way back to the gate.
+- **Device Setup (W08):** a search box with **Offline** and **Update** filters replaces the type buttons; the Board tile no longer
+  slides off the screen; door test buttons are back on boards in use (a test move holds the door from automation for 10 min), and
+  light bulbs show each manual switch (Open D1 / Close D2) as you flip it — to check which way a switch is wired.
+- **Channels (W07):** a sensor fault shows a short LOOP FAULT / CHECK SENSOR with "Check wiring" underneath.
+
+## 2026.10.91
+
+**"Demand Required" only when Auto Demand is on.** With Auto Demand off, the pump card no longer says "Demand Required" or "No
+Demand" — PWM is not acting on demand then.
+
+## 2026.10.90
+
+**A new gate lands where you tap.** Placing a gate on the paddock setup map near an existing gate or a bay label no longer drops
+it on top of that gate or label.
+
+## 2026.10.89
+
+**Every phone page tidied in one pass.** Buttons are one size and fill their row; text stays on one line; boxes are thumb-sized
+and no longer make the phone zoom; headings look the same everywhere; Save is always blue.
+
+**+/− buttons are the same everywhere.** The value sits on its own line with square +/− buttons under it, on every page.
+
+**Pumps:** a running pump is blue, a stopped pump grey. The timer's "Turn Off" now actually stops the pump. Relay buttons are full
+width so their names fit. The date picker is no longer dark.
+
+**Pump Setup:** fuel is set only on the Pumps page. A dead sensor stays "LOOP FAULT" instead of turning into "0.0 cm".
+
+**Channels:** the depth shows LOOP FAULT or CHECK SENSOR when it should (it showed a rounded number). Display order, the depth
+sensor and its offset are now on Channel Setup; the Channels page is for operating.
+
+**Paddocks:** the water-balance OFF/ALARM shows which is on. A bay that comes from Farm can only be removed in Farm.
+
+**Map:** a sensor fault is a short red badge; the gate popup is a proper phone sheet.
+
+## 2026.10.88
+
+**The channel card agrees with the pump card.** When PWM cannot tell whether a depth sensor's loop is alive, the channel card now
+says CHECK SENSOR — the same verdict the pump card gives for that sensor — instead of showing a depth.
+
+## 2026.10.87
+
+**Device Setup on the phone, tidied.** On a pump board, the Pump tile's buttons no longer squash or overlap — "Change on Pump
+Setup" and the relay buttons are full width with their text on one line. The Sensors tile's Range, Reading every and Smoothing
+boxes now line up, the same size, with the unit in the label. Board info, Settings backup and Raw data show their titles again.
+A pump board no longer offers an empty Actuators tile.
+
+**Fuel is set in one place — the Pumps page.** Device Setup no longer has its own fuel box; use "Fill +" or "Set total" on the
+pump's card.
+
+**"Check Demand Sensor" only when Auto Demand is on.** With Auto Demand off the demand sensor is not used, so the pump card no
+longer shows the yellow warning for it.
+
+## 2026.10.86
+
+**Overflow protection wins.** When an overflow closes or opens another gate, that gate's own rules no longer fight it, and the
+command is not re-sent every 30 seconds.
+
+**A lost pit sensor is reported.** If Pump Watch cannot read its depth sensor, the gate's page shows a fault instead of saying
+nothing; the gate stays where it is.
+
+## 2026.10.85
+
+**Type 123 to start a pump.** Pressing Start on a pump, or starting its timer, now asks you to type 123. It is not a password, just
+a check that you meant to start it. Stopping never asks.
+
+**A top bay that cannot be read blocks the inlet.** In Flush or Pond, if PWM cannot read the top bay's depth, the inlet stays shut
+and you get an "IRRIGATION BLOCKED" alert every 10 minutes until the reading comes back.
+
+**Overflow waits 2 minutes before clearing.** A channel level hovering on the line no longer flips between OVERFLOW and Back Below
+every 30 seconds — it must stay below for 2 minutes.
+
+**Automation won't pump into shut gates.** A scheduled start is refused when every gate the pump watches is shut. Starting by hand
+still works.
+
+**Off then Flush starts again.** Switching a paddock Off and back to Flush resets the flush and starts it from the beginning.
+
+## 2026.10.84
+
+A bay that has just finished filling or draining is no longer flagged "level drifting" or "level unstable" and paused — the sensor check now waits until the bay has actually been still.
+
+## 2026.10.83
+
+Pump run-hours for "this month" and "this year" no longer shift by an hour after daylight saving changes.
+
+## 2026.10.82
+
+When PWM sets a gate part-open, it now checks the gate actually moved — the same check as for open and close.
+
+## 2026.10.81
+
+Behind the scenes: the default flush time is now kept in one place. Nothing changes for you.
+
+## 2026.10.80
+
+During a flush, "inlet closed" is now sent once — it used to repeat every few minutes while the last bays finished.
+
+## 2026.10.79
+
+If a database update fails when PWM starts, the log now says so clearly.
+
+## 2026.10.78
+
+Depth sensors that report in millimetres, inches or feet now read correctly.
+
+## 2026.10.77
+
+A board setting sent without a number is refused — it can no longer switch off a pump's dry-run protection by accident.
+
+## 2026.10.76
+
+Restoring a board's saved settings no longer copies its old pump countdown or gate position — only real settings come back.
+
+## 2026.10.75
+
+PWM's "is the automation running" report to your PaddiSense support now covers every background job and always names the one that has fallen behind.
+
+## 2026.10.74
+
+When you move a gate yourself, PWM leaves it alone for 10 minutes — now even if PWM restarts in that time. A gate board coming back online no longer pauses its gate by mistake.
+
+## 2026.10.73
+
+You can't delete a gate, channel or pump that another rule still uses — PWM tells you which rules to change first, so nothing is left pointing at something that's gone.
+
+## 2026.10.72
+
+One gate with an old-format setting can no longer stop the automation — overflow protection included — for every other gate.
+
+## 2026.10.71
+
+A setting switched off is always saved as off — in one rare case it could be read back as on.
+
+## 2026.10.70
+
+A board Home Assistant shows as unavailable is now treated as offline everywhere — no command is sent to it and the bay shows the fault.
+
+## 2026.10.69
+
+A slow gate that is still moving is no longer reported as stuck.
+
+## 2026.10.68
+
+A gate's reaction delay now always runs its full time. Before, after another rule or Manual had been in charge, a delayed close could happen straight away.
+
+## 2026.10.67
+
+When a pump is stopped by hand or by Auto Demand, its shutdown timer ends too — an old timer no longer cuts a later run short. A scheduled start you set is kept.
+
+## 2026.10.66
+
+Cancelling a scheduled pump start now always stops it — even when the pump was briefly waiting to restart after a recent stop.
+
+## 2026.10.65
+
+Built on a fresh, patched system base (security updates).
+
+## 2026.10.64
+
+A gate that was partly open no longer counts as "opened" before it actually moves, and a Stop only counts once the gate has actually stopped.
+
+## 2026.10.63
+
+A pump started on a timer always gets its shutdown timer, even right after the board stopped it on its own. A pump timer can be at most just under 24 hours — the pump board's own safety timer can't hold longer; use Constant mode for longer runs.
+
+## 2026.10.62
+
+A gate rule's "open below" level must now be lower than its "close above" level. Without a gap the gate would open and close over and over.
+
+## 2026.10.61
+
+The bay that ends a paddock's flush must be one of that paddock's bays. If it was removed, Flush will not start until you choose it again — otherwise the inlet would never close.
+
+## 2026.10.60
+
+A bay's minimum water level can no longer be set at or above its maximum — PWM says why instead of saving a setting that would make the bay cycle.
+
+## 2026.10.59
+
+When a gate board is slow to answer, PWM now says it may still move — watch the gate before pressing again — instead of saying it did not move.
+
+## 2026.10.58
+
+A background tool used only on test benches no longer starts on a farm's box.
+
+## 2026.10.57
+
+Your farm's observer can now see which gates and pumps PWM moved in the last day, and why — without any login.
+
+## 2026.10.56
+
+Pump Setup: going back to the pump list straight after opening a pump no longer causes a page error.
+
+## 2026.10.55
+
+A new board's "No Wi-Fi" safety setting now starts at the right time (bays close after 30 minutes, channels hold). Before, a board
+added a certain way could start with a 30-hour wait. Boards already running keep their own setting.
+
+## 2026.10.54
+
+Depth boards send their raw sensor voltage to Home Assistant less often, keeping your Home Assistant history smaller. Reflash your boards from the ESPHome dashboard to get it. Includes everything in 2026.10.53.
+
+## 2026.10.53
+
+Boards send their raw sensor voltage to Home Assistant far less often (on a real change, or once a minute), which keeps the history database small; the battery reading only appears on boards that actually have a battery wire (tick "Battery sense wired" in board setup). Reflash boards to get the lighter traffic. Includes everything in 2026.10.52.
+
 ## 2026.10.52
 
 Door buttons are clearer: both drain doors say "Drain", and the first bay's doors say "B-01 Supply". On a laptop the Paddocks page now scrolls as a whole page, so the map no longer squeezes the buttons into a small box. Safety: a pump will not start (or keep running) while its depth sensor loop is dead — use "Override Low Supply protection" on the pump card to run it anyway. Pump boards need a reflash for this. Includes everything in 2026.10.51.

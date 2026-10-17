@@ -1,5 +1,22 @@
 # PaddiSense Planner — What's New
 
+## 2026.10.11
+
+**A network hiccup inside the box can no longer lock you out.** If the box briefly could not look up Home Assistant's address, the add-on
+stopped trusting it and sent everyone to the login page until the lookup worked again. It now keeps the last address that worked.
+
+## 2026.10.10
+
+**A reliability fix behind the scenes** — one unusually long web request can no longer slow Planner down.
+
+## 2026.10.9
+
+**Buttons and fields on your phone follow the new PaddiSense look** — larger, easier to tap.
+
+## 2026.10.8
+
+**Planner works for everyone you give it to.** Someone you have given Planner on the access page can now edit budgets, crop plans, inputs, water and rotation. Before, only a manager or the farm owner could save changes, and others saw the screens but every save was refused.
+
 ## 2026.10.7
 
 **Opens reliably from Home Assistant.** A brief network hiccup on the box could stop this add-on opening from the Home Assistant

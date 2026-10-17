@@ -1,5 +1,217 @@
 # PaddiSense Farm — What's New
 
+## 2026.10.100
+
+- **Security updates.** The add-on now picks up the latest operating-system security fixes when it is built.
+
+## 2026.10.99
+
+- **Safer restores.** The check that inspects a backup before it is restored closes two more ways a tampered backup could slip a command through.
+
+## 2026.10.98
+
+- **Import hub fixes.** Opening a staged file on a paddock that already has crop zones now shows those zones instead of failing, and a
+  sowing import over an existing zone no longer reports an error after it has actually worked.
+
+## 2026.10.97
+
+- **Easier to read on the phone.** When recording an event on the phone, the chosen date now shows white on solid green, **Cancel**
+  is a solid red button, and a chosen event type is white on its colour — no more pale colour on pale colour.
+
+## 2026.10.96
+
+- **All bays / All crops on the farm.** In the map's tree, each farm now has **All bays** and **All crops** ticks: one tick shows every
+  paddock's bays (or crop zones) on the map — with their labels, if Labels → Bays / Crop zones is on. Untick to hide them all again.
+
+## 2026.10.95
+
+- **Resize bays can now turn the split.** Besides the middle ◆ (slide), there is a ◆ at each end of the line: drag one to swing that end
+  while the other stays put. The gap between the bays stays the same width all the way along. Save or Cancel as before.
+
+## 2026.10.94
+
+- **Fixed: Resize bays showed no handle** after you clicked the second bay, and Split did not become ready when you clicked a bay. Both
+  now work from the bay you click.
+
+## 2026.10.93
+
+- **Resize bays.** Drew a split in the wrong place? On the map (Bays), click one of the two bays, press **Resize bays**, then click the
+  bay beside it. Drag the ◆ handle: the shared side slides, the neighbouring bay's edge follows, and the gap between them stays the
+  same — you see both new shapes and their areas as you drag. **Save** to keep it, **Cancel** to leave the bays as they were. The bays
+  keep their names and history, and PWM follows on its next sync.
+
+## 2026.10.92
+
+- **"→ Bay" (a bay from the whole paddock) is now one time per paddock.** Once a paddock has a bay, the button is gone and Farm will not make
+  another copy — so a double tap can no longer make duplicate bays. To start again, delete the paddock's bays first.
+- **Split tells you what to click.** If you press Split with nothing selected, Draw split line waits and says "Click the bay to split first";
+  click the bay on the map and it is ready.
+
+## 2026.10.91
+
+Housekeeping only — nothing you will see changes.
+
+## 2026.10.90
+
+**Staying signed in:** a brief network hiccup on the box could send you to the login page when opening Farm from Home Assistant. Farm now rides through it.
+
+## 2026.10.89
+
+**Home screen:** the Farm home screen's tiles are now the same size and layout as every other PaddiSense add-on — one tile per row on a phone.
+
+## 2026.10.88
+
+**Reliability:** an unusual web request can no longer make Farm pause while it writes its log.
+
+## 2026.10.87
+
+**Safer database restore.** A backup file is checked before it is restored, and a file that has been tampered with is refused with a clear message.
+
+## 2026.10.86
+
+**Safer handling of typed-in text.** Names and readings you or your team enter are now always shown as plain text on the event, record and Real Time Rice pages.
+
+**Trial planner gives a clear message** when the run range is too wide to work out, instead of an error.
+
+## 2026.10.85
+
+**Import Hub lists your newest jobs first.** Staged machine jobs are now in date order, with the most recent job at the top.
+
+**Buttons and fields on your phone follow the new PaddiSense look** — larger, easier to tap.
+
+## 2026.10.84
+
+**Real Time Rice keeps up with the season.** Predictions now refresh by themselves every morning at 6:30, show the crops sown this season (and keep showing them after New Year), and a refresh can no longer blank your cards if the file has nothing new. The season bar and region tabs now appear.
+
+## 2026.10.83
+
+**Satellite imagery that keeps up with the crop.** Farm now checks for a new satellite pass every day, keeps the last two months of clear pictures for each cropped paddock, and skips cloudy ones. On your phone, tap a paddock, choose Imagery, and tap a date to see that capture on the map. If there is no imagery, the screen now tells you why.
+
+## 2026.10.82
+
+**Varieties now belong to a crop.** In Config → Varieties, type the variety and pick its crop from your crop list. It then shows under that crop when you record a sowing or build a crop plan. Any variety you added before is listed as "no crop yet" — pick its crop once and it moves across.
+
+## 2026.10.81
+
+**Imports land on the right paddock.** When you import soil tests or events, a row is now attached to a paddock only if its name matches exactly, or matches just one paddock. If it could mean more than one (for example "SW1" when you have SW10 and SW11), it is saved without a paddock and the import report tells you, instead of guessing.
+
+## 2026.10.80
+
+**Housekeeping inside.** Unused code removed. No change on screen.
+
+## 2026.10.79
+
+**Buttons match your access.** Someone signed in as an Operator no longer sees buttons only a manager or the farm owner can use (they used to appear and then refuse). Nothing changes for the farm owner.
+
+## 2026.10.78
+
+**Housekeeping inside.** Unused code removed. No change on screen.
+
+## 2026.10.77
+
+**Housekeeping inside.** A safety check on how paddocks follow changes made in GSM. No change on screen.
+
+## 2026.10.76
+
+**Drawing a paddock over one you already have is stopped.** Farm now tells you which paddock already holds that ground, so you edit it instead of ending up with two.
+
+## 2026.10.75
+
+**Housekeeping inside.** A safety check on how paddocks are linked to GSM records. No change on screen.
+
+## 2026.10.74
+
+**Housekeeping inside.** No change on screen.
+
+## 2026.10.73
+
+**Security update underneath.** The system software this add-on is built on is refreshed with current security fixes. Nothing changes on screen.
+
+## 2026.10.72
+
+**Import Hub tidy-up.**
+- Tiny slivers of machine data outside every paddock (under 0.1 ha) are set aside automatically. You can see them under Status → Dismissed and restore any you want.
+- Two machine jobs in the same paddock that are really one job can be merged, and unmerged.
+- The job card now asks the same things as the event recorder: fertiliser no longer asks for water rate, and products are picked from your product list with their unit.
+- The card sits beside the map on a wide screen, with several boxes per row.
+- Dismissed items can be restored. An item already imported cannot be imported twice by mistake.
+
+## 2026.10.71
+
+**A "Check" row on the paddock matching page can now be decided.** Press Check to see the machine field and the paddock it overlaps on the map, then choose Make a paddock or Dismiss. A dismissed field is listed under the table, where you can restore it.
+
+## 2026.10.70
+
+**The "ready to send to GSM" list now shows only confirmed events.** Events you dismissed, and machine records still waiting for you to confirm, no longer appear there or count as waiting.
+
+## 2026.10.69
+
+**Your crop plan can now feed Planner.** Nothing changes on screen in Farm. With this version, PaddiSense Planner (2026.10.6 or later) can read the crop plans you make here and fill its paddock plan from them.
+
+## 2026.10.68
+
+**Crop plan: make a planned crop the real crop zone.** Click a planned area and press "Make crop 1 the crop zone": Farm creates this season's crop zone with the same shape, crop and variety, so nothing is drawn twice. When the second crop goes in, press "Make crop 2 the crop zone" — it takes over the ground from crop 1. The plan keeps its record of what was planned and when each crop was made, so planned and actual can be compared. Only the plan for the season can be made into crop zones, not a scenario.
+
+## 2026.10.67
+
+**Crop plan.** A new Crop plan tab on the map lets you plan what each piece of ground will grow in a season. Click a bay, crop zone or paddock and press → Plan (or draw an area), then choose crop 1 and how many months it runs, and — if you grow two crops in the year — crop 2 and its months. Crop 1 starts in May; crop 2 starts when crop 1 finishes; either can be Fallow; anything left to the end of April is fallow. Varieties come from your variety list. Planned areas show on the map in one colour per crop, labelled with their months (for example "Rice (May-Jan) → Wheat (Feb-Apr)"), and in the tree under each paddock's Crop plan group.
+
+You can keep more than one plan for a season (for example "Plan A" and "Dry year"), choose which one is the plan, and copy a plan to next season as a starting point. Planned areas have the same tools as bays and crop zones: edit shape, split, cut, buffer, merge and delete.
+
+## 2026.10.66
+
+**Trial plans in the tree.** A paddock's saved trial plans now appear in the tree under that paddock, in a new "Crop plan" group. Tick a plan to show its block on the map without opening it — several can be shown together and printed. Click a plan to open it in the Trial planner. The planner has a Paddock picker so you choose which paddock a plan belongs to; a new plan starts on the paddock you have selected. Closing the planner leaves a saved plan's block on the map, ticked in the tree.
+
+## 2026.10.65
+
+**Trial planner: choose fewer passes for a lot.** After "Work out run length", each lot's passes are now a box you can change. If a lot's last pass would leave almost no seed spare, turn it down by one to be safe: the seed left, the totals and the block on the map all update. You cannot go above what the seed allows. Clear the box to go back to the full number. Your choices are saved with the plan.
+
+## 2026.10.64
+
+**Trial planner: move the block and line it up.** Drag the block on the map to move it. "Match a line": click two points along a line (an AB line, a bank, last season's rows) and the block takes that heading. "Match an edge": click a paddock or bay boundary and the block lines up with it. You can also type the AB heading in degrees, and tick "Fill passes to the left" if the planter works the other way across the block. Press Save to keep where it sits.
+
+**Measure and Trial planner are on the tool bar.** Both are now worded buttons at the right-hand end of the map's tool bar (the row with Split, Merge and the other tools). Press Measure to show Line, Path, Radius, Area and Clear.
+
+## 2026.10.63
+
+**Trial planner.** Press ▦ on the map to plan where trial seed lots will be sown. Enter the planter's application width and swath width, the sowing rate, and each seed lot's ID, variety and kilograms — or paste the rows straight from Excel. Press "Work out run length" and Farm lists the run lengths that leave the least seed over across all lots, with the passes each lot gets and what is left. Pick one (or type your own length), then "Place on map": click the start corner and a second point along the first run. Each bag lot is drawn as its own labelled strip. Save the plan to open it again later.
+
+## 2026.10.62
+
+**Measure on the map.** Press 📏 on the map (under the zoom buttons) and pick a tool: **Line** (click the start and the end), **Path** (click each corner — click the last point again to finish), **Radius** (click the centre, then the edge) or **Area** (click each corner — click the first point again to close it). The distance or area shows as you move, and stays on the map when you finish. Click a measurement to remove it, or press Clear to remove them all. Measurements are not saved.
+
+## 2026.10.61
+
+**Print maps.** Press 🖨 on the map: choose A4 or A3, portrait or landscape, give it a title, and drag the dashed frame over the area you want. The print shows the layers you have turned on, your labels where you placed them, a legend, a scale bar, the scale (1:N) and a north arrow. Use Print / Save as PDF to print it or keep it as a PDF.
+
+## 2026.10.60
+
+**Move, turn and hide map labels.** In 🏷 Labels, press "Move / rotate labels": drag any label to where you want it, or click it to rotate it, change its size, hide it, or put it back. Your changes are kept for the farm and will be used when maps are printed.
+
+## 2026.10.59
+
+**Labels for every map layer.** The new 🏷 Labels button lists every layer — paddocks, bays, crop zones, events, each infrastructure type and each land-cover type — and lets you choose up to two things to show on each (name, area, crop, date, product…) and the size. Your choice is saved for the farm, not just this browser.
+
+## 2026.10.58
+
+**Sowing makes its own crop zone.** When a sowing comes with the area actually sown (from the machine, or drawn), Farm now creates a crop zone for just that ground and trims the paddock's other zones to match — it no longer marks the whole paddock as sown.
+
+**Edit or delete events on the map.** Click an event: the right panel now has Edit attributes, Edit boundary, Delete and Close. The event's area clears from the map when you close it or pick something else.
+
+**Import Hub:** the map and tools now open right under the file you click, instead of at the bottom of the page.
+
+## 2026.10.57
+
+**Bays and crop zones on the phone map.** Turn on Bays (or Crops) and tap a bay: the panel shows that bay's size, its farm and paddock, and only the events recorded on that bay. Crop zones work the same way.
+
+## 2026.10.56
+
+**Access follows Core.** What a person can change here now matches the role you gave them on Core's access page. An Operator can no longer use manager-only actions. A box with no access set up keeps full rights.
+
+## 2026.10.55
+
+**Security.** On your farm, PaddiSense trusts only the licence key it was built with. Another add-on on the same box can no longer add one.
+
 ## 2026.10.54
 
 **Editing a bay, crop zone or paddock works again.** On the map, Edit now shows the corner points so you can drag them, then Save.

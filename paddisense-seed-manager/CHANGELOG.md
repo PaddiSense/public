@@ -1,5 +1,29 @@
 # PaddiSense Seed Manager — What's New
 
+## 2026.10.10
+
+**Security update.** The add-on's system packages are now brought up to date when it is built, including fixes for flaws in its
+web-transfer library. Nothing you see changes.
+
+## 2026.10.9
+
+**A network hiccup inside the box can no longer lock you out.** If the box briefly could not look up Home Assistant's address, the add-on
+stopped trusting it and sent everyone to the login page until the lookup worked again. It now keeps the last address that worked.
+
+## 2026.10.8
+
+**A security fix in how logs are cleaned.** One specially shaped request could make the add-on stall while it tidied a log line. The shared
+log-cleaning code is now bounded, so it cannot. Nothing changes in how you use the add-on.
+
+## 2026.10.7
+
+**One look across PaddiSense.** On the phone, Seed Manager now uses the same buttons and fields as the other PaddiSense apps. The main buttons are
+bigger, the small buttons in lists are easier to hit, and fields no longer make the screen zoom when you tap them.
+
+## 2026.10.6
+
+**Sensor readings keep coming in steady weather.** A store sensor that kept reporting the same value for more than an hour was being skipped as if it had gone quiet. It is now recorded.
+
 
 ## 2026.10.5
 

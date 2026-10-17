@@ -1,5 +1,43 @@
 # PaddiSense Weather — What's New
 
+## 2026.10.12
+
+**Steadier connection.** A brief network hiccup no longer locks you out of Weather. The +/- buttons match the other PaddiSense apps.
+
+## 2026.10.11
+
+**A security fix in how logs are cleaned.** One specially shaped request could make the add-on stall while it tidied a log line. The shared
+log-cleaning code is now bounded, so it cannot. Nothing changes in how you use the add-on.
+
+## 2026.10.10
+
+**One look across PaddiSense.** On the phone, Weather now uses the same buttons, fields and home screen as the other PaddiSense apps: bigger
+buttons, fields that do not make the screen zoom, and one tile per row on the home screen.
+
+## 2026.10.9
+
+**Rain totals update in the morning too.** The year-to-date rain figure could not refresh between midnight and mid-morning; it now
+refreshes at any time of day.
+
+## 2026.10.8
+
+**A weather station that stops reporting now says so.** If a gauge goes quiet, Weather stops recording its last value as if it were new and shows "No reading since" with the time. Before, a dead gauge looked like steady weather.
+
+## 2026.10.7
+
+**Opens reliably from Home Assistant.** A brief network hiccup on the box could stop this add-on opening from the Home Assistant
+sidebar for up to five minutes. It now recovers within seconds.
+
+**Security updates.** The system software underneath this add-on is refreshed with three months of security fixes.
+
+## 2026.10.6
+
+**Access follows Core.** What a person can change here now matches the role you gave them on Core's access page. An Operator can no longer use manager-only actions. A box with no access set up keeps full rights.
+
+## 2026.10.5
+
+**Security.** On your farm, PaddiSense trusts only the licence key it was built with. Another add-on on the same box can no longer add one.
+
 ## 2026.10.4
 
 **Weather keeps polling through a short Home Assistant hiccup.** If the farm's location can't be read for a moment, Weather

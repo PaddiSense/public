@@ -3,6 +3,38 @@
 > Plain-English release notes. The full technical changelog lives in the source repo
 > (`CHANGELOG.md`); this is the version that ships in the catalog.
 
+## 2026.10.67
+
+**Security updates:** the add-on now picks up the latest operating-system security fixes when it is built.
+
+## 2026.10.66
+
+**Admin-only actions:** deleting a person, resetting a grower's two-factor sign-in, switching a grower's portal account off or on, linking a grower's box to a business, and committing or undoing a SAP import now need an admin. Other users no longer see those buttons. Everything else they did before — businesses, farms, paddocks, people, owners, events — works as it did.
+
+## 2026.10.65
+
+**Regions:** a user limited to some regions can now only change things in those regions on the map — deleting an event, adding a business, starting a sample campaign — and only sees those regions' sample campaigns.
+
+## 2026.10.64
+
+**Tighter doors:** importing an RTR spreadsheet now needs an admin sign-in, the same as the other bulk imports. A user limited to one region can no longer change a sample point the system cannot place in a region.
+
+## 2026.10.63
+
+**Staying signed in:** a brief network hiccup on the server could send you to the login page when opening GSM from Home Assistant. GSM now rides through it.
+
+## 2026.10.62
+
+**A security hardening behind the scenes** — the link between your farm and PaddiSense services now refuses a class of malformed web addresses outright.
+
+## 2026.10.61
+
+**Reliability:** an unusual web request can no longer make GSM pause while it writes its log.
+
+## 2026.10.60
+
+**Record form:** crop names and weather readings are always shown as plain text.
+
 ## 2026.10.59
 
 **Buttons and fields on your phone follow the new PaddiSense look** — larger, easier to tap.

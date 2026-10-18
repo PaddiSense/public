@@ -3,6 +3,18 @@
 > Plain-English release notes. The full technical changelog lives in the source repo
 > (`CHANGELOG.md`); this is the version that ships in the catalog.
 
+## 2026.10.73
+
+- **Self-test:** the database-password check now gives the correct steps to fix it.
+
+## 2026.10.72
+
+- **Look and feel:** every GSM page uses the current PaddiSense theme again; error messages show in red.
+
+## 2026.10.71
+
+- **Self-test page:** sections open and close again, and the page uses the current PaddiSense look.
+
 ## 2026.10.70
 
 - **Security:** request limits can no longer be dodged by faking an address, and the console stays locked if the database briefly fails.

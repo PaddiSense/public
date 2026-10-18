@@ -1,5 +1,18 @@
 # PaddiSense Planner — What's New
 
+## 2026.10.13
+
+**Security update.** An older built-in login that still used a default password is now given a new random password
+automatically. Some machine keys are now hidden in the add-on's logs. Nothing you see changes.
+
+## 2026.10.12
+
+**Security update.** The add-on now trusts only Home Assistant's own add-on proxy for signed-in access, and very long log lines are
+shortened before they are written.
+
+**A clearer page when you don't have access.** If your account hasn't been given Planner, you now see a page that says so and how to get
+access, instead of a white screen of text.
+
 ## 2026.10.11
 
 **A network hiccup inside the box can no longer lock you out.** If the box briefly could not look up Home Assistant's address, the add-on

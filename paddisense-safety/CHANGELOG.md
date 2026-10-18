@@ -1,5 +1,13 @@
 # PaddiSense Safety — What's New
 
+## 2026.10.22
+
+**Access**
+- If your account hasn't been given access to Safety, you now see a clear page that says so and who to ask, with a button back to the PaddiSense home page.
+
+**Security**
+- Safety only trusts Home Assistant's own add-on proxy to say who you are.
+
 ## 2026.10.21
 
 **Location checks reach the right phone.** If a worker changes or renames their phone, Safety now asks their current phone, and shows on the Workers list when a phone can't be reached.

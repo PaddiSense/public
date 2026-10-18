@@ -3,6 +3,14 @@
 > Plain-English release notes. The full technical changelog lives in the source repo
 > (`CHANGELOG.md`); this is the version that ships in the catalog.
 
+## 2026.10.75
+
+- **Lists:** severity and effectiveness match Farm's wording, and staff can keep a list of applicators.
+
+## 2026.10.74
+
+- **Recording:** staff forms use GSM's own lists, and events from Farm show their proper names.
+
 ## 2026.10.73
 
 - **Self-test:** the database-password check now gives the correct steps to fix it.

@@ -128,7 +128,7 @@ jobs:
           TRIVY_SHA256: "c6e65abddb348e25f10549df887045629cf28cc72453cd1c63acb717316b3f3f"
           TRIVY_USERNAME: ${{ github.actor }}
           TRIVY_PASSWORD: ${{ secrets.GITHUB_TOKEN }}
-          PS_IMAGE_SCAN_ENFORCE: "0"
+          PS_IMAGE_SCAN_ENFORCE: "1"   # Pwm: report read 2026-10-18 (run 39087798900 (PWM 10.155), both arches: none fixable) — enforcing (WR-PS-521, Peter 19:4x)
           PS_IMAGE_SCAN_SEVERITY: "HIGH,CRITICAL"
         run: |
           set -uo pipefail

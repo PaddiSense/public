@@ -3,6 +3,53 @@
 > Plain-English release notes for growers. The full technical changelog lives in the
 > source repo (`CHANGELOG.md`); this is the version that ships in the grower catalog.
 
+## 2026.10.28
+
+**Safer restores and a tidier start page.** Restoring a backup is checked more strictly, and the PaddiSense start page looks the same on every box. Several small security improvements.
+
+## 2026.10.27
+
+**A network hiccup inside the box can no longer lock you out.** If the box briefly could not look up Home Assistant's address, the add-on
+stopped trusting it and sent everyone to the login page until the lookup worked again. It now keeps the last address that worked.
+
+## 2026.10.26
+
+**A security fix in how logs are cleaned.** One specially shaped request could make the add-on stall while it tidied a log line. The
+shared log-cleaning code is now bounded, so it cannot. Nothing changes in how you use the add-on.
+
+## 2026.10.25
+
+**Restoring a backup is safer.** A restore file can no longer make Core run a command of its own: every restore now runs in the
+database tool's restricted mode, and a file carrying such a command is refused with a plain message before anything is restored. Your
+own backups restore as before.
+
+**Core no longer pauses every five minutes** while it reports in — the hub, login and every page stay responsive.
+
+**Small security tidy-ups** from this month's review: developer pages exist only on development boxes, and the Metrics and Database
+pages open only for the Farm Owner.
+
+## 2026.10.24
+
+**The Connections page no longer reports a false drop.** If Home Assistant briefly cannot read a board, the page now says "Not measured" for it instead of "Off Wi-Fi", and it tells you when its reading is out of date.
+
+## 2026.10.23
+
+**See your farm's Wi-Fi in one place.** A new Connections page in PaddiSense Core shows which boards are on the Wi-Fi, which network devices are down, and when several boards dropped out together — so a flapping access point is visible instead of a mystery. It needs the UniFi Network integration in Home Assistant; without it the page says so.
+
+## 2026.10.22
+
+**Core now uses the fleet's one theme.** Hints and help text on the login, recovery, access and password pages are easier to read on
+a phone (15 px), and buttons, fields and popups take their size from the shared PaddiSense theme, the same as every other add-on.
+Nothing else changes for growers.
+
+## 2026.10.21
+
+Built on a fresh, patched system base (security updates).
+
+## 2026.10.20
+
+If your network has a short hiccup, Core goes back to normal within seconds instead of five minutes.
+
 ## 2026.10.19
 
 Backups now cover only the apps installed on your box, which stops a false nightly backup-check alarm. SugarSense is no longer offered as a licence option.

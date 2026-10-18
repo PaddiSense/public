@@ -1,5 +1,17 @@
 # PaddiSense PWM — What's New
 
+## 2026.10.154
+
+**Paddocks**
+- A paddock in PWM is tied to its Farm paddock for good — two farms with a paddock of the same name stay separate.
+- A board PWM can't read shows as "unknown" on the map, not "offline".
+
+**Notifications**
+- Only a Manager or Administrator can add, change or test a notification group.
+
+**Security**
+- Built with the latest system security fixes.
+
 ## 2026.10.153
 
 **Channels**

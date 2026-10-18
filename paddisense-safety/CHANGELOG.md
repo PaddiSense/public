@@ -1,5 +1,9 @@
 # PaddiSense Safety — What's New
 
+## 2026.10.21
+
+**Location checks reach the right phone.** If a worker changes or renames their phone, Safety now asks their current phone, and shows on the Workers list when a phone can't be reached.
+
 ## 2026.10.20
 
 **A network hiccup inside the box can no longer lock you out.** If the box briefly could not look up Home Assistant's address, the add-on

@@ -1,5 +1,22 @@
 # PaddiSense Assets — What's New
 
+## 2026.10.31
+
+**Phone home page tidied.** The tiles are in a new order, starting with Prestarts, and "Maintenance" is now "Request Maintenance".
+
+## 2026.10.30
+
+**Security update.** An older built-in login that still used a default password is now given a new random password
+automatically. Some machine keys are now hidden in the add-on's logs. Nothing you see changes.
+
+## 2026.10.29
+
+**Security update.** The add-on now trusts only Home Assistant's own add-on proxy for signed-in access, and very long log lines are
+shortened before they are written.
+
+**A clearer page when you don't have access.** If your account hasn't been given ASM-Pro, you now see a page that says so and how to get
+access, instead of a white screen of text.
+
 ## 2026.10.28
 
 **Security update.** The add-on's system packages are now brought up to date when it is built, including a fix for a flaw in an

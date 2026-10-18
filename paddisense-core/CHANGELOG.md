@@ -3,6 +3,23 @@
 > Plain-English release notes for growers. The full technical changelog lives in the
 > source repo (`CHANGELOG.md`); this is the version that ships in the grower catalog.
 
+## 2026.10.29
+
+**Wi-Fi Connections**
+- A **Clear history** button shows only what happens from now on (nothing is deleted; **Show all** brings it back).
+
+**Database**
+- Core replaces the database's factory password with its own random one, unless another program is using it, in which case it tells you.
+
+**Backups**
+- A restore now accepts only PaddiSense's own encrypted backups.
+
+**Users**
+- When an administrator sets someone else's password, that person chooses their own the next time they sign in.
+
+**Security**
+- Core only trusts Home Assistant's own add-on proxy to say who you are.
+
 ## 2026.10.28
 
 **Safer restores and a tidier start page.** Restoring a backup is checked more strictly, and the PaddiSense start page looks the same on every box. Several small security improvements.

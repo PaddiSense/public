@@ -1,5 +1,14 @@
 # PaddiSense Weather — What's New
 
+## 2026.10.13
+
+**Access**
+- If your account hasn't been given access to Weather, you now see a clear page that says so and who to ask, with a button back to the PaddiSense home page.
+
+**Security**
+- Weather's built-in admin login no longer uses a default password.
+- Weather only trusts Home Assistant's own add-on proxy to say who you are.
+
 ## 2026.10.12
 
 **Steadier connection.** A brief network hiccup no longer locks you out of Weather. The +/- buttons match the other PaddiSense apps.

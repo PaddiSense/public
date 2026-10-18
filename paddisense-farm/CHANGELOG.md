@@ -1,5 +1,51 @@
 # PaddiSense Farm — What's New
 
+## 2026.10.111
+
+- **Varieties:** the list you keep under Settings → Varieties is now the one every screen offers. Your existing varieties are copied in once.
+
+## 2026.10.110
+
+- **Security:** an old built-in login with a well-known password is replaced automatically with a private one.
+
+## 2026.10.109
+
+- **Safer restore:** only encrypted PaddiSense backups can be restored; a plain database file is refused.
+
+## 2026.10.108
+
+- **Clearer access message:** someone without access to Farm now sees a proper page saying so, instead of a line of code.
+
+## 2026.10.107
+
+- **Security updates:** shared security components refreshed (who counts as Home Assistant's own proxy; log redaction).
+
+## 2026.10.106
+
+- **No surprise sign-outs:** removed an old setting meant to restart the add-on every 10,000 requests (which would have signed everyone out). It never actually triggered, so nothing changes day to day.
+
+## 2026.10.105
+
+- **Steadier and safer:** a stuck database query can no longer tie up the app, sign-in attempts are limited per device as well as per
+  user, and viewers no longer trigger outside connections (machine data, GSM test) — those need an operator.
+
+## 2026.10.104
+
+- **Restore checks:** a valid backup that was wrongly refused now restores, and two more ways to slip a command past the check are closed.
+
+## 2026.10.103
+
+- **Safer connection codes:** a connection code that was altered after your PaddiSense administrator issued it is now refused.
+
+## 2026.10.102
+
+- **Security hardening:** several small fixes to how names and settings are displayed and stored.
+
+## 2026.10.101
+
+- **"Back up now" backups are now encrypted and kept** in Home Assistant's backups folder, so they survive add-on updates.
+- **Security hardening:** stored satellite-data credentials are encrypted, and a few admin-only actions are tightened.
+
 ## 2026.10.100
 
 - **Security updates.** The add-on now picks up the latest operating-system security fixes when it is built.

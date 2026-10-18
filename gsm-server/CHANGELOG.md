@@ -3,6 +3,18 @@
 > Plain-English release notes. The full technical changelog lives in the source repo
 > (`CHANGELOG.md`); this is the version that ships in the catalog.
 
+## 2026.10.70
+
+- **Security:** request limits can no longer be dodged by faking an address, and the console stays locked if the database briefly fails.
+
+## 2026.10.69
+
+**Security fix:** requests relayed through Home Assistant now carry only the information GSM needs, closing a way to reach an admin-only health page.
+
+## 2026.10.68
+
+**Database password check:** Self-test now warns when the database superuser password is still a well-known default, and says how to change it.
+
 ## 2026.10.67
 
 **Security updates:** the add-on now picks up the latest operating-system security fixes when it is built.

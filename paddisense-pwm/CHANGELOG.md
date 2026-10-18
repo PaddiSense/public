@@ -1,5 +1,13 @@
 # PaddiSense PWM — What's New
 
+## 2026.10.155
+
+**Access**
+- If your account hasn't been given access to PWM, you now see a clear page that says so and who to ask, with a button back to the PaddiSense home page — instead of a white screen of text.
+
+**Security**
+- PWM only trusts Home Assistant's own add-on proxy to say who you are.
+
 ## 2026.10.154
 
 **Paddocks**

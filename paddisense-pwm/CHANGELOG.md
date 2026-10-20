@@ -1,5 +1,78 @@
 # PaddiSense PWM — What's New
 
+## 2026.10.157
+- **Paddock sync with Farm is stricter and more honest** — "Check mirror" now shows every difference (a bay under the wrong
+  paddock, a duplicate, an unlinked record) instead of "exact"; two farms with the same paddock name can no longer swap bays,
+  boards or automation between them; a paddock with no farm says "(no farm)".
+- **Paddock names and outlines follow Farm** — a paddock renamed or redrawn in Farm now updates in PWM on the next Sync, and "Check mirror"
+  says when PWM is out of date instead of reading 100%. After updating: Paddock Setup → Sync Farm, then Check mirror.
+- **Hub:** Automation and Diagnostics & Logs sit together under "Automation & Diagnostics".
+- **Firmware is never rolled back to an older version** by a PWM update.
+- **The "TEST Drop WiFi" button is gone from farm boards** — it was a bench tool.
+- **"Board battery low" is now a PWM alert you route in Notifications** — before, a board told every Home Assistant user directly.
+- **PWM now tidies its own history:** depth and audit records older than 2 years, and command/state logs older than 1 year, are
+  removed once a month, so the database doesn't grow for ever. Recent history is never touched.
+- **Resetting a pump service item now resets it to the full interval** — it could come back part-used (e.g. 24 h of 50) if the pump
+  was running or had a run still open, and the warning stayed on the card.
+- **Door buttons no longer say "automation back in 10 min" when the bay's automation is off.**
+
+## 2026.10.156
+- **The STARTING… / STOPPING… countdown on a pump button ticks every second** instead of jumping every 10 seconds.
+- **Pump maintenance alerts** — each service item can warn you a set number of hours before it's due and alerts when it's overdue;
+  fuel can warn at one level and alert at a critical one. While anything is overdue or critical, you get a reminder every time the pump
+  starts (the pump is never stopped). Each item is its own alert in Notifications ("Pump 1 — Change oil", "Pump 1 — Fuel") so you choose
+  who gets which. The pump card shows amber / red pills, and Pump Setup shows each item's last resets.
+- **No more "slow fill" / "slow drain" warnings or map pills** — water moves at the speed it moves. Burst risk, a door that didn't move,
+  and a flush that isn't progressing still warn you.
+- **Auto Demand's level stop checks twice** — it stops the pump on a second reading over the level (about 30 s later), so a splash no
+  longer stops it.
+- **Clearer screens:** one date/time style everywhere, a board's Connected / Offline / Unknown chip wherever it's named, a part-open door
+  says HOLD, bigger text and tap targets on phones and tablets, and the number keypad where a value can't be negative.
+- **Each board shows the version of every firmware module it runs** (W08 → the board's firmware), and says when one needs a reflash.
+- **If Home Assistant stops answering,** PWM stops trusting readings from before the outage after 3 minutes.
+- **No more double entries** — two taps on refuel, add water, add gate, save group or Discover record once.
+- **A page that could not load says so and tries again**, instead of looking empty. A refused change shows PWM's reason.
+- **"Tap again to start" never sends a stop** if the pump started meanwhile.
+- **Debug logging switches itself off after 30 minutes** and no longer changes a sensor's reading.
+- **A depth sensor calibrated with two identical points is refused** instead of silently disabling low-supply protection.
+- **Tidier add-on:** the unused "GitHub token" option is gone, and bench tools can never be switched on in a grower install.
+- **Safer behind the scenes:** tighter checks on door positions, calibration numbers and alert targets; a gate save can no longer undo a
+  change made at the same moment; more phones than the live limit take turns instead of getting an error.
+- **Adding sensors to a board** — one "+ Add sensor" button now offers depth, soil moisture or battery voltage, greyed out when the board has
+  no input left. Soil moisture boards now compile (it failed in ESPHome before).
+- **Boards ride out a flaky Wi-Fi link** — a quick drop and reconnect no longer triggers the board's "lost Wi-Fi" action. Pump firmware 2.2.7.
+- **Smaller, cleaner update** — test files and developer tools are no longer shipped to growers.
+- **Discover never wipes your board list by accident** — if it would remove more than half your boards at once it removes none and shows the
+  list; a manager presses "Remove these boards" to confirm. A board whose file can't be read is always kept.
+- **Board records are protected**: "Discover devices" no longer deletes boards when the ESPHome folder is missing or a file
+  cannot be read, a board's settings save can no longer wipe its MAC or keys, and PWM will never overwrite ESPHome's
+  `secrets.yaml` or a non-PaddiSense device file.
+- **The map works without the internet map library** — it is now built in, and if the map ever cannot load, the page says so and
+  the door and mode buttons still work.
+- **Pump setup: the sensor offset ± no longer loses presses** or puts back an offset you changed on another page.
+- **Overflow protection keeps its gate open if its sensor drops out while the channel is overflowing**, until the sensor reads safe again.
+- **The "no overflow protection" question on a gate** can no longer be declined by accident — it asks "Set it up now" or "Decline overflow protection".
+- **Coming back after the phone was offline** — no more "401" error: tapping a page signs you straight back in, and a save shows "tap here to sign back in" (what you typed stays on screen).
+- **No "Drifting?" / "Unstable?" sensor alerts on a bay that is waiting for water** — a dry sensor is expected. Burst-risk alerts still fire.
+- **The map shows a drained bay at −10 cm instead of a big negative number** (e.g. −35 with a deep-set sensor). Only the map changes —
+  the sensor, alerts and automation still use the real reading, and the Sensor Adjustment card shows the real number while you set an offset.
+- **Sensor offset on the paddock settings (Channel supply):** pressing + / − now shows the level moving again — it read "—" unless the board
+  had Debug Logging on.
+- **Pump Watch** holds the gate where it is when it cannot read its pit sensor (it could let another rule close the pit's feeder).
+- **A pump board lost while running** — the alert now says PWM has **no control** over the pump until its board is back; the pump keeps running.
+- **Pump firmware** mod-pump 2.2.6 / mod-low-supply 1.2.1 (Low Supply and its override hardened) — flash the DEV rig first.
+
+**Sensors**
+
+**Pumps**
+- When a pump takes a while to report it's running, its button now says **STARTING…** instead of "not started" — and tells you only if it really didn't start.
+
+**Flush**
+- If a bay goes over its max during a flush, PWM now closes its supply and tells you. Once the bay has been back below max for 5 minutes the supply opens again and the flush carries on.
+
+**Pond**
+- After rain, when two bays next to each other are both over max, the door between them now opens only if the lower bay can drain away — the water runs straight through and out the bottom instead of piling into a bay that's already too full.
+
 ## 2026.10.155
 
 **Access**

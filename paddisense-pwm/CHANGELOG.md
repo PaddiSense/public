@@ -1,5 +1,29 @@
 # PaddiSense PWM — What's New
 
+## 2026.10.159
+
+- **The Paddocks map draws straight away on second and later visits.** Your paddocks, bays, pumps and channels are kept
+  on your phone or computer, then checked with PWM in the background — anything that changed is redrawn without moving
+  your view.
+- **The satellite picture is kept on your device**, so the map does not download the same imagery every time you open it.
+- **A paddock that is Off is no longer checked every 10 seconds** while you look at it; switching it on picks the checks back up.
+- **PWM now measures how long its pages take to load** (kept 30 days) so the next speed work goes where it is needed.
+  Nothing about the buttons has changed.
+- **Pump firmware 2.2.8: a pump that fails to start no longer leaves its light (or other follow-the-pump relay) on.** The
+  board now gives up on the start itself, lets go of the start relay, and its last stop reads "did not start". Reflash the
+  pump board from ESPHome to get it.
+
+## 2026.10.158
+- **Security update** to the bundled root-certificate list.
+
+- **When a gate can't be saved, PWM says why** ("Not saved — …"), and the reason is kept in the log.
+- **Removing a bay Farm has dropped now lists what goes with it** — its doors, depth sensor, gates and automation — before you confirm.
+- **A bay split or redrawn in Farm keeps its doors, depth sensor and automation in PWM** — it no longer comes back as a bare "B-01 2"
+  with the original deleted.
+- **A bay door on a board whose gate has its own name (e.g. "Spur Gate") now opens, closes and shows its state.** Choosing an
+  actuator the board does not have is refused when you save, with the gate the board does have.
+- **Stopping a pump whose engine runs down now shows STOPPING…** while PWM waits for the board to report stopped, instead of
+  "No response — it may still be running". If it never reports stopped you get the "Pump NOT STOPPED" alert, as before.
 ## 2026.10.157
 - **Paddock sync with Farm is stricter and more honest** — "Check mirror" now shows every difference (a bay under the wrong
   paddock, a duplicate, an unlinked record) instead of "exact"; two farms with the same paddock name can no longer swap bays,

@@ -36,13 +36,18 @@ import urllib.error
 import urllib.request
 from pathlib import Path
 
-VERSION = re.compile(r"^\d{4}\.\d{1,2}\.\d+$")
+# CalVer YYYY.M.N with an OPTIONAL 4th number (ADR-026 P9, Peter RULED 2026-10-21: a Class B/C release bumps a 4th). The
+# fleet's ONE parser is documentation/contracts/_version.py; this script runs in GitHub Actions on the catalog repo, where
+# that module is not checked out, so the pattern is stated here and pinned by the stored fixture `four_part_orders.json`.
+VERSION = re.compile(r"^\d{4}\.\d{1,2}\.\d+(?:\.\d+)?$")
 SIG = re.compile(r"^sha256-([0-9a-f]{64})\.(sig|att|sbom)$")
 ORG = "PaddiSense"
 
 
 def vkey(tag: str) -> tuple[int, ...]:
-    return tuple(int(x) for x in tag.split("."))
+    """2026.10.160 < 2026.10.160.1 < 2026.10.161 — a missing 4th number orders as 0."""
+    parts = tuple(int(x) for x in tag.split("."))
+    return parts + (0,) * (4 - len(parts))
 
 
 class Abort(Exception):

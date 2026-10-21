@@ -1,5 +1,142 @@
 # PaddiSense Farm — What's New
 
+## 2026.10.136
+
+- Security updates to two bundled libraries. Includes everything in 2026.10.135.
+
+## 2026.10.135
+
+- **Clicking a bay or crop zone in the tree** now selects it (and records events on it), not its paddock.
+- **Bays stay inside their paddock** — a bay drawn, edited or buffered outside it is refused, with the reason.
+- **Record event on the map** can take photos.
+- **New bays are named automatically** after their paddock; rename them in Edit attributes.
+- The tree keeps your place after saving an event; the labels panel, farm names and event buttons fit properly.
+
+## 2026.10.134
+
+- **Importing a machine file** records the event with its product, rate, crop, shape and area, and its crop zones with their crop.
+
+## 2026.10.133
+
+- **Saving an event on a patchy connection** no longer records it twice if the phone tries again.
+
+## 2026.10.132
+
+- **Restoring a backup** either completes fully or changes nothing, and tells you plainly if it failed.
+
+## 2026.10.131
+
+- **Capture photo** on observations: in the event wizard, take or pick photos; they are saved with the event and shown on the map's
+  event panel.
+
+## 2026.10.130
+
+- **Importing events from a spreadsheet** reads Australian dates (20/10/2026) correctly, tells you which rows were skipped and why,
+  and will not import the same file twice.
+
+## 2026.10.129
+
+- **Recording a sowing or harvest for an earlier season** no longer changes this season's crop on the paddock.
+
+## 2026.10.128
+
+- **Send all to GSM** sends only what the preview shows — not paddocks you excluded from GSM.
+- **An event across several crop zones** goes to GSM once, with the right area, even after a retry.
+
+## 2026.10.127
+
+- **Import Hub:** each product keeps its event type after Detect Zones / Auto-Clean, and Import All tells you which products failed.
+- **RTR cards** show the moisture and harvest ranges and any warnings, and are easier to read.
+
+## 2026.10.126
+
+- **A GSM sync no longer deletes a farm's bays and infrastructure** when its paddocks have moved to another farm.
+- **The RTR settings buttons** (Save URL, Refresh, Clear) work again.
+- **Config → Crops on a phone** loads instead of saying "Failed to load".
+- **Update and Restart** in Admin now reach this add-on.
+
+## 2026.10.125
+
+- **Editing an event from the map** no longer blanks details the edit did not show (rates, operator).
+- **Confirming a machine event** keeps where it came from, and saves the operator, applicator, weather and times you entered — and any
+  extra paddocks you added.
+- **Desktop map harvests** keep their crop and variety.
+- **Changing an event's date** moves its start time and weather to that day.
+
+## 2026.10.124
+
+- **Recording on part of a paddock** (a crop zone) now saves on that part, not the whole paddock.
+- **Picking a paddock together with a bay of another paddock** now records both.
+- **On the phone map,** going back and picking a different layer no longer keeps the earlier bays.
+- **Events and Events → Manage:** rows open, ticks match, and the edit panel opens; saving it keeps everything you did not change.
+
+## 2026.10.123
+
+- **Print frame and planning tools** now close properly when you click something else, so they no longer get in the way on the map.
+- **Easier-to-read buttons** on the Match page, and easier-to-read event labels on the desktop recorder.
+- **The map tree's colour squares** now match the colours on the map.
+
+## 2026.10.122
+
+- **The farm tree** no longer goes blank when it briefly fails to load; your layers stay as they were.
+- **Merging paddocks** from the tree works without ending the merge.
+- **Editing a bay, crop zone or event shape** always saves to the one you opened.
+- **Cancelling or pressing Esc on a drawing** fully stops it, so the map responds to clicks again.
+- **On a phone,** save errors now show on top of the map.
+
+## 2026.10.121
+
+- **Recording a sowing or harvest with a crop now saves** (it could fail with "Batch insert failed").
+- **Crop Complete on one bay** clears only that bay's crop, not the whole paddock.
+- **Editing a paddock boundary** always saves to the paddock you opened.
+- **A saved draft** can no longer overwrite a machine event waiting to be confirmed.
+
+## 2026.10.120
+
+- **Map editing:** on a curve with lots of points, clicking a point now deletes it, and a **Simplify** button (1 / 2 / 5 m)
+  removes the extra points in one go. Only one shape can be edited at a time, and paddocks that come from CNH or John Deere say to
+  edit them there. Clicking a paddock now clears a bay that was selected.
+
+## 2026.10.119
+
+- **Paddock matching — Sync Machine** now waits for the sync to finish and tells you if it failed (for example "reconnect CNH"),
+  and names any fields it could not match.
+
+## 2026.10.118
+
+- **Paddock matching:** the paddock name is now a second check. Same ground and same name → Update. Similar ground but a different
+  name → Check, so you decide. On a Check you can now update the paddock to the machine shape (for example after cutting a corner
+  off a paddock in CNH).
+
+## 2026.10.117
+
+- **Resize bays:** works on any two bays side by side, even with an uneven or curved gap. Drag a ◆ to move just that part of the
+  shared side, or the ◇ to slide all of it — the bank between the bays keeps its width, and you see the new shapes before you Save.
+
+## 2026.10.116
+
+- **Map tree — "No season":** events, crop zones and datasets are filed under the season their date falls in. Anything left
+  under "No season" has a **Tidy…** button: move it to a season, or delete it.
+
+## 2026.10.115
+
+- **Map:** clicking a bay selects just the bay — the map no longer jumps to the whole paddock.
+- **Resize bays:** if two bays can't be resized together, the reason stays on screen and you can pick another bay.
+
+## 2026.10.114
+
+- **Machine Data:** pick exactly the paddocks and machines Farm takes from CNH or John Deere. Unticking everything now means
+  nothing comes in, and CNH job files come only from the machines you tick.
+- **Disconnecting CNH or John Deere** asks what to remove with it. Paddocks you confirmed and jobs you imported always stay.
+
+## 2026.10.113
+
+- **Recording on a phone:** choosing a different operator now takes effect.
+
+## 2026.10.112
+
+- **Your lists, everywhere:** every drop-down (methods, units, crop stages, operators, event types, severity) now uses the list you keep in Settings. If something is missing, the screen shows a link to where you add it — Store for products, Settings for the rest.
+
 ## 2026.10.111
 
 - **Varieties:** the list you keep under Settings → Varieties is now the one every screen offers. Your existing varieties are copied in once.

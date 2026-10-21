@@ -1,5 +1,9 @@
 # PaddiSense PWM — What's New
 
+## 2026.10.160
+
+- **Settings on the Paddocks map opens again.** In 10.159 it stopped responding from your second visit to the map; fixed.
+
 ## 2026.10.159
 
 - **The Paddocks map draws straight away on second and later visits.** Your paddocks, bays, pumps and channels are kept
@@ -1886,7 +1890,7 @@ is shut" are different things, and only one of them needs you.
 - Adjusting an offset now targets the sensor by its channel rather than by a "1m"/"5m" label, which
   on a board with a real 1 m and a real 5 m sensor could adjust the wrong one.
 
-**<plain-English note for growers — replace>**
+- **Settings on the Paddocks map opens again.** In 10.159 it stopped responding from your second visit to the map; fixed.
 
 ## 2026.9.80
 
@@ -1895,7 +1899,7 @@ is shut" are different things, and only one of them needs you.
   PWM now drives both, matching what the physical switch already did, and the gate shows a single
   state. Boards set up with two independent switches are unchanged: each gate drives its own.
 
-**<plain-English note for growers — replace>**
+- **Settings on the Paddocks map opens again.** In 10.159 it stopped responding from your second visit to the map; fixed.
 
 ## 2026.9.79
 
@@ -1903,7 +1907,7 @@ is shut" are different things, and only one of them needs you.
   seconds — so a change in water level shows up in about 5 minutes instead of 8. Boards already
   set up keep their current setting until you regenerate and re-flash them.
 
-**<plain-English note for growers — replace>**
+- **Settings on the Paddocks map opens again.** In 10.159 it stopped responding from your second visit to the map; fixed.
 
 ## 2026.9.78
 
@@ -1911,7 +1915,7 @@ is shut" are different things, and only one of them needs you.
   keeps the board open so you can carry on editing it, and when you do close, you land back on
   that board's row rather than at the top.
 
-**<plain-English note for growers — replace>**
+- **Settings on the Paddocks map opens again.** In 10.159 it stopped responding from your second visit to the map; fixed.
 
 ## 2026.9.77
 
@@ -1923,7 +1927,7 @@ is shut" are different things, and only one of them needs you.
 - Nothing is deleted if Farm cannot be reached, or if Farm returns an empty or unexpectedly short
   list.
 
-**<plain-English note for growers — replace>**
+- **Settings on the Paddocks map opens again.** In 10.159 it stopped responding from your second visit to the map; fixed.
 
 ## 2026.9.76
 
@@ -1933,7 +1937,7 @@ is shut" are different things, and only one of them needs you.
   because removing it would take its bays, boards and automation with it.
 - If Farm cannot be reached, or returns an unexpectedly short list, nothing is deleted.
 
-**<plain-English note for growers — replace>**
+- **Settings on the Paddocks map opens again.** In 10.159 it stopped responding from your second visit to the map; fixed.
 
 ## 2026.9.75
 
@@ -1941,7 +1945,7 @@ is shut" are different things, and only one of them needs you.
   depths" box stuck at the top of the map page. The rule that hides them was missing on those pages
   and is now defined once for the whole add-on.
 
-**<plain-English note for growers — replace>**
+- **Settings on the Paddocks map opens again.** In 10.159 it stopped responding from your second visit to the map; fixed.
 
 ## 2026.9.74
 
@@ -1951,7 +1955,7 @@ is shut" are different things, and only one of them needs you.
 - Fixed a gate-edit dialog on the Paddocks page that appeared as a loose list of fields instead of a
   pop-up.
 
-**<plain-English note for growers — replace>**
+- **Settings on the Paddocks map opens again.** In 10.159 it stopped responding from your second visit to the map; fixed.
 
 ## 2026.9.73
 
@@ -1960,7 +1964,7 @@ is shut" are different things, and only one of them needs you.
   to. Each gate now moves only its own actuator, and each gate card shows only its own valve.
 - If you have a board whose two actuators should always move together, set it up as two gates.
 
-**<plain-English note for growers — replace>**
+- **Settings on the Paddocks map opens again.** In 10.159 it stopped responding from your second visit to the map; fixed.
 
 ## 2026.9.72
 
@@ -1968,7 +1972,7 @@ is shut" are different things, and only one of them needs you.
   board's second actuator was reading its own valve but commanding the first one. Both gates on a
   two-actuator board now command the actuator they are assigned to.
 
-**<plain-English note for growers — replace>**
+- **Settings on the Paddocks map opens again.** In 10.159 it stopped responding from your second visit to the map; fixed.
 
 ## 2026.9.71
 
@@ -1978,7 +1982,7 @@ is shut" are different things, and only one of them needs you.
   missing, you get a clear "NOT SAVED" message and are taken straight to that setting — instead of
   the save quietly doing nothing.
 
-**<plain-English note for growers — replace>**
+- **Settings on the Paddocks map opens again.** In 10.159 it stopped responding from your second visit to the map; fixed.
 
 ## 2026.9.70
 
@@ -1988,7 +1992,7 @@ is shut" are different things, and only one of them needs you.
 - If a gate was set up before its board gained a second actuator, saving it now picks up the
   board's real actuator count. On an affected board, save the second gate first.
 
-**<plain-English note for growers — replace>**
+- **Settings on the Paddocks map opens again.** In 10.159 it stopped responding from your second visit to the map; fixed.
 
 ## 2026.9.69
 
@@ -1996,7 +2000,7 @@ is shut" are different things, and only one of them needs you.
   channel-emergency sequence can be rehearsed on the test rig where no depth transmitter is fitted.
   On a farm nothing changes — the gate reads its real sensor exactly as before.
 
-**<plain-English note for growers — replace>**
+- **Settings on the Paddocks map opens again.** In 10.159 it stopped responding from your second visit to the map; fixed.
 
 ## 2026.9.68
 
@@ -2008,7 +2012,7 @@ is shut" are different things, and only one of them needs you.
 - **Channels page:** overflow actions are now one compact row each, and you can choose the gate you
   are editing as the target, not just other gates.
 
-**<plain-English note for growers — replace>**
+- **Settings on the Paddocks map opens again.** In 10.159 it stopped responding from your second visit to the map; fixed.
 
 ## 2026.9.67
 
@@ -2023,7 +2027,7 @@ is shut" are different things, and only one of them needs you.
 - **Fixed:** editing a gate on a phone could silently erase overflow actions set up on a
   computer.
 
-**<plain-English note for growers — replace>**
+- **Settings on the Paddocks map opens again.** In 10.159 it stopped responding from your second visit to the map; fixed.
 
 ## 2026.9.66
 
@@ -2039,7 +2043,7 @@ is shut" are different things, and only one of them needs you.
   watched gates (for example after a gate was deleted, or while its board was offline). It now leaves
   the pump alone and records why.
 
-**<plain-English note for growers — replace>**
+- **Settings on the Paddocks map opens again.** In 10.159 it stopped responding from your second visit to the map; fixed.
 
 ## 2026.9.65
 

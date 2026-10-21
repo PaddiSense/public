@@ -3,6 +3,39 @@
 > Plain-English release notes. The full technical changelog lives in the source repo
 > (`CHANGELOG.md`); this is the version that ships in the catalog.
 
+## 2026.10.81
+
+- Security updates to two building blocks GSM uses (certificates and image handling). Nothing changes on screen.
+
+## 2026.10.80
+
+- On a phone, opening a grower's farm on the map no longer gets stuck on "Loading map data".
+- The phone grower pages are for looking and recording: adding farms stays on the computer, and each farm has a Record an event button.
+- Opening a farm on the map no longer asks for your location; tap the GPS button when you want it.
+
+## 2026.10.79
+
+- On a phone, GSM now opens on the same dashboard as the computer: today's events, rice area, businesses and farms, your field
+  shortcuts, and the Real Time Rice numbers.
+
+## 2026.10.78
+
+- The map opens showing every region, so nothing is hidden until you narrow it down.
+- When you pick a farm in the list, it turns orange and the farms around it go grey, so you can see its edges.
+- Paddock and farm names on the map are easier to read, and you can make them smaller or bigger.
+- The map loads faster and no longer jumps twice when you change region.
+
+## 2026.10.77
+
+- A grower who opens the map without signing in is sent to the grower portal's sign-in page (it showed a "not found" page).
+- On a phone, the menu button no longer sits on top of the Home button.
+- The Hey Farmer lists (event options, products, varieties, applicators) are easy to use on a phone: one card per item, big buttons,
+  and the move-up / move-down arrows are visible.
+
+## 2026.10.76
+
+- Behind the scenes: shared paddock-matching code kept identical with Farm. Nothing changes in GSM.
+
 ## 2026.10.75
 
 - **Lists:** severity and effectiveness match Farm's wording, and staff can keep a list of applicators.

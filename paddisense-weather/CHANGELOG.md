@@ -1,5 +1,9 @@
 # PaddiSense Weather — What's New
 
+## 2026.10.13.1
+
+- The side menu is easier to read, and on a phone the menu button no longer sits over the top-bar button.
+
 ## 2026.10.13
 
 **Access**

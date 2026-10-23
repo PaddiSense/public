@@ -35,7 +35,7 @@ jobs:
       - name: Install pinned tools + deps
         run: |
           python -m pip install --upgrade pip
-          pip install -r source/paddisense-pwm/requirements.txt
+          (cd source/paddisense-pwm && pip install -r requirements.txt)
           pip install ruff mypy bandit types-requests types-PyYAML
       - name: Ruff lint (pinned)
         run: ruff check source/paddisense-pwm/paddisense_pwm

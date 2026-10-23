@@ -35,7 +35,7 @@ jobs:
       - name: Install pinned tools + deps
         run: |
           python -m pip install --upgrade pip
-          pip install -r source/paddisense-livestock/requirements.txt
+          (cd source/paddisense-livestock && pip install -r requirements.txt)
           pip install ruff mypy bandit types-requests types-PyYAML
       - name: Ruff lint (pinned)
         run: ruff check source/paddisense-livestock/paddisense_livestock

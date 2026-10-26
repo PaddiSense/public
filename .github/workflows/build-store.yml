@@ -106,6 +106,9 @@ jobs:
         with:
           context: source/paddisense-store
           file: source/paddisense-store/Dockerfile
+          # WR-PS-877: APT_REFRESH is a new key per run (and per re-run), so the apt-upgrade layer never comes from the cache
+          build-args: |
+            APT_REFRESH=${{ github.run_id }}-${{ github.run_attempt }}
           platforms: ${{ matrix.platform }}
           push: true
           tags: |

@@ -232,8 +232,10 @@ jobs:
           file:    source/gsm-server/Dockerfile
           platforms: ${{ matrix.platform }}
           push: true
+          # WR-PS-877: APT_REFRESH is a new key per run (and per re-run), so the apt-upgrade layer never comes from the cache
           build-args: |
             BUILD_VERSION=${{ steps.version.outputs.version }}
+            APT_REFRESH=${{ github.run_id }}-${{ github.run_attempt }}
           tags: |
             ${{ env.IMAGE_BASE }}/${{ matrix.arch }}-gsm-server:${{ steps.version.outputs.version }}
             ${{ env.IMAGE_BASE }}/${{ matrix.arch }}-gsm-server:latest

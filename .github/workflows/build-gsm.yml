@@ -105,15 +105,51 @@ jobs:
 
       - name: Gate 4 — Pip-audit CVE scan (Rule 155, HARD — zero CVE)
         working-directory: source/gsm-server
+        # WR-PS-877 (P §5.3 2026-10-27, C1): --strict refuses a dependency that is not on PyPI, and our vendored paddisense_common
+        # wheel never is ("Dependency not found on PyPI and could not be audited"), so audit every OTHER line. C1: first prove every
+        # Requires-Dist of every vendored wheel is pinned in that audited file, so a new dependency in the next wheel cannot ship unaudited.
         run: |
+          grep -v '^\./vendor/wheels/' requirements.txt > "$RUNNER_TEMP/req-audit.txt"
+          python3 - "$RUNNER_TEMP/req-audit.txt" vendor/wheels/*.whl <<'PY'
+          import re, sys, zipfile
+          from pathlib import Path
+
+          def norm(n):
+              return re.sub(r"[-_.]+", "-", n).lower()
+
+          audited = set()
+          for ln in Path(sys.argv[1]).read_text().splitlines():
+              ln = ln.strip()
+              if ln and not ln.startswith(("#", "-", ".", "/")):
+                  audited.add(norm(re.split(r"[\s=<>!~;\[@]", ln, maxsplit=1)[0]))
+          wheels = [w for w in sys.argv[2:] if Path(w).is_file()]
+          missing = []
+          for whl in wheels:
+              with zipfile.ZipFile(whl) as z:
+                  meta = [n for n in z.namelist() if n.endswith(".dist-info/METADATA")]
+                  if len(meta) != 1:
+                      print(f"::error::{whl}: {len(meta)} METADATA files — cannot read its dependencies")
+                      sys.exit(1)
+                  for ln in z.read(meta[0]).decode().splitlines():
+                      if not ln.startswith("Requires-Dist:"):
+                          continue
+                      spec = ln.split(":", 1)[1].strip()
+                      if ";" in spec and "extra" in spec.split(";", 1)[1]:
+                          continue          # an optional extra — not installed by a plain `pip install <wheel>`
+                      name = norm(re.split(r"[\s=<>!~;\[(@]", spec, maxsplit=1)[0])
+                      if name not in audited:
+                          missing.append(f"{Path(whl).name} needs {spec!r}, not pinned in the audited requirements")
+          for m in missing:
+              print(f"::error::{m}")
+          print(f"wheel deps audited: {len(wheels)} vendored wheel(s), {len(missing)} dependency(ies) missing from the audit")
+          sys.exit(1 if missing else 0)
+          PY
+          ARGS="-r $RUNNER_TEMP/req-audit.txt --strict"
           if [ -f .pip-audit-skip ]; then
-            ARGS="-r requirements.txt --strict"
             while IFS= read -r v; do
               case "$v" in ''|\#*) continue ;; esac
               ARGS="$ARGS --ignore-vuln $v"
             done < .pip-audit-skip
-          else
-            ARGS="-r requirements.txt --strict"
           fi
           pip-audit $ARGS
 

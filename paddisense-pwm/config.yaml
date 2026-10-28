@@ -1,10 +1,10 @@
 # GENERATED from the source config.yaml by release.sh Step 7 (WR-PS-115).
 # DO NOT hand-edit — any edit is overwritten at the next release.
-# source: PaddiSense/PWM@21c5b0734553e2469729da015b5747985b54bdc6
+# source: PaddiSense/PWM@7487eb131572a9992ae3dad151ebaef451272d93
 # Catalog-only deltas are declared in contracts/catalog-overrides.yaml;
 # contracts/check-catalog-drift.py verifies catalog == source on every release + in CI.
 name: PaddiSense PWM
-version: 2026.10.160
+version: 2026.10.170
 slug: paddisense-pwm
 description: PaddiSense PWM — Precision Water Management for rice irrigation
 logo: true
@@ -35,6 +35,8 @@ options:
   db_password: ''
   box_prefix: ''
   bench_mode: false
+  control_core_shadow: false
+  control_core_process: false
 schema:
   db_host: str
   db_port: port
@@ -43,4 +45,6 @@ schema:
   db_password: password
   box_prefix: str?
   bench_mode: bool?
+  control_core_shadow: bool?
+  control_core_process: bool?
 image: ghcr.io/paddisense/{arch}-paddisense-pwm

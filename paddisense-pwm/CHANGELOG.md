@@ -1,5 +1,118 @@
 # PaddiSense PWM — What's New
 
+## 2026.10.170
+
+- **A channel gate now closes when the channel below it is full, whatever its upstream offtakes say.** Before, a gate with
+  its upstream offtakes switched on never listened to the depth below it. The gate card says when the offtakes were overruled,
+  and the gate stays closed until the channel below drops under its open level.
+
+## 2026.10.169
+
+- **Tapping Open on a door that is opening in stages opens it fully.** The stages are cleared, and the door stays open until it
+  is closed or the bay is set to Flush again.
+- **A paddock fed from the bay above it now gets its water.** When a paddock's inlet is the drain of a bay in the paddock
+  above, Flush no longer compares the two bays' levels, which are measured from different floors. It opens the inlet.
+- **Water Depth is one card per bay.** Each bay shows −1 / +1 above its Min, then Min and Max together, then −1 / +1 below
+  for Max. The ±5 buttons are gone.
+- **Flush always has a trigger bay.** The "none" choice is gone. The inlet closes after the trigger bay completes, plus the close
+  delay.
+- **New page: Irrigation History.** Pick a paddock and dates to see each time water covered its bays (depth above 0 cm for at
+  least 30 minutes): when each bay went on and off water, the time on water, the peak depth, and whether it was a Flush, Pond
+  or Manual watering. Download it as a PDF report or a CSV. It is on the home page and in the menu.
+- **Channel and pump depths have a history graph.** Tap a channel gate's depth on Channels, or a pump's supply depth once its
+  card is open, for the same 1 h / 6 h / 24 h graph the bays have.
+- **Upstream Offtake reads on a phone.** Each combination is its own small card, with what this gate does on a row underneath.
+- **The door buttons no longer say "tap twice to …".** A single tap's hint ("tap to open") stays.
+
+## 2026.10.168
+
+- **Flush and Pond start 30 seconds after you set them, and the button counts down.** Nothing moves for 30 seconds (it was 1
+  minute), so a mis-tap can be changed. While it counts, the paddock's mode button says "Automation starts in 30 s", counting down.
+- **The pump card shows the shutdown time left.** While a shutdown timer runs, the Timers button says "Shutdown in 01:23:45",
+  counting down.
+- **The Automation page shows each door's Flush stage**, as the door button does: "Supply · Stage 1 · 50% · 32 min left".
+
+## 2026.10.167
+
+- **The shutdown timer's + and − work on every pump.** On a pump that had no shutdown timer, + now sets one (and on a running
+  pump it starts counting straight away and the pump board is told). − on a pump with no timer says so under the clock.
+- **Upstream gates: Open, Close or Set to a percent.** Each combination row on a channel gate's Upstream Offtake now says
+  Open, Close or Set to __% open. "Leave" is gone: a row you had set to Leave now reads "Hold where it is" — the gate stays
+  where it is — until you choose Open, Close or a percent.
+- **A pump stopped by its board restarting says so.** If a board restarts (for example during a firmware update) the pump
+  stays stopped — PWM does not start it again — and the Pumps page says "Stopped — the board restarted". Before you update a
+  board whose pump is running, the board page warns you: "Pump … is running — updating its board will stop it".
+- **Pump boards: no more Wi-Fi action choice.** A pump board always stops the pump after its "No-WiFi Response Time"
+  (0 = keep running) — the hold / close / open choice it showed did nothing, so it is gone after the board's next update.
+  Gate and door boards are unchanged.
+- **Pump Setup is tidier.** The Live Status card is gone (the Pumps page shows it), Live Settings is now **Pump Protection**,
+  the sensor offsets have their own **Sensors** tile, and each service item is its own card.
+- **The Low Supply minimum is described accurately.** A running pump stops 3 to 4 minutes after the water drops below it.
+- **The board page's Firmware card lists every module** with its version, and says when one differs from this release.
+
+- **Door buttons:** after you tap HOLD the button stays on HOLD while the door stops, instead of flicking back to Opening / Closing.
+  The % on a moving door now starts when the door actually starts moving and follows the board.
+
+- **Flush can open a door in steps.** On a gate's edit card, set Flush opening stages — for example 50 % for 60 minutes, then
+  80 % for 30 minutes — and when Flush opens that door it goes there step by step before opening fully, so the bay does not
+  scour. Leave it blank and the door opens fully straight away, as before. One stage is fine. The door's button shows
+  "Stage 1 · 50% · 32 min left". Only Flush uses it; Pond and your own taps open the door straight away.
+
+## 2026.10.166
+
+- **Upstream gates: you decide each combination.** On a channel gate's Upstream Offtake, tick up to 4 gates or bays above it.
+  PWM lists every open / closed combination of them, and for each you choose what the channel gate does — Open, Close or
+  Leave it to the other rules. Your existing setting is shown as the table and keeps working exactly as before until you
+  change a row.
+- **Gates and sensors are named by their bay.** The Downstream Demand and Pump Watch sensor lists, and the gate rule lists,
+  now say "K13 · B-01 supply" or "K13 · B-01 depth" instead of a board name like rb_011.
+- **A deleted bay in a gate rule is explained.** If Farm replaces a bay that a channel gate's rule was watching, the gate's
+  page now says that rule is not running and why, and offers a button to use the new bay. The alert says "Offtake bay
+  deleted" instead of "Sensor offline".
+- **A new board shows up straight away.** A board you add while PWM is running is recognised within seconds — no restart and no Discover needed.
+- **A door you close right after stopping it** no longer says "No response" while it is about to move.
+
+## 2026.10.165
+
+- **Paddock Setup is clearer.** "Compare with Farm" shows what differs and changes nothing. Each "Fixed to match Farm" entry says when it happened. If PWM can't reach Farm when you choose a paddock, it says so and offers Retry.
+- **New bays always get their own permanent id**, so a bay can never take over another bay's gates or board. Bays are drawn in Farm; PWM's old split-into-bays tool is gone.
+- **The depth key** shows on the All tab only, so a single paddock has more room.
+- **Pump Low Supply minimum** now steps 1 cm at a time (it stopped at 5 cm).
+- Clearer words on the map, Automation, Notifications and Devices pages.
+
+## 2026.10.164
+
+- **Hold now always stops a bay door.** Tapping a moving door to HOLD it could be missed when the door's position had not caught up yet — the door kept going, or the next tap closed it instead. A HOLD tap now always stops a door that is moving, and the door buttons still work the same way otherwise.
+
+## 2026.10.163
+
+- **Paddocks always match Farm.** On some farms the Paddock Setup list and the map could point at the wrong paddock (enabling one
+  paddock turned on its neighbour). PWM now links each paddock to Farm only by Farm's own permanent id — never by its name — and on
+  the next Sync fixes any paddock that was crossed, keeping its bays, gates and settings. What it fixed is listed on Paddock Setup
+  under "Fixed to match Farm". A paddock it cannot be sure about asks you which Farm paddock it is.
+- **Door buttons say what a tap does.** Each door button keeps its state and colour, with a short line under it — "tap to open", "tap twice to open", "tap to stop".
+- **A paddock's automation is a clear switch** on Paddock Setup: "Automation: Enabled / Disabled".
+- **The map's depth key** now reads below min / in band / above max, grey for not live, red "--" for check the sensor.
+- **Pump alerts:** on a new farm "Pump did not start" and "Pump NOT stopped" are critical by default; an existing farm keeps the setting it already had.
+- **Maintenance alerts** arrive once a day at pump start, and only to the group that ticked them.
+- Tidier pages: titles on every setup page, the Water Chain findings on the phone, consistent buttons and spacing.
+
+## 2026.10.162
+
+- **Flush is safer around full bays.** If any bay in a running Flush goes over its maximum — including one that has finished its turn —
+  the paddock inlet now closes, and reopens once those bays are back under maximum and the bay taking its turn still needs water.
+- **The Flush inlet waits for steady water.** It opens only after the channel has stayed above the top bay for a full minute, so a
+  flickering reading can no longer open it early. The map shows the countdown.
+- **If a bay's sensor stops reporting mid-Flush,** you get one clear alert; the inlet keeps running as you set it.
+- **Sign-in:** if your session has ended, PWM now offers to sign you back in instead of saying you lack permission.
+- **Small fixes:** the Water Chain page tells you on a phone that it is set up on a computer or tablet; "Activate Licence" with an empty
+  code now asks for the code; alert checkboxes are easier to tap on a phone.
+- Behind the scenes: every command now goes through PWM's control core (the groundwork for an even more robust controller).
+
+## 2026.10.161
+
+- DEV build for testing — not released to growers.
+
 ## 2026.10.160
 
 - **Settings on the Paddocks map opens again.** In 10.159 it stopped responding from your second visit to the map; fixed.

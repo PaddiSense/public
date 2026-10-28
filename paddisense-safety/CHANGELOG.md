@@ -1,5 +1,10 @@
 # PaddiSense Safety — What's New
 
+## 2026.10.23
+
+- **Alerts name the right paddock.** Safety now identifies a paddock by Farm's own permanent id, so two farms' "Blk 2" are never mixed up, and an alert shows "<farm> · <paddock>" when you have more than one farm.
+- **Records are kept.** The escalation log and the audit trail are never deleted.
+
 ## 2026.10.22
 
 **Access**

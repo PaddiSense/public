@@ -3,6 +3,19 @@
 > Plain-English release notes for growers. The full technical changelog lives in the
 > source repo (`CHANGELOG.md`); this is the version that ships in the grower catalog.
 
+## 2026.10.31
+
+**<plain-English note for growers — replace>**
+
+## 2026.10.30.1
+
+- Behind the scenes: Core now passes PWM's health signal to the PaddiSense office, and uses the shared theme.
+
+## 2026.10.30
+
+**Security**
+- Built with the latest system security fixes.
+
 ## 2026.10.29
 
 **Wi-Fi Connections**

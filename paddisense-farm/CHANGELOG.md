@@ -1,5 +1,160 @@
 # PaddiSense Farm — What's New
 
+## 2026.10.143.27
+
+- The phone farm map now shows this season's events by default. Tap **All seasons** to see earlier years; your choice is remembered.
+- Recording an event on the phone now finds your location as soon as the map opens.
+- Photos taken while recording an event now keep where they were taken. On the desktop map, tap the 📍 under a photo to see the spot.
+
+
+## 2026.10.143.26
+
+- Restoring a Farm backup now works. Backups taken from this version on can be restored over the running database. Before, a restore was always refused. Older backups are replaced automatically within three days.
+
+## 2026.10.143.25
+
+- Behind the scenes: each new version now picks up the latest operating-system security fixes when it is built. This version also carries everything listed under 2026.10.143.24.
+
+## 2026.10.143.24
+
+- A harvest recorded on several paddocks now splits its tonnes across them by area, so the paddocks add up to what you entered.
+- "Whole Farm" in the event wizard now records the event on every paddock of that farm.
+- An event dated outside every season now shows under "No season" for you to file, not under the current season.
+- Drawing a new paddock on the map now asks for its name and its farm in the side panel.
+- A tablet held upright gets the phone map; turn it sideways for the full map.
+- The phone map has the measuring tools: line, path, radius and area.
+- The RTR card no longer shows an empty drain-down slot.
+
+## 2026.10.143.23
+
+- Behind the scenes: housekeeping only, nothing you use changes.
+
+## 2026.10.143.22
+
+- Behind the scenes: a new crop-year season with no dates set now runs 1 May to 30 April, the same as RTR and GSM.
+
+## 2026.10.143.21
+
+- Behind the scenes: farm names from GSM are matched regardless of capitals or spaces, and a GSM farm can't be linked to another grower's farm.
+
+## 2026.10.143.20
+
+- **Imports now ask you to confirm which paddock each field goes to** before anything changes, and remember your choice for next time.
+- A GSM farm with the same name as one of yours is never merged into it automatically — Config → Farms lists it for you to link.
+
+## 2026.10.143.19
+
+- Behind the scenes: every map and list now reads each paddock's single stored shape.
+
+## 2026.10.143.18
+
+- **A crop zone in your crop plan is kept** when you remove it (hidden, with its history), and the plan still knows it.
+
+## 2026.10.143.17
+
+- Behind the scenes: when you merge, split or retire a paddock, GSM is told, so its records follow yours.
+
+## 2026.10.143.16
+
+- Behind the scenes: Farm checks which GSM version it is talking to, so sending to an older GSM keeps working.
+
+## 2026.10.143.15
+
+- Behind the scenes: paddocks sent to GSM now carry their permanent ID, so GSM always matches the right paddock.
+
+## 2026.10.143.14
+
+- Behind the scenes: other add-ons can now follow a crop zone that was split or merged.
+
+## 2026.10.143.13
+
+- **A bay with records is kept when you delete it** (hidden, with its history); only a bay never used is removed.
+- Splitting a bay that already has events recorded on it no longer fails.
+
+## 2026.10.143.12
+
+- **Splitting a paddock now splits its crop zones along the same line,** each part staying with its paddock.
+- **Nothing you have used is ever lost.** Deleting a paddock or crop zone that has records hides it and keeps its history; only something never used is removed.
+
+## 2026.10.143.11
+
+- **An event's area is the area of what you treated.** A whole paddock uses the paddock's measured area; a part you draw uses the area of that drawing.
+
+## 2026.10.143.10
+
+- **Paddock and crop-zone areas are now measured exactly from the drawn shape.** Most read about 1% lower than before, which is the true area. Events you have already recorded keep the area they were saved with.
+
+## 2026.10.143.9
+
+- Behind the scenes: every paddock, bay and crop zone now has one permanent ID that never changes, so PWM and the other add-ons can never mix two paddocks up.
+
+## 2026.10.143.8
+
+- Recording against a bay or a pump or other infrastructure now uses the same steps as paddocks and crop zones.
+
+## 2026.10.143.7
+
+- **Your location on the Record map.** A blue dot shows where you are, and a button brings the map back to it.
+- Picking a paddock or crop zone now carries you into the same recording steps used everywhere else.
+
+## 2026.10.143.6
+
+- Behind the scenes: the shared phone recording screen (also used by GSM) can now take photos too.
+
+## 2026.10.143.5
+
+- **Take photos while recording on your phone.** On the last step of Record, tap *Capture photo*. Your camera opens, and each photo is saved with the event.
+- **The record map shows this season's crops only.** Last season's crop zones no longer appear.
+- **The map shows the layer you picked.** Choosing Bays, Crop Zones or Infrastructure no longer leaves paddocks drawn underneath on a slow connection.
+
+## 2026.10.143.4
+
+- No change you will see — the colours and styling now come from one shared package.
+
+## 2026.10.143.3
+
+- No change you will see — test housekeeping.
+
+## 2026.10.143.2
+
+- No change you will see — paddock-matching numbers moved into one place.
+
+## 2026.10.143.1
+
+- No change you will see — housekeeping for the shared water-automation link.
+
+## 2026.10.143
+
+- Behind the scenes: water automation can now tell paddocks apart by a permanent id, and stops showing bays of a retired paddock.
+
+## 2026.10.142
+
+- **Config:** pressing **Add** with nothing typed now tells you to type a name first.
+
+## 2026.10.141
+
+- **Machine Data** no longer shows errors behind the scenes every time it opens.
+- **Farm Map:** the ☑ and ▢ layer buttons now tell you why when there is nothing to show or clear.
+
+## 2026.10.140
+
+- Behind the scenes: the record of what replaced a split or deleted bay now follows the shared format water automation reads.
+
+## 2026.10.139
+
+- **Print map:** the dashed print area can be resized from any corner — it starts on screen and keeps the paper's shape.
+- Behind the scenes: splitting or deleting a bay now records what replaced it, so water automation can follow it.
+
+## 2026.10.138
+
+- **Print map:** the dashed print area can be resized from any corner — it starts on screen and keeps the paper's shape.
+
+## 2026.10.137
+
+- **Above the map tree:** Show Bays / Crop zones, and Labels for paddocks, bays and crop zones — separate switches. Show acts on
+  the part of the tree you're looking at.
+- The tree is narrower (no buttons on each farm row), seasons show without dates, and the name above the paddocks is bigger.
+
 ## 2026.10.136
 
 - Security updates to two bundled libraries. Includes everything in 2026.10.135.

@@ -1,5 +1,27 @@
 # PaddiSense Assets — What's New
 
+## 2026.10.33 — three roles: Administrator, Operator, Contractor
+
+People now have one of three roles:
+- **Administrator** can do everything.
+- **Operator** can do everything except add, change or delete locations and change notifications. That includes adding
+  assets and parts, deleting records, and managing people.
+- **Contractor** runs prestarts, raises maintenance requests and logs services.
+
+Existing people move over automatically: Managers and Administrators become Administrators, Co-ordinators become Operators, and
+Contractors stay Contractors. A Manager's PIN still works. Operators can add and edit Operators and Contractors, but only an
+Administrator can add or change an Administrator.
+
+This update also includes the 2026.10.32 fix that lets everyone you add on the People page save maintenance requests and services.
+
+## 2026.10.32.1
+
+- **Print a Service History or a Pre-start History.** Reports → Print, or "Print history" on any asset. Choose the asset, dates and person, then Print (or Save as PDF). Pre-starts show each check with any failed items; services show the work, parts and notes.
+
+## 2026.10.32 — operators and managers can save service entries again
+
+Anyone you added on the People page (operators, co-ordinators, managers) can now log services and work on assets at every site. Before, only an administrator could save. People keep working at every site unless you choose one site for them in the new **Works at** field.
+
 ## 2026.10.31
 
 **Phone home page tidied.** The tiles are in a new order, starting with Prestarts, and "Maintenance" is now "Request Maintenance".

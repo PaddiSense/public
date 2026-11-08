@@ -1,5 +1,21 @@
 # PaddiSense Weather — What's New
 
+## 2026.11.4
+
+- **Smaller download.** This update no longer carries tools that are only used to test it, so it takes less room on your Home Assistant box.
+
+## 2026.11.3
+
+Old unencrypted Weather backups from before June are removed when the app starts. Your current backups, taken by PaddiSense Core, are encrypted and are not touched.
+
+## 2026.11.2
+
+The "keep readings for" setting now takes effect. Your nightly Weather backup is taken by PaddiSense Core, and it is encrypted, as it has been since June.
+
+## 2026.11.1
+
+The app now takes the latest security updates every time it is built. Nothing you see changes.
+
 ## 2026.10.13.1
 
 - The side menu is easier to read, and on a phone the menu button no longer sits over the top-bar button.

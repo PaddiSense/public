@@ -1,5 +1,9 @@
 # PaddiSense Assets — What's New
 
+## 2026.11.1
+
+- **Smaller download.** This update no longer carries tools that are only used to test it, so it takes less room on your Home Assistant box.
+
 ## 2026.10.33 — three roles: Administrator, Operator, Contractor
 
 People now have one of three roles:

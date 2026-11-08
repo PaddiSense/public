@@ -1,5 +1,42 @@
 # PaddiSense Safety — What's New
 
+## 2026.11.7
+
+- **Security updates.** The add-on now takes the latest operating-system security fixes each time it is built. This version also brings the 2026.11.5 and 2026.11.6 changes below.
+
+## 2026.11.6
+
+- **"Connection Lost" only after 3 hours of silence.** An idle phone can go quiet for a long time while it sits on the bench, so Safety now waits 3 hours before saying it has lost touch.
+- **Phone and tablet: the one that moved last decides.** If you leave with your phone and your tablet stays at work, Safety still knows you have left.
+
+## 2026.11.5
+
+- **Fewer false "arrived" and "left" notices at home.** If your house is right next to your work site, your phone could flip between the two as its location wobbled, even while it sat still. Safety now keeps you on site until your phone is clearly away.
+- **A phone and a tablet count together.** If you carry both, Safety uses whichever reported most recently, so an old reading on one device no longer marks you as off site or "Connection Lost".
+- **Phone sensors found even after a rename.** Safety now finds your phone's location-permission and activity sensors however the phone is named.
+
+## 2026.11.4
+
+- Behind-the-scenes update to a shared component. No change to how you use Safety.
+
+## 2026.11.3
+
+- **Fewer false warnings at start-up.** A security check counted its own summary lines as problems; it now counts only real high-risk findings.
+
+## 2026.11.2
+
+- **Stationary checks now work.** When Safety is switched on, a worker who stays still too long gets a reminder, then their manager is alerted. A fault meant these checks never ran before.
+- **Switching Safety off really switches it off.** With the system off, Safety sends no alerts and stops asking phones for their location. The I NEED HELP button always works.
+- **Forgot the manager PIN?** A PaddiSense admin can now set a new one from the Manager Access box.
+
+## 2026.11.1
+
+- **No more alerts every time a worker moves between zones.** You now get one alert when a worker arrives on site and one when they leave. Walking between zones, overlapping zones, or a phone briefly losing GPS no longer sets off "left" and "arrived".
+- **Arrival alerts for the zones you choose.** On the Zones list, turn on "Arrival alert" for a zone (for example the chemical store) to be told when a worker goes in.
+- **After-hours arrivals.** If a worker arrives on site outside your working hours, you get an "arrived after hours" alert.
+- **Close of business.** At finish time on each working day you get a list of who is still on site, or "all clear".
+- **You choose which alerts are critical.** On the Notifications page, tick the alerts that should sound even when the phone is on silent.
+
 ## 2026.10.23
 
 - **Alerts name the right paddock.** Safety now identifies a paddock by Farm's own permanent id, so two farms' "Blk 2" are never mixed up, and an alert shows "<farm> · <paddock>" when you have more than one farm.

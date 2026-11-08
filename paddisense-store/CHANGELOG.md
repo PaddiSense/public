@@ -1,5 +1,18 @@
 # PaddiSense Store — What's New
 
+## 2026.11.3
+
+- **Smaller download.** This update no longer carries tools that are only used to test it, so it takes less room on your Home Assistant box.
+- **Security updates** to supporting components.
+
+## 2026.11.2
+
+The app now picks up the latest security updates every time it is built. Nothing you see changes.
+
+## 2026.11.1
+
+A start-up check no longer reports a false warning, and Store no longer uses an all-access key when it registers with the add-on store. Nothing you see changes.
+
 ## 2026.10.13
 
 **Security update.** An older built-in login that still used a default password is now given a new random password

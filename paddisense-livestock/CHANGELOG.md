@@ -1,5 +1,34 @@
 # PaddiSense Livestock — What's New
 
+## 2026.11.3
+
+- **Smaller download.** This update no longer carries tools that are only used to test it, so it takes less room on your Home Assistant box.
+- **Security updates** to supporting components.
+
+## 2026.11.2
+
+The app now picks up the latest security updates every time it is built. Nothing you see changes.
+
+## 2026.11.1
+
+- **Fewer false warnings at start-up.** A security check counted its own summary lines as problems; it now counts only real high-risk findings.
+
+## 2026.10.17.4
+
+When a paddock is deleted in Farm, it no longer shows in Livestock. It is hidden, not deleted, so its mobs and history are kept. Paddocks you made in Livestock are not affected.
+
+## 2026.10.17.3
+
+When you rename a paddock in Farm, your mobs show the new name. When you merge paddocks in Farm, the mobs on them move to the merged paddock, and the move appears in their history.
+
+## 2026.10.17.2
+
+Behind the scenes: security and record-keeping tidy-up. Nothing you see changes.
+
+## 2026.10.17.1
+
+Paddocks copied from Farm now keep their identity when Farm renumbers them, so your mobs stay on the right paddock. A paddock you have retired in Farm no longer shows as active here.
+
 ## 2026.10.17
 
 **Security update.** An older built-in login that still used a default password is now given a new random password

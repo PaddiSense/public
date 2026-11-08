@@ -3,9 +3,80 @@
 > Plain-English release notes for growers. The full technical changelog lives in the
 > source repo (`CHANGELOG.md`); this is the version that ships in the grower catalog.
 
+## 2026.11.13
+
+- Security: Core's internal network reads now lock out a caller that keeps trying wrong keys.
+
+## 2026.11.12
+
+- The System Status page now shows how full your box is and what is filling it: each database's size, backups, waiting updates and log errors, with a warning when space runs low.
+
+## 2026.11.11
+
+- PaddiSense support can now see how full your box is — each database's size, backups, waiting updates and log errors — so a filling disk is caught before it stops anything. Nothing on your box is changed.
+
+## 2026.11.10
+
+**Self-test**
+- A new check warns if your UniFi network has been set up to be able to block one of your PaddiSense boards. Blocking a board would take it off the Wi-Fi.
+
+## 2026.11.9
+
+**Connections**
+- The Connections page now lists only your PaddiSense boards and your network devices. Phones, laptops and other Wi-Fi devices are no longer listed or kept in the history — the page just shows how many there are.
+
+## 2026.11.8
+
+**Connections**
+- Test builds only: the check that a restart can never cut off the Home Assistant box is now worked out from the Wi-Fi controller itself, so a missing reading can never let one through.
+
+## 2026.11.7
+
+**Connections**
+- Behind-the-scenes tidy of the network-control refusal message. Nothing changes for you.
+
+## 2026.11.6
+
+**Connections**
+- Test builds only: a restart or power-cycle that would cut off the Home Assistant box itself is never allowed — the page says why.
+
+## 2026.11.5
+
+**Connections**
+- Test builds only: the Connections page can restart a Wi-Fi access point, or power-cycle the switch port that feeds one, after showing which boards will drop off and asking you to confirm. On your farm these stay switched off, with the reason shown, until PWM can tell a planned restart from a fault.
+
+## 2026.11.4
+
+**Connections**
+- Farm's map can now show your Wi-Fi access points with their live signal (the Wi-Fi planning layer).
+
+## 2026.11.3
+
+**Connections**
+- The Wi-Fi signal reading now counts only your PaddiSense boards — other phones and laptops on the farm network are never
+  recorded.
+- Changing the controller address asks for its password again.
+
+## 2026.11.2
+
+**Connections**
+- The Connections page can now show **Wi-Fi signal**: how strong each meshed access point's link is, and each board's signal
+  at its access point. Add a View Only UniFi login on the page to turn it on; Core only reads with it. Without one, the page
+  says the signal is not measured.
+
+## 2026.11.1
+
+**Access**
+- A new **Simple view in PWM** tick for each person. A farm owner or administrator sets it. That person then sees only
+  Paddocks and Notifications in PWM, with bigger buttons. Owners and administrators always keep the full view.
+
 ## 2026.10.31
 
-**<plain-English note for growers — replace>**
+**Security**
+- Built with the latest security fixes (image libraries, Pillow, certifi).
+
+**Report a bug**
+- A bug report from Core now reaches the PaddiSense office.
 
 ## 2026.10.30.1
 

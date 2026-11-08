@@ -1,5 +1,18 @@
 # PaddiSense Seed Manager — What's New
 
+## 2026.11.3
+
+- **Smaller download.** This update no longer carries tools that are only used to test it, so it takes less room on your Home Assistant box.
+- **Security updates** to supporting components.
+
+## 2026.11.2
+
+The app now picks up the latest security updates every time it is built. Nothing you see changes.
+
+## 2026.11.1
+
+A start-up check no longer reports a false warning. On a phone, the automation rack and silo setting boxes no longer zoom the page when you tap them.
+
 ## 2026.10.12
 
 **Security update.** Some machine keys are now hidden in the add-on's logs. Nothing you see changes.

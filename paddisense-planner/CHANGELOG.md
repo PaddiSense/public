@@ -1,5 +1,30 @@
 # PaddiSense Planner — What's New
 
+## 2026.11.3
+
+- **Smaller download.** This update no longer carries tools that are only used to test it, so it takes less room on your Home Assistant box.
+- **Security updates** to supporting components.
+
+## 2026.11.2
+
+The app now picks up the latest security updates every time it is built. Nothing you see changes.
+
+## 2026.11.1
+
+- **Fewer false warnings at start-up.** A security check counted its own summary lines as problems; it now counts only real high-risk findings.
+
+## 2026.10.13.3
+
+On phones, entry boxes no longer zoom the page when you tap them, and the rotation grid's buttons are easier to tap. The budget setup pop-ups match the rest of PaddiSense.
+
+## 2026.10.13.2
+
+Behind the scenes: security and record-keeping tidy-up. Nothing you see changes.
+
+## 2026.10.13.1
+
+Paddocks copied from Farm keep their identity when Farm renumbers them, and when you merge paddocks in Farm, their rotation and crop plans move to the merged paddock.
+
 ## 2026.10.13
 
 **Security update.** An older built-in login that still used a default password is now given a new random password

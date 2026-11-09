@@ -1,5 +1,9 @@
 # PaddiSense Weather — What's New
 
+## 2026.11.5
+
+- Backups work again after the database add-on's update to PostgreSQL 18.
+
 ## 2026.11.4
 
 - **Smaller download.** This update no longer carries tools that are only used to test it, so it takes less room on your Home Assistant box.

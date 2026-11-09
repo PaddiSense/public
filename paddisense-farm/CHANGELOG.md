@@ -1,5 +1,80 @@
 # PaddiSense Farm — What's New
 
+## 2026.11.9.4
+
+- The map's side panel lists this season's events by type, with the latest date and a count, so it is clear what has been recorded.
+
+## 2026.11.9.3
+
+- Backups work again after the database add-on's update to PostgreSQL 18.
+
+## 2026.11.9.2
+
+- Desktop pages show their name in the top bar.
+
+## 2026.11.9.1
+
+- Release number only: the same as 2026.11.9 below.
+
+## 2026.11.9
+
+- Behind the scenes only: a code check fix. Nothing you use changes.
+
+## 2026.11.8
+
+- A smaller download: Farm's update no longer carries developer tools. Nothing you use changes.
+
+## 2026.11.7
+
+- Adding infrastructure or land cover on the map: choosing the type now starts drawing straight away. Before, a click on the map selected the paddock underneath instead.
+
+## 2026.11.6
+
+- A board gap worked out from the middle of the board's bay (because the door itself has not been placed in PWM yet) now says "position from its bay", so you know it may change once the door is placed.
+
+## 2026.11.5
+
+- The Wi-Fi plan now shows board gaps: each PWM board's distance from the access point it is on, and any board more than 500 m out. A board with no place yet shows as "not measured", never as fine.
+
+## 2026.11.4
+
+- A Wi-Fi link that is measured weak now shows as "Too far / weak" even before you fill in its radio figures.
+
+
+## 2026.11.3
+
+- Everyone who signs in to Farm can now see the 📶 Wi-Fi plan.
+- A link only shows a predicted signal once every figure it needs (band, transmit power, antenna gain) is filled in; until then it says which ones to fill in.
+- A board is flagged as a coverage gap when it is more than 500 m from its access point (or its signal is weak).
+
+
+## 2026.11.2
+
+- The 📶 Wi-Fi plan now reads your network from Core: each access point shows whether it is online, how many boards are on it and how many times they dropped off in the last day, and the wireless hop between two access points you have drawn shows its measured signal against the prediction. When it cannot read the network it says why.
+
+
+## 2026.11.1
+
+- New Wi-Fi layer on the farm map: draw your access points, point-to-point radios and the links between them. The 📶 button shows each link's real distance and the signal a clear line should give; once your network readings are connected it will flag links that are blocked, misaligned or too long, and boards with weak coverage.
+
+
+## 2026.10.143.30
+
+- Confirming a pending event on the phone now keeps the applicator, operator, weather and times you entered, and records any extra paddocks you added.
+
+
+## 2026.10.143.29
+
+- Tapping Submit again on the phone after a dropped connection no longer records the event twice. This version also carries everything listed under 2026.10.143.28.
+
+
+## 2026.10.143.28
+
+- Picking up an unfinished event no longer confirms an old pending one by mistake — it records a new event.
+- Editing an event keeps the product's unit (mL/ha stays mL/ha).
+- The event-type tiles show whole words on every screen size.
+
+
 ## 2026.10.143.27
 
 - The phone farm map now shows this season's events by default. Tap **All seasons** to see earlier years; your choice is remembered.

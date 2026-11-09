@@ -1,5 +1,235 @@
 # PaddiSense PWM — What's New
 
+## 2026.11.34
+
+- Water Depth is shorter: each bay shows its Min, and Max as one line you tap to change.
+
+## 2026.11.33
+
+- No change you will see: internal checks updated for the plain-words messages in 2026.11.31.
+
+## 2026.11.32
+
+- A viewer is no longer offered "Override Supply" either, and every remaining message that could show the system's raw words now says why in plain words.
+
+## 2026.11.31
+
+- A channel gate you move by hand now stays where you put it for 10 minutes, then Auto takes it back. Overflow protection still acts at any time.
+- Messages say why something was not done in plain words — never "Insufficient permissions" or "CSRF token required".
+- A viewer is no longer offered the paddock mode change; the button says the role can view it, not change it.
+- The depth graph shows "Min" and "Max" on their own lines, clear of the scale numbers.
+- Tapping "Username" or "Password" on the sign-in page now puts you in that box.
+
+## 2026.11.30
+
+- Paddock Setup: a "water comes from" list you have open no longer closes on you while the page finishes loading.
+
+## 2026.11.29
+
+- **"Leave every door where it is" now really leaves them — the supply too.** A Flush on Leave never closes the paddock supply;
+  pick **Close supply** if you want it shut at the end. The setting and the End of Flush card say so.
+- **Starting a pump asks once.** Tap Start, answer Yes, and it starts — no second tap.
+- **The automation question names the mode** — "start FLUSH?" or "turn POND OFF?".
+- **One look for every + / − control**: + above, the number, − below. Water Depth now labels Min and Max.
+- **Desktop pages sit in one centred column**, the same width on every page.
+- Tidier pages: map labels no longer pile on each other, the depth graph's scale is whole numbers, the Irrigation History PDF
+  lists newest first like the page, and a view-only login no longer sees buttons it cannot use.
+
+## 2026.11.28
+
+- **On duty** (Notifications page) now shows only you. Go off duty and back on for yourself; nobody can switch someone else off.
+
+## 2026.11.27
+
+- The door 2 rule (follows door 1 / Hand only) has moved off the door popup to **Paddock Setup**, on each bay's gate line, with its own Change button.
+- **Irrigation History** can now be grouped **by date or by bay**. By bay lists B1 first, each bay's irrigations newest first, with its total time on water. The PDF and CSV follow the grouping you pick.
+- Irrigation History fits a phone: the date boxes and download buttons no longer run off the edge, and the text is larger.
+- The depth graph's numbers are larger and easier to read, and the axis labels no longer overlap or get cut off.
+
+## 2026.11.26
+
+- Settings you set once per paddock have moved to **Paddock Setup**: open the paddock to find "When the Automation Ends" and each bay's Pond times (Resupply, Close supply, Starvation, Settle after door closes).
+- The map's Settings keeps what you change during a run: water depth, sensor offsets, Flush timers, and End of Flush (trigger bay and close delay).
+## 2026.11.25
+
+- The door window has one big door button that changes colour as you tap it: blue for Open, light blue for Hold, red for Close. It sends once you stop tapping.
+- On every door, the first tap does the obvious thing: a closed door opens, an open door closes. Tap again for Hold, then the other way.
+- Individual bay control is now set on Paddock Setup, not the operation page. Going back to whole paddock keeps any bays that are running.
+- A flushing bay has a Done / Rearm button. Rearm sends the bay back to fill to its minimum and hold again — use it after fixing a depth reading that ended a bay too early. A finished bay can be rearmed too.
+
+## 2026.11.24
+
+- If the paddock above is in Pond, a flush below closes its inlet again at the end, so the ponded paddock keeps its water. While the paddock above is flushing, the inlet is left open as in 2026.11.23.
+- In the door window, Close is red and Open is blue.
+
+## 2026.11.23
+
+- Tapping a door button no longer moves the door. It opens a small window with Open, Hold and Close, the door's state, and a slider for how far Open goes. The window stays open while the door moves; Back closes it without sending anything.
+- The Flush / Pond button asks "Set automation on K13?" before it changes. After Yes it stays unlocked for 60 seconds.
+- The Automation page shows who set a paddock to Flush or Pond, and when.
+- A second door on a bay can be set to "Hand only", so Flush and Pond never open it with door 1 — for a door that runs to the main drain.
+- A paddock fed through another paddock's drain never closes that door, whatever the "when it ends" setting is.
+- End of Flush can be set while the paddock is Off, ready for the next flush.
+- Long answers in a question box are no longer cut off.
+
+## 2026.11.22
+
+- A door shared by two paddocks that is part open now shows HOLD and its % on the phone. It could show a red CLOSED when the phone had missed the door moving.
+- The "Override Supply" question has a Cancel button that leaves the flush waiting. Before, the only way out turned the flush Off.
+
+## 2026.11.21
+
+- No change you will see: a code check fix for the End of Flush bay list added in 2026.11.17.
+
+## 2026.11.20
+
+- Restarting a Wi-Fi access point from Core no longer sends "board offline" alerts for the boards on it while it comes back. If a board is still offline 2 minutes after the restart should have finished, you are told, and the alert says which planned restart it was.
+
+## 2026.11.19
+
+- Fewer alerts for a short Wi-Fi drop: a board or sensor must be offline 5 minutes before you are told, and several dropping together come as one notification.
+- No "flush not progressing" while a bay is rising slowly, or while the pump feeding it is running and the channel is moving — the page says "filling slowly" instead.
+- "No flow detected" waits an hour after a door opens, so water has time to arrive.
+
+## 2026.11.18
+
+- Pump Flow Rate is now per hour (ML/hr), and Water Pumped uses it as entered — a pump at 0.75 ML/hr for 215 hours shows 161 ML, not 6.7 ML.
+
+## 2026.11.17
+
+- When two paddocks are joined by a door, End of Flush lets you pick a bay in either paddock — e.g. K12's inlet can close when a K13 bay finishes. The page tells you if the other paddock is not flushing.
+
+## 2026.11.16
+
+- The Notifications page shows an Off duty end time in the same date format as every other page.
+
+## 2026.11.15
+
+- Maintenance: a shared logging component brought up to date. Nothing changes on your screens.
+
+## 2026.11.14
+
+- **"No response from the board" now says why it might be.** The Diagnostics command log shows how the board looked when it
+  did not answer — online or offline, Wi-Fi strength, how long it has been up, its firmware and where the door was — and whether
+  it answered a little later (it moved) or not at all.
+- **A lost answer is easy to see.** When a board does not answer a command, a large orange warning appears at the top of the
+  page instead of the small grey message. Tap ✕ to close it.
+
+## 2026.11.13
+
+- **No false "gate did not move" after a hand switch.** If someone moves a channel gate with the switch on its board, PWM no
+  longer reports the command it had sent before as a gate that did not move.
+- **Offtake checks read their boards reliably.** A gate's offtake rule no longer reports "cannot read" for bays whose boards are
+  online.
+- **Filter the diagnostics logs by board.** On the Diagnostics page, pick a board to see only its commands and the automation
+  changes it takes part in.
+
+## 2026.11.12
+
+- **Pump hours "Today" are right.** A pump running overnight no longer puts last night's hours into Today; Today, Week, Month and
+  YTD each count only the hours run inside them.
+- **Service timers no longer gain hours.** A service item reset while the pump was running could later show more hours left than
+  its interval. Each item now counts the hours the pump has run since you reset it, and resetting one item never changes another.
+
+## 2026.11.11
+
+- **Channel sensors are checked for lying too.** The overflow, pump-watch, downstream and pump demand-level sensors now get
+  the same "unstable" and "drifting" checks the bay sensors have. While nothing on the farm is moving water, a channel
+  reading that swings or creeps sends one alert to check that sensor. It only alerts; PWM keeps running.
+
+- **No false "check the board" alert when the Wi-Fi blips.** If a board drops off the network for a moment during a Flush,
+  PWM now waits up to 2 minutes for it to come back and sends the door its command then, instead of alerting straight away.
+  A board that is still off the network after 2 minutes is alerted as before.
+- **Off duty.** On the Notifications page, anyone can switch themselves off duty (a manager can switch anyone). Someone off
+  duty gets no alerts at all until they are switched back on, or until the "back on at" time you can set. Nobody has to be
+  taken out of a group.
+
+## 2026.11.8
+
+A security release on top of 2026.11.7. Everything in 2026.11.7 is unchanged.
+
+- **Security fixes from an independent review.** One serious issue is fixed: a setting on a pump could have been used to remove
+  files outside PWM's own boards. Several smaller hardening fixes are in too. Nothing to do on your side — update when it is offered.
+- **A pump STOP always gets through.** Downloading a long Irrigation History report can no longer slow the controls down. If two
+  reports are asked for at the same moment, the second one says so and asks you to try again.
+- **Sign-in is fairer.** Wrong passwords typed somewhere else no longer lock you out of your own sign-in.
+
+## 2026.11.7
+
+A tidy-up release: every page was walked on a phone and checked by a second reviewer. Mostly wording, layout and alerts.
+
+- **Questions are asked in PWM's own Yes / No box** instead of the browser's pop-up. For anything you can't undo, No is
+  the default.
+- **Alerts are calmer and clearer.**
+  - Pond has its own alerts, separate from Flush. Check who receives them on the Notifications page; anyone who got the
+    Flush ones gets the Pond ones too.
+  - A bay riding its max is told once, not every few minutes. A board or sensor that drops in and out is one alert per outage.
+  - "Not a fault" messages are no longer titled "Automation failure".
+  - Doors are named the way you name them ("B2 supply").
+  - One bay's alert no longer replaces another's on your phone.
+- **When PWM gets no answer, it says so.** It no longer says "Error" for a change that may have gone through, and when PWM
+  refuses something it says why, in plain words.
+- **Pumps:** two pumps can't share one board, and a running pump can't be deleted or moved off its board. A new pump shows
+  only what is needed until it is first saved.
+- **The map** follows a mode changed on another phone. It no longer draws over the top bar, and messages no longer cover
+  the door buttons.
+- **Saving your phone's battery:** PWM stops checking for updates while the page is in the background, and catches up the
+  moment you come back.
+- **Farm:** if Farm can't be reached, PWM says so once and keeps showing your last synced bays. It no longer says "no bays".
+- **Setup checks:** blank or duplicate names, negative numbers and similar mistakes are refused with a reason, instead of
+  being saved or failing silently.
+
+## 2026.11.6
+
+- **Flush no longer shuts a running inlet when it starts.** If the paddock inlet is open and its supply reads above 0 during
+  the 30 seconds, it stays open. Every other door still closes.
+- **Override Supply:** if the inlet's supply sensor is offline or reads 0 or below, the Flush button on the map becomes
+  "Override Supply". Press it to start the flush anyway — over max and the end-of-flush timer still work as normal.
+- **Paddock Setup on a phone:** a long paddock name now sits above its Automation switch instead of being squeezed beside it.
+
+## 2026.11.5
+
+- **Fixed:** a board named with a leading zero in Home Assistant (RB-034) and without it in PWM (rb-34) now reads as the
+  same board instead of showing offline.
+- **New board:** each board type now shows the name the new board will get, and its friendly name starts as that name so
+  the two match. (The name box had been stuck on "…".)
+- **Change a board's type:** on the Devices page, a board's Board tab now has a Type picker (bay, channel gate or pump).
+  Save, then flash the board. A board that is still assigned somewhere must be taken off there first. The board keeps its name.
+
+## 2026.11.4
+
+- **Fixed (important):** with a network integration such as UniFi Network in Home Assistant, the Devices page could still say
+  "PWM can't read part of this board" for pump and channel boards. Every way PWM finds a board's readings now ignores devices
+  and entities from other integrations.
+
+## 2026.11.3
+
+- **Fixed (important): adding a network integration such as UniFi Network to Home Assistant could make every board show
+  offline and stop gate automation.** PWM now only ever treats an ESPHome device as a board, whatever else reports the same
+  network address or name.
+- **Overflow protection keeps working if PWM's database stops answering**, and the overflow alert still reaches your phone.
+
+## 2026.11.2
+
+- **Notifications are grouped.** Pumps, Pump maintenance, Channels, Paddocks — Flush, Paddocks — Pond, Boards & sensors and
+  System each have their own heading. A farm with no pumps or no channels is not shown those alerts, and is not warned that
+  nobody gets them.
+- **Simple view now shows the paddocks only** — the Notifications tile is no longer in it.
+- **Irrigation History lists your enabled paddocks.** Tick "Show all paddocks" to pick any paddock.
+- Fixed: the Notifications page could fail to say which alerts reach nobody when a pump maintenance item had no group.
+
+## 2026.11.1
+
+- **Simple view for operators who only run paddocks.** The farm owner ticks "Simple view in PWM" for a person on Core's access
+  page. That person sees Paddocks and Notifications only, with bigger buttons. The paddock settings (depth, sensor, timers)
+  stay. A "Full view" link at the bottom of each page switches back.
+- **Pumps and Channels are hidden on a farm that has none.** Pump and channel setup are always there.
+- **Hold a door button for 2 seconds to open the % slider.** A short tap opens or closes the door as before, and a hold no
+  longer also taps the door.
+- **A door is not moved when one board answers for two board records.** The tap says which two records share the board.
+  Stop always works.
+- **Paddock Setup warns when two bays read the same depth board.**
+
 ## 2026.10.170
 
 - **A channel gate now closes when the channel below it is full, whatever its upstream offtakes say.** Before, a gate with

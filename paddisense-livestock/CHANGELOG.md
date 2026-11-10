@@ -1,5 +1,9 @@
 # PaddiSense Livestock — What's New
 
+## 2026.11.4
+
+- **Clearer fault reports.** When Livestock cannot reach Farm for your paddock list, its log now says which address it tried and why it failed, so a fault can be found faster.
+
 ## 2026.11.3
 
 - **Smaller download.** This update no longer carries tools that are only used to test it, so it takes less room on your Home Assistant box.

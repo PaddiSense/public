@@ -1,5 +1,15 @@
 # PaddiSense PWM — What's New
 
+## 2026.11.36
+
+- A channel gate in Auto that you move from its card now stays where you put it for 10 minutes before the automation can move it back.
+
+## 2026.11.35
+
+- A new paddock now closes its supply when the automation ends (you can still choose "Leave every door where it is" on Paddock Setup). Paddocks you already have keep their setting.
+- After "Done — next bay" in Flush, the next bay's door no longer says "By hand".
+- On a computer, the bar at the top of each page now shows the page's name.
+
 ## 2026.11.34
 
 - Water Depth is shorter: each bay shows its Min, and Max as one line you tap to change.

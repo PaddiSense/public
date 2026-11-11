@@ -1,5 +1,20 @@
 # PaddiSense PWM — What's New
 
+## 2026.11.38
+
+- Fix: when the farm Wi-Fi goes down, each channel gate's board now follows that gate's own mode — a gate in Auto acts, a gate in Manual stays where it is. On a board driving two gates the second gate is no longer missed.
+- The paddock map now shows a bay's depth down to -20 cm (was -10 cm). The real reading is unchanged.
+- Administrators can also see the farm's board hotspot password and board page login on the Devices page.
+
+## 2026.11.37
+
+- When the farm Wi-Fi goes down, a door that is not in Flush or Pond (or a channel gate not in Auto) now stays where it is. Each board needs flashing once for this.
+- An electric pump whose board lost power now shows "Stopped" and why, instead of an unknown state. It does not restart by itself.
+- Farm Owners: the Devices page shows the farm's board hotspot password and the board page login, for standing at a board with no Wi-Fi.
+- In Flush, a door with an open limit set on its slider (say 5%) now opens only to that limit and stays there.
+- In Flush, a door's button also offers its gate's stage positions (for example Close, Hold, 30%, Open). Picking one holds the door there for that stage's time, then the Flush carries on.
+- A channel door whose board goes offline now shows where it was last seen, greyed out, and its depth box says Check Sensor — Board offline.
+
 ## 2026.11.36
 
 - A channel gate in Auto that you move from its card now stays where you put it for 10 minutes before the automation can move it back.

@@ -3,6 +3,14 @@
 > Plain-English release notes for growers. The full technical changelog lives in the
 > source repo (`CHANGELOG.md`); this is the version that ships in the grower catalog.
 
+## 2026.11.13.2
+
+- Daily database backups work again on boxes whose TimescaleDB add-on updated to 6.0.0 (PostgreSQL 18).
+
+## 2026.11.13.1
+
+- Desktop pages show their name in the top bar.
+
 ## 2026.11.13
 
 - Security: Core's internal network reads now lock out a caller that keeps trying wrong keys.

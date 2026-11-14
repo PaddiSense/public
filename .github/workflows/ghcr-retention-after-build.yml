@@ -17,7 +17,6 @@ on:
       - Build Seed Manager
       - Build PaddiSense Store
       - Build PaddiSense Weather
-      - Build SugarSense
     types: [completed]
 
 permissions:
@@ -47,7 +46,6 @@ jobs:
             "Build Seed Manager")         echo "addon=paddisense-seed-manager" >> "$GITHUB_OUTPUT"; echo "arches=amd64 aarch64" >> "$GITHUB_OUTPUT" ;;
             "Build PaddiSense Store")     echo "addon=paddisense-store"        >> "$GITHUB_OUTPUT"; echo "arches=amd64 aarch64" >> "$GITHUB_OUTPUT" ;;
             "Build PaddiSense Weather")   echo "addon=paddisense-weather"      >> "$GITHUB_OUTPUT"; echo "arches=amd64 aarch64" >> "$GITHUB_OUTPUT" ;;
-            "Build SugarSense")           echo "addon=sugarsense"              >> "$GITHUB_OUTPUT"; echo "arches=amd64 aarch64" >> "$GITHUB_OUTPUT" ;;
             *) echo "::error::no retention mapping for '${{ github.event.workflow_run.name }}'"; exit 1 ;;
           esac
       - name: Selftest (stored cases — refuse to run a planner that cannot fail)

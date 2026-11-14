@@ -71,7 +71,6 @@ From the **App Install** section inside PaddiSense Core, install any additional 
 | Safety | Worker Safety System (WSS) |
 | Livestock | Stock and livestock tracking |
 | ASM | Asset and Service Management |
-| SugarSense | Sugar cane farm management variant |
 
 ---
 

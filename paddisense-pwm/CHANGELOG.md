@@ -1,5 +1,93 @@
 # PaddiSense PWM — What's New
 
+## 2026.11.51
+
+- Greyed-out test buttons on a phone are easier to read.
+
+## 2026.11.50
+
+- Sliding a held door DOWN now moves the door down to where you let go (it could stay where it was).
+
+## 2026.11.49
+
+- Sliding a held door now stays where you leave it while the door moves (it used to jump back for a moment).
+- The activity log no longer shows a gate's rules as computer text — it says e.g. "changed gate MC-02's rules".
+- On an iPhone, the drop-down boxes on Diagnostics and other pages are full thumb size.
+
+## 2026.11.48
+
+- The map opens on the paddock you looked at last (or All), instead of always the first one.
+
+## 2026.11.47
+
+- Each pump card now shows **Run today** and **Pumped today** on the front, without opening it.
+- Adding a new offtake rule to a gate no longer changes every row — new rows start sensibly (closed if everything else is open, otherwise open).
+- The activity log names the person who made each change and says what changed in plain words; repeated lines are gone.
+- The door popup reads e.g. "Open 85%", and "Held at …" while you slide a hold.
+- On a phone, the device test buttons no longer cut their names off.
+
+## 2026.11.46
+
+- **Pond starts like Flush.** Tap onto Pond and the button shows "Automation starts in 30 s" straight away — tap again in that time to turn it Off before anything moves.
+- On Paddock Setup the Automation switch and Edit button now sit one above the other, so "Automation: Enabled" is never cut off.
+- The door popup now says e.g. "Stage 1 · 50% · 32 mins left" during a Flush stage (it showed "[object Object]").
+
+## 2026.11.45
+
+- A gate set up before the offtake table could not save new settings (an error about "Hold"). Fixed — its Hold rows save as they were.
+- A door that is partly open no longer shows as 100% open for a moment on the map or the device page.
+- The gate's activity line now says what its offtake rule decided (for example "0/3 open — its offtake rule says open") instead of "partial demand".
+
+## 2026.11.44
+
+- **Name your doors.** The Name you give a gate in the gate form now shows on its door button and popup, e.g. "Spur feed (B-04)".
+- A door resting at a Flush stage now reads the same on every page (for example **OPEN 85%**), and the next tap goes up.
+- **Overflow into a paddock.** A channel's overflow can now open a bay supply door fully (for example K12's) to let water into a paddock;
+  when the channel is safe again the door goes back to where it was. A door you have held stays where you put it.
+- **A held door still obeys your buttons.** Move it from 50% to 40% and it stays held at 40% — only the automation is kept out.
+- Switching a paddock out of Flush now warns you if another paddock's flush is waiting on one of its bays to finish.
+- The Pond button reads **Pond** while you have 10 seconds to change your mind.
+- Coming back to PWM in the app signs you straight back in when you have nothing unsaved on screen.
+- **Paddock Setup:** each paddock card has its own **Edit** button beside the automation switch; **When the Automation Ends** is three
+  clear buttons.
+- Times now read in hours and minutes (for example **4 hrs 40 mins**, not 4.7 h).
+
+## 2026.11.42
+
+- **Hold a door where you put it.** On a door's popup, turn on **Hold here**: the door goes to the slider % and stays there — Flush, Pond, gate Auto and the bay's mode leave it alone until you turn Hold off (handy for a bay door that also feeds a spur). The map shows "Held at 40% by <name>". The bay's other doors carry on as normal.
+- In Flush, **Done** on the Flush Timers card now opens the next door through its stages (for example 40%, then 80%), the same as when the timer runs out.
+- Door buttons with Flush stages now go **closed → 40% → 80% → OPEN**, with a tap while moving to hold and the next tap to close. After a hold, the next tap goes the right way even after the page reloads or from the other bay's button.
+- A phone map that loses its connection mid-read now catches up within 15 seconds instead of showing an old door position.
+- On the channel page, setting a gate to **Auto** now asks first. Switching to Manual is still one tap.
+- On Paddock Setup, turning a paddock's automation on or off now asks first.
+- On a phone, **Back** in Channel Setup and Pump Setup steps back one level (section → gate → channel) instead of leaving the page.
+- The Pumps page remembers which pump card you had open.
+- A channel board with no depth sensor no longer shows a depth badge on the map.
+- Many small fixes from today's audit: number boxes that keep what you type, saves that keep you where you were, ± taps that add up into one change, and plain words when a board does not answer.
+
+## 2026.11.41
+
+- After you set **Flush**, the button now counts the 30 seconds to change your mind, then shows **Checking supply — 60 s** while PWM makes sure the supply stays above the top bay. If the supply is not there yet it says **Waiting for supply water**.
+- **Paddock Setup** is tidier: Bay control, When the Automation Ends and each bay's response times are their own cards — open only the one you need. Saving keeps you where you were.
+- **Device Setup** on a phone: you can now type a number into Reading every and Smoothing without the keyboard closing.
+- On the channel page, a gate's ⚙ button now takes you straight to that gate on Channel Setup.
+- The Activity list names the paddock and bay you know, such as "paddock 30 Bay 2", not an internal id.
+- Two new pump alerts you can choose on the Notifications page: **Pump stopped by Low Supply protection**, and **Pump stopped — supply sensor wire fault**. Anyone who already got "Pump stopped — not by PWM" gets both.
+
+## 2026.11.40
+
+- New **Activity** list on the Diagnostics page: every change anyone makes in PWM, who made it, and what it changed from and to. For example, "Peter adjusted bay B-02's depth sensor offset from -36.2 cm to -37.2 cm".
+- Door, gate and pump moves now read in plain words, such as "Flush closed RB-031 drain 1". Tap **details** on a row to see the technical record.
+- Filter the list by type of change, by person, or by board.
+- Activity is kept for one year.
+
+## 2026.11.39
+
+- If you open or close a gate or bay door and its board does not answer (for example its Wi-Fi just dropped), PWM now sends you an alert after 2 minutes if it has not moved, and sends your command once more when the board is back online. It never re-sends over a newer command or while the System is OFF.
+- New alert: "Bay door did not move". Anyone who already gets "Channel gate did not move" gets it too.
+- PWM now waits for its database when the box starts up, instead of stopping and restarting.
+- The paddock history now shows which button turned a paddock Off.
+
 ## 2026.11.38
 
 - Fix: when the farm Wi-Fi goes down, each channel gate's board now follows that gate's own mode — a gate in Auto acts, a gate in Manual stays where it is. On a board driving two gates the second gate is no longer missed.

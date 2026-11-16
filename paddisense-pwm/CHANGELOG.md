@@ -1,5 +1,20 @@
 # PaddiSense PWM — What's New
 
+## 2026.11.53
+
+- Diagnostics: the licence and user-list check every 5 minutes no longer adds a line each time — only a real change does, and the repeats already there are cleared.
+- Diagnostics: door lines read in plain words, e.g. "Bay Gate is closed (0 %)". "Moved at the board or from Home Assistant, not by PWM" means PWM did not send that move.
+- Diagnostics: when a board loses Wi-Fi, its No-WiFi action is now listed once it is back: it closed or opened its door, or held it because the door is in Manual.
+- New alert, "Door moved by hand": a door whose automation is running started moving without PWM asking. Tick it on the Notifications page.
+- New alert, "Board acted on Wi-Fi loss": a board lost Wi-Fi and its No-WiFi action moved its door. A door in Manual always holds.
+
+## 2026.11.52
+
+- Paddock Setup: every paddock has an Edit button, even before it is switched on. Edit opens Gates & Boards first, with "+ Add gate" at the top, and each gate says "Tap to set its board".
+- Flush: when a bay shows "Burst?" because of a door you know leaks, tap "Accept burst risk — this flush" on the map's Flush Timers. That bay gets no Blow out risk alert until the flush ends.
+- New alert, "Bay reached its minimum level": once per fill, as the water comes up past the bay's minimum. Tick it on the Notifications page.
+- New per-bay "Receive Calibration Alerts" on the map's Sensor Adjustment: an alert at every 1 cm in the 5 cm below the minimum while you set a sensor up. It stays on until you untick it. The "Calibration alerts" line on Notifications decides who gets them.
+
 ## 2026.11.51
 
 - Greyed-out test buttons on a phone are easier to read.

@@ -1,5 +1,74 @@
 # PaddiSense Safety — What's New
 
+## 2026.11.21
+
+- On a computer, the worker map is now as wide as the worker tiles, and square.
+- The map opens showing the whole farm, on a computer as on a phone.
+
+## 2026.11.20
+
+- Silencing a worker's alert (and un-silencing it) is now a Manager Mode action.
+- A silence now ends by itself as soon as the worker's phone starts moving again.
+
+## 2026.11.19
+
+- Manager Mode: tapping a worker who is off site no longer checks them in. It opens a small panel instead: "Show on map" (on your screen only, until you leave Manager Mode), "Check in" if you really mean to start monitoring them, and "Turn off off-site tracking" for a worker who forgot to turn it off.
+- On a computer, the worker board now shows 4 workers per row and the map is square.
+
+## 2026.11.18
+
+- Nothing you will see: the PaddiSense hub can now read how long Safety has been running without that being public.
+
+## 2026.11.17
+
+- Internal improvements — no user-visible changes (includes everything in 2026.11.16).
+
+## 2026.11.16
+
+- **Manager Mode on the phone.** Managers now have a **Manager Mode** button at the top of the phone screen. After the PIN, every setting the computer has is there too — working hours, zones and their arrival/leaving alerts, workers, escalation contacts, the PIN and the emergency messages.
+- **Tidier screens.** Buttons, fields and lists on the phone and the computer now follow the PaddiSense standard sizes; text that was hard to read is clearer; the phone Notifications page now has the "critical site alerts" switches the computer had.
+- **Fix:** the licence page now shows why an activation failed.
+
+## 2026.11.15
+
+- **Fix: workers flipping between OK and "Signal Unknown".** An idle phone's motion sensor often reads "unknown"; Safety took that as a lost signal. It now judges the signal only by the phone's location reports.
+- **The map shows who is at work.** Every worker who is on site with a position is on the map, and workers who are away are not — the same on the phone and the computer.
+- **Choose which zones alert.** Each zone now has two switches: **Arrival alert** (tells you when a worker arrives on site in that zone) and **Leaving alert** (when they leave the site from it). Moving between zones on site sends nothing. **Please open the zone list and switch on the zones you want** — no zone alerts until you do. After-hours arrivals still always alert.
+- **Silence a worker's repeat alerts.** If an alert keeps coming because a phone is playing up, tap the worker and choose **Silence…**, pick a reason (Contact made, Phone offline, Worker off site, or Other with a note) and how long. A worse alert always gets through.
+- **Emergency broadcast.** Managers have a red **Emergency broadcast** button: pick "Fire – Evacuate", "Come to the office" or type your own message, check who it goes to, and send it as a critical alert to every worker and notification group. You can change the ready-made messages in Settings.
+- **Location setting help.** A worker whose phone isn't set to "Always" sees how to fix it, and gets a reminder during work hours. They can hide it for the day, or say they turned tracking off on purpose — Safety then respects that and stops asking.
+- **Fix: "Discovery failed" when it had worked.** Discovering workers from Home Assistant now says what it found, or exactly which step failed.
+- **Every worker window has a Close button**, and the phone's Tracking and Pause buttons are full size.
+
+## 2026.11.14
+
+- **Behind the scenes:** Safety now writes a short read-only status note and fuller log lines, so a problem like "shown as Unknown" can be traced to the reading that caused it. Nothing you see or do changes.
+
+## 2026.11.13
+
+- **Fix: after-hours alerts during the working day (the real cause).** Saving the Settings page forgot which days you work, so Safety treated every hour as after hours and sent the after-hours alert for every arrival. Your saved working days are now kept, a save with no working day is refused, and a box that already lost its days uses Monday to Friday until you save again. Please open Settings once and check your working days are highlighted.
+
+## 2026.11.12
+
+- **Fix: after-hours alerts during the working day.** Safety was reading the clock in the wrong time zone, so people arriving during your working hours were reported as arriving after hours, and the end-of-day check came at the wrong time. It now uses your farm's local time.
+
+## 2026.11.11
+
+- **Escalation alerts reach your second contact.** When a worker alert escalates past the primary contact, the secondary group or phone you chose in Settings is now told. It could miss them before.
+
+## 2026.11.10
+
+- **The phone map opens on your farm.** The Worker Safety map on a phone now zooms to your paddock boundaries, not to the house.
+
+## 2026.11.9
+
+- **Manager Mode is locked properly.** The PIN now unlocks Manager Mode on the server for 30 minutes, not just on the screen. Changing the PIN asks for the current one.
+- **Security fixes** from an independent review.
+
+## 2026.11.8
+
+- **Smaller download.** Safety's update no longer carries tools that are only used to test it, so it takes less room on your Home Assistant box.
+
 ## 2026.11.7
 
 - **Security updates.** The add-on now takes the latest operating-system security fixes each time it is built. This version also brings the 2026.11.5 and 2026.11.6 changes below.

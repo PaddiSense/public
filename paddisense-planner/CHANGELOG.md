@@ -1,5 +1,34 @@
 # PaddiSense Planner — What's New
 
+## 2026.11.9
+
+- Security hardening: a specially crafted link can no longer stop a Planner page from working.
+
+## 2026.11.8
+
+- Security hardening: another website can no longer submit changes to your plans through your browser.
+
+## 2026.11.7
+
+- Security fix: plan names typed into the rotation page can no longer change how the page behaves.
+
+## 2026.11.6
+
+- **Crop Plan and Templates on a phone:** every drop-down and box is now a full finger-size, and the crop tabs match the rest of Planner.
+
+## 2026.11.5
+
+- **Fixed: running the crop plan a second time failed.** Re-running now works and keeps your results.
+- **Fixed: a crop plan pushed into the budget now matches the plan to the cent.**
+- **Fixed: Water Ledger totals now count every trade**, not only the 30 most recent.
+- **Fixed: typing 30 for 30% no longer shows an error page** — the boxes now explain that 0.30 means 30%.
+- **Fixed: prices, rates and crops keep their exact values** when you edit the same row.
+- **Tidier screens:** the same buttons and tabs as the other PaddiSense apps, bigger tap targets, and the phone can record a water allocation.
+
+## 2026.11.4
+
+- **Easier support.** Planner now keeps a short health summary on your Home Assistant box, so problems can be found faster. Nothing you see changes, and no passwords are included.
+
 ## 2026.11.3
 
 - **Smaller download.** This update no longer carries tools that are only used to test it, so it takes less room on your Home Assistant box.

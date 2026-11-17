@@ -3,6 +3,22 @@
 > Plain-English release notes. The full technical changelog lives in the source repo
 > (`CHANGELOG.md`); this is the version that ships in the catalog.
 
+## 2026.11.2.84
+
+- Fixed: selecting paddocks on the map stopped working once bays (or a grower's tracks) were shown. Clicking a bay now selects
+  its paddock.
+
+## 2026.11.2.83
+
+- A paddock with no bays can copy its shape into the bay layer, then split or cut it into bays.
+- A paddock's crop can be made from the paddock or from its bays in one press.
+
+## 2026.11.2.82
+
+- The map works from what you select: pick a paddock or farm and its actions (edit, add paddock, open in CRM) appear on
+  the right; the tools for that edit appear along the top with Save and Cancel.
+- The Explorer can search crops, events, farm plans and samples for a season and shows every match on the map.
+
 ## 2026.11.2.81
 - When recording a track on the phone, the map can turn with you so the road ahead points up — tap "North up" to switch to "Track up".
 

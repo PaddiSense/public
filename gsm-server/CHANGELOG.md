@@ -3,6 +3,409 @@
 > Plain-English release notes. The full technical changelog lives in the source repo
 > (`CHANGELOG.md`); this is the version that ships in the catalog.
 
+## 2026.11.2.78
+- Charts, map tools and icons now load from GSM itself, so they work with a weak or no internet connection.
+
+## 2026.11.2.77
+
+- Internal improvements — map labels always show names as plain text.
+
+## 2026.11.2.76
+
+- A business's Access section now shows only the pins on farms in your regions, as the map does.
+
+## 2026.11.2.75
+
+- Near Me: if it cannot get your position from Home Assistant, it now says so in plain words.
+
+## 2026.11.2.74
+
+- Internal improvements — no user-visible changes.
+
+## 2026.11.2.73
+- When recording a visit, you can tap the 🎤 on your keyboard to speak your notes instead of typing them.
+
+## 2026.11.2.72
+- Every box and list on the phone and iPad pages is bigger and easier to tap, and typing no longer zooms the page.
+- The full-screen cards in What's Near Me keep all their text on the screen.
+
+## 2026.11.2.71
+- What's Near Me: tap a farm at the bottom to zoom to it — the chosen farm is white, the others grey. Tap a paddock and its
+  details come up from the bottom as cards you swipe through (grower, farm, paddock, crop, events); hold a card to see all of
+  it on its own screen.
+
+## 2026.11.2.70
+- What's Near Me can show where you are even when Home Assistant is opened without https, using the position the Home
+  Assistant app reports for you (a few minutes old). Start tracking has moved off this map.
+
+## 2026.11.2.69
+- Rice area on the home page is now this season's rice from the crop layer, not every paddock marked as able to grow rice.
+- On the phone, Today shows Events today and Rice area.
+
+## 2026.11.2.68
+- On an iPad, the home page's quick links and figures are shorter cards, four to a row, instead of large squares.
+
+## 2026.11.2.67
+- The phone home opens on your quick links: What's Near Me, Grower Lookup, Track My Path and Sampling. The season bar is gone
+  and the top bar is shorter.
+
+## 2026.11.2.66
+
+- Linking a grower to a business now tells you if nothing was linked, instead of saying "Saved".
+
+## 2026.11.2.65
+
+- Adding a new owner: if something is missing, the form now stays open, tells you what, and keeps what you typed.
+
+## 2026.11.2.64
+
+- Behind-the-scenes test fix only. Nothing you see changes.
+
+## 2026.11.2.63
+
+- Housekeeping on the map: styles left over from the old map are removed. Nothing you see changes.
+
+## 2026.11.2.62
+
+- Small labels on What's Near Me and in the paddock panel are a little larger and easier to read.
+
+## 2026.11.2.61
+
+- Pages switch between the phone and desktop layouts at the same screen width everywhere, as the other PaddiSense apps do.
+
+## 2026.11.2.60
+
+- The desktop menu now shows who is signed in and whether they are an Admin or an Operator, above the version.
+
+## 2026.11.2.59
+
+- Screen readers now name every icon button (Close, Previous, Next, Move up …), and anything you can click can also be
+  reached and pressed with the keyboard.
+
+## 2026.11.2.58
+
+- The map now opens in the new layout (the one that looks like Farm's map). The older classic map is retired; every
+  tool is on the new map.
+
+## 2026.11.2.57
+
+- On the new map, each grower in the tree has a Tracks & pins row: tick it to see their tracks and pins on the map, and
+  click one to edit it.
+
+## 2026.11.2.56
+
+- On the phone, Start tracking from Near Me or a grower's page, drop pins at the gate, shed or pump as you pass them, and
+  Stop: the track is saved as a route to the last pin, ready for anyone in your region to Navigate.
+- Pins are placed and moved on the map; the grower's Access page edits their names and notes.
+
+## 2026.11.2.55
+
+- Event types and sources read as words (for example "Crop stage", "MapRice"), not as stored codes.
+- An empty value always shows as —.
+- A farm name with an & in it shows correctly in the boundary review title.
+
+## 2026.11.2.54
+
+- Every map shows satellite imagery only; the Street option is gone.
+- Picking a farm on the map now shows it in white, with the other farms grey.
+
+## 2026.11.2.53
+
+- Maintenance: shared library pin restored. Nothing changes on screen.
+
+## 2026.11.2.52
+
+- Maintenance: shared library update. Nothing changes on screen.
+
+## 2026.11.2.51
+
+- A selected paddock is now bright yellow on every map, as in Farm, so it no longer looks like a crop or an unsent change.
+- Paddock names on the map are white with a dark edge everywhere, as in Farm, and read on satellite imagery.
+
+## 2026.11.2.50
+
+- Tapping a button twice no longer saves, imports or connects twice.
+
+## 2026.11.2.49
+
+- Paddock names on the map are never smaller than 11 px, so they can be read over the satellite picture.
+
+## 2026.11.2.48
+
+- Behind the scenes: one stylesheet per style. On the farm map, the page code at the bottom is now styled like the rest of GSM.
+
+## 2026.11.2.47
+
+- Every office page opens with the same heading style.
+
+## 2026.11.2.46
+
+- Buttons on the map look and behave like every other button in GSM, and are easier to tap.
+
+## 2026.11.2.45
+
+- If your sign-in has expired, a save now tells you so instead of looking saved; a button that cannot work says so.
+
+## 2026.11.2.44
+
+- Error and success messages look the same on every page, and screen readers now read them out.
+
+## 2026.11.2.43
+
+- Page names in the top bar and the browser tab now match, with no stray dashes (for example "Map" instead of "Map —").
+
+## 2026.11.2.42
+
+- The maps load their map software from the PaddiSense box itself, so a weak signal is less likely to leave a map page blank. The map's + / − and popup close buttons are bigger on a phone.
+
+## 2026.11.2.41
+
+- Some warning, error and status text on the map and its panels was hard to read; it is darker and clearer now.
+
+## 2026.11.2.40
+
+- On a tablet, the office map no longer squeezes the map into a thin strip when a side panel is open.
+
+## 2026.11.2.39
+
+- The grower map has one Layers button: Satellite or Street, and the paddock, crop, event and label layers, all in one place. Tap anywhere on a row to switch it.
+
+## 2026.11.2.38
+
+- Small buttons on the phone pages (close, arrows, GPS, chips) are bigger and easier to hit with a thumb.
+
+## 2026.11.2.37
+
+- Every map now shows the full credit for the map pictures.
+- The last-mile route map also tells you when its pictures do not load.
+
+## 2026.11.2.36
+
+- When there is no signal and the map pictures do not load, the map now tells you, instead of just going grey. Your paddocks are still shown.
+
+## 2026.11.2.35
+
+- On a phone, tapping into a box to type no longer zooms the whole page in.
+
+## 2026.11.2.34
+
+- Pages keep their normal light colours on a phone set to dark mode.
+
+## 2026.11.2.33
+
+- The office paddock map shows paddock and farm names exactly as typed, and says plainly when it cannot load.
+
+## 2026.11.2.32
+
+- Messages that pop up at the bottom of the page all look the same now and are read out by screen readers.
+- A message that something did not work is shown in red, so it cannot be mistaken for "saved".
+- Near Me: recording an event no longer gets stuck after it has been saved.
+
+## 2026.11.2.31
+
+- Questions such as "Delete this paddock?" now open inside the page, so they work in the Home Assistant app too.
+  Growers see no change on their own boxes.
+
+## 2026.11.2.30
+
+- A double tap on Save no longer saves twice, and a page left open too long now says to reload instead of showing a
+  bare error. Growers see no change on their own boxes.
+
+## 2026.11.2.29
+
+- When something does not save or load, the message now says why in plain words instead of an error code. Growers
+  see no change on their own boxes.
+
+## 2026.11.2.28
+
+- Staff pages no longer show internal reference numbers. Growers see no change.
+
+## 2026.11.2.27
+
+- Staff pages show dates and times in local time (AEST/AEDT) instead of UTC. Growers see no change.
+
+## 2026.11.2.26
+
+- Text on the Sampling, Near Me and home pages is easier to read: no more pale text on pale backgrounds.
+
+## 2026.11.2.25
+
+- The staff "Farm layout" map opens the phone map on a phone. Growers see no change.
+
+## 2026.11.2.24
+
+- On the grower map, the tab you are on is now clearly marked, and the tab labels are larger.
+
+## 2026.11.2.23
+
+- On the staff map, a sample point the server refuses is no longer shown as saved. Growers see no change.
+
+## 2026.11.2.22
+
+- Staff are asked to confirm before a clean-up, a delete or a retire on the Grower Services admin pages. Growers see no change.
+
+## 2026.11.2.21
+
+- Splitting a paddock on the staff map now saves every piece or none, so area can no longer go missing. Growers see no change.
+
+## 2026.11.2.20
+
+- Every email from Grower Services has an unsubscribe link that takes effect straight away.
+
+## 2026.11.2.19
+
+- Staff on a farm are asked, after a while, whether it is a grower visit, so visits get recorded. Growers see no change.
+
+## 2026.11.2.18
+
+- Staff can send growers emails and texts that respect each grower's opt-out. Growers who reply STOP or unsubscribe are not messaged again.
+
+## 2026.11.2.17
+
+- Staff see a farm's key facts (header, dog on farm, best time to visit and more) and recent visits from the paddock on their phone. Growers see no change.
+
+## 2026.11.2.16
+
+- Staff can keep a log of every call, visit and meeting with a grower, and see who has not been in touch lately. Growers see no change.
+
+## 2026.11.2.15
+
+- Staff get a "last mile" map on their phone that still works where there is no signal. Growers see no change.
+
+## 2026.11.2.14
+
+- Staff can record the way in to a farm by driving it with their phone; GSM suggests the turns that matter. Growers see no change.
+
+## 2026.11.2.13
+
+- Staff can draw the best way in to a farm on the map and send it to Google Maps with the right turns — growers see no change.
+
+## 2026.11.2.12
+
+- Staff can now record where to go on each grower's farm — the house, main shed, pump site — with driver notes and a gate code that is only shown on request, with every showing recorded.
+
+## 2026.11.2.11
+
+- Groundwork for saved access routes to growers' farms (pins, preferred ways in, gate codes kept for staff only). Nothing new on screen yet.
+
+## 2026.11.2.10
+
+- New: grower segments in the office CRM — pick growers by region, how they like to be contacted, whether they can be messaged, rice history and when they were last contacted; save the list and open it again any time.
+- The paddock panel on the map is clearer: Info, then one row per type of event in the season.
+- Each business record has a Consent & preference page: record whether they agreed to SMS and email, how, and their preferred way to be contacted. Every change is kept.
+
+## 2026.11.2.9
+
+- Clicking a paddock on the map now highlights its farm (orange, others grey), the same as picking it in the tree.
+
+## 2026.11.2.8
+
+- The new office map now has every tool from the current map, arranged like Farm's map: tabs choose the tools, the details sit on the right, paddocks, bays and crop zones look as they do in Farm.
+- Clicking an owner highlights all of their farms (both maps).
+- The map's layer list is back, so event, crop-zone, sample and NDVI layers can be switched on again.
+
+## 2026.11.2.7
+
+- New office map: clicking an owner highlights all of their farms and lists them.
+
+## 2026.11.2.6
+
+- The office map has a "New map (Farm layout)" button on its top bar to open the new layout.
+- The street map background loads again.
+- Home page: quick links first; the Admin connection figures and Sibling Licences moved to the Admin settings.
+
+## 2026.11.2.5
+
+- A new office map layout that works like Farm's map (being tried beside the current map): paddocks, bays and crop zones drawn as Farm draws them, a tree of owners, farms and paddocks, and details on the right.
+
+## 2026.11.2.4
+
+- Farm plan on the office map: draw land cover, development zones, slope, trees and infrastructure (channels, pumps, fences, sheds, houses and more) for a farm, with the details for each.
+
+## 2026.11.2.3
+
+- The office map can show growers' events as the bay, paddock or area they were recorded on, as it was on the day. Turn each event type on in the layer panel and pick a season or recent period.
+
+## 2026.11.2.2
+
+- What's Near Me on the phone: paddock outlines, labels and details are now easy to read on the satellite map.
+- Tapping a paddock or a farm shows everything GSM holds: the paddock record, the farm, its owners, and its people (owners,
+  managers, agronomists and other contacts), one card each. Swipe through them; phone numbers and emails can be tapped.
+- The phone home page shows the quick links first, above the day's numbers.
+
+## 2026.11.2.1
+
+- Behind the scenes only: page titles in GSM's admin screens. Nothing a grower sees changes.
+
+## 2026.11.2
+
+- Security update: the link from the PaddiSense Admin console now accepts only its newer, stronger signature. Nothing you use changes.
+
+## 2026.11.1
+
+- Security update: two supporting packages updated past published security advisories. Nothing you use changes.
+
+## 2026.10.81.15
+
+- Signing in to, or out of, the GSM map now takes you straight to the next page, instead of a blank one.
+
+## 2026.10.81.14
+
+- Behind the scenes: the shared phone recorder keeps every detail when a pending machine event is confirmed (used by Farm; no change to GSM screens).
+
+## 2026.10.81.13
+
+- Behind the scenes: the shared phone recorder now marks each save, so pressing Save again after a lost connection cannot record the same event twice.
+
+## 2026.10.81.12
+
+- Editing an event keeps the unit it was recorded in (a rate entered in mL/ha no longer turns into L/ha).
+- The event-type buttons in a narrow side panel no longer break words in half.
+
+## 2026.10.81.11
+
+- Behind the scenes: each new GSM build now picks up the latest security fixes for the system it runs on, instead of reusing an older copy.
+
+## 2026.10.81.10
+
+- When you merge, split or retire paddocks in Farm, GSM now follows the change. A SunRice record only changes after staff have looked at it.
+
+## 2026.10.81.9
+
+- Behind the scenes: GSM now remembers which of your farm's paddocks each of its paddocks is, by a permanent id, so a renumbered paddock can't be confused with another.
+
+## 2026.10.81.8
+
+- Behind the scenes: code tidy-up. Nothing changes on GSM's screens.
+
+## 2026.10.81.7
+
+- Records sent from a grower's box now always land on the right paddock in GSM, even when two paddocks share the same number.
+
+## 2026.10.81.6
+
+- Behind the scenes: the shared event-recording screen is up to date with the other add-ons. Nothing changes on GSM's screens.
+
+## 2026.10.81.5
+
+- Staff screens: a business's or farm's details are now split into separate pages (Identity, People, Farms, …) instead of tabs.
+
+## 2026.10.81.4
+
+- Behind the scenes: the shared event-recording screen is up to date with the other add-ons. Nothing changes on GSM's screens.
+
+## 2026.10.81.3
+
+- On a phone, the Events screen now lets you pick a business, then a farm, then a paddock — it only offers ones that have events — and the list is grouped by business and farm.
+
+## 2026.10.81.2
+
+- Behind the scenes: the shared event-recording screen is up to date with the other add-ons. Nothing changes on GSM's screens.
+
+## 2026.10.81.1
+
+- Behind the scenes: GSM now takes its look-and-feel from the shared PaddiSense package, so it can never drift from the other add-ons. The side menu is easier to read.
+
 ## 2026.10.81
 
 - Security updates to two building blocks GSM uses (certificates and image handling). Nothing changes on screen.

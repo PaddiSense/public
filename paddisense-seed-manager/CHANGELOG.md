@@ -1,5 +1,32 @@
 # PaddiSense Seed Manager — What's New
 
+## 2026.11.9
+
+- Security hardening on the office sign-in: repeated password guesses are limited even when sent all at once.
+
+## 2026.11.8
+
+- Security hardening on the kiosk: repeated PIN guesses are limited even when sent all at once.
+
+## 2026.11.7
+
+- **Moisture and silo charts work without internet.** The chart library now comes with Seed Manager instead of from a website.
+
+## 2026.11.6
+
+- **Kiosk Storage on a phone:** the "Has Stock" filter no longer runs off the screen.
+
+## 2026.11.5
+
+- **Moisture readings save again.** Recording a moisture reading, in the office or at the kiosk, showed an error and saved nothing. Fixed.
+- **Drying Racks and outbound dispatch open on a computer.** On a desktop browser both pages showed an error. They now open.
+- **Easier to use on a phone.** Bigger buttons, settings lists that fit the screen, words written out ("Delete", "Turn off"), and every value in a list shows its heading.
+- **Easier to read.** Text that was too faint is now clear, including the kiosk operator's name.
+
+## 2026.11.4
+
+- **Easier support.** Seed Manager now keeps a short read-only summary of how it is running, so a problem can be found faster. Nothing you see changes.
+
 ## 2026.11.3
 
 - **Smaller download.** This update no longer carries tools that are only used to test it, so it takes less room on your Home Assistant box.

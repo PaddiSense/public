@@ -1,5 +1,19 @@
 # PaddiSense Store — What's New
 
+## 2026.11.6
+
+- A stock quantity or cost that is not a real number is now refused with a clear message instead of being saved.
+
+## 2026.11.5
+
+- **Settings buttons say what they do:** "Delete", "Turn off" and "Turn on" instead of "Del", "Off" and "On", and screen readers now name every button.
+- **History on a phone:** the Product, Location and Type filters fit the screen and are labelled.
+- **Use Stock:** the quantity buttons stay greyed out until you pick a product and location, so a tap is never ignored.
+
+## 2026.11.4
+
+- Store now writes a short read-only summary of its stock state, so the PaddiSense team can check problems on a farm faster. Nothing you see changes.
+
 ## 2026.11.3
 
 - **Smaller download.** This update no longer carries tools that are only used to test it, so it takes less room on your Home Assistant box.

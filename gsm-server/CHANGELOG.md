@@ -3,6 +3,19 @@
 > Plain-English release notes. The full technical changelog lives in the source repo
 > (`CHANGELOG.md`); this is the version that ships in the catalog.
 
+## 2026.11.2.81
+- When recording a track on the phone, the map can turn with you so the road ahead points up — tap "North up" to switch to "Track up".
+
+## 2026.11.2.80
+- Office staff can import the season's survey of sown crops; each sowing is matched to its paddock, and anything that does not match cleanly is held for a person to check.
+- The phone's grower list shows farm numbers and the grower contact, with a button to call them.
+- The farm visit page is now called the Grower Contact Form.
+
+## 2026.11.2.79
+
+- Tap a previous visit on a farm to see everything that was recorded: who, why, the outcome, the full notes and any follow-up.
+- Drop-down boxes on iPhones are now full size and easier to tap.
+
 ## 2026.11.2.78
 - Charts, map tools and icons now load from GSM itself, so they work with a weak or no internet connection.
 

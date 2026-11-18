@@ -1,5 +1,43 @@
 # PaddiSense PWM — What's New
 
+## 2026.11.61
+
+- Paddock edit: the Supply channel sensor picker and its reading now fit inside the panel.
+- Paddock edit: each bay stands out as its own block, so you can see where one bay and its gates end and the next begins.
+
+## 2026.11.60
+
+- Ready for Farm's bay Merge: when two bays are merged in Farm, PWM moves the merged bay's gates and boards to the bay that is kept.
+
+## 2026.11.59
+
+- The bay's **Supply channel sensor** is now always shown on the bay page, with the reading it is using right now under it.
+- The bay's own depth box is now called **Bay depth sensor**, and channel boards in its list are marked as channel boards.
+- Safety: if a bay's depth is read from a channel or pump board, the bay's offset buttons no longer change that board's
+  offset — set it on Channel Setup or Pump Setup instead.
+
+## 2026.11.58
+
+- New: a bay can be given its own **Supply channel sensor**. Open the bay, then "Supply channel sensor — pick it here", and choose any depth sensor on any board: a pump board, a channel board, or another bay's gate. Pond and Flush then judge the supply channel from that sensor. Use it when the bay's supply gate has no sensor of its own in the channel.
+
+## 2026.11.57
+
+- No change you will see. Behind the scenes, how long PWM has been running is now shared with Core over the box's private, signed connection (groundwork for taking it off the public health page).
+
+## 2026.11.56
+
+- Fix: Pond now fills a paddock whose depth sensor also stands in for the supply channel (one sensor for both). It opens below the minimum and closes when covered. Its line in Diagnostics says "backflow not checked", because there is no separate channel reading to compare.
+
+## 2026.11.55
+
+- Diagnostics: pump lines read in plain words, e.g. "Recycle Pump started by ADB". Tap "details" for "ADB switched on Recycle Pump from the PWM screen".
+- Fix: a door tapped while its board is offline no longer keeps the automation off that door for 10 minutes.
+- Fix: a paddock whose bays are all switched Off now reads Off.
+
+## 2026.11.54
+
+- Fix: a door you open or close from the map is now listed under its board in Diagnostics, and the 10-minute "a person just moved this door" hold now holds after PWM restarts.
+
 ## 2026.11.53
 
 - Diagnostics: the licence and user-list check every 5 minutes no longer adds a line each time — only a real change does, and the repeats already there are cleared.

@@ -3,6 +3,130 @@
 > Plain-English release notes. The full technical changelog lives in the source repo
 > (`CHANGELOG.md`); this is the version that ships in the catalog.
 
+## 2026.11.2.107
+
+- Phone: a grower page's "not saved" message and its folded sections are easier to read.
+
+## 2026.11.2.106
+
+- Phone home: six tiles — Events today joins the five links; the separate Today heading is gone.
+
+## 2026.11.2.105
+
+- Phone: Grower Lookup opens at once with a loading circle while the growers come in.
+- Phone: a new Stats tile — Rice area, the crop survey (each variety with its areas, each region with its varieties) and
+  Real Time Rice. The home keeps the tiles and Events today.
+
+## 2026.11.2.104
+
+- Phone: Grower Lookup shows a loading circle while it opens, and a tapped page that is slow to appear shows one too.
+- Phone home: four tiles (What's Near Me, Crops Near Me, Grower Lookup, Sampling), then Events today and the crop survey's
+  varieties in hectares by area and by region.
+- Phone: Record contact steps through one question at a time — big square tiles, three to a row, Back and Next at the bottom.
+
+## 2026.11.2.103
+
+- Phone: a grower's page has Event / Contact / Go to / Track fixed at the bottom — big buttons, always in reach.
+- Phone: new Record Contact tile — find the grower, tap, record the call or visit in a few taps.
+
+## 2026.11.2.102
+
+- Phone: a grower's page now ends at Start tracking and the saved pins and routes.
+
+## 2026.11.2.101
+
+- Phone: new Crops Near Me tile — what is planted near you this season, with the survey numbers.
+- Phone: What's Near Me's Crop card shows the survey's tonnes, potential yield, pool and depot.
+
+## 2026.11.2.100
+
+- Map search: the tree shows only the paddocks that matched, and the other paddocks fade so the matches stand out.
+
+## 2026.11.2.99
+
+- Map: Edit paddock lets you change the paddock's name and Irrigated / Dryland.
+- Map: a new paddock keeps the map where it was, appears in the tree straight away and shows its area.
+
+## 2026.11.2.98
+
+- Map: paddock name labels show once zoomed in, so the map no longer freezes with labels on.
+
+## 2026.11.2.97
+
+- CRM Paddocks: shows the variety planted this season and finds paddocks by it.
+
+## 2026.11.2.96
+
+- Map: opening a farm or paddock from a link filters the tree to it and marks the paddock.
+
+## 2026.11.2.95
+
+- Self-test: two event checks no longer report a false failure.
+
+## 2026.11.2.94
+
+- Farm plans: choose a colour, line style and point shape for each kind of object in Farm Plan Settings.
+- Farm plans: mark each paddock Irrigated or Dryland, and colour the plan by it.
+- Farm plans: add text notes with arrows; they print with the plan.
+- Printing a plan: tick boxes for a border, the report, notes and irrigated / dryland.
+- Map: NSW lot / plan and road layers; with lots on, click open ground to see the Lot/DP.
+- Map: add a farm from a business's panel, and add a pin or route from the top bar while tracks and pins are shown.
+- Survey import review: farm number, business and a View Map button for each held line.
+
+## 2026.11.2.93
+
+- Farm plans: Zoom to plan and Print plan are now full-size buttons.
+
+## 2026.11.2.92
+
+- Farm plans: reprinting a saved plan version now shows every object it held, including types no longer offered.
+
+## 2026.11.2.91
+
+- Farm plans: Edit shape now shows the corners of zones and lines so you can drag them.
+- Farm plans: the edit form's buttons fit inside the form, and Edit details takes you from the shape back to the details.
+- The Edit Farm and Edit Bays buttons are now coloured like the others.
+
+## 2026.11.2.90
+
+- Farm plans: Edit shape lets you drag the corners of an area or line, or move a pin, then save.
+- Fixed: drawing a line in the farm plan no longer asks whether to leave the plan.
+
+## 2026.11.2.89
+
+- Searching for a crop in the left panel now narrows the business list to the growers who have it; clear the search
+  to see everyone again.
+
+## 2026.11.2.88
+
+- The map's top bar is simpler: Select, Identify and Clear are gone. Click a paddock to select it; press Esc or click
+  empty map to clear.
+- Measuring: the line shows as you draw and follows the mouse, Clear and Close buttons appear while you measure, and
+  the active tool is clearly highlighted.
+- Farm plans: a shed or house is now placed as a pin, with its floor area typed in.
+
+## 2026.11.2.87
+
+- The Crops layer shows what is planted in each paddock, coloured by crop with a legend, and the paddock panel lists
+  the crop sown.
+- Farm plans: choose which details each type of object asks for, and manage the dropdown choices, under Config →
+  Farm Plan Settings.
+- Farm plans: show names on the map per type, and print the plan to PDF with a legend, north arrow, scale bar and a
+  report. Each print saves a version of the plan you can print again later.
+
+## 2026.11.2.86
+
+- Farm plans: start a plan from a paddock, farm or business ("New Farm Plan", or "Edit Plan" once it has one), then draw a
+  Point, Line or Area and choose what it is.
+- The details panel on the right lists its buttons and details in a clearer order with larger text, and you can drag its
+  edge to make it wider.
+- Fixed: clicking a paddock that was already selected cleared the panel.
+
+## 2026.11.2.85
+
+- Fixed: "+ New User", "+ New Person" and "Create Season" now take you straight to the form with the cursor in the first box.
+  Before, on a short list, the click hardly moved the page and looked like it did nothing.
+
 ## 2026.11.2.84
 
 - Fixed: selecting paddocks on the map stopped working once bays (or a grower's tracks) were shown. Clicking a bay now selects

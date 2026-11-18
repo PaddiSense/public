@@ -3,6 +3,27 @@
 > Plain-English release notes for growers. The full technical changelog lives in the
 > source repo (`CHANGELOG.md`); this is the version that ships in the grower catalog.
 
+## 2026.11.13.7
+
+- The Box storage page can now show how full the box's disk is. Before, the disk took longer to measure than Core waited, so it
+  said "Could not read" — and when a part still cannot be read, the page now says why.
+
+## 2026.11.13.6
+
+- No change you will see. Core now reads how long each add-on has been running over the box's private, signed connection (groundwork for taking it off the public health pages).
+
+## 2026.11.13.5
+
+- A smaller Core download: the update no longer carries developer test tools.
+
+## 2026.11.13.4
+
+- Core no longer sets up, backs up or updates the retired SugarSense app. A box that already has its data keeps it.
+
+## 2026.11.13.3
+
+- The network safety check on the self-test page no longer shows green when the network has not actually been checked yet.
+
 ## 2026.11.13.2
 
 - Daily database backups work again on boxes whose TimescaleDB add-on updated to 6.0.0 (PostgreSQL 18).

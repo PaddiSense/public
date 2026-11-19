@@ -1,5 +1,15 @@
 # PaddiSense PWM — What's New
 
+## 2026.11.63
+
+- Paddock Setup: under each bay's response times, the note that the door settle time applies to both Flush and Pond is back.
+
+## 2026.11.62
+
+- Paddock Setup: each bay has a new response time, **Flush: settle at min** — how long the bay must stay at its minimum before its flush hold starts (default 5 minutes). Raise it if a water bulge reaches the minimum early.
+- Paddock Setup map: click a paddock whose automation is off to enable it right there, and its card scrolls into view in the list.
+- The activity log now says which response time was changed, and from what to what.
+
 ## 2026.11.61
 
 - Paddock edit: the Supply channel sensor picker and its reading now fit inside the panel.

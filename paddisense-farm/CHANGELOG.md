@@ -1,5 +1,259 @@
 # PaddiSense Farm — What's New
 
+## 2026.11.9.59
+
+- Farm map: hold Ctrl (or Shift) and click two or more paddocks' pH, EM or yield rows to see them together on one colour scale — as
+  the values are, or as % of each field's average — and make zones across all of them at once.
+- Phone map: a Maps tab shows the paddock's pH, EM, yield and as-applied maps.
+
+## 2026.11.9.58
+
+- Import hub: a Veris pH or EC file now shows only its "Make pH map" / "Make EM maps" box — the spreadsheet import, which cannot take
+  it, is no longer offered.
+
+## 2026.11.9.57
+
+- Import hub: a Veris pH or EC survey file (.dat) now imports — the pH file makes a pH map, the EC file makes shallow and deep EC maps.
+  Readings with no GPS, a faulty probe or no soil contact are left out, and you see how many.
+- Farm map: each paddock has a pH row; "Show points" draws every survey reading, with the ones left out as grey rings. Zones and
+  prescriptions come from a pH map the same way as from EM or yield.
+
+## 2026.11.9.56
+
+- Prescriptions: anyone who can edit can approve a prescription — no separate permission.
+- Prescription page: press a zone's bucket to paint with its rate, and press it again to stop; the separate Paint zones button is gone.
+
+## 2026.11.9.55
+
+- Prescription summary: the comparison with a flat rate shows only when a flat rate is typed.
+
+## 2026.11.9.54
+
+- Prescription page: press the bucket on a zone in the rate list, then click pieces on the map to give them that zone's rate. No extra zones appear in the list.
+
+## 2026.11.9.53
+
+- Prescription page: the fill bucket can give one small piece of a zone its own rate (an override), and Reset overrides puts the zones back. Typing a rate in the zone list still sets the whole zone.
+
+## 2026.11.9.52
+
+- Saved zones now sit in the paddock tree under Zones, labelled NDVI, Yield or EM; click one to open the prescription page. Prescriptions in the tree show their product, rates and approval.
+
+## 2026.11.9.51
+
+- Prescription page: painting a rate now colours the zone and shows its rate, the black box on click is gone, and Print fits the whole paddock.
+
+## 2026.11.9.50
+
+- The prescription page fits a phone: the map on top, the rates and summary below.
+
+## 2026.11.9.49
+
+- A new prescription page: open saved zones from the map, then set rates with a fill bucket, see how much product you use compared with a flat rate, print it as a PDF, and export it for John Deere / CNH or as a shapefile once approved.
+
+## 2026.11.9.48
+
+- Security alerts to SunRice are now retried for a few minutes if the connection briefly fails, instead of being lost.
+
+## 2026.11.9.47
+
+- Map: pressing NDVI shows the latest satellite pictures on your cropped paddocks, with a line saying how many, how recent, and when the next check is.
+- Map: "Update now" checks for new satellite pictures straight away and tells you what it found.
+- Map: saved prescriptions now appear in the left-hand list under their paddock and season — click one to see its zones and rates.
+
+## 2026.11.9.46
+
+- Internal improvements — no user-visible changes.
+
+## 2026.11.9.45
+
+- Internal improvements — no user-visible changes.
+
+## 2026.11.9.44
+
+- **Merge bays on the farm map:** on the Bays tools, choose Merge, click the bays (in one paddock), choose which bay to keep, name it and Merge. Water control keeps working on the kept bay.
+
+## 2026.11.9.43
+
+- **Merge crop zones on the farm map:** on the Crop zones tools, choose Merge, click the zones (in one paddock), name it and Merge.
+
+## 2026.11.9.42
+
+- **Config on a phone is tidy again:** each list item is two lines, and Farms, Crops, Seasons and Applicators show as cards with Edit and Delete in view.
+- **The hub's Events tile is now called Record Event.**
+
+## 2026.11.9.41
+
+- **The last step of recording an event shows the date as day/month/year** (16/11/2026) on every recording screen, the same as the phone wizard.
+
+## 2026.11.9.39
+
+- **Maps and the RTR charts work without internet.** The map and chart libraries now come with Farm instead of from websites.
+
+## 2026.11.9.38
+
+- On a phone: the event filters fit the screen and say From and To; event, Real Time Rice and Config buttons are the standard size and say what they do; the Config lists are easier to read and edit; the Boundary Manager's columns can be scrolled to; a link to a paddock opens it on the phone map.
+- Config can be opened straight at a section from a link.
+
+## 2026.11.9.37
+
+- The small badges in the paddock panel are a little larger and easier to read.
+
+## 2026.11.9.36
+
+- Farm accepts changes to who may use it from PaddiSense Core again.
+
+## 2026.11.9.35
+
+- When one weather station has a gap, each point of a spray now takes its reading from the next station that has one, and says which.
+
+## 2026.11.9.34
+
+- The weather card now says which day and times it looked up, and a spray older than a week says its weather can no longer be looked up.
+
+## 2026.11.9.33
+
+- Recording a spray now refuses a start time in the future or on a different day from the event, instead of saving it.
+
+## 2026.11.9.32
+
+- Recording a spray for an earlier day now looks up that day's weather — it used to look up today's. Dates in the recording wizard show as DD/MM/YYYY.
+
+## 2026.11.9.31
+
+- Behind the scenes: Farm now names each paddock, bay and crop zone to other add-ons by its permanent id only.
+
+## 2026.11.9.30
+
+- Precision: no change you will see — error messages and two read-only steps are now declared to the safety checks.
+
+## 2026.11.9.29
+
+- Precision: a nine-step panel on the farm map — zones over years, loads and calibration, soil and typed rates, approval and export, for one paddock.
+
+## 2026.11.9.28
+
+- Precision ag: paid loads and yield calibration, the season's PI-to-flowering image, soil samples from lab files, prescriptions that a ticked person approves before export, and every export logged.
+
+## 2026.11.9.27
+
+- **Precision-ag groundwork**: cleaning, multi-year, zone and confidence results are now saved, and zones can be edited (fill and merge) as new versions with the original kept. Nothing changes on screen yet.
+
+## 2026.11.9.26
+
+- **Precision-ag groundwork**: the zone and yield-layer records are stored as plain typed fields, so they can be
+  checked and queried. Nothing changes on screen.
+
+## 2026.11.9.25
+
+- **Groundwork for "Make prescription map from a zone"**: one step turns a set of zones and a rate for each into both machine files
+  (shapefile and ISOXML) with the same rates. Nothing changes on screen.
+
+## 2026.11.9.24
+
+- **Groundwork for exporting zone prescriptions as ISOXML** (the format Case terminals load). Off the paddock the file says apply nothing.
+  Nothing changes on screen.
+
+## 2026.11.9.23
+
+- **Groundwork for exporting zone prescriptions as a shapefile**, the same file layout Farm's NDVI prescriptions already download in.
+  Nothing changes on screen.
+
+## 2026.11.9.22
+
+- **Groundwork for the confidence map**: how sure each part of a zone map is, and where a soil sample would help most. A zone with
+  no soil test is never shown as high confidence. Nothing changes on screen.
+
+## 2026.11.9.21
+
+- **Groundwork for multi-year zones**: which parts of a paddock yield reliably high or low, which swing from year to year, and
+  zones drawn from several layers at once. Nothing changes on screen.
+
+## 2026.11.9.20
+
+- **Groundwork for cleaning harvest data** (removing headlands, stops and outliers before zones are drawn). Nothing changes on screen.
+
+## 2026.11.9.19
+
+- **NDVI and NDRE captures can now be laid on the same 5 m paddock grid** as your harvest and EM maps, with cloud marked as cloud.
+  Nothing changes on screen yet; the zone wizard will use it.
+
+## 2026.11.9.18
+
+- **Your harvest, EM and spreader maps are now laid on one common 5 m grid per paddock**, ready for multi-year zones. Where a map's
+  original points are no longer on the box, its grid cells are marked as estimated, never as measured. Nothing changes on screen.
+
+## 2026.11.9.17
+
+- **Harvest, EM and spreader maps you imported before the last update** get their points kept too, read again from the file you
+  uploaded, wherever that file is still on the box. Nothing changes on screen.
+
+## 2026.11.9.16
+
+- **Your harvest, EM and spreader files are now kept point by point** alongside each map, so later steps can clean them and show which
+  parts of a map were measured and which were filled in. Nothing changes on screen.
+
+## 2026.11.9.15
+
+- **Groundwork for precision zones:** each paddock gets a fixed 5 m grid that yield, imagery and EM can share. Nothing changes on
+  screen yet.
+
+## 2026.11.9.14
+
+- **Security hardening** from a routine review: tighter checks on a few behind-the-scenes requests. Nothing changes on screen.
+
+## 2026.11.9.13
+
+- As-applied maps from your machine's task files: an ISOXML task (the TASKDATA zip from the cab) now makes a rate map from what the
+  machine logged — seeding rate, product rate by weight or by volume — placed on the paddock.
+
+## 2026.11.9.12
+
+- As-applied maps from a machine's map export: a ZIP of banded layers (one band per range of rate) now makes a rate map for each
+  rate layer in it, placed on the paddock.
+
+## 2026.11.9.11
+
+- As-applied maps: upload the applied-rate file from your spreader, sprayer or seeder (shapefile ZIP, or CSV with latitude and
+  longitude) in the Import hub and choose "Make as-applied map". The paddock's As-applied row on the farm map shows the rate that was
+  actually put out, labelled with the product.
+
+## 2026.11.9.10
+
+- EM maps: upload your EM survey file (shapefile ZIP, or CSV with latitude and longitude) in the Import hub and choose "Make EM
+  maps" — you get a map for each channel (shallow and deep). The paddock's EM row on the farm map shows them, and you can make zones
+  and a prescription from one the same way as from NDVI or yield.
+
+## 2026.11.9.9
+
+- Zones and prescriptions from a yield map: open a paddock's Yield row, preview 3, 5 or 7 zones from the harvest, save them, then
+  give each zone a rate and download the prescription as a shapefile — the same way as from NDVI.
+
+## 2026.11.9.8
+
+- Yield maps: upload your harvest monitor file (shapefile ZIP or CSV with latitude and longitude) in the Import hub and choose
+  "Make yield map". Bad readings — empty, zero, stops and turns, spikes — are left out and counted. The paddock's Yield row on the
+  farm map then shows the map with its average, spread and legend.
+
+## 2026.11.9.7
+
+- Prescription maps: show a paddock's saved NDVI zones, give a product, unit and a rate for each zone (plus a default rate for any
+  part the zones miss), and save it. Download it as a shapefile for your controller. "Prescriptions" in the NDVI tools lists every
+  paddock's, so you can tick several and download them in one ZIP.
+
+## 2026.11.9.6
+
+- NDVI zones: under a paddock's satellite capture, split the paddock into 3, 5 or 7 zones from low to high, preview them on the map
+  with each zone's range and hectares, and save them by name. Saved zones can be shown again or deleted. They are the starting point
+  for prescription maps, which come next.
+
+## 2026.11.9.5
+
+- NDVI on the desktop map: click a paddock's NDVI row in the tree to see its satellite captures, step between dates, and read the
+  average and spread of values; "All paddocks" shows the latest capture across the farm.
+- Summary & legend, Print map and Wi-Fi plan are now buttons in the top tool bar.
+- With the crop plan open, clicking a paddock, bay or crop zone selects it for "→ Plan" instead of closing the plan.
+
 ## 2026.11.9.4
 
 - The map's side panel lists this season's events by type, with the latest date and a count, so it is clear what has been recorded.

@@ -3,6 +3,12 @@
 > Plain-English release notes. The full technical changelog lives in the source repo
 > (`CHANGELOG.md`); this is the version that ships in the catalog.
 
+## 2026.11.2.129
+
+- Grower portal security: your second factor can't be changed with a sign-in session alone; after 10 wrong codes in
+  an hour your sign-in pauses for 15 minutes and you get an email asking you to change your password; the portal
+  shows only your own RTR records; junk traffic can no longer lock growers out.
+
 ## 2026.11.2.128
 
 - The NDVI page's Fetch button works again.

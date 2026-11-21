@@ -3,6 +3,104 @@
 > Plain-English release notes. The full technical changelog lives in the source repo
 > (`CHANGELOG.md`); this is the version that ships in the catalog.
 
+## 2026.11.2.126
+
+- Security fixes for the connection between grower boxes and GSM, and for portal sign-in.
+
+## 2026.11.2.125
+
+- Security fixes for the connection between grower boxes and GSM, and for portal sign-in.
+
+## 2026.11.2.124
+
+- Security fixes for the connection between grower boxes and GSM, and for portal sign-in.
+
+## 2026.11.2.123
+
+- Security fixes for the connection between grower boxes and GSM, and for portal sign-in.
+
+## 2026.11.2.122
+
+- Grower portal: when this update arrives, a person linked to a farm can see that farm only. Staff can widen it to the whole business on the person page.
+
+## 2026.11.2.121
+
+- Behind the scenes: GSM now keeps a full history of every change to businesses, farms, owners and contacts, and a mapping of every SAP report column. Each farm's owner was listed twice; that is fixed.
+
+## 2026.11.2.120
+
+- Field staff can connect the new field sampling app on their phone to their GSM account with a one-time code (Sampling → Field app). The app is not out yet; this is the groundwork.
+
+## 2026.11.2.119
+
+- Two people can now share one email address (for example a husband and wife). Each portal login still needs its own email.
+
+## 2026.11.2.118
+
+- Person page → Portal: tick which businesses or farms a person sees in the grower portal. A ticked business includes farms added to it later.
+- Person page → Farms: "Link all farms" of a business in one click.
+- Long pick lists (farms, businesses, people) are now searchable and sorted A to Z.
+- Sample campaigns have a review page: download CSV, publish results to the grower, close or reopen the campaign.
+
+## 2026.11.2.117
+
+- New Config → Lists → Sample Types: Nitrogen, Tissue Test, Moisture Test, Soil Test, Observation Point. Add or turn off types here.
+- Sample points dropped on the desktop map now show on the phone as planned, with variety and crop-health zone filled in.
+- Sampling progress no longer drops when results are entered; a removed result stays removed; a note saves on its own.
+- New sample campaigns pick their region from a list.
+- Farm plan print zooms to the farm and offers a Satellite, Street or no background.
+- The Irrigated / Dryland list no longer rebuilds after each change.
+- The Farm push review opens in the right panel of the map.
+
+## 2026.11.2.116
+
+- Paddock counts in the CRM, Home and the map count only paddocks in use — retired paddocks are history, not counted.
+- A paddock drawn on the map that showed no area now has its area worked out from its shape.
+- The owner card has View on Map: the map opens on all of that owner's farms.
+- The owner card's farms are cards in alternating colours, with a bigger Farms heading.
+
+## 2026.11.2.115
+
+- CRM: pick an owner, then one of its farms — the farm's card opens under the owner's, with View on Map. A farm's page shows
+  its paddocks as cards down the side. People is laid out like Owners, with a contact card.
+
+## 2026.11.2.114
+
+- Survey import: a survey line the grower entered under one paddock name can be placed on several paddocks; its hectares are
+  split across them by paddock size.
+
+## 2026.11.2.113
+
+- Home page: a stats panel on the right — rice sown area by region, rice varieties by region, and dam storage. An admin picks
+  what shows for each part of the season; each person can choose their own.
+- Owners: one search and region filter over every owner, more useful columns (area, rice this season, main contact, last
+  contact), and the owner's card on the right when you pick a row. Bigger CRM tabs.
+
+## 2026.11.2.112
+
+- Boundary import: Google Earth / phone-app `.kmz` files can be uploaded. A file that holds only map pins now says so in plain words
+  instead of a parser error.
+
+## 2026.11.2.111
+
+- Map: sowings sent from PaddiSense before crop zones existed in GSM now show their crop zones too (bay by bay where the
+  varieties were mixed).
+
+## 2026.11.2.110
+
+- Map: every event in the left-hand tree has a tick box to show it on the map — one event, all of a type (e.g. Irrigation), or
+  all of a paddock's events — the same as in Farm.
+
+## 2026.11.2.109
+
+- Map: click an event in the left-hand tree and it is drawn where it happened — its bay, crop zone or drawn area — the same as
+  in Farm. An event recorded on a bay no longer shows as the whole paddock. Deleted events no longer appear in the tree.
+
+## 2026.11.2.108
+
+- Map: a paddock's crops now show in the left-hand tree as crop zones, the same as in Farm — from your PaddiSense sowings (bay by
+  bay when varieties are mixed) and the crop survey.
+
 ## 2026.11.2.107
 
 - Phone: a grower page's "not saved" message and its folded sections are easier to read.

@@ -3,6 +3,10 @@
 > Plain-English release notes. The full technical changelog lives in the source repo
 > (`CHANGELOG.md`); this is the version that ships in the catalog.
 
+## 2026.11.2.131
+
+- Staff: the GSM Settings page saves what you type again (Portal Secret, webhook URL, satellite login).
+
 ## 2026.11.2.130
 
 - Recording a planting, crop stage or irrigation from the grower portal is safe to retry: a resend after a lost

@@ -3,6 +3,11 @@
 > Plain-English release notes. The full technical changelog lives in the source repo
 > (`CHANGELOG.md`); this is the version that ships in the catalog.
 
+## 2026.11.2.130
+
+- Recording a planting, crop stage or irrigation from the grower portal is safe to retry: a resend after a lost
+  reply records once. Planting notes are saved, and the record names who made it from their sign-in.
+
 ## 2026.11.2.129
 
 - Grower portal security: your second factor can't be changed with a sign-in session alone; after 10 wrong codes in

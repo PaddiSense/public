@@ -3,6 +3,14 @@
 > Plain-English release notes. The full technical changelog lives in the source repo
 > (`CHANGELOG.md`); this is the version that ships in the catalog.
 
+## 2026.11.2.128
+
+- The NDVI page's Fetch button works again.
+
+## 2026.11.2.127
+
+- Security fixes for the connection between PaddiSense Admin and GSM.
+
 ## 2026.11.2.126
 
 - Security fixes for the connection between grower boxes and GSM, and for portal sign-in.

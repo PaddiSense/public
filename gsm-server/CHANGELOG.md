@@ -3,6 +3,11 @@
 > Plain-English release notes. The full technical changelog lives in the source repo
 > (`CHANGELOG.md`); this is the version that ships in the catalog.
 
+## 2026.11.2.132
+
+- Staff: decision help can be written, reviewed and published in GSM (rice, your 16 crop stages). Growers see it on the portal once a version is published.
+- Staff: event photos upload from the map again.
+
 ## 2026.11.2.131
 
 - Staff: the GSM Settings page saves what you type again (Portal Secret, webhook URL, satellite login).

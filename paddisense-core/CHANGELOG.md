@@ -3,6 +3,22 @@
 > Plain-English release notes for growers. The full technical changelog lives in the
 > source repo (`CHANGELOG.md`); this is the version that ships in the grower catalog.
 
+## 2026.11.16
+
+- User Access: a PaddiSense Administrator can now add a second PaddiSense Administrator — pick "PaddiSense Administrator" as
+  the role for any person, or use "Add another PaddiSense Administrator" on the card. Adding one keeps the ones already there.
+
+## 2026.11.15
+
+- Behind the scenes: Core's public health check now shows only whether it is running, its database and its version. The uptime on
+  the System info, Metrics and Database pages is unchanged for the farm owner.
+
+## 2026.11.14
+
+- New **How-to videos** tile on the PaddiSense start page. It opens a page of short videos for each PaddiSense app, numbered in
+  order — tap one to watch it on YouTube. Videos are added and updated by PaddiSense without an update to your box. (The tile
+  appears once the first videos are published.)
+
 ## 2026.11.13.7
 
 - The Box storage page can now show how full the box's disk is. Before, the disk took longer to measure than Core waited, so it

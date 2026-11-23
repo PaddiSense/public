@@ -3,6 +3,48 @@
 > Plain-English release notes. The full technical changelog lives in the source repo
 > (`CHANGELOG.md`); this is the version that ships in the catalog.
 
+## 2026.11.2.140
+
+- Staff, please note: MapRice crops imported in this version do not appear in the paddock tree until the next update, so wait for it before importing MapRice. Before importing the nutrient workbook, undo any earlier nutrient import still shown as applied.
+
+- Staff: the MapRice import now brings in crops only — one planting per paddock and variety — and no longer records fallow.
+- Staff: the nutrient workbook import records each application on its own line (date, product and rate), so repeat applications are kept apart.
+
+## 2026.11.2.139
+
+- Staff: MapRice's Crop and Fallow export can be imported for a chosen crop year — plantings and fallow land on the right paddock, anything that doesn't match is listed for review, and an import can be undone.
+- Staff: the nutrient workbook import reads column headings however they are spaced, and tells you when a checking column is missing.
+
+## 2026.11.2.138
+
+- Staff: one SAP import page — upload, see what will change, apply, and undo if needed. The planting survey is the first report on it.
+- Staff: nutrient figures per hectare (N, P, S, Zn) and fertiliser cost per hectare are worked out from the applications GSM holds, with a page to check them against a source.
+
+## 2026.11.2.137
+
+- Staff: a paddock shape someone edits on the map is kept as their edit; shapes that only came from MapRice keep updating from MapRice.
+- Staff: the CY26 nutrient workbook can be previewed, imported and undone from the import page.
+
+## 2026.11.2.136
+
+- Staff: the survey import now takes SAP's full 39-column Planting survey as well as the short template, and keeps depot, material, pool, re-sow and loss details.
+- Staff: RTR Data charts and the Insights pages load again.
+- Staff: a one-time setting lets GSM set up its own limited database account, then clears itself.
+
+## 2026.11.2.135
+
+- Staff: on the map's land list, "All not yet set" and "Ticked" set irrigation for many paddocks with one confirm, and the list keeps its place when it reloads.
+- Staff: Self-test now says whether the grower portal really reaches this box, and goes red if the database access path skips its per-grower checks.
+- Growers (portal): if the portal cannot reach the farm records, it now says so in plain words instead of showing an empty page.
+
+## 2026.11.2.134
+
+- Staff (DEV boxes only): emails sent from a box set to the test portal now link to the test portal. No change on the live portal.
+
+## 2026.11.2.133
+
+- Staff (DEV boxes only): a GSM box can be set to serve the test portal. On it, only businesses marked "Test business" can sign in to the grower portal. No change for growers on the live portal.
+
 ## 2026.11.2.132
 
 - Staff: decision help can be written, reviewed and published in GSM (rice, your 16 crop stages). Growers see it on the portal once a version is published.

@@ -1,5 +1,27 @@
 # PaddiSense Weather — What's New
 
+## 2026.11.10
+
+- Nothing you will see: Weather's public health check no longer says how long it has been running.
+
+## 2026.11.9
+
+- Nothing you will see: the PaddiSense hub can now read how long Weather has been running without that being public.
+
+## 2026.11.8
+
+- **Forecast charts and the settings map work without internet.** The chart and map libraries now come with Weather instead of from websites.
+
+## 2026.11.7
+
+- My Stations: the Spray Conditions card shows its colour and verdict again (it was blank).
+- System Status shows the error and performance numbers again, on the phone too.
+- Buttons look and behave the same on a computer as on a phone; range buttons say "3 hours" and "7 days".
+
+## 2026.11.6
+
+- No change to what you see. Weather now records its own health so problems on a farm can be found faster.
+
 ## 2026.11.5
 
 - Backups work again after the database add-on's update to PostgreSQL 18.

@@ -1,5 +1,9 @@
 # PaddiSense Safety — What's New
 
+## 2026.11.22
+
+- Nothing you will see: Safety's public health check no longer says how long it has been running.
+
 ## 2026.11.21
 
 - On a computer, the worker map is now as wide as the worker tiles, and square.

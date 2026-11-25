@@ -1,5 +1,36 @@
 # PaddiSense Assets — What's New
 
+## 2026.11.7
+
+- Nothing you will see: ASM-Pro's public health check no longer says how long it has been running. The System page still shows it.
+
+## 2026.11.6
+
+- Nothing you will see: the PaddiSense hub can now read how long ASM-Pro has been running without that being public.
+
+## 2026.11.5
+
+- **Logging a service with a part that has no unit cost** saves again (it showed "Failed to create service event").
+- **Sign-in page** uses the standard PaddiSense look, and the "PaddiSense Assets" title is readable.
+- **Asset pages on a phone:** "← Back" is a full-size tap target, and a long asset name no longer squeezes the category beside it.
+- **Close (✕) buttons** on forms are standard size, and every ✕ and remove button says what it does to a screen reader.
+- **Licence page:** pressing Activate with no code now tells you to enter one.
+- **Contractors** no longer see the System page (its information is for operators and administrators), and the Assets page no longer
+  asks for a list a contractor isn't allowed.
+
+## 2026.11.4
+
+- **Adding a location with a name or code that is already used** now tells you so, instead of showing "Internal error".
+
+## 2026.11.3
+
+- **Settings on a phone, tidied.** Each list item is one clean row: the name, then ▲ ▼, an Active switch and Delete on one line. Every button says what it does, and the Add buttons sit neatly beside their fields.
+- **Printing a history with no filters** works again (it showed an error page).
+
+## 2026.11.2
+
+- **Tidier pages.** Settings lists are readable on a phone, buttons are a proper size, the Log Service and New Request forms keep Save on screen, the Reports filters are labelled, and the dashboard no longer shows "Loading locations…" when you have none.
+
 ## 2026.11.1
 
 - **Smaller download.** This update no longer carries tools that are only used to test it, so it takes less room on your Home Assistant box.

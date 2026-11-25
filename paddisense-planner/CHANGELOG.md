@@ -1,5 +1,13 @@
 # PaddiSense Planner — What's New
 
+## 2026.11.11
+
+- Nothing you will see: Planner's public health check no longer says how long it has been running.
+
+## 2026.11.10
+
+- Nothing you will see: the PaddiSense hub can now read how long Planner has been running without that being public.
+
 ## 2026.11.9
 
 - Security hardening: a specially crafted link can no longer stop a Planner page from working.

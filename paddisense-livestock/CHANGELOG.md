@@ -1,3 +1,22 @@
+## 2026.11.6
+
+- **Imports show their rows again.** Opening an import on a computer now lists every animal read from the scale file before you commit it.
+- **Breeding group dates and stages read plainly.** Upcoming class changes load again, and a group's stage and origin show in words.
+- **Settings lists work on a phone.** Each breed, class, colour or paddock is one row with clear Move up, Move down and Delete buttons, and "Sync from Farm" now opens its paddock list on a phone too.
+- **Tidier on a phone.** Paddock, ram and breeding-group lists are single rows with their buttons on one line, names are no longer cut short, and small links are easier to tap.
+
+## 2026.11.8
+
+- Nothing you will see: Livestock's public health check no longer says how long it has been running.
+
+## 2026.11.7
+
+- Nothing you will see: the PaddiSense hub can now read how long Livestock has been running without that being public.
+
+## 2026.11.5
+
+- **Faster fault-finding.** Livestock now keeps a small read-only status note (counts, and whether it can reach Farm for your paddock list) and writes fuller detail in its log, so a problem on your farm can be diagnosed without anyone signing in. No locations or animal details are written.
+
 # PaddiSense Livestock — What's New
 
 ## 2026.11.4

@@ -1,5 +1,13 @@
 # PaddiSense Store — What's New
 
+## 2026.11.8
+
+- Nothing you will see: Store's public health check no longer says how long it has been running.
+
+## 2026.11.7
+
+- Nothing you will see: the PaddiSense hub can now read how long Store has been running without that being public.
+
 ## 2026.11.6
 
 - A stock quantity or cost that is not a real number is now refused with a clear message instead of being saved.

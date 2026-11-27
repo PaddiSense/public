@@ -1,5 +1,14 @@
 # PaddiSense PWM — What's New
 
+## 2026.11.74
+
+- **Pond no longer sends "door or board not responding" for a door resting at its slider.** Since 2026.11.73, Pond opens a
+  door only as far as its slider, but it still expected the door to be fully open. So it alerted every 30 minutes for each
+  such door, and kept re-opening it. A door at its slider now counts as open.
+- **Flush now alerts on a door stuck well below its slider.** Before, a door with a slider counted as open at any position, so
+  a door stuck at 40% under a 95% slider was never reported. That was a real fault being hidden: Flush now re-opens it and
+  tells you, as it does for a shut door. A door within 2% of its slider counts as there.
+
 ## 2026.11.73
 
 - **Pond now opens a bay door only as far as its slider.** If a door's slider is set to 30%, Pond's automatic opens stop at

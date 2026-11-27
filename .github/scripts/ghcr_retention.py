@@ -36,18 +36,20 @@ import urllib.error
 import urllib.request
 from pathlib import Path
 
-# CalVer YYYY.M.N with an OPTIONAL 4th number (ADR-026 P9, Peter RULED 2026-10-21: a Class B/C release bumps a 4th). The
-# fleet's ONE parser is documentation/contracts/_version.py; this script runs in GitHub Actions on the catalog repo, where
-# that module is not checked out, so the pattern is stated here and pinned by the stored fixture `four_part_orders.json`.
-VERSION = re.compile(r"^\d{4}\.\d{1,2}\.\d+(?:\.\d+)?$")
+# CalVer YYYY.M.N with an OPTIONAL 4th number (ADR-026 P9, Peter RULED 2026-10-21: a Class B/C release bumps a 4th), and an
+# OPTIONAL 5th on a HOTFIX image (WR-PS-577, Peter RULED 2026-11-27: "Hotfix adds one number" — 2026.11.9.59 → 2026.11.9.59.1).
+# The fleet's ONE parser is documentation/contracts/_version.py (order_key); this script runs in GitHub Actions on the catalog
+# repo, where that module is not checked out, so the pattern is stated here and pinned by the stored fixtures
+# `four_part_orders.json`, `five_part_hotfix_pin.json` and `five_part_orders.json`. 6 parts is not a version (kept, never deleted).
+VERSION = re.compile(r"^\d{4}\.\d{1,2}\.\d+(?:\.\d+){0,2}$")
 SIG = re.compile(r"^sha256-([0-9a-f]{64})\.(sig|att|sbom)$")
 ORG = "PaddiSense"
 
 
 def vkey(tag: str) -> tuple[int, ...]:
-    """2026.10.160 < 2026.10.160.1 < 2026.10.161 — a missing 4th number orders as 0."""
+    """2026.10.160 < 2026.10.160.1 < 2026.10.161 and 2026.11.9.59 < 2026.11.9.59.1 < 2026.11.9.60 — a missing number orders as 0."""
     parts = tuple(int(x) for x in tag.split("."))
-    return parts + (0,) * (4 - len(parts))
+    return parts + (0,) * (5 - len(parts))
 
 
 class Abort(Exception):

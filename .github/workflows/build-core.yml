@@ -6,6 +6,14 @@ on:
       version:
         description: "Version to build"
         required: true
+      ref:
+        description: "Source: main (default) or a 40-hex commit sha (WR-PS-577 hotfix)"
+        required: false
+        default: main
+      theme_ref:
+        description: "Documentation theme: 40-hex sha, REQUIRED when ref is a sha (the base's gate_revision)"
+        required: false
+        default: ""
   repository_dispatch:
     types: [build-core]
 
@@ -14,6 +22,41 @@ env:
   IMAGE_BASE: ghcr.io/paddisense
 
 jobs:
+  source-ref:
+    # WR-PS-577 slice 5 (A §5.3 2026-11-27): ONE resolution of what is built. `main` (the default, every normal cut) or a
+    # 40-hex commit sha (a hotfix, release.sh --hotfix) — a moving branch name is refused, so the build is exactly the
+    # commit release.sh pinned. The value is read through env, never pasted into the script (no injection).
+    runs-on: ubuntu-latest
+    permissions: {}
+    outputs:
+      ref: ${{ steps.r.outputs.ref }}
+      is_main: ${{ steps.r.outputs.is_main }}
+      theme_ref: ${{ steps.r.outputs.theme_ref }}
+    steps:
+      - name: Resolve the source ref (main, or a 40-hex sha — never a branch name)
+        id: r
+        env:
+          IN_REF: ${{ github.event.inputs.ref || github.event.client_payload.ref || 'main' }}
+          IN_THEME: ${{ github.event.inputs.theme_ref || github.event.client_payload.theme_ref || '' }}
+        run: |
+          # P's T2 2026-11-27: WHOLE-STRING tests only — `grep` matches per line, so "<sha>\nref=main" passed and wrote a
+          # second ref= / is_main= into GITHUB_OUTPUT. Every value written below is a literal or passed is_sha.
+          is_sha() { case "$1" in ''|*[!0-9a-f]*) return 1;; esac; [ "${#1}" -eq 40 ]; }
+          shown() { printf '%s' "$1" | tr -c '0-9A-Za-z._/-' '?' | cut -c1-60; }   # never echo a raw input
+          if [ "$IN_REF" = main ]; then
+            [ -z "$IN_THEME" ] || [ "$IN_THEME" = main ] || { echo "::error title=source_ref::a main build takes the theme from main (got theme_ref '$(shown "$IN_THEME")')"; exit 1; }
+            echo "ref=main" >> "$GITHUB_OUTPUT"; echo "is_main=true" >> "$GITHUB_OUTPUT"
+            echo "theme_ref=main" >> "$GITHUB_OUTPUT"
+          elif is_sha "$IN_REF"; then
+            # A 2026-11-27: a hotfix ships the theme its BASE shipped (the base receipt's gate_revision), never today's
+            is_sha "$IN_THEME" || { echo "::error title=source_ref::a sha build needs theme_ref = the base's gate_revision (40-hex; got '$(shown "$IN_THEME")')"; exit 1; }
+            echo "ref=$IN_REF" >> "$GITHUB_OUTPUT"; echo "is_main=false" >> "$GITHUB_OUTPUT"
+            echo "theme_ref=$IN_THEME" >> "$GITHUB_OUTPUT"
+            echo "::notice title=source_ref::building commit $IN_REF (not main) — no :latest tag"
+          else
+            echo "::error title=source_ref::ref must be 'main' or a 40-hex commit sha (got '$(shown "$IN_REF")')"; exit 1
+          fi
+
   # Golden Rules [RELEASE] gate (red-team Wave 3 / Rule 100/155). Runs the DB-free
   # pre-release-audit gates (lint/type/SAST/CVE/theme/audit-currency/193.3) against the
   # exact released source before the image builds. Reuses the least-priv read-only SRC_READ_PAT (R160) —
@@ -21,16 +64,19 @@ jobs:
   # PS_CI=1 → pytest + session markers skipped (no DB / no session in CI); they stay dev-box gates.
   # PILOT on Core; rolls to the other build-*.yml once validated (steward, WR-PS-047).
   quality-gate:
+    needs: source-ref
     # Fleet-standard CODE gate (WR-PS-060): ruff + PINNED mypy + bandit. Pinned mypy means
     # local (release.sh) == CI. Comprehensive doc/theme/security audit is the RELEASE gate
     # (release.sh + dev-box pre-release-audit, Rule 105) — not here.
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
     steps:
       - name: Checkout private source
         uses: actions/checkout@v4
         with:
           repository: PaddiSense/Core
-          ref: main
+          ref: ${{ needs.source-ref.outputs.ref }}
           token: ${{ secrets.SRC_READ_PAT }}
           path: source
       - name: Set up Python
@@ -51,7 +97,7 @@ jobs:
         run: bandit -r source/paddisense-core/paddicore -ll -q || true
 
   build:
-    needs: [quality-gate]
+    needs: [source-ref, quality-gate]
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -72,21 +118,44 @@ jobs:
         uses: actions/checkout@v4
         with:
           repository: PaddiSense/Core
-          ref: main
+          ref: ${{ needs.source-ref.outputs.ref }}
           token: ${{ secrets.SRC_READ_PAT }}
           path: source
 
+      - name: Prove the checked-out source (WR-PS-577 slice 5)
+        id: src
+        env:
+          WANT_REF: ${{ needs.source-ref.outputs.ref }}
+          WANT_VER: ${{ github.event.inputs.version || github.event.client_payload.version }}
+        run: |
+          SHA=$(git -C source rev-parse HEAD)
+          if [ "$WANT_REF" != main ]; then
+            # W7 (P T2 + A 2026-11-27): the sha must be the tip of the pushed hotfix branch, now — never any reachable sha
+            case "$WANT_VER" in ''|*[!0-9.]*) echo "::error title=source_ref::version must be digits and dots"; exit 1;; esac
+            HEAD_NOW=$(git -C source ls-remote origin "refs/heads/hotfix/paddisense-core/$WANT_VER" | cut -f1)
+            [ -n "$HEAD_NOW" ] || { echo "::error title=source_ref::hotfix/paddisense-core/$WANT_VER is not on origin — only a pushed hotfix branch builds"; exit 1; }
+            [ "$HEAD_NOW" = "$WANT_REF" ] || { echo "::error title=source_ref::hotfix/paddisense-core/$WANT_VER moved since dispatch; re-run the cut"; exit 1; }
+            [ "$SHA" = "$WANT_REF" ] || { echo "::error title=source_ref::checked out $SHA, asked for $WANT_REF"; exit 1; }
+            CFG=$(grep '^version:' source/paddisense-core/config.yaml | sed 's/version: *"\(.*\)"/\1/')
+            [ "$CFG" = "$WANT_VER" ] || { echo "::error title=source_ref::config.yaml at $SHA is $CFG, asked to build $WANT_VER"; exit 1; }
+          fi
+          echo "sha=$SHA" >> "$GITHUB_OUTPUT"
+          echo "::notice title=source_sha::$SHA"
+
       - name: Extract version
         id: version
+        env:
+          IN_VER: ${{ github.event.inputs.version || github.event.client_payload.version }}
         run: |
-          if [ -n "${{ github.event.inputs.version }}" ]; then
-            echo "version=${{ github.event.inputs.version }}" >> "$GITHUB_OUTPUT"
-          elif [ -n "${{ github.event.client_payload.version }}" ]; then
-            echo "version=${{ github.event.client_payload.version }}" >> "$GITHUB_OUTPUT"
+          # P T2 2026-11-27 (W8): event values reach a script only through env — never an expression pasted into run
+          if [ -n "$IN_VER" ]; then
+            V="$IN_VER"
           else
-            VERSION=$(grep '^version:' source/paddisense-core/config.yaml | sed 's/version: *"\(.*\)"/\1/')
-            echo "version=$VERSION" >> "$GITHUB_OUTPUT"
+            V=$(grep '^version:' source/paddisense-core/config.yaml | sed 's/version: *"\(.*\)"/\1/')
           fi
+          case "$V" in ''|*[!0-9.]*) echo "::error title=version::the version must be digits and dots"; exit 1;; esac
+          echo "version=$V" >> "$GITHUB_OUTPUT"
+
 
       - name: Log in to GHCR
         uses: docker/login-action@v3
@@ -105,6 +174,20 @@ jobs:
         id: cachemonth
         run: echo "m=$(date -u +%Y-%m)" >> "$GITHUB_OUTPUT"
 
+      - name: Image tags (WR-PS-577 slice 5 — :latest only for a main build)
+        id: tags
+        env:
+          IS_MAIN: ${{ needs.source-ref.outputs.is_main }}
+          VER_TAG: ${{ env.IMAGE_BASE }}/${{ matrix.arch }}-paddisense-core:${{ steps.version.outputs.version }}
+          LATEST_TAG: ${{ env.IMAGE_BASE }}/${{ matrix.arch }}-paddisense-core:latest
+        run: |
+          {
+            echo "list<<PS_TAGS_EOF"
+            echo "$VER_TAG"
+            [ "$IS_MAIN" = true ] && echo "$LATEST_TAG"
+            echo "PS_TAGS_EOF"
+          } >> "$GITHUB_OUTPUT"
+
       - name: Build and push
         id: build            # R197: exposes steps.build.outputs.digest
         uses: docker/build-push-action@v6
@@ -116,9 +199,8 @@ jobs:
             APT_REFRESH=${{ github.run_id }}-${{ github.run_attempt }}
           platforms: ${{ matrix.platform }}
           push: true
-          tags: |
-            ${{ env.IMAGE_BASE }}/${{ matrix.arch }}-paddisense-core:${{ steps.version.outputs.version }}
-            ${{ env.IMAGE_BASE }}/${{ matrix.arch }}-paddisense-core:latest
+          tags: ${{ steps.tags.outputs.list }}
+          labels: org.opencontainers.image.revision=${{ steps.src.outputs.sha }}
           cache-from: type=gha,scope=paddisense-core-${{ matrix.arch }}-${{ steps.cachemonth.outputs.m }}
           cache-to: type=gha,scope=paddisense-core-${{ matrix.arch }}-${{ steps.cachemonth.outputs.m }},mode=max
 

@@ -1,5 +1,12 @@
 # PaddiSense PWM — What's New
 
+## 2026.11.73
+
+- **Pond now opens a bay door only as far as its slider.** If a door's slider is set to 30%, Pond's automatic opens stop at
+  30%, the same as Flush and the same as tapping Open yourself. Before, Pond opened the door fully. A door with no slider set
+  still opens fully. Two safety opens still open the door fully, past the slider: Pond draining a bay that is over its
+  maximum (bank protection), and an overflow.
+
 ## 2026.11.72
 
 - **Includes everything in 2026.11.71** (below), which was not released on its own.

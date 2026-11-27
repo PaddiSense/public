@@ -1,5 +1,77 @@
 # PaddiSense PWM — What's New
 
+## 2026.11.72
+
+- **Includes everything in 2026.11.71** (below), which was not released on its own.
+- **Pond bays on the map are coloured by their water level.** A bay below its minimum shows as low and above its maximum as high,
+  the same as Flush. Before, a Pond bay waiting below its minimum could still show green.
+- **A door named the same as its bay reads once.** "B-01 (B-01)" is now just "B-01". A door with its own name still shows the
+  bay in brackets, for example "Top gate (B-01)".
+
+## 2026.11.71
+
+- **Arming takes over the doors.** If someone moved a door by hand in the last 10 minutes, arming that paddock's Flush or Pond now
+  takes the doors straight away instead of waiting out the 10 minutes. Doors in other paddocks keep their hand hold, and a door
+  moved by hand after arming is still left alone for 10 minutes.
+- **A drain door that can't report its position** now counts as open once the bay's level is 5 cm below its minimum (or reads
+  0 cm when the minimum is under 5 cm) for the bay's settle time. A little seepage no longer counts as the drain open.
+- **A door that doesn't move** gets 10 tries and one alert for each new command, including part-open Flush stages.
+
+## 2026.11.70
+
+- **A bay fed from outside your farm** (for example a Murray Irrigation outlet, with no PaddiSense door) now runs its fill, hold and
+  release from its depth sensor in Flush and Pond, and then hands over to the next bay. PWM sends nothing to a door that isn't
+  there, and the false "board not responding" alarm is gone. If outside water puts it over its maximum, you get the normal
+  over-maximum alert, saying the supply isn't a PaddiSense door so it must be closed by hand. Each alert group decides whether
+  that alert is critical.
+- **A last bay with a sensor but no door** sends no commands and no "check the board" alerts. When its hold is done, the Flush
+  Complete alert says its water is held and to let it out by hand.
+- **A drain door that can't report its position** counts as open once the bay's water level starts falling at its sensor. If the
+  level never falls, the flush keeps waiting. A door that doesn't take a command is tried 10 times, then you get one alert.
+- **No door button where there is no door:** a board with a sensor but no actuator no longer shows a door button on the map. Its
+  depth still shows.
+- **Gate setup:** the bay list only offers bays with a free door, grouped by paddock in bay order. Picking the bay a door drains
+  from fills in the next bay down for you. A gate that would send water round in a circle is refused.
+- **Alerts:** each ticked alert in a group now has two choices, Normal alert or Critical alert. Each group has two test buttons,
+  "Test — normal alert" and "Test — critical alert", so you can hear exactly what a critical alert does on your phone. On Android,
+  critical alerts now ring through silent mode and Do Not Disturb. After updating, refresh the Notifications page once.
+- The activity log no longer fills with "activated the PWM licence" every few minutes.
+
+## 2026.11.69
+
+- Critical alerts are now set for each alert group. In the group editor every alert you tick has its own Critical switch, so the
+  owner's group can get Blow Out Risk as a critical alert (it rings through silent and Do Not Disturb) while a support group gets it
+  as a normal alert. Someone in both groups gets the alert once, as critical. Your current choices carry over to every group.
+- A paddock whose bays are all fed by an outside water company (and has no drain gate) now says so on the map, instead of
+  showing an empty list.
+
+## 2026.11.68
+
+- A bay whose supply comes from outside your farm (for example a water company's outlet, with no PaddiSense board) no longer shows a
+  supply door on the map's door buttons. Its water depth still shows as before, read from the board on its drain door.
+
+## 2026.11.67
+
+- Level graphs for bays, channels and pumps now fit the readings of the period you pick (1 h, 6 h or 24 h), so a small rise or fall
+  is easy to see. The graph always covers at least 2 cm. The Min and Max lines are no longer drawn on the graph.
+
+## 2026.11.66
+
+- Irrigation History now counts an irrigation only when a bay reaches its minimum level and holds it for that bay's settle time (set
+  under Response times in paddock setup). Days on water start from that moment and end when the bay stays below its minimum for the
+  same time. A bay with no minimum level set is listed as not counted. Past dates are worked out again under this rule.
+- Gate setup: the "door 2" note for a gate shared by two bays now shows only when the two bays' door 1 is not shared as well.
+- Status badges are easier to read in light and dark.
+
+## 2026.11.65
+
+- Behind the scenes: PWM's public health check now shows only whether it is running, its database and its version.
+
+## 2026.11.64
+
+- Pumps: if a pump was running when PWM lost its board, PWM now reminds you every 30 minutes while the board is still unreachable, because PWM cannot stop that pump until the board is back. It is a new alert on the Notifications page ("Pump board still unreachable — reminder"). Choose who gets it and whether it is critical there; it starts as not critical. Groups that already get "Pump board lost while running" get it too.
+- Paddock Setup: each bay's card is now titled "Response times" (it holds the Flush settle as well as the Pond times).
+
 ## 2026.11.63
 
 - Paddock Setup: under each bay's response times, the note that the door settle time applies to both Flush and Pond is back.

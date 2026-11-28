@@ -171,12 +171,22 @@ jobs:
           DOCKER_BUILDKIT: "1"
           BASE: ps-imagetest-base:${{ matrix.arch }}
         run: |
+          set -o pipefail
+          rc=0
           docker buildx build --builder default --progress=plain --platform "${{ matrix.platform }}" \
             -f docs/contracts/image-test/Dockerfile.imagetest \
             --build-arg BASE="$BASE" --build-arg IMAGE_TEST_NATIVE=1 \
             --build-context imagetest=docs/contracts/image-test \
             --build-context addon=source/paddisense-farm \
-            .
+            . 2>&1 | tee imagetest.log || rc=$?
+          # The judge line and the measures as ONE annotation each: readable on the run page without opening the log.
+          enc() { sed -e 's/%/%25/g' | awk 'BEGIN{ORS="%0A"} {print}'; }
+          sum=$(grep -oE '(image test:|measure:).*' imagetest.log | sed -E 's/\x1b\[[0-9;]*m//g' | tail -30 | enc)
+          [ -n "$sum" ] && echo "::notice title=image test (${{ matrix.arch }})::$sum"
+          if [ "$rc" -ne 0 ]; then
+            echo "::error title=image test FAILED (${{ matrix.arch }})::$(tail -40 imagetest.log | sed -E 's/\x1b\[[0-9;]*m//g' | cut -c1-300 | enc)"
+            exit "$rc"
+          fi
 
   build:
     needs: [source-ref, quality-gate, image-test]   # WR-PS-1066: a red image test stops the release

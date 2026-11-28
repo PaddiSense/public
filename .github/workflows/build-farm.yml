@@ -110,7 +110,7 @@ jobs:
     runs-on: ${{ matrix.runner }}
     env:
       # the image-test stage is a GATE: pinned to a reviewed documentation commit, never a moving branch (bump = gate change)
-      IMAGETEST_DOCS_SHA: "73d55f6ca2447c7eedbac8e4b4b32ae42cb9495c"
+      IMAGETEST_DOCS_SHA: "6a63cf811e7ee3cebd0e0a0ab42fd95fd7ea773a"
     steps:
       - name: Checkout private source
         uses: actions/checkout@v4
@@ -173,8 +173,9 @@ jobs:
         run: |
           set -o pipefail
           # the add-on's .dockerignore (which keeps tests OUT of the shipped image) also applies to a named context, so
-          # `addon` is a clean staging dir holding only tests/ — never the add-on directory itself
-          rm -rf imagetest-addon && mkdir imagetest-addon && cp -r source/paddisense-farm/tests imagetest-addon/tests
+          # `addon` is a clean staging dir holding only tests/image/ (stage rev 2: the image tests and their own DB-free
+          # conftest) — never the add-on directory itself. No tests/image/ = the cp fails = the step goes red.
+          rm -rf imagetest-addon && mkdir -p imagetest-addon/tests && cp -r source/paddisense-farm/tests/image imagetest-addon/tests/image
           rc=0
           docker buildx build --builder default --progress=plain --platform "${{ matrix.platform }}" \
             -f docs/contracts/image-test/Dockerfile.imagetest \

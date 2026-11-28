@@ -92,8 +92,94 @@ jobs:
       - name: Bandit security scan
         run: bandit -r source/paddisense-farm/paddisense_farm -ll -q || true
 
-  build:
+  image-test:
+    # WR-PS-1066 (A's stage, docs contracts/image-test/): the add-on's image_only tests + the step 3.9.1 measures run INSIDE
+    # the image just built, on BOTH arches natively (ubuntu-24.04-arm: free for this public repo). Any skip, failure,
+    # collect error or zero tests fails this job, and `build` needs it — a red image test stops the release. Nothing here
+    # is pushed: the image is built with load, and the test stage is a second throwaway build FROM it.
     needs: [source-ref, quality-gate]
+    permissions:
+      contents: read
+      packages: read           # "image size before" reads this arch's :latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - { arch: amd64,   platform: linux/amd64, runner: ubuntu-latest }
+          - { arch: aarch64, platform: linux/arm64, runner: ubuntu-24.04-arm }   # native: real HA Green-class timings
+    runs-on: ${{ matrix.runner }}
+    env:
+      # the image-test stage is a GATE: pinned to a reviewed documentation commit, never a moving branch (bump = gate change)
+      IMAGETEST_DOCS_SHA: "73d55f6ca2447c7eedbac8e4b4b32ae42cb9495c"
+    steps:
+      - name: Checkout private source
+        uses: actions/checkout@v4
+        with:
+          repository: PaddiSense/Farm
+          ref: ${{ needs.source-ref.outputs.ref }}
+          token: ${{ secrets.SRC_READ_PAT }}
+          path: source
+
+      - name: Checkout the image-test stage (documentation contracts/image-test, pinned)
+        uses: actions/checkout@v4
+        with:
+          repository: PaddiSense/documentation
+          ref: ${{ env.IMAGETEST_DOCS_SHA }}
+          token: ${{ secrets.SRC_READ_PAT }}
+          path: docs
+          sparse-checkout: contracts/image-test
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Build the add-on image (local only, not pushed)
+        uses: docker/build-push-action@v6
+        with:
+          context: source/paddisense-farm
+          file: source/paddisense-farm/Dockerfile
+          build-args: |
+            APT_REFRESH=${{ github.run_id }}-${{ github.run_attempt }}
+          platforms: ${{ matrix.platform }}
+          load: true
+          push: false
+          tags: ps-imagetest-base:${{ matrix.arch }}
+
+      - name: Log in to GHCR (read, for the size before)
+        uses: docker/login-action@v3
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Image size, before and after
+        env:
+          LATEST: ${{ env.IMAGE_BASE }}/${{ matrix.arch }}-paddisense-farm:latest
+          BUILT: ps-imagetest-base:${{ matrix.arch }}
+        run: |
+          if docker pull "$LATEST" >/dev/null 2>&1; then
+            echo "measure: image size before: $(docker image inspect -f '{{.Size}}' "$LATEST") bytes ($LATEST)"
+          else
+            echo "measure: image size before: NOT MEASURED (no $LATEST)"
+          fi
+          echo "measure: image size after: $(docker image inspect -f '{{.Size}}' "$BUILT") bytes"
+
+      - name: Image test (fails on any skip, failure, collect error or zero tests)
+        # the DAEMON's builder (`--builder default`, the docker driver): it sees the image the step above LOADED. The
+        # buildx docker-container builder (which setup-buildx made the default) cannot, and would pull `ps-imagetest-base`
+        # from Docker Hub instead.
+        env:
+          DOCKER_BUILDKIT: "1"
+          BASE: ps-imagetest-base:${{ matrix.arch }}
+        run: |
+          docker buildx build --builder default --progress=plain --platform "${{ matrix.platform }}" \
+            -f docs/contracts/image-test/Dockerfile.imagetest \
+            --build-arg BASE="$BASE" --build-arg IMAGE_TEST_NATIVE=1 \
+            --build-context imagetest=docs/contracts/image-test \
+            --build-context addon=source/paddisense-farm \
+            .
+
+  build:
+    needs: [source-ref, quality-gate, image-test]   # WR-PS-1066: a red image test stops the release
     runs-on: ubuntu-latest
     permissions:
       contents: read

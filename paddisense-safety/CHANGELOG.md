@@ -1,5 +1,14 @@
 # PaddiSense Safety — What's New
 
+## 2026.11.23.1
+
+After a database-password reset on your box, this add-on keeps talking to the rest of PaddiSense straight
+away. It no longer needs a restart first.
+
+## 2026.11.23
+
+- Nothing you will see: a security fix to how the read-only access key is read from your settings.
+
 ## 2026.11.22
 
 - Nothing you will see: Safety's public health check no longer says how long it has been running.

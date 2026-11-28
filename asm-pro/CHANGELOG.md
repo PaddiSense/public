@@ -1,5 +1,18 @@
 # PaddiSense Assets — What's New
 
+## 2026.11.9.1
+
+After a database-password reset on your box, this add-on keeps talking to the rest of PaddiSense straight
+away. It no longer needs a restart first.
+
+## 2026.11.9
+
+- Nothing you will see: a security fix to how the read-only access key is read from your settings.
+
+## 2026.11.8
+
+- Nothing you will see: a security fix to how ASM-Pro registers its software updates source. It now uses only the read-only access key.
+
 ## 2026.11.7
 
 - Nothing you will see: ASM-Pro's public health check no longer says how long it has been running. The System page still shows it.

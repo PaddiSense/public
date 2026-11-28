@@ -1,10 +1,10 @@
 # GENERATED from the source config.yaml by release.sh Step 7 (WR-PS-115).
 # DO NOT hand-edit — any edit is overwritten at the next release.
-# source: PaddiSense/Livestock@bba6c68f498938aed39e178655453e67bfc25c91
+# source: PaddiSense/Livestock@bfeab6db92e2713a925e985e062a968cc13d5899
 # Catalog-only deltas are declared in contracts/catalog-overrides.yaml;
 # contracts/check-catalog-drift.py verifies catalog == source on every release + in CI.
 name: PaddiSense Livestock
-version: 2026.11.8
+version: 2026.11.9.1
 slug: paddisense-livestock
 description: PaddiSense Livestock -- stock tracking, mob management, movements
 logo: true

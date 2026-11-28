@@ -1,3 +1,12 @@
+## 2026.11.9.1
+
+After a database-password reset on your box, this add-on keeps talking to the rest of PaddiSense straight
+away. It no longer needs a restart first.
+
+## 2026.11.9
+
+- Nothing you will see: a security fix to how the read-only access key is read from your settings.
+
 ## 2026.11.6
 
 - **Imports show their rows again.** Opening an import on a computer now lists every animal read from the scale file before you commit it.

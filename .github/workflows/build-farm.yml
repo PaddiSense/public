@@ -172,12 +172,15 @@ jobs:
           BASE: ps-imagetest-base:${{ matrix.arch }}
         run: |
           set -o pipefail
+          # the add-on's .dockerignore (which keeps tests OUT of the shipped image) also applies to a named context, so
+          # `addon` is a clean staging dir holding only tests/ — never the add-on directory itself
+          rm -rf imagetest-addon && mkdir imagetest-addon && cp -r source/paddisense-farm/tests imagetest-addon/tests
           rc=0
           docker buildx build --builder default --progress=plain --platform "${{ matrix.platform }}" \
             -f docs/contracts/image-test/Dockerfile.imagetest \
             --build-arg BASE="$BASE" --build-arg IMAGE_TEST_NATIVE=1 \
             --build-context imagetest=docs/contracts/image-test \
-            --build-context addon=source/paddisense-farm \
+            --build-context addon=imagetest-addon \
             . 2>&1 | tee imagetest.log || rc=$?
           # The judge line and the measures as ONE annotation each: readable on the run page without opening the log.
           enc() { sed -e 's/%/%25/g' | awk 'BEGIN{ORS="%0A"} {print}'; }

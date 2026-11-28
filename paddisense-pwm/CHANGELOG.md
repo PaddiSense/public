@@ -1,5 +1,12 @@
 # PaddiSense PWM — What's New
 
+## 2026.11.74.1
+
+- **No more false "DOOR MOVED BY HAND" right after Pond moves a door itself.** About a second after Pond opened or closed a
+  door, PWM could send "DOOR MOVED BY HAND" for that door, because the door started moving before PWM had finished noting
+  its own command. PWM now notes the command before it sends it, so its own moves never read as a hand move. A door
+  really moved by hand still alerts.
+
 ## 2026.11.74
 
 - **Pond no longer sends "door or board not responding" for a door resting at its slider.** Since 2026.11.73, Pond opens a
